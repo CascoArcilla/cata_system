@@ -1,0 +1,31 @@
+{% extends 'tecnicas/base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<article class="w-full h-full flex flex-col justify-center items-center bg-gray-600">
+    <form action="/auth" method="post" class="bg-gray-200 w-xl p-8 rounded-xl">
+        <header class="text-center">
+            <h1 class="text-5xl font-bold">Cateo System</h1>
+            <p class="text-2xl font-medium mt-3">Presentador</p>
+        </header>
+        <section class="flex flex-col gap-6 items-center w-full mt-5">
+            <label for="id">
+                <input type="text" name="id" id="id" placeholder="Ingrese Indentifiacion"
+                    class="placeholder:text-gray-100 placeholder:text-xl bg-gray-400 py-3 px-6 rounded-xl w-sm border-b-2 border-blue-700" required>
+            </label>
+
+            <label for="id">
+                <input type="text" name="id" id="id" placeholder="Ingrese Contraseña"
+                    class="placeholder:text-gray-100 placeholder:text-xl bg-gray-400 py-3 px-6 rounded-xl w-sm border-b-2 border-blue-700" required>
+            </label>
+
+            <section class="flex flex-row flex-wrap gap-4 w-f ull justify-center">
+                <button type="submit"
+                    class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-xl px-8 py-2 text-center uppercase">Ingresar</button>
+            </section>
+
+        </section>
+    </form>
+</article>
+{% endblock %}

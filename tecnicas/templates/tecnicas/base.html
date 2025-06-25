@@ -1,0 +1,28 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% tailwind_css %}
+
+  <title>{% block title %}{% endblock %}</title>
+
+  <!-- Favicon -->
+  <!-- <link rel="icon" href="{% static 'img/favicon.ico' %}"> -->
+
+  {% block extra_css %}{% endblock %}
+
+  {% block meta %}{% endblock %}
+</head>
+
+<body>
+  <main class="flex flex-col w-screen h-screen overflow-x-hidden overflow-y-scroll bg-gray-600">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block extra_js %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+{% extends 'tecnicas/base.html' %}
+
+{% block title %}Panel principal{% endblock %}
+
+{% block content %}
+<article class="w-full h-full flex flex-col justify-center items-center bg-gray-600">
+    <h1 class="text-4xl font-bold text-center max-sm:hidden">Panel Principal</h1>
+
+    <article class="w-full flex flex-col gap-7 items-center mt-7">
+        <article
+            class="w-5xl max-lg:w-3xl max-md:w-auto p-8 flex flex-row flex-wrap justify-center items-center gap-8 bg-zinc-400 rounded-md">
+            <section class="flex flex-col text-white flex-1 flex-wrap gap-4">
+                <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl">
+                    <legend class="fieldset-legend px-1.5">Nombre</legend>
+                    <p class="text-3xl font-medium">{{ presentador.nombre }}</p>
+                </fieldset>
+                <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl">
+                    <legend class="fieldset-legend px-1.5">Identificador</legend>
+                    <p class="text-3xl font-medium">{{ presentador.id }}</p>
+                </fieldset>
+            </section>
+            <section class="flex-1 flex justify-center">
+                <button type="button"
+                    class="text-white bg-red-600 hover:bg-red-700 active:outline-none active:ring-4 active:ring-red-300 font-medium rounded-2xl text-3xl px-5 py-4 text-center uppercase">Salir
+                    del sistema</button>
+            </section>
+        </article>
+
+        <article
+            class="w-5xl max-lg:w-3xl max-md:w-auto p-8 flex flex-col justify-around items-center gap-4 flex-wrap bg-zinc-400 rounded-md">
+            <section class="flex flex-row flex-wrap gap-4 w-full">
+                <a href="{% url 'cata_system:seleccion_tecnica' %}"
+                    class="text-white bg-green-600 hover:bg-green-700 active:outline-none active:ring-4 active:ring-green-300 font-medium rounded-xl text-3xl px-8 py-4 text-center uppercase flex-1">Iniciar
+                    Sesión <br> Sensorial</a>
+                <a href="{% url 'cata_system:panel_catadores' %}"
+                    class="text-white bg-yellow-600 hover:bg-yellow-700 active:outline-none active:ring-4 active:ring-yellow-300 font-medium rounded-xl text-3xl px-8 py-4 text-center uppercase flex-1">Gestión
+                    de <br>catadores</a>
+            </section>
+
+            <section class="flex flex-row flex-wrap gap-4 w-f ull justify-center">
+                <a href="{% url 'cata_system:panel_sesiones' %}"
+                    class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-3xl px-8 py-4 text-center uppercase">Gestión
+                    de sesiones <br> sensoriales</a>
+            </section>
+        </article>
+    </article>
+</article>
+{% endblock %}
