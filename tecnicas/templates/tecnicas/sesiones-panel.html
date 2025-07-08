@@ -1,9 +1,10 @@
 {% extends 'tecnicas/base.html' %}
+{% load static %}
 
 {% block title %}Panel Sesiones{% endblock %}
 
 {% block content %}
-<article class="w-full h-full flex flex-col justify-center items-center bg-gray-600">
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
     <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl w-4xl">
         <header class="text-center flex flex-row gap-8 items-center w-full">
             <div class="bg-gray-600 p-4 text-white rounded-xl flex-1">
@@ -16,22 +17,48 @@
             </div>
         </header>
         <section class="grid grid-cols-3 gap-4">
-            {% for ele in elementos %}
-            <article class="p-4 bg-gray-200 flex flex-row gap-4 justify-center">
+            <article class="p-4 bg-gray-200 flex flex-row gap-4 justify-center items-center rounded-lg">
                 <div class="text-right *:not-last:mb-4">
                     <p><b>Código:</b></p>
                     <p><b>Fecha:</b></p>
                     <p><b>Técnica:</b></p>
-                    <p>{{ ele }}</p>
                 </div>
                 <div class="*:not-last:mb-4">
                     <p>9J78GGHJK7V</p>
                     <p>12-07-2025</p>
                     <p>Intensidad</p>
                 </div>
-                <p>{{ ele }}</p>
+            </article>
+
+            {% for elem in elementos %}
+            <article class="p-4 bg-gray-200 flex flex-row gap-4 justify-center items-center rounded-lg">
+                <div class="text-right *:not-last:mb-4">
+                    <p><b>Código:</b></p>
+                    <p><b>Fecha:</b></p>
+                    <p><b>Técnica:</b></p>
+                </div>
+                <div class="*:not-last:mb-4">
+                    <p>{{ elem.nombre }}</p>
+                    <p>{{ elem.fecha }}</p>
+                    <p>{{ elem.tecnica }}</p>
+                </div>
             </article>
             {% endfor %}
+        </section>
+        <section class="flex justify-center items-center gap-2">
+            <button>
+                <img class="h-10" src="{% static 'img/less-than.svg' %}" alt="menor que">
+            </button>
+            <ul class="flex flex-row gap-2">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+                <li>. . .</li>
+                <li>8</li>
+            </ul>
+            <button>
+                <img class="h-10" src="{% static 'img/greater-than.svg' %}" alt="mayor que">
+            </button>
         </section>
     </article>
 </article>

@@ -16,14 +16,24 @@ def managementCatadores(req):
     return render(req, "tecnicas/catadores-panel.html")
 
 def sesionesPanel(req):
-    return render(req, "tecnicas/sesiones-panel.html")
+    elementos = []
+
+    for i in range(6):
+        elementos.append(Elemento("Sesion " + str(i+1), "Hoy", "Convencional"))
+        pass
+
+    return render(req, "tecnicas/sesiones-panel.html", context={"elementos":elementos})
 
 def selecionTecnica(req):
-    
-    elementos = ["Par", "lo", "asa", "miua", "guau", "mal", "pollo", "yuo", "ui", "ua"]
-    return render(req, "tecnicas/seleccion-tecnica.html", context={"elementos":elementos})
+    return render(req, "tecnicas/seleccion-tecnica.html")
 
 class Presente():
     def __init__(self, id, nombre):
         self.id = id
         self.nombre = nombre
+
+class Elemento():
+    def __init__(self, nombre, fecha, tecnica):
+        self.nombre = nombre
+        self.fecha = fecha
+        self.tecnica = tecnica
