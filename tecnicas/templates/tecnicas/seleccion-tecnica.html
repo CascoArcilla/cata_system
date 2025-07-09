@@ -3,4 +3,18 @@
 {% block title %}Panel principal{% endblock %}
 
 {% block content %}
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
+    <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl w-4xl">
+        <header class="text-center flex flex-row gap-8 items-center w-full">
+            <div class="bg-gray-600 p-4 text-white rounded-xl flex-1">
+                <h1 class="font-bold text-2xl">Selección de<br>técnica sensorial</h1>
+            </div>
+            <div class="flex-1">
+                <a href="{% url 'cata_system:index' %}"
+                    class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-xl p-4 text-center uppercase">Panel
+                    principal</a>
+            </div>
+        </header>
+    </article>
+</article>
 {% endblock %}

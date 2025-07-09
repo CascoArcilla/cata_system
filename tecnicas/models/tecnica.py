@@ -1,9 +1,10 @@
 from django.db import models
 
 from .estilo_palabra import EstiloPalabra
+from .tipo_tecnica import TipoTecnica
 
 class Tecnica(models.Model):
-    nombre_tecnica = models.CharField(max_length=255)
+    tipo_tecnica = models.ForeignKey(TipoTecnica, on_delete=models.CASCADE, related_name="tecnica_tipo_tecnica")
     maximas_repeticiones = models.IntegerField(default=0)
     repecion = models.IntegerField(default=0)
     limite_catadores = models.IntegerField()
@@ -11,4 +12,4 @@ class Tecnica(models.Model):
     id_estilo = models.ForeignKey(EstiloPalabra, on_delete=models.CASCADE, related_name="estilo_tecnica")
 
     def __str__(self):
-        return self.nombre_tecnica
+        return self.tipo_tecnica

@@ -1,5 +1,4 @@
 from django.shortcuts import render
-import array as ar
 
 # Create your views here.
 def mainPanel(req):
@@ -25,7 +24,11 @@ def sesionesPanel(req):
     return render(req, "tecnicas/sesiones-panel.html", context={"elementos":elementos})
 
 def selecionTecnica(req):
+    tipos = []
+
     return render(req, "tecnicas/seleccion-tecnica.html")
+
+# Auxiliar classes
 
 class Presente():
     def __init__(self, id, nombre):
