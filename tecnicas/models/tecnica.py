@@ -5,7 +5,7 @@ from .tipo_tecnica import TipoTecnica
 
 class Tecnica(models.Model):
     tipo_tecnica = models.ForeignKey(TipoTecnica, on_delete=models.CASCADE, related_name="tecnica_tipo_tecnica")
-    maximas_repeticiones = models.IntegerField(default=0)
+    repeticiones_max = models.IntegerField(default=0)
     repecion = models.IntegerField(default=0)
     limite_catadores = models.IntegerField()
     instrucciones = models.CharField(max_length=255)

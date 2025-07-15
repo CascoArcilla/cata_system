@@ -166,7 +166,7 @@ dmypy.json
 cython_debug/
 
 # Others files
-chu.py
+some_test
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
