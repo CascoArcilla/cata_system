@@ -5,7 +5,7 @@ from .tipo_escala import TipoEscala
 
 class Escala(models.Model):
     id_tipo_escala = models.ForeignKey(TipoEscala, on_delete=models.CASCADE, related_name="escala_tipo_escala")
-    longitud = models.IntegerField(max_length=3)
+    longitud = models.IntegerField()
     etiquetas = models.ManyToManyField(Etiqueta)
 
     def __str__(self):

@@ -11,4 +11,4 @@ class Orden(models.Model):
 class Posicion(models.Model):
     id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name="posicion_producto")
     id_orden = models.ForeignKey(Orden, on_delete=models.CASCADE, related_name="posicion_orden")
-    posicion = models.IntegerField(max_length=2)
+    posicion = models.IntegerField()
