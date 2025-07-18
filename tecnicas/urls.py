@@ -11,4 +11,5 @@ urlpatterns = [
     path("panel-catadores", views.managementCatadores, name="panel_catadores"),
     path("panel-sesiones", views.sesionesPanel, name="panel_sesiones"),
     path("seleccion-tecnica", views.selecionTecnica, name="seleccion_tecnica"),
+    path("panel-configuracion", views.configuracionPanel, name="panel_configuracion"),
 ]
