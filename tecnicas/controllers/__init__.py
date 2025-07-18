@@ -1,0 +1,1 @@
+from .tecnica_controller import TecnicaController

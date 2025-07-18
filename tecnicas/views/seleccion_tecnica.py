@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
-def selecionTecnica(req):
-    tipos = []
+from ..controllers  import TecnicaController
 
-    return render(req, "tecnicas/seleccion-tecnica.html")
+def selecionTecnica(req):
+    tipos = TecnicaController.getTypesTechnique()
+    return render(req, "tecnicas/seleccion-tecnica.html", context={"tipos":tipos})

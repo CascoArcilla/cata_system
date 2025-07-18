@@ -4,17 +4,69 @@
 
 {% block content %}
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl w-4xl">
-        <header class="text-center flex flex-row gap-8 items-center w-full">
-            <div class="bg-gray-600 p-4 text-white rounded-xl flex-1">
+    <article class="flex flex-col gap-8 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+        <header class="text-center flex sm:flex-row flex-col md:gap-8 gap-3 items-center w-full">
+            <div class="bg-gray-600 p-4 text-white rounded-xl sm:flex-1 w-full">
                 <h1 class="font-bold text-2xl">Selección de<br>técnica sensorial</h1>
             </div>
-            <div class="flex-1">
+            <div class="sm:flex-1 flex flex-row-reverse">
                 <a href="{% url 'cata_system:index' %}"
                     class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-xl p-4 text-center uppercase">Panel
                     principal</a>
             </div>
         </header>
+        <section class="text-white *:not-last:mb-4">
+            {% for cate, tecnicas in tipos.items %}
+            <article>
+                <button
+                    class="p-4 bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full z-20 relative"
+                    onclick="showList('{{cate}}')" type="button">{{ cate }}</button>
+                <section
+                    class="modal-list-{{ cate }} text-lg bg-blue-100 p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden">
+                    {% for tecnica in tecnicas %}
+                    <button
+                        class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left uppercase">
+                        {{ tecnica.nombre_tecnica }}
+                    </button>
+                    {% endfor %}
+                </section>
+            </article>
+            {% endfor %}
+            <article>
+                <button
+                    class="p-4 bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full z-20 relative"
+                    onclick="showList('otro')" type="button">ejemplo sin funcion</button>
+                <section
+                    class="modal-list-otro text-lg bg-blue-100 p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden">
+                    <button
+                        class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left">
+                        Una tecnica sensorial
+                    </button>
+                    <button
+                        class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left">
+                        Una tecnica sensorial
+                    </button>
+                    <button
+                        class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left">
+                        Una tecnica sensorial
+                    </button>
+                </section>
+            </article>
+        </section>
     </article>
 </article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function showList (name) {
+        name = ".modal-list-" + name
+        const list = document.querySelector(name)
+        if (list.classList.contains("hidden")) {
+            list.classList.remove("hidden")
+        } else {
+            list.classList.add("hidden")
+        }
+    }
+</script>
 {% endblock %}
