@@ -1,11 +1,11 @@
 from django.db import models
 
-from .tecnica_intensidad import TecnicaIntensidad
+from .tecnica import Tecnica
 from .catador import Catador
 from .producto import Producto
 
 class Orden(models.Model):
-    id_intensidad = models.ForeignKey(TecnicaIntensidad, on_delete=models.CASCADE, related_name="orden_tecnica_intensidad")
+    id_tecnica = models.ForeignKey(Tecnica, on_delete=models.CASCADE, related_name="orden_tecnica")
     id_catador = models.ForeignKey(Catador, on_delete=models.CASCADE, related_name="orden_catador")
 
 class Posicion(models.Model):
