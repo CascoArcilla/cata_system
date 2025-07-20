@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from ..controllers import EscalaController
 
 def configuracionPanel(req):
-    return render(req, "tecnicas/configuracion-panel.html")
+    # escalas = EscalaController.getTypesScale()
+    escalas = [1,1]
+
+    return render(req, "tecnicas/configuracion-panel.html", { "escalas":escalas })

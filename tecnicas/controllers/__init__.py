@@ -1,1 +1,2 @@
 from .tecnica_controller import TecnicaController
+from .escala_controller import EscalaController

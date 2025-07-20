@@ -2,8 +2,83 @@
 
 {% block title %}Panel Configuracion{% endblock %}
 
+<!--
+||||Debe tener los siguietens campos para:
+-- Convenvionales tipo escalas
+- Preguntar si desea darle un nombre a la sesion
+- Numero produtos
+- Numero jueces
+- Numero repeticiones, debe ser mayor a 1, no validar si es menos
+- Agregar palabras o Elejir vocabulario
+- Instrucciones
+- Tipo de escala, seran dos, de rango o estructurada
+- Orden de presentacion
+- Presentar un orden basico segun el numero de catadores y los productos, esta se le muestra el presentador
+-->
+
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <h1>Panel de configuracion</h1>
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
+    <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+        <h1 class="text-center font-bold text-4xl">Panel de configuracion</h1>
+        <hr>
+        <form class="[&>article]:not-last:mb-4 [&>article]:not-first:pt-4 [&>article]:px-6">
+            <article>
+                <h2 class="text-2xl mb-2 font-bold">Basica informacion</h2>
+                <section
+                    class="flex flex-row justify-around flex-wrap gap-4 [&>label]:text-lg [&>label]:flex [&>label]:flex-row [&>label]:items-center [&>label]:px-2 [&>label]:gap-2 [&>label]:font-medium [&>label]:tracking-wide">
+                    <label for="num_productos">
+                        <p>Número de Productos:</p>
+                        <input name="num_productos" id="num_productos" type="number" placeholder="Ingrese"
+                            class="bg-gray-200 border-b-3 rounded-lg w-25 text-right" required>
+                    </label>
+                    <label for="num_productos">
+                        <p>Número de Jueces:</p>
+                        <input name="num_jueces" id="num_jueces" type="number" placeholder="Ingrese"
+                            class="bg-gray-200 border-b-3 rounded-lg w-25 text-right" required>
+                    </label>
+                    <label for="num_productos">
+                        <p>Número de Repeticiones:</p>
+                        <input name="num_repeticiones" id="num_repeticiones" type="number" placeholder="Ingrese"
+                            class="bg-gray-200 border-b-3 rounded-lg w-25 text-right" required>
+                    </label>
+                </section>
+            </article>
+            <hr>
+            {% if escalas %}
+            <article class="cs-escalas-radio flex flex-col gap-4">
+                <h2 class="text-2xl font-bold">Selecciona una escala</h2>
+                <section class="flex flex-row justify-around flex-wrap">
+                    <!-- {% for escala in escalas %}
+                    <label for="tipo-{{escala.nombre_escala}}" class="uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white"><input id="tipo-{{escala.nombre_escala}}" type="radio" name="tipo_escala" value="{{escala.id}}"> {{ escala.nombre_escala }}</label>
+                    {% endfor %} -->
+                    <label for="tipo-esca"
+                        class="uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white"><input
+                            id="tipo-esca" type="radio" name="tipo_escala" value="miuw"> estructurada</label>
+                    <label for="tipo_as"
+                        class="uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white"><input
+                            id="tipo_as" type="radio" name="tipo_escala" value="guau"> estructurada</label>
+                </section>
+
+                <section>
+                    
+                </section>
+            </article>
+            {% endif %}
+            <hr>
+        </form>
+    </article>
 </article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const radios = document.getElementsByName("tipo_escala")
+    if (radios) {
+        radios[0].checked = true
+    }
+
+    radios.forEach(radio => {
+        console.log(radio.value)
+    });
+</script>
 {% endblock %}
