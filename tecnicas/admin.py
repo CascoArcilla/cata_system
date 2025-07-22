@@ -14,9 +14,12 @@ from .models import SesionSensorial
 from .models import EsAtributo
 from .models import Palabra
 
+from .models import Etiqueta
+
 # Register your models here.
 admin.site.register(CategoriaTecnica)
 admin.site.register(TipoEscala)
+admin.site.register(Etiqueta)
 admin.site.register(TipoTecnica)
 admin.site.register(EstiloPalabra)
 

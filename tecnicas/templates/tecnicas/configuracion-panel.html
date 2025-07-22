@@ -19,51 +19,137 @@
 {% block content %}
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
     <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
-        <h1 class="text-center font-bold text-4xl">Panel de configuracion</h1>
+        <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
         <hr>
         <form class="[&>article]:not-last:mb-4 [&>article]:not-first:pt-4 [&>article]:px-6">
+            {% csrf_token %}
             <article>
-                <h2 class="text-2xl mb-2 font-bold">Basica informacion</h2>
+                <h2 class="text-2xl mb-2 font-bold">Información Basica</h2>
+                <section class="flex justify-center items-center">
+                    <label for="{{form_sesion.nombre_sesion.id_for_label}}"
+                        class="text-lg flex flex-col items-center px-2 w-fit font-medium tracking-wide mb-4">
+                        <p class="tracking-normal text-xl font-bold">Ingrese el nombre de la sesion si lo desea:</p>
+                        {{ form_sesion.nombre_sesion }}
+                    </label>
+                </section>
                 <section
-                    class="flex flex-row justify-around flex-wrap gap-4 [&>label]:text-lg [&>label]:flex [&>label]:flex-row [&>label]:items-center [&>label]:px-2 [&>label]:gap-2 [&>label]:font-medium [&>label]:tracking-wide">
-                    <label for="num_productos">
+                    class="flex flex-row flex-wrap gap-4 [&>label]:text-lg [&>label]:flex [&>label]:flex-col [&>label]:items-center [&>label]:px-2 [&>label]:font-medium [&>label]:tracking-wide [&>label]:[&>p]:tracking-normal [&>label]:[&>p]:text-base [&>label]:[&>p]:font-bold">
+                    <label for="{{ form_sesion.numero_productos.id_for_label }}">
                         <p>Número de Productos:</p>
-                        <input name="num_productos" id="num_productos" type="number" placeholder="Ingrese"
-                            class="bg-gray-200 border-b-3 rounded-lg w-25 text-right" required>
+                        {{ form_sesion.numero_productos }}
                     </label>
-                    <label for="num_productos">
+                    <label for="{{ form_sesion.numero_jueces.id_for_label }}">
                         <p>Número de Jueces:</p>
-                        <input name="num_jueces" id="num_jueces" type="number" placeholder="Ingrese"
-                            class="bg-gray-200 border-b-3 rounded-lg w-25 text-right" required>
+                        {{ form_sesion.numero_jueces }}
                     </label>
-                    <label for="num_productos">
+                    <label for="{{ form_sesion.numero_repeticiones.id_for_label }}">
                         <p>Número de Repeticiones:</p>
-                        <input name="num_repeticiones" id="num_repeticiones" type="number" placeholder="Ingrese"
-                            class="bg-gray-200 border-b-3 rounded-lg w-25 text-right" required>
+                        {{ form_sesion.numero_repeticiones }}
                     </label>
                 </section>
             </article>
             <hr>
-            {% if escalas %}
             <article class="cs-escalas-radio flex flex-col gap-4">
                 <h2 class="text-2xl font-bold">Selecciona una escala</h2>
                 <section class="flex flex-row justify-around flex-wrap">
-                    <!-- {% for escala in escalas %}
-                    <label for="tipo-{{escala.nombre_escala}}" class="uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white"><input id="tipo-{{escala.nombre_escala}}" type="radio" name="tipo_escala" value="{{escala.id}}"> {{ escala.nombre_escala }}</label>
-                    {% endfor %} -->
-                    <label for="tipo-esca"
-                        class="uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white"><input
-                            id="tipo-esca" type="radio" name="tipo_escala" value="miuw"> estructurada</label>
-                    <label for="tipo_as"
-                        class="uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white"><input
-                            id="tipo_as" type="radio" name="tipo_escala" value="guau"> estructurada</label>
+                    {% for escala in form_sesion.tipo_escala %}
+                    <label for="{{escala.id_for_label}}"
+                        class="ct-radio-escala uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white">
+                        {{ escala.tag }}
+                        {{ escala.choice_label }}
+                    </label>
+                    {% endfor %}
                 </section>
 
-                <section>
-                    
+                <section class="py-2 px-5 flex flex-col justify-center items-center gap-2 relative">
+                    <label for="{{ form_sesion.tamano_escala.id_for_label }}"
+                        class="ct-size-scale text-lg flex flex-col items-center px-2 font-medium">
+                        <p>Establece número de segmentos:</p>
+                        {{ form_sesion.tamano_escala }}
+                    </label>
+                    <!-- <article class="bg-gray-500 p-4 flex flex-col gap-2">
+                        <div class="flex flex-row justify-center items-center gap-5 text-lg">
+                            <p class="font-medium p-1 px-3 bg-gray-200">Segmento 1</p>
+                            <label for="etiquta_1">
+                                <select name="etiquta_1" class="p-1 rounded bg-gray-200 [*]:capitalize" id="etiquta_1"
+                                    required>
+                                    <option value="1">no se percibe</option>
+                                    <option value="2">poca percepcion</option>
+                                    <option value="3">se percibe</option>
+                                    <option value="4">percepcion intensa</option>
+                                    <option value="5">percepcion muy intensa</option>
+                                </select>
+                            </label>
+                            <button type="button" class="p-1 rounded-lg bg-gray-200 active:bg-gray-400">➕</button>
+                        </div>
+                        <div class="flex flex-row justify-center items-center gap-5 text-lg">
+                            <p class="font-medium p-1 px-3 bg-gray-200">Segmento 2</p>
+                            <label for="etiquta_2">
+                                <select name="etiquta_2" class="p-1 rounded bg-gray-200 [*]:capitalize" id="etiquta_2"
+                                    required>
+                                    <option value="1">no se percibe</option>
+                                    <option value="2" selected>poca percepcion</option>
+                                    <option value="3">se percibe</option>
+                                    <option value="4">percepcion intensa</option>
+                                    <option value="5">percepcion muy intensa</option>
+                                </select>
+                            </label>
+                            <button type="button" class="p-1 rounded-lg bg-gray-200 active:bg-gray-400">➕</button>
+                        </div>
+                        <div class="flex flex-row justify-center items-center gap-5 text-lg">
+                            <p class="font-medium p-1 px-3 bg-gray-200">Segmento 3</p>
+                            <label for="etiquta_3">
+                                <select name="etiquta_3" class="p-1 rounded bg-gray-200 [*]:capitalize" id="etiquta_3"
+                                    required>
+                                    <option value="1">no se percibe</option>
+                                    <option value="2">poca percepcion</option>
+                                    <option value="3" selected>se percibe</option>
+                                    <option value="4">percepcion intensa</option>
+                                    <option value="5">percepcion muy intensa</option>
+                                </select>
+                            </label>
+                            <button type="button" class="p-1 rounded-lg bg-gray-200 active:bg-gray-400">➕</button>
+                        </div>
+                        <div class="flex flex-row justify-center items-center gap-5 text-lg">
+                            <p class="font-medium p-1 px-3 bg-gray-200">Segmento 4</p>
+                            <label for="etiquta_4">
+                                <select name="etiquta_4" class="p-1 rounded bg-gray-200 [*]:capitalize" id="etiquta_4"
+                                    required>
+                                    <option value="1">no se percibe</option>
+                                    <option value="2">poca percepcion</option>
+                                    <option value="3">se percibe</option>
+                                    <option value="4" selected>percepcion intensa</option>
+                                    <option value="5">percepcion muy intensa</option>
+                                </select>
+                            </label>
+                            <button type="button" class="p-1 rounded-lg bg-gray-200 active:bg-gray-400">➕</button>
+                        </div>
+                        <div class="flex flex-row justify-center items-center gap-5 text-lg">
+                            <p class="font-medium p-1 px-3 bg-gray-200">Segmento 5</p>
+                            <label for="etiquta_5">
+                                <select name="etiquta_5" class="p-1 rounded bg-gray-200 [*]:capitalize" id="etiquta_5"
+                                    required>
+                                    <option value="1">no se percibe</option>
+                                    <option value="2">poca percepcion</option>
+                                    <option value="3">se percibe</option>
+                                    <option value="4">percepcion intensa</option>
+                                    <option value="5" selected>percepcion muy intensa</option>
+                                </select>
+                            </label>
+                            <button type="button" class="p-1 rounded-lg bg-gray-200 active:bg-gray-400">➕</button>
+                        </div>
+                    </article>
+                    <article class="absolute bg-gray-800/70 p-5 w-full h-full justify-center items-center hidden">
+                        <section class="p-2 bg-gray-400 w-fit">
+                            <form action="">
+                                {% csrf_token %}
+                                <label for="nueva_etiqueta">Nueva etiqueta:<input id="nueva_etiqueta" type="text"
+                                        required></label>
+                            </form>
+                        </section>
+                    </article> -->
                 </section>
             </article>
-            {% endif %}
             <hr>
         </form>
     </article>
@@ -72,13 +158,42 @@
 
 {% block extra_js %}
 <script>
-    const radios = document.getElementsByName("tipo_escala")
-    if (radios) {
-        radios[0].checked = true
+    const descriptons = {
+        "estructurada": ["Establece número de segmentos:", "Puede ser 5, 7 o 9"],
+        "continua": ["Establece la longitud de la escala:", "Puede ser 9, 12 o 15"]
     }
 
-    radios.forEach(radio => {
-        console.log(radio.value)
-    });
+    let labels
+
+    let pSize
+    let iSize
+
+    initPanel()
+
+    function initPanel () {
+        initRadios()
+    }
+
+    function initRadios () {
+        labels = document.getElementsByClassName("ct-radio-escala")
+        pSize = document.getElementsByClassName("ct-size-scale").item(0).getElementsByTagName("p")[0]
+        iSize = document.getElementsByClassName("ct-size-scale").item(0).getElementsByTagName("input")[0]
+
+        labels.item(0).getElementsByTagName("input")[0].checked = true
+        pSize.textContent = descriptons["estructurada"][0]
+        iSize.placeholder = descriptons["estructurada"][1]
+
+        for (let i = 0; i < labels.length; i++) {
+            labels.item(i).getElementsByTagName("input")[0].addEventListener("change", () => {
+                showDescriptionTamanoScale(labels.item(i))
+            })
+        }
+    }
+
+    function showDescriptionTamanoScale (label) {
+        const text = label.textContent.trim()
+        pSize.textContent = descriptons[text][0]
+        iSize.placeholder = descriptons[text][1]
+    }
 </script>
 {% endblock %}
