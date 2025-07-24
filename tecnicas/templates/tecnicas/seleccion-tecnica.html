@@ -16,16 +16,22 @@
             </div>
         </header>
         <section class="text-white *:not-last:mb-4">
+            {% if error %}
+            <article class="ct-error bg-red-400 rounded-xl text-center font-normal tracking-wider text-xl p-1 pb-2">
+                <p>{{ error }}</p>
+            </article>
+            {% endif %}
+
             {% for cate, tecnicas in tipos.items %}
             <article>
                 <button
                     class="p-4 bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full z-20 relative"
-                    onclick="showList('{{cate}}')" type="button">{{ cate }}</button>
+                    onclick="showList('{{cate}}'); hiddenError()" type="button">{{ cate }}</button>
                 {% if tecnicas %}
                 <section
                     class="modal-list-{{ cate }} flex flex-col text-lg bg-blue-100 p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden w-full">
                     {% for tecnica in tecnicas %}
-                    <a  href="{% url 'cata_system:panel_configuracion'%}?id_tecnica={{tecnica.id}}"
+                    <a href="{% url 'cata_system:panel_configuracion'%}?id_tecnica={{tecnica.id}}"
                         class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left uppercase">
                         {{ tecnica.nombre_tecnica }}
                     </a>
@@ -49,6 +55,11 @@
         } else {
             list.classList.add("hidden")
         }
+    }
+
+    function hiddenError () {
+        const error = document.getElementsByClassName("ct-error")[0]
+        error.classList.add("hidden")
     }
 </script>
 {% endblock %}
