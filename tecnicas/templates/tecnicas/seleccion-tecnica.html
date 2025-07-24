@@ -21,37 +21,19 @@
                 <button
                     class="p-4 bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full z-20 relative"
                     onclick="showList('{{cate}}')" type="button">{{ cate }}</button>
+                {% if tecnicas %}
                 <section
-                    class="modal-list-{{ cate }} text-lg bg-blue-100 p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden">
+                    class="modal-list-{{ cate }} flex flex-col text-lg bg-blue-100 p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden w-full">
                     {% for tecnica in tecnicas %}
-                    <button
+                    <a  href="{% url 'cata_system:panel_configuracion'%}?id_tecnica={{tecnica.id}}"
                         class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left uppercase">
                         {{ tecnica.nombre_tecnica }}
-                    </button>
+                    </a>
                     {% endfor %}
                 </section>
+                {% endif %}
             </article>
             {% endfor %}
-            <article>
-                <button
-                    class="p-4 bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full z-20 relative"
-                    onclick="showList('otro')" type="button">ejemplo sin funcion</button>
-                <section
-                    class="modal-list-otro text-lg bg-blue-100 p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden">
-                    <button
-                        class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left">
-                        Una tecnica sensorial
-                    </button>
-                    <button
-                        class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left">
-                        Una tecnica sensorial
-                    </button>
-                    <button
-                        class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left">
-                        Una tecnica sensorial
-                    </button>
-                </section>
-            </article>
         </section>
     </article>
 </article>
