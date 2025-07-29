@@ -16,9 +16,17 @@
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
     <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
         <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
+        {% if error %}
+        <p class="text-sm bg-red-200 text-center">{{ error }}</p>
+        {% endif %}
         <hr>
         <form method="post" action="" class="[&>article]:not-last:mb-4 [&>article]:not-first:pt-4 [&>article]:px-6">
             {% csrf_token %}
+
+            <label for="form_sesion.id_tecnica.id_for_label" class="hidden">
+                {{ form_sesion.id_tecnica }}
+            </label>
+
             <article>
                 <h2 class="text-2xl mb-2 font-bold">Información Basica</h2>
                 <section class="flex justify-center items-center">
@@ -70,7 +78,8 @@
                         {{ form_sesion.tamano_escala }}
                     </label>
                     {% if form_sesion.tamano_escala.errors %}
-                    <article class="w-fit rounded px-2 py-0.5 text-center text-white text-sm font-medium tracking-wide bg-red-500">
+                    <article
+                        class="w-fit rounded px-2 py-0.5 text-center text-white text-sm font-medium tracking-wide bg-red-500">
                         {{ form_sesion.tamano_escala.errors }}
                     </article>
                     {% endif %}
@@ -108,7 +117,7 @@
         labels = document.getElementsByClassName("ct-radio-escala")
         pSize = document.getElementsByClassName("ct-size-scale").item(0).getElementsByTagName("p")[0]
         iSize = document.getElementsByClassName("ct-size-scale").item(0).getElementsByTagName("input")[0]
-        
+
         pSize.textContent = descriptons["estructurada"][0]
         iSize.placeholder = descriptons["estructurada"][1]
 
