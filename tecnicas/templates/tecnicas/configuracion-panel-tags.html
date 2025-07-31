@@ -11,52 +11,70 @@
 - Presentar un orden basico segun el numero de catadores y los productos, esta se le muestra el presentador
 -->
 
-<!-- <div class="flex flex-row justify-center items-center gap-5 text-lg">
-                    <p class="font-medium p-1 px-3 bg-gray-200">Segmento 1</p>
-                    <label for="etiquta_1">
-                        <select name="etiquta_1" class="p-1 rounded bg-gray-200 [*]:capitalize" id="etiquta_1" required>
-                            <option value="1">no se percibe</option>
-                            <option value="2">poca percepcion</option>
-                            <option value="3">se percibe</option>
-                            <option value="4">percepcion intensa</option>
-                            <option value="5">percepcion muy intensa</option>
-                        </select>
-                    </label>
-                    <button type="button" class="p-1 rounded-lg bg-gray-200 active:bg-gray-400">➕</button>
-                </div> -->
-
 {% block content %}
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
-    <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
-        <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
-        <hr>
-        <form method="post" action="" class="[&>article]:not-last:mb-4 [&>article]:not-first:pt-4 [&>article]:px-6">
-            {% csrf_token %}
-            <article class="bg-gray-500 p-4 flex flex-col gap-2">
-                {% for field in form_tags %}
-                <div class="flex flex-row justify-center items-center gap-5 text-lg">
-                    <label for="{{ field.id_for_label }}" class="font-medium p-1 px-3 bg-gray-200 capitalize">
-                        {{ field.label }}
+    <section class="w-fit h-fit relative">
+        <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+            <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
+            <hr>
+            {% if error %}
+            <p class="bg-red-400 font-bold text-lg tracking-wide text-white capitalize text-center py-2">
+                {{ error }}
+            </p>
+            {% endif %}
+            <form method="post" action="" class="flex flex-col gap-5">
+                {% csrf_token %}
+                <article class="p-4 flex flex-col gap-2 rounded">
+                    <h2 class="text-2xl mb-2 font-bold">Seleccion de etiquetas</h2>
+                    {% for field in form_tags %}
+                    <div class="flex flex-row justify-center items-center gap-5 text-lg">
+                        <label for="{{ field.id_for_label }}" class="font-medium p-1 px-3 bg-gray-200 capitalize rounded">
+                            {{ field.label }}
+                        </label>
+                        {{ field }}
+                    </div>
+                    {% endfor %}
+                </article>
+                <hr>
+                <article class="flex gap-3 flex-wrap p-2 justify-center rounded">
+                    <p class="bg-gray-300 p-2 text-center rounded font-bold text-md">
+                        Agregar otra etiqueta
+                    </p>
+                    <button type="button" onclick="showHiddeExtraTags()"
+                        class="p-1 px-10 uppercase text-lg tracking-wider font-medium border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 w-fit">
+                        ➕
+                    </button>
+                </article>
+                <hr>
+                <article class="flex justify-center items-center py-3 rounded">
+                    <button type="submit"
+                    class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 text-white w-fit">Continuar</button>
+                </article>
+            </form>
+        </article>
+        <article
+            class="ct-new-tags absolute top-0 w-full h-full bg-gray-600/70 p-5 flex justify-center items-center rounded-2xl hidden">
+            <section class="p-5 bg-gray-400 w-fit rounded">
+                <form method="post" action="" class="ct-form-new-tag p-3">
+                    {% csrf_token %}
+                    <label for="{{ form_new_tag.nueva_etiqueta.id_for_label }}"
+                        class="font-medium text-md text-white flex gap-3">
+                        <p class="bg-gray-600 px-4">Nueva etiqueta:</p>
+                        {{ form_new_tag.nueva_etiqueta }}
                     </label>
-                    {{ field }}
-                    <button type="button" class="p-1 rounded-lg bg-gray-200 active:bg-gray-400">➕</button>
-                </div>
-                {% endfor %}
-            </article>
-            <article class="bg-gray-800/70 justify-center items-center">
-                <button class="p-2 bg-gray-400 w-fit" type="submit">Mandar</button>
-            </article>
-            <article class="absolute bg-gray-800/70 p-5 w-full h-full justify-center items-center hidden">
-                <section class="p-2 bg-gray-400 w-fit">
-                    <form action="">
-                        {% csrf_token %}
-                        <label for="nueva_etiqueta">Nueva etiqueta:<input id="nueva_etiqueta" type="text"
-                                required></label>
-                    </form>
-                </section>
-            </article>
-        </form>
-    </article>
+                    <p
+                        class="ct-error-tag mt-4 font-bold bg-red-500 text-white text-md capitalize text-center rounded hidden">
+                        error</p>
+                    <article class="flex justify-center gap-8 mt-4 text-white font-medium tracking-wide">
+                        <button class="rounded px-3 py-1 bg-green-700 active:bg-green-600"
+                            type="submit">Agregar</button>
+                        <button class="rounded px-3 py-1 bg-red-500 active:bg-red-400" type="button"
+                            onclick="showHiddeExtraTags()">Cancelar</button>
+                    </article>
+                </form>
+            </section>
+        </article>
+    </section>
 </article>
 {% endblock %}
 
@@ -66,6 +84,74 @@
     const options = itemsSelects.item(0).getElementsByTagName("option")
     const values = []
 
+    const extraPanel = document.getElementsByClassName("ct-new-tags")[0]
+    function showHiddeExtraTags () {
+        if (extraPanel.classList.contains("hidden")) {
+            extraPanel.classList.remove("hidden")
+        } else {
+            extraPanel.classList.add("hidden")
+        }
+    }
+
+    const formNewTag = document.getElementsByClassName("ct-form-new-tag")[0]
+    if (formNewTag) {
+        formNewTag.addEventListener("submit", postNewTag)
+    }
+
+    async function postNewTag (e) {
+        e.preventDefault()
+
+        const dataForm = new FormData(this)
+        const url = "/cata/nueva-etiqueta"
+
+        try {
+            const respone = await fetch(url, {
+                method: "POST",
+                headers: {
+                    'X-CSRFToken': dataForm.get('csrfmiddlewaretoken'),
+                },
+                body: dataForm
+            })
+
+            const jsonResponse = await respone.json()
+
+            if (jsonResponse.error) {
+                const errorp = document.getElementsByClassName("ct-error-tag")[0]
+                errorp.textContent = `error: ${jsonResponse.error}`
+                errorp.classList.remove("hidden")
+                return
+            }
+
+            const inputTag = document.getElementsByName("nueva_etiqueta")[0]
+            inputTag.value = ""
+            showHiddeExtraTags()
+
+            const newTag = jsonResponse["new_tag"]
+            addNewOptionToSelect(newTag)
+        } catch (error) {
+            console.log("Error:", error)
+
+        }
+    }
+
+    function createOptionSelect (value = 0, text = "define texto") {
+        const option = document.createElement("option")
+        option.value = value
+        option.textContent = text
+        return option
+    }
+
+    function addNewOptionToSelect(newValues) {
+        for (let i = 0; i < itemsSelects.length; i++) {
+            const newOption = createOptionSelect(newValues.id, newValues.valor)
+            itemsSelects.item(i).appendChild(newOption)
+        }
+    }
+</script>
+
+{%if escala == "estructurada"%}
+<script>
+    // Asignacion rapida de valores a los select
     for (let i = 0; i < options.length; i++) {
         if (options.item(i).value) {
             values.push(options.item(i).value)
@@ -74,8 +160,9 @@
 
     values.sort()
 
-    for (let i = 0; i < itemsSelects.length; i++) {
+    for (let i = 0; i < values.length; i++) {
         itemsSelects.item(i).value = values[i]
     }
 </script>
+{% endif %}
 {% endblock %}

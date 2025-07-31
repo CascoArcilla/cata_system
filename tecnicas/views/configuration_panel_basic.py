@@ -6,19 +6,22 @@ from ..models import TipoTecnica
 
 def configuracionPanelBasic(req: HttpRequest):
     if req.method == "POST":
-        form = SesionBasicForm(req.POST)
+        try:
+            form = SesionBasicForm(req.POST)
 
-        if form.is_valid():
-            values = {}
-            
-            for name, value in form.cleaned_data.items():
-                if not name == "tipo_escala":
-                    values[name] = value
-                else:
-                    values[name] = value.id
-            
-            req.session['datos_formulario'] = values
-            return redirect(reverse("cata_system:panel_configuracion_tags"))
+            if form.is_valid():
+                values = {}
+
+                for name, value in form.cleaned_data.items():
+                    if not name == "tipo_escala":
+                        values[name] = value
+                    else:
+                        values[name] = value.id
+                
+                req.session['form_basic'] = values
+                return redirect(reverse("cata_system:panel_configuracion_tags"))
+        except KeyError:
+            return redirect(reverse("cata_system:seleccion_tecnica") + "?error=error en datos de configuracion")
 
         return render(req, "tecnicas/configuracion-panel-basic.html", { "form_sesion": form, "error": "Ha ocurrido un error al continuar al siguiente paso." })
     elif req.method == "GET":
