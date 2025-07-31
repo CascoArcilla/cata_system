@@ -6,4 +6,5 @@ from .panel_sessions import sesionesPanel
 from .seleccion_tecnica import selecionTecnica
 from .configuration_panel_basic import configuracionPanelBasic
 from .configuration_panel_tags import configuracionPanelTags
+from .configuration_panel_words import configurationsPanelWords
 from .api_tag import newTag

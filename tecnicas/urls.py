@@ -13,5 +13,6 @@ urlpatterns = [
     path("seleccion-tecnica", views.selecionTecnica, name="seleccion_tecnica"),
     path("panel-configuracion-basic", views.configuracionPanelBasic, name="panel_configuracion_basic"),
     path("panel-configuracion-tags", views.configuracionPanelTags, name="panel_configuracion_tags"),
+    path("panel-configuracion-words", views.configurationsPanelWords, name="panel_configuracion_words"),
     path("nueva-etiqueta", views.newTag, name="nueva_etiqueta"),
 ]
