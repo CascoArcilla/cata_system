@@ -6,7 +6,7 @@ from .producto import Producto
 
 class Orden(models.Model):
     id_tecnica = models.ForeignKey(Tecnica, on_delete=models.CASCADE, related_name="orden_tecnica")
-    id_catador = models.ForeignKey(Catador, on_delete=models.CASCADE, related_name="orden_catador")
+    id_catador = models.ForeignKey(Catador, on_delete=models.CASCADE, related_name="orden_catador", null=True)
 
 class Posicion(models.Model):
     id_producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name="posicion_producto")

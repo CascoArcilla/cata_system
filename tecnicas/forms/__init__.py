@@ -1,3 +1,4 @@
-from .sesion_basic import SesionBasicForm
-from .sesion_tags import SesionTagsForm
-from .etiqueta import EtiquetaForm
+from .sesion_basic_form import SesionBasicForm
+from .sesion_tags_form import SesionTagsForm
+from .etiqueta_form import EtiquetaForm
+from .palabras_form import PalabrasForm

@@ -1,4 +1,5 @@
 {% extends 'tecnicas/base.html' %}
+{% load static %}
 
 {% block title %}Panel Configuracion{% endblock %}
 
@@ -6,6 +7,49 @@
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
     <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
         <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
+        {% if error %}
+        <p class="text-2xl">{{ error }}</p>
+        {% endif %}
+        <form method="post" action="" class="ct-palabras-form flex flex-col gap-5">
+            {% csrf_token %}
+            <h2 class="text-2xl mb-2 font-bold">Codificar productos</h2>
+            <article class="flex flex-row flex-wrap gap-4 items-center justify-center">
+                <p class="text-center font-bold tracking-wide text-xl bg-gray-500 text-white px-3 py-3 pb-4 rounded">
+                    Puede dejar los campos como están para usar los códigos predefinidos.
+                </p>
+                {% for field in form_worlds %}
+                <label for="{{ field.id_for_label }}"
+                    class="text-lg flex flex-col items-center px-2 font-medium tracking-wide">
+                    <p class="tracking-normal capitalize text-base font-bold">{{ field.label }}</p>
+                    {{ field }}
+                </label>
+                {% endfor %}
+            </article>
+            <article class="flex justify-center gap-5">
+                <button type="button"
+                    class="ct-gen-or text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 text-white w-fit capitalize"
+                    onclick="setPermutations()">
+                    regenerar ordenes
+                </button>
+            </article>
+            <article>
+                <h2 class="text-2xl mb-2 font-bold">Ordenes</h2>
+                <section class="flex justify-center">
+                    <article
+                        class="ct-orden-list flex flex-wrap px-3 py-4 justify-center items-center capitalize text-lg bg-gray-500 gap-5 w-fit">
+                    </article>
+                </section>
+            </article>
+            <article class="flex justify-center items-center py-3 rounded">
+                <button type="submit"
+                    class="ct-btn-submit uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 text-white w-fit disabled:bg-amber-600">Continuar</button>
+            </article>
+        </form>
+        <input type="number" value="{{ num_cata }}" class="ct-num-cata hidden" disabled>
     </article>
 </article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/panel-words.js' %}"></script>
 {% endblock %}

@@ -37,7 +37,7 @@ def configuracionPanelTags(req: HttpRequest):
                 values[name] = value.id
 
             req.session["form_tags"] = values
-            return render(req, "tecnicas/configuracion-panel-tags.html", context_tags)
+            return redirect(reverse("cata_system:panel_configuracion_words"))
         else:
             context_tags["error"] = "ha ocurrido un error"
             return render(req, "tecnicas/configuracion-panel-tags.html", context_tags)
