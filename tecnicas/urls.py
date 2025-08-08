@@ -15,4 +15,5 @@ urlpatterns = [
     path("panel-configuracion-tags", views.configuracionPanelTags, name="panel_configuracion_tags"),
     path("panel-configuracion-words", views.configurationsPanelWords, name="panel_configuracion_words"),
     path("nueva-etiqueta", views.newTag, name="nueva_etiqueta"),
+    path("crear-catador", views.crearCatador, name="crear_catador"),
 ]

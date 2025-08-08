@@ -14,21 +14,23 @@
                 class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-xl p-4 text-center uppercase">Panel
                 principal</a>
             <div class="w-full h-60 bg-gray-200 rounded-2xl relative">
-                <img src="{% static 'img/pn_gc_test.webp' %}"
-                    alt="un hombre en smokin probando vino" class="h-full w-full object-cover rounded-xl">
+                <img src="{% static 'img/pn_gc_test.webp' %}" alt="un hombre en smokin probando vino"
+                    class="h-full w-full object-cover rounded-xl">
             </div>
         </header>
         <section class="flex-1 flex flex-col gap-7">
             <div class="w-full h-40 rounded-2xl">
-                <img src="https://cdn.pixabay.com/photo/2020/06/08/16/19/woman-5275027_640.jpg"
-                    alt="varias personas en fila" class="w-full h-full object-cover rounded-xl">
+                <img src="{% static 'img/pn_gc_people.webp' %}" alt="varias personas en fila"
+                    class="w-full h-full object-cover rounded-xl">
             </div>
+            <a class="flex-1 text-white tracking-wider font-bold bg-green-600 border-green-800 border-r-4 border-b-4 active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 transition-all rounded-xl text-xl p-4 flex justify-center items-center uppercase"
+                href="{% url 'cata_system:crear_catador' %}">
+                Crear Cadator
+            </a>
             <button type="button"
-                class="flex-1 text-white bg-green-600 hover:bg-green-700 active:outline-none active:ring-4 active:ring-green-300 font-medium rounded-xl text-xl p-4 w-full text-center uppercase">Crear
-                Cadator</button>
-            <button type="button"
-                class="flex-1 text-white bg-yellow-600 hover:bg-yellow-700 active:outline-none active:ring-4 active:ring-yellow-300 font-medium rounded-xl text-xl p-4 w-full text-center uppercase">Buscar
-                Catador</button>
+                class="flex-1 text-white tracking-wider font-bold bg-yellow-600 border-yellow-800 border-r-4 border-b-4 active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 transition-all rounded-xl text-xl p-4 text-center uppercase">
+                Buscar Catador
+            </button>
         </section>
     </article>
 </article>

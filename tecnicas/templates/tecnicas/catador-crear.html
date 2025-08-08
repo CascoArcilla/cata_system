@@ -1,0 +1,102 @@
+{% extends 'tecnicas/base.html' %}
+
+{% block title %}Crear Catador{% endblock %}
+
+{% block content %}
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
+    <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+        <header class="flex-1 flex flex-col gap-7">
+            <div class="bg-gray-300 p-8 text-2xl font-bold rounded-2xl text-center">
+                <h1>Creando Catador</h1>
+            </div>
+        </header>
+        <section>
+            {% if error %}
+            <p class="ct-notificacion bg-red-400 py-4 text-2xl tracking-wide font-bold text-center capitalize">
+                {{ error }}
+            </p>
+            {% endif %}
+            {% if message %}
+            <p class="ct-notificacion bg-green-500 py-4 text-2xl tracking-wide font-bold text-center capitalize">
+                {{ message }}
+            </p>
+            {% endif %}
+            <form action="" method="post" class="flex flex-col gap-5">
+                {% csrf_token %}
+                <h2 class="text-2xl mb-2 font-bold">Ingrese los datos</h2>
+
+                <section class="grid grid-cols-2 max-sm:grid-cols-1 [&>label]:px-6 max-sm:[&>label]:px-2">
+                    <label for="{{ form_cata.usuarioCatador.id_for_label }}"
+                        class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                        <p class="capitalize font-bold">Nombre de usuario:</p>
+                        {{ form_cata.usuarioCatador }}
+                        {% if form_cata.usuarioCatador.errors %}
+                        <small class="capitalize bg-red-400 px-5 tracking-wider rounded">
+                            el nombre de usuario ya esta en uso
+                        </small>
+                        {% endif %}
+                    </label>
+                    <label for="{{ form_cata.nombre.id_for_label }}"
+                        class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                        <p class="capitalize font-bold">nombre del catador:</p>
+                        {{ form_cata.nombre }}
+                    </label>
+                    <label for="{{ form_cata.apellido.id_for_label }}"
+                        class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                        <p class="capitalize font-bold">apellido del catador:</p>
+                        {{ form_cata.apellido }}
+                    </label>
+                    <label for="{{ form_cata.telefono.id_for_label }}"
+                        class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                        <p class="capitalize font-bold">telefono:</p>
+                        {{ form_cata.telefono }}
+                        {% if form_cata.telefono.errors %}
+                        <small class="ct-notificacion capitalize bg-red-400 px-5 tracking-wider rounded">
+                            {{ form_cata.telefono.errors}}
+                        </small>
+                        {% endif %}
+                    </label>
+                    <label for="{{ form_cata.correo.id_for_label }}"
+                        class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                        <p class="capitalize font-bold">correo:</p>
+                        {{ form_cata.correo }}
+                    </label>
+                    <label for="{{ form_cata.fechaNacimiento.id_for_label }}"
+                        class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                        <p class="capitalize font-bold">fecha de nacimiento:</p>
+                        {{ form_cata.fechaNacimiento }}
+                    </label>
+                </section>
+                <section class="cs-escalas-radio flex justify-center items-center gap-4">
+                    <button type="submit"
+                        class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-green-800  transition-all rounded-xl bg-green-600 active:bg-green-400 text-white w-fit">
+                        crear catador
+                    </button>
+                    <button type="submit"
+                        class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-yellow-800  transition-all rounded-xl bg-yellow-600 active:bg-yellow-400 text-white w-fit">
+                        regresar
+                    </button>
+                </section>
+            </form>
+        </section>
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const notifiactions = document.getElementsByClassName("ct-notificacion")
+    const inputs = document.getElementsByClassName("ct-inputs-pos-cata")
+
+    for (let index = 0; index < inputs.length; index++) {
+        inputs.item(index).addEventListener("change", hiddenErrorAndMessages)
+    }
+
+    function hiddenErrorAndMessages (e) {
+        for (let index = 0; index < notifiactions.length; index++) {
+            console.log("Oculto")
+            notifiactions.item(index).classList.add("hidden")
+        }
+    }
+</script>
+{% endblock %}
