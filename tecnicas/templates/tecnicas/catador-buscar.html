@@ -35,6 +35,18 @@
                 </label>
             </section>
         </form>
+        {% if error %}
+        <p class="ct-notifica bg-red-500 text-center text-lg py-1 font-bold text-white tracking-wide capitalize rounded-2xl">
+            {{ error }}
+        </p>
+        {% endif %}
+
+        {% if message %}
+        <p class="ct-notifica bg-green-600 text-center text-lg py-1 font-bold text-white tracking-wide capitalize rounded-2xl">
+            {{ message }}
+        </p>
+        {% endif %}
+        
         {% if form_catador %}
         <form action="" method="post">
             {% csrf_token %}
@@ -86,7 +98,7 @@
                     onclick="enableInputs()">
                     actualizar
                 </button>
-                <button type="button"
+                <button type="submit"
                     class="ct-btn-guardar uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-green-800  transition-all rounded-xl bg-green-600 active:bg-green-400 text-white w-fit hidden">
                     guardar
                 </button>
@@ -106,6 +118,12 @@
 <script>
     const inputs = document.getElementsByClassName("ct-inputs-pos-cata")
     disableInputs()
+    setTimeout(() => {
+        const notifications = document.getElementsByClassName("ct-notifica")
+        for (let index = 0; index < notifications.length; index++) {
+            notifications.item(index).classList.add("hidden")
+        }
+    }, 1800)
 
     function disableInputs () {
         for (let index = 0; index < inputs.length; index++) {
