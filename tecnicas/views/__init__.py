@@ -9,3 +9,4 @@ from .configuration_panel_tags import configuracionPanelTags
 from .configuration_panel_words import configurationsPanelWords
 from .api_tag import newTag
 from .catador_create import crearCatador
+from .catador_search import searchCatador

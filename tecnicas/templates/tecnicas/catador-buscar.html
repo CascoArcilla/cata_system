@@ -1,0 +1,142 @@
+{% extends 'tecnicas/base.html' %}
+
+{% block title %}Buscar Catador{% endblock %}
+
+{% block content %}
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
+    <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+        <header class="flex-1 flex flex-col gap-7">
+            <div class="bg-gray-300 p-8 text-2xl font-bold rounded-2xl text-center capitalize">
+                <h1>buscando catatador</h1>
+            </div>
+        </header>
+        <form action="" method="get" class="flex flex-col gap-5">
+            <h2 class="text-2xl mb-2 font-bold">Ingrese el nombre de usuario del catador</h2>
+            <section class="">
+                <label for="usuario" class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <div class="flex flex-wrap gap-4 justify-center items-center">
+                        <p class="capitalize font-bold">nombre de usuario:</p>
+                        <input id="usuario" type="text" class="bg-gray-500 text-center w-fit p-1 rounded-lg text-white"
+                            name="user" required>
+                        <button type="submit"
+                            class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-green-800  transition-all rounded-xl bg-green-600 active:bg-green-400 text-white w-fit">
+                            buscar
+                        </button>
+                        <a href="{% url 'cata_system:panel_catadores' %}"
+                            class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-yellow-800  transition-all rounded-xl bg-yellow-600 active:bg-yellow-400 text-white w-fit">
+                            regresar
+                        </a>
+                    </div>
+                    {% if catador.errors %}
+                    <small class="capitalize bg-red-400 px-5 tracking-wider rounded">
+                        {{ catador.errors }}
+                    </small>
+                    {% endif %}
+                </label>
+            </section>
+        </form>
+        {% if form_catador %}
+        <form action="" method="post">
+            {% csrf_token %}
+            <section class="grid grid-cols-2 max-sm:grid-cols-1 [&>label]:px-6 max-sm:[&>label]:px-2">
+                <label for="{{ form_catador.usuarioCatador.id_for_label }}"
+                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">Nombre de usuario:</p>
+                    {{ form_catador.usuarioCatador }}
+                    {% if form_catador.usuarioCatador.errors %}
+                    <small class="capitalize bg-red-400 px-5 tracking-wider rounded">
+                        el nombre de usuario ya esta en uso
+                    </small>
+                    {% endif %}
+                </label>
+                <label for="{{ form_catador.nombre.id_for_label }}"
+                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">nombre del catador:</p>
+                    {{ form_catador.nombre }}
+                </label>
+                <label for="{{ form_catador.apellido.id_for_label }}"
+                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">apellido del catador:</p>
+                    {{ form_catador.apellido }}
+                </label>
+                <label for="{{ form_catador.telefono.id_for_label }}"
+                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">telefono:</p>
+                    {{ form_catador.telefono }}
+                    {% if form_catador.telefono.errors %}
+                    <small class="ct-notificacion capitalize bg-red-400 px-5 tracking-wider rounded">
+                        {{ form_catador.telefono.errors}}
+                    </small>
+                    {% endif %}
+                </label>
+                <label for="{{ form_catador.correo.id_for_label }}"
+                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">correo:</p>
+                    {{ form_catador.correo }}
+                </label>
+                <label for="{{ form_catador.fechaNacimiento.id_for_label }}"
+                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">fecha de nacimiento:</p>
+                    {{ form_catador.fechaNacimiento }}
+                </label>
+            </section>
+            <section class="cs-escalas-radio flex justify-center items-center gap-4">
+                <button type="button"
+                    class="ct-btn-actualizar uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-purple-800  transition-all rounded-xl bg-purple-600 active:bg-purple-400 text-white w-fit"
+                    onclick="enableInputs()">
+                    actualizar
+                </button>
+                <button type="button"
+                    class="ct-btn-guardar uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-green-800  transition-all rounded-xl bg-green-600 active:bg-green-400 text-white w-fit hidden">
+                    guardar
+                </button>
+                <button type="button"
+                    class="ct-btn-cancel uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-yellow-800  transition-all rounded-xl bg-yellow-600 active:bg-yellow-400 text-white w-fit hidden"
+                    onclick="changeButtons(disableInputs)">
+                    cancelar
+                </button>
+            </section>
+        </form>
+        {% endif %}
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const inputs = document.getElementsByClassName("ct-inputs-pos-cata")
+    disableInputs()
+
+    function disableInputs () {
+        for (let index = 0; index < inputs.length; index++) {
+            inputs.item(index).disabled = true
+        }
+    }
+
+    function enableInputs () {
+        for (let index = 0; index < inputs.length; index++) {
+            inputs.item(index).disabled = false
+        }
+        changeButtons()
+    }
+
+    function changeButtons (callBack = function () { }) {
+        const btnUpdate = document.getElementsByClassName("ct-btn-actualizar")[0]
+        const btnSave = document.getElementsByClassName("ct-btn-guardar")[0]
+        const btnCancel = document.getElementsByClassName("ct-btn-cancel")[0]
+
+        if (btnUpdate.classList.contains("hidden")) {
+            btnUpdate.classList.remove("hidden")
+            btnSave.classList.add("hidden")
+            btnCancel.classList.add("hidden")
+        } else {
+            btnUpdate.classList.add("hidden")
+            btnSave.classList.remove("hidden")
+            btnCancel.classList.remove("hidden")
+        }
+
+        callBack()
+    }
+
+</script>
+{% endblock %}
