@@ -13,11 +13,11 @@ def configuracionPanelBasic(req: HttpRequest):
                 values = {}
 
                 for name, value in form.cleaned_data.items():
-                    if not name == "tipo_escala":
-                        values[name] = value
-                    else:
+                    if name == "estilo_palabras" or name == "tipo_escala":
                         values[name] = value.id
-                
+                    else:
+                        values[name] = value
+
                 req.session['form_basic'] = values
                 return redirect(reverse("cata_system:panel_configuracion_tags"))
         except KeyError:

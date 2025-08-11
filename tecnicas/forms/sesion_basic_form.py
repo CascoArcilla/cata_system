@@ -2,6 +2,7 @@ from django import forms
 
 from ..models import TipoEscala
 from ..models import TipoTecnica
+from ..models import EstiloPalabra
 
 class SesionBasicForm(forms.Form):
     id_tecnica = forms.IntegerField(widget=forms.HiddenInput())
@@ -26,6 +27,10 @@ class SesionBasicForm(forms.Form):
             "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
             "placeholder": "Solo números"
         }), required=True)
+    
+    estilo_palabras = forms.ModelChoiceField(queryset=EstiloPalabra.objects.all(), widget=forms.RadioSelect(attrs={
+            "class":"uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
+        }), required=True, initial=EstiloPalabra.objects.first())
 
     tipo_escala = forms.ModelChoiceField(queryset=TipoEscala.objects.all(), widget=forms.RadioSelect(attrs={
             "class":"uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
