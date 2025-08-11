@@ -1,6 +1,5 @@
 from django.db import models
 
-from .etiqueta import Etiqueta
 from .tipo_escala import TipoEscala
 
 class Escala(models.Model):

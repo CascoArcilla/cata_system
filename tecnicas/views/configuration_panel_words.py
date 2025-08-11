@@ -29,6 +29,7 @@ def configurationsPanelWords(req:HttpRequest):
     elif req.method == "POST":
         sorts_code = json.loads(req.POST.get("sort_codes"))
         codes = []
+        context_worlds_form = {}
 
         for name, value in req.POST.items():
             if name.__contains__("producto_"):
@@ -36,23 +37,30 @@ def configurationsPanelWords(req:HttpRequest):
 
         form_worlds = PalabrasForm(req.POST, codes=codes)
 
+        context_worlds_form = {
+            "form_worlds": form_worlds,
+            "num_cata": num_cata,
+        }
+
         if form_worlds.is_valid():
-            code_sort = {"product_codes":[]}
+            codes_sort = {"product_codes":[]}
 
             for name, value in form_worlds.cleaned_data.items():
-                code_sort["product_codes"].append({name: value})
+                codes_sort["product_codes"].append({name: value})
 
-            code_sort["sort_codes"] = sorts_code
+            codes_sort["sort_codes"] = sorts_code
+            
+            data_scale = {
+                "tipo": data_basic["tipo_escala"],
+                "tamano": data_basic["tamano_escala"],
+                "etiquetas": data_tags
+            }
 
-            print(code_sort)
+            print(codes_sort)
+            print(data_basic)
+            print(data_tags)
             print("Todo ok")
         else:
-            print("datos no validos")
-        
-        context_worlds_form = {
-            "form_worlds" : form_worlds,
-            "num_cata": num_cata,
-            "error": "error en los datos recibidos"
-        }
+            context_worlds_form["error"] = "error en los datos recibidos"
 
         return render(req, "tecnicas/configuracion-panel-palabras.html", context_worlds_form)
