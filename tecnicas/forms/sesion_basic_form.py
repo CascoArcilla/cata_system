@@ -1,50 +1,56 @@
 from django import forms
-
 from ..models import TipoEscala
 from ..models import TipoTecnica
 from ..models import EstiloPalabra
+
 
 class SesionBasicForm(forms.Form):
     id_tecnica = forms.IntegerField(widget=forms.HiddenInput())
 
     nombre_sesion = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
-            "class": "bg-gray-200 border-b-1 text-center w-full p-1",
-            "name": "nombre_sesion",
-            "placeholder": "Ej. Mermelada de mango picante"
-        }), required=False)
+        "class": "bg-gray-200 border-b-1 text-center w-full p-1",
+        "name": "nombre_sesion",
+        "placeholder": "Ej. Mermelada de mango picante"
+    }), required=False)
 
     numero_productos = forms.IntegerField(widget=forms.NumberInput(attrs={
-            "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
-            "placeholder": "Solo números"
-        }), required=True)
+        "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
+        "placeholder": "Solo números"
+    }), required=True)
 
     numero_jueces = forms.IntegerField(widget=forms.NumberInput(attrs={
-            "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
-            "placeholder": "Solo números"
-        }), required=True)
-        
+        "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
+        "placeholder": "Solo números"
+    }), required=True)
+
     numero_repeticiones = forms.IntegerField(widget=forms.NumberInput(attrs={
-            "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
-            "placeholder": "Solo números"
-        }), required=True)
-    
+        "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
+        "placeholder": "Solo números"
+    }), required=True)
+
     estilo_palabras = forms.ModelChoiceField(queryset=EstiloPalabra.objects.all(), widget=forms.RadioSelect(attrs={
-            "class":"uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
-        }), required=True, initial=EstiloPalabra.objects.first())
+        "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
+    }), required=True, initial=EstiloPalabra.objects.first())
 
     tipo_escala = forms.ModelChoiceField(queryset=TipoEscala.objects.all(), widget=forms.RadioSelect(attrs={
-            "class":"uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
-        }), required=True, initial=TipoEscala.objects.first())
+        "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
+    }), required=True, initial=TipoEscala.objects.first())
 
     tamano_escala = forms.IntegerField(widget=forms.NumberInput(attrs={
-            "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
-        }), required=True, min_value=5)
-    
+        "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
+    }), required=True, min_value=5)
+
+    instrucciones = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
+        "class": "bg-gray-200 border-b-1 text-center w-full p-1",
+        "placeholder": "Este campo es opcional"
+    }), required=False)
+
     def __init__(self, *args, id_tecnica_new=0, **kwargs):
         super().__init__(*args, **kwargs)
-        
+
         if id_tecnica_new != 0:
-            self.fields['id_tecnica'] = forms.IntegerField(initial=id_tecnica_new, widget=forms.HiddenInput())
+            self.fields['id_tecnica'] = forms.IntegerField(
+                initial=id_tecnica_new, widget=forms.HiddenInput())
 
     def clean(self):
         data_clean = super().clean()

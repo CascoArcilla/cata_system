@@ -38,7 +38,7 @@
                     </label>
                 </section>
                 <section
-                    class="flex flex-row flex-wrap gap-4 [&>label]:text-lg [&>label]:flex [&>label]:flex-col [&>label]:items-center [&>label]:px-2 [&>label]:font-medium [&>label]:tracking-wide [&>label]:[&>p]:tracking-normal [&>label]:[&>p]:text-base [&>label]:[&>p]:font-bold">
+                    class="flex flex-row flex-wrap justify-center gap-4 [&>label]:text-lg [&>label]:flex [&>label]:flex-col [&>label]:items-center [&>label]:px-2 [&>label]:font-medium [&>label]:tracking-wide [&>label]:[&>p]:tracking-normal [&>label]:[&>p]:text-base [&>label]:[&>p]:font-bold">
                     <label for="{{ form_sesion.numero_productos.id_for_label }}">
                         <p>Número de Productos:</p>
                         {{ form_sesion.numero_productos }}
@@ -52,11 +52,18 @@
                         {{ form_sesion.numero_repeticiones }}
                     </label>
                 </section>
+                <section class="flex justify-center items-center mt-2">
+                    <label for="{{form_sesion.instrucciones.id_for_label}}"
+                        class="text-lg flex flex-col items-center px-2 w-fit font-medium tracking-wide mb-4">
+                        <p class="tracking-normal text-base font-bold">Ingrese las instrucciones para la tecnica:</p>
+                        {{ form_sesion.instrucciones }}
+                    </label>
+                </section>
             </article>
             <hr>
             <article class="cs-escalas-radio flex flex-col gap-4">
                 <h2 class="text-2xl font-bold">Selecciona estilo para las palabras</h2>
-                <section class="flex flex-row justify-around flex-wrap">
+                <section class="flex flex-row gap-4 justify-around flex-wrap">
                     {% for escala in form_sesion.estilo_palabras %}
                     <label for="{{escala.id_for_label}}"
                         class="ct-radio-estilo uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit">
@@ -72,7 +79,7 @@
             <hr>
             <article class="cs-escalas-radio flex flex-col gap-4">
                 <h2 class="text-2xl font-bold">Selecciona una escala</h2>
-                <section class="flex flex-row justify-around flex-wrap">
+                <section class="flex flex-row gap-4 justify-around flex-wrap">
                     {% for escala in form_sesion.tipo_escala %}
                     <label for="{{escala.id_for_label}}"
                         class="ct-radio-escala uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit">
