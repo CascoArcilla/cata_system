@@ -15,7 +15,7 @@ def searchCatador(req : HttpRequest):
             user = False
 
         if not user:
-            return render(req, "tecnicas/catador-buscar.html")
+            return render(req, "tecnicas/manage_tester/catador-buscar.html")
         
         try:
             catador = Catador.objects.get(usuarioCatador=user)
@@ -23,7 +23,7 @@ def searchCatador(req : HttpRequest):
         except Catador.DoesNotExist:
             context["error"] = "usuario no encontrado"
 
-        return render(req, "tecnicas/catador-buscar.html", context)
+        return render(req, "tecnicas/manage_tester/catador-buscar.html", context)
     elif req.method == "POST":
         context = {}
 
@@ -36,7 +36,7 @@ def searchCatador(req : HttpRequest):
 
         if not infoCata:
             context["error"] = "ha ocurrido un error en recueperar los datos"
-            return render(req, "tecnicas/catador-buscar.html", context)
+            return render(req, "tecnicas/manage_tester/catador-buscar.html", context)
         
         user = get_object_or_404(Catador, usuarioCatador=nameUser)
         
@@ -45,7 +45,7 @@ def searchCatador(req : HttpRequest):
         try:
             if not modelForm.is_valid():
                 context["error"] = "ha ocurrido un error en guardar los datos"
-                return render(req, "tecnicas/catador-buscar.html", context)
+                return render(req, "tecnicas/manage_tester/catador-buscar.html", context)
             modelForm.save()
             context["form_catador"] = modelForm
             context["message"] = "usuario actualizado"
@@ -53,4 +53,4 @@ def searchCatador(req : HttpRequest):
             context["form_catador"] = modelForm
             context["error"] = "ha ocurrido un error en guardar los datos"
 
-        return render(req, "tecnicas/catador-buscar.html", context)
+        return render(req, "tecnicas/manage_tester/catador-buscar.html", context)

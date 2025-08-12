@@ -11,7 +11,7 @@ def crearCatador(req : HttpRequest):
             "form_cata": formCatador
         }
     
-        return render(req, "tecnicas/catador-crear.html", context)
+        return render(req, "tecnicas/manage_tester/catador-crear.html", context)
     elif req.method == "POST":
         formCatadorValues = CatadorForm(req.POST)
         context = {
@@ -25,9 +25,9 @@ def crearCatador(req : HttpRequest):
                 context["form_cata"] = CatadorForm()
             except ValidationError:
                 context["error"] = "nombre de usuario en uso"
-                return render(req, "tecnicas/catador-crear.html", context)
+                return render(req, "tecnicas/manage_tester/catador-crear.html", context)
 
-            return render(req, "tecnicas/catador-crear.html", context)
+            return render(req, "tecnicas/manage_tester/catador-crear.html", context)
         else:
             context["error"] = "datos no validos"
-            return render(req, "tecnicas/catador-crear.html", context)
+            return render(req, "tecnicas/manage_tester/catador-crear.html", context)

@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
 def managementCatadores(req):
-    return render(req, "tecnicas/catadores-panel.html")
+    return render(req, "tecnicas/manage_tester/catadores-panel.html")

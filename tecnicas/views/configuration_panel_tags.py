@@ -22,7 +22,7 @@ def configuracionPanelTags(req: HttpRequest):
             "form_new_tag": form_new_etiqueta
         }
 
-        return render(req, "tecnicas/configuracion-panel-tags.html", context_tags)
+        return render(req, "tecnicas/create_sesion/configuracion-panel-tags.html", context_tags)
     elif req.method == "POST":
         values = {}
         form = SesionTagsForm(req.POST, longitud=tamano_escala, tipo_escala=tipo_escala.nombre_escala)
@@ -40,4 +40,4 @@ def configuracionPanelTags(req: HttpRequest):
             return redirect(reverse("cata_system:panel_configuracion_codes"))
         else:
             context_tags["error"] = "ha ocurrido un error"
-            return render(req, "tecnicas/configuracion-panel-tags.html", context_tags)
+            return render(req, "tecnicas/create_sesion/configuracion-panel-tags.html", context_tags)

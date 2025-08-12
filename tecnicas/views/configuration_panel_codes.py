@@ -5,12 +5,14 @@ from ..utils import generarCodigos
 from ..forms import PalabrasForm
 import json
 
-def configurationsPanelCodes(req:HttpRequest):
+
+def configurationsPanelCodes(req: HttpRequest):
     data_basic = req.session["form_basic"]
     data_tags = req.session["form_tags"]
 
     if not data_basic or not data_tags:
-        redirect(reverse("cata_system:seleccion_tecnica") + "?error=datos del formulario requerido no encontrados")
+        redirect(reverse("cata_system:seleccion_tecnica") +
+                 "?error=datos del formulario requerido no encontrados")
 
     num_products = data_basic["numero_productos"]
     num_cata = data_basic["numero_catadores"]
@@ -21,11 +23,11 @@ def configurationsPanelCodes(req:HttpRequest):
         form_worlds = PalabrasForm(codes=codes_products)
 
         context_worlds_form = {
-            "form_worlds" : form_worlds,
+            "form_worlds": form_worlds,
             "num_cata": num_cata
         }
-        
-        return render(req, "tecnicas/configuracion-panel-codes.html", context_worlds_form)
+
+        return render(req, "tecnicas/create_sesion/configuracion-panel-codes.html", context_worlds_form)
     elif req.method == "POST":
         sorts_code = json.loads(req.POST.get("sort_codes"))
         codes = []
@@ -43,7 +45,7 @@ def configurationsPanelCodes(req:HttpRequest):
         }
 
         if form_worlds.is_valid():
-            codes_sort = {"product_codes":[]}
+            codes_sort = {"product_codes": []}
 
             for name, value in form_worlds.cleaned_data.items():
                 codes_sort["product_codes"].append({name: value})
@@ -55,4 +57,4 @@ def configurationsPanelCodes(req:HttpRequest):
         else:
             context_worlds_form["error"] = "error en los datos recibidos"
 
-        return render(req, "tecnicas/configuracion-panel-codes.html", context_worlds_form)
+        return render(req, "tecnicas/create_sesion/configuracion-panel-codes.html", context_worlds_form)
