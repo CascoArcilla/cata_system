@@ -13,7 +13,7 @@ def configurationsPanelWords(req:HttpRequest):
         redirect(reverse("cata_system:seleccion_tecnica") + "?error=datos del formulario requerido no encontrados")
 
     num_products = data_basic["numero_productos"]
-    num_cata = data_basic["numero_jueces"]
+    num_cata = data_basic["numero_catadores"]
 
     if req.method == "GET":
         codes_products = generarCodigos(num_products)

@@ -17,7 +17,6 @@ from .sesion_sensorial import SesionSensorial
 
 from .escala import Escala
 from .etiquetas_escala import EtiquetasEscala
-from .tecnica_intensidad import TecnicaIntensidad
 from .producto import Producto
 
 from .calificacion import Calificacion

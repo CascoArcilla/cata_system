@@ -18,7 +18,7 @@ class SesionBasicForm(forms.Form):
         "placeholder": "Solo números"
     }), required=True)
 
-    numero_jueces = forms.IntegerField(widget=forms.NumberInput(attrs={
+    numero_catadores = forms.IntegerField(widget=forms.NumberInput(attrs={
         "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
         "placeholder": "Solo números"
     }), required=True)

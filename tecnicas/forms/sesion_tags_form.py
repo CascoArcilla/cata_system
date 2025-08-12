@@ -8,7 +8,7 @@ class SesionTagsForm(forms.Form):
 
         if tipo_escala == "estructurada":
             for i in range(longitud):
-                self.fields[f'segmento_{i}'] = forms.ModelChoiceField(queryset=Etiqueta.objects.all(), required=True, label=f"segmento {i+1}", empty_label="Selecione opcion", widget=forms.Select(attrs={
+                self.fields[f'segmento_{i+1}'] = forms.ModelChoiceField(queryset=Etiqueta.objects.all(), required=True, label=f"segmento {i+1}", empty_label="Selecione opcion", widget=forms.Select(attrs={
                     "class":"ct-select-op p-1 rounded bg-gray-200 [*]:capitalize"
                 }))
         else:
