@@ -8,7 +8,6 @@ def newTag(req:HttpRequest):
     if req.method == "GET":
         return error()
     elif req.method == "POST":
-        print("Entre al api post tag")
         try:
             form = EtiquetaForm(req.POST)
             if form.is_valid():
@@ -19,8 +18,6 @@ def newTag(req:HttpRequest):
                 return error()
         except KeyError:
             return error()
-        
-        # return JsonResponse({"message": "etiqueta registrada", "new_tag": { "valor": value_etiqueta, "id":6 }})
 
         try:
             new_etiqueta = Etiqueta.objects.create(valor_etiqueta=value_etiqueta)
