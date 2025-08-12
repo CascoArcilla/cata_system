@@ -10,3 +10,4 @@ from .configuration_panel_codes import configurationsPanelCodes
 from .api_tag import newTag
 from .catador_create import crearCatador
 from .catador_search import searchCatador
+from .api_words import words

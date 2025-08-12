@@ -1,5 +1,5 @@
 """
-ASGI config for cataSystem project.
+ASGI config for cata_system project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cataSystem.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cata_system.settings')
 
 application = get_asgi_application()

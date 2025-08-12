@@ -17,4 +17,5 @@ urlpatterns = [
     path("nueva-etiqueta", views.newTag, name="nueva_etiqueta"),
     path("crear-catador", views.crearCatador, name="crear_catador"),
     path("buscar-catador", views.searchCatador, name="buscar_catador"),
+    path("api/palabras", views.words, name="api_palabras"),
 ]

@@ -1,0 +1,1 @@
+from .test_words import TestsApiWords
