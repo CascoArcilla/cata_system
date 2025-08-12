@@ -52,3 +52,50 @@ class TestsApiWords(TestCase):
         data = res_json["data"]
         self.assertEqual(data["id"], expected_data["id"])
         self.assertEqual(data["name"], expected_data["nombre_palabra"])
+
+    def test_post_word_success(self):
+        word_name = "dulce"
+        expected_message = "palabra creada"
+
+        response = self.client.post(
+            reverse("cata_system:api_palabras"),
+            data={"nombre_palabra": word_name}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        res_json = response.json()
+
+        self.assertIn("message", res_json)
+        self.assertEqual(res_json["message"], expected_message)
+
+        data = res_json["data"]
+        self.assertIn("id", data)
+        self.assertIn("nombre_palabra", data)
+        self.assertEqual(data["nombre_palabra"], word_name)
+
+    def test_post_word_fail(self):
+        word_name = "salado"
+        expected_error = "palabra repetida"
+
+        response = self.client.post(
+            reverse("cata_system:api_palabras"),
+            data={"nombre_palabra": word_name}
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+        res_json = response.json()
+        self.assertIn("error", res_json)
+        self.assertEqual(res_json["error"], expected_error)
+    
+    def test_post_word_no_parameter(self):
+        expected_error = "parametros no encontrados"
+
+        response = self.client.post(reverse("cata_system:api_palabras"))
+
+        self.assertEqual(response.status_code, 200)
+
+        res_json = response.json()
+        self.assertIn("error", res_json)
+        self.assertEqual(res_json["error"], expected_error)

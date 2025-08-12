@@ -1,6 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.db import IntegrityError
 from ..models import Palabra
+from ..utils import general_error
 
 
 def words(req: HttpRequest):
@@ -9,9 +10,9 @@ def words(req: HttpRequest):
             word_name = req.GET["palabra"]
             fund_word = Palabra.objects.get(nombre_palabra=word_name)
         except KeyError:
-            return error()
+            return general_error("parametros no encontrados")
         except Palabra.DoesNotExist:
-            return error("palabra no encontrada")
+            return general_error("palabra no encontrada")
 
         response = {
             "message": "dato localizado",
@@ -27,9 +28,9 @@ def words(req: HttpRequest):
             word_name = req.POST["nombre_palabra"]
             new_word = Palabra.objects.create(nombre_palabra=word_name)
         except KeyError:
-            return error()
+            return general_error("parametros no encontrados")
         except IntegrityError:
-            return error("palabra repetida")
+            return general_error("palabra repetida")
 
         response = {
             "message": "palabra creada",
@@ -37,8 +38,3 @@ def words(req: HttpRequest):
         }
 
         return JsonResponse(response)
-
-
-def error(message="parametros no encontrados"):
-    respuesta = {"error": message}
-    return JsonResponse(respuesta)

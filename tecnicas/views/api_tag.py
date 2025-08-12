@@ -2,11 +2,12 @@ from django.http import HttpRequest, JsonResponse
 from django.db import IntegrityError
 from ..models import Etiqueta
 from ..forms import EtiquetaForm
-import json
+from ..utils import general_error
 
-def newTag(req:HttpRequest):
+
+def newTag(req: HttpRequest):
     if req.method == "GET":
-        return error()
+        return general_error()
     elif req.method == "POST":
         try:
             form = EtiquetaForm(req.POST)
@@ -15,15 +16,16 @@ def newTag(req:HttpRequest):
                 value_etiqueta = value_etiqueta.strip()
                 value_etiqueta = value_etiqueta.lower()
             else:
-                return error()
+                return general_error()
         except KeyError:
-            return error()
+            return general_error()
 
         try:
-            new_etiqueta = Etiqueta.objects.create(valor_etiqueta=value_etiqueta)
+            new_etiqueta = Etiqueta.objects.create(
+                valor_etiqueta=value_etiqueta)
         except IntegrityError:
-            return error("etiqueta repetida")
-        
+            return general_error("etiqueta repetida")
+
         return JsonResponse({
             "message": "etiqueta registrada",
             "new_tag": {
@@ -31,7 +33,3 @@ def newTag(req:HttpRequest):
                 "valor": new_etiqueta.valor_etiqueta
             }
         })
-
-def error(message="informacion incorrecta"):
-    respuesta = { "error" : message }
-    return JsonResponse(respuesta)
