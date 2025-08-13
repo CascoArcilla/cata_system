@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from ..forms import CatadorForm
 from ..models import Catador
 
-def searchCatador(req : HttpRequest):
+def testerSearch(req : HttpRequest):
     if req.method == "GET":
         context = {}
 
@@ -18,8 +18,8 @@ def searchCatador(req : HttpRequest):
             return render(req, "tecnicas/manage_tester/catador-buscar.html")
         
         try:
-            catador = Catador.objects.get(usuarioCatador=user)
-            context["form_catador"] = CatadorForm(instance=catador)
+            tester = Catador.objects.get(usuarioCatador=user)
+            context["form_catador"] = CatadorForm(instance=tester)
         except Catador.DoesNotExist:
             context["error"] = "usuario no encontrado"
 
@@ -28,19 +28,19 @@ def searchCatador(req : HttpRequest):
         context = {}
 
         try:
-            infoCata = req.POST
+            infoTester = req.POST
         except:
-            infoCata = False
+            infoTester = False
 
         nameUser = req.POST["usuarioCatador"]
 
-        if not infoCata:
+        if not infoTester:
             context["error"] = "ha ocurrido un error en recueperar los datos"
             return render(req, "tecnicas/manage_tester/catador-buscar.html", context)
         
         user = get_object_or_404(Catador, usuarioCatador=nameUser)
         
-        modelForm = CatadorForm(infoCata, instance=user)
+        modelForm = CatadorForm(infoTester, instance=user)
 
         try:
             if not modelForm.is_valid():

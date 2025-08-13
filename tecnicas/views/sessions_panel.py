@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 
-def sesionesPanel(req):
+def sesionsPanel(req):
     elementos = []
 
     for i in range(6):

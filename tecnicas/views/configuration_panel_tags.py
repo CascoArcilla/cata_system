@@ -4,18 +4,18 @@ from django.urls import reverse
 from ..forms import SesionTagsForm, EtiquetaForm
 from ..models import TipoEscala
 
-def configuracionPanelTags(req: HttpRequest):
+def configurationPanelTags(req: HttpRequest):
     basic_data = req.session.get("form_basic", {})
 
     if not basic_data:
         return redirect(reverse('cata_system:panel_configuracion_basic'))
     
-    tipo_escala = TipoEscala.objects.get(pk=basic_data["tipo_escala"])
+    type_scale = TipoEscala.objects.get(pk=basic_data["tipo_escala"])
     tamano_escala = basic_data["tamano_escala"]
     form_new_etiqueta = EtiquetaForm()
 
     if req.method == "GET":
-        form_etiqutas = SesionTagsForm(longitud=tamano_escala, tipo_escala=tipo_escala.nombre_escala)
+        form_etiqutas = SesionTagsForm(longitud=tamano_escala, tipo_escala=type_scale.nombre_escala)
 
         context_tags = {
             "form_tags":form_etiqutas,
@@ -25,7 +25,7 @@ def configuracionPanelTags(req: HttpRequest):
         return render(req, "tecnicas/create_sesion/configuracion-panel-tags.html", context_tags)
     elif req.method == "POST":
         values = {}
-        form = SesionTagsForm(req.POST, longitud=tamano_escala, tipo_escala=tipo_escala.nombre_escala)
+        form = SesionTagsForm(req.POST, longitud=tamano_escala, tipo_escala=type_scale.nombre_escala)
 
         context_tags = {
             "form_tags":form,

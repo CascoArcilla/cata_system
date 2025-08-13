@@ -6,7 +6,7 @@ from ..forms import PalabrasForm
 import json
 
 
-def configurationsPanelCodes(req: HttpRequest):
+def configurationPanelCodes(req: HttpRequest):
     data_basic = req.session["form_basic"]
     data_tags = req.session["form_tags"]
 
@@ -15,7 +15,7 @@ def configurationsPanelCodes(req: HttpRequest):
                  "?error=datos del formulario requerido no encontrados")
 
     num_products = data_basic["numero_productos"]
-    num_cata = data_basic["numero_catadores"]
+    num_tester = data_basic["numero_catadores"]
 
     if req.method == "GET":
         codes_products = generarCodigos(num_products)
@@ -24,7 +24,7 @@ def configurationsPanelCodes(req: HttpRequest):
 
         context_worlds_form = {
             "form_worlds": form_worlds,
-            "num_cata": num_cata
+            "num_tester": num_tester
         }
 
         return render(req, "tecnicas/create_sesion/configuracion-panel-codes.html", context_worlds_form)
@@ -41,7 +41,7 @@ def configurationsPanelCodes(req: HttpRequest):
 
         context_worlds_form = {
             "form_worlds": form_worlds,
-            "num_cata": num_cata,
+            "num_tester": num_tester,
         }
 
         if form_worlds.is_valid():

@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from ..utils import general_error
 
-def configuracionPanelWords(req: HttpRequest):
+def configurationPanelWords(req: HttpRequest):
     if req.method == "GET":
         return general_error("This endpoint is not implemented yet.")
     else:

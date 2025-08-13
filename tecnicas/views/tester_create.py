@@ -3,24 +3,25 @@ from django.forms import ValidationError
 from django.shortcuts import render
 from ..forms import CatadorForm
 
-def crearCatador(req : HttpRequest):
+
+def testerCreate(req: HttpRequest):
     if req.method == "GET":
-        formCatador =  CatadorForm()
+        formCatador = CatadorForm()
 
         context = {
             "form_cata": formCatador
         }
-    
+
         return render(req, "tecnicas/manage_tester/catador-crear.html", context)
     elif req.method == "POST":
-        formCatadorValues = CatadorForm(req.POST)
+        formTesterValues = CatadorForm(req.POST)
         context = {
-            "form_cata": formCatadorValues
+            "form_cata": formTesterValues
         }
 
-        if formCatadorValues.is_valid():
+        if formTesterValues.is_valid():
             try:
-                formCatadorValues.save()
+                formTesterValues.save()
                 context["message"] = "datos guardados"
                 context["form_cata"] = CatadorForm()
             except ValidationError:

@@ -2,12 +2,12 @@ from .autentication import autentication
 from .login_catador import catadorLogin
 from .main_panel import mainPanel
 from .management_catadores import managementCatadores
-from .panel_sessions import sesionesPanel
+from .sessions_panel import sesionsPanel
 from .seleccion_tecnica import selecionTecnica
-from .configuration_panel_basic import configuracionPanelBasic
+from .configuration_panel_basic import configurationPanelBasic
 from .configuration_panel_tags import configuracionPanelTags
-from .configuration_panel_codes import configurationsPanelCodes
+from .configuration_panel_codes import configurationPanelCodes
 from .api_tag import newTag
-from .catador_create import crearCatador
-from .catador_search import searchCatador
+from .tester_create import testerCreate
+from .tester_search import testerSearch
 from .api_words import words

@@ -4,7 +4,7 @@ from django.urls import reverse
 from ..forms import SesionBasicForm
 from ..models import TipoTecnica
 
-def configuracionPanelBasic(req: HttpRequest):
+def configurationPanelBasic(req: HttpRequest):
     if req.method == "POST":
         try:
             form = SesionBasicForm(req.POST)

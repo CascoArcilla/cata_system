@@ -12,9 +12,9 @@ def newTag(req: HttpRequest):
         try:
             form = EtiquetaForm(req.POST)
             if form.is_valid():
-                value_etiqueta = form.cleaned_data["nueva_etiqueta"]
-                value_etiqueta = value_etiqueta.strip()
-                value_etiqueta = value_etiqueta.lower()
+                value_tag = form.cleaned_data["nueva_etiqueta"]
+                value_tag = value_tag.strip()
+                value_tag = value_tag.lower()
             else:
                 return general_error()
         except KeyError:
@@ -22,7 +22,7 @@ def newTag(req: HttpRequest):
 
         try:
             new_etiqueta = Etiqueta.objects.create(
-                valor_etiqueta=value_etiqueta)
+                valor_etiqueta=value_tag)
         except IntegrityError:
             return general_error("etiqueta repetida")
 
