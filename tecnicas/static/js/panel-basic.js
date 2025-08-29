@@ -56,6 +56,6 @@ function showDescriptionStyle(label) {
 function showDescriptionTamanoScale(label) {
   const text = label.textContent.trim();
   let parent = inputTamano.parentElement;
-  parent.getElementsByTagName("p").textContent = descriptons[text][0];
+  parent.getElementsByTagName("p")[0].textContent = descriptons[text][0];
   inputTamano.placeholder = descriptons[text][1];
 }
