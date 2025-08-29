@@ -1,0 +1,62 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Panel Configuracion{% endblock %}
+
+{% block content %}
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
+    <section class="w-fit h-fit relative">
+        <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+            <ul class="all-words hidden">
+                {% for word in words %}
+                <li class="word">
+                    <p>{{ word.nombre_palabra }}</p>
+                    <p>{{ word.id }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+            <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
+            <hr>
+            {% if error %}
+            <p class="bg-red-400 font-bold text-lg tracking-wide text-white capitalize text-center py-2">
+                {{ error }}
+            </p>
+            {% endif %}
+
+            <article class="flex flex-col md:flex-row gap-5 justify-between items-center">
+                <section class="flex-1/3 bg-gray-600 text-white p-4 rounded-lg text-center">
+                    <p>Soy una palabra</p>
+                </section>
+                <section class="flex-2/3 w-full">
+                    <form action="" method="get" class="h-full w-full">
+                        {% csrf_token %}
+                        <label for="search">
+                            <input type="text" name="search" id="search" placeholder="Buscar palabra"
+                                class="p-2 px-4 bg-gray-200 rounded-lg w-full text-lg">
+                        </label>
+                    </form>
+                </section>
+            </article>
+
+
+            <form action="" method="post" class="flex flex-col gap-5">
+                {% csrf_token %}
+                <article class="p-4 flex flex-col items-center gap-2 rounded">
+                    <h2 class="text-2xl mb-2 text-center font-bold">Estilo Atributos<br>Seleccion de palabras</h2>
+                    <div class="ct-words-select flex flex-row flex-wrap justify-center items-center gap-5 text-lg">
+                    </div>
+                    <hr>
+                    <button type="button"
+                        class="ct-gen-or text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit capitalize">
+                        Agregar otra palabra
+                    </button>
+                </article>
+            </form>
+        </article>
+    </section>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/panel-words.js' %}"></script>
+{% endblock %}

@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from ..utils import generarCodigos
-from ..forms import PalabrasForm
+from ..forms import CodesForm
 import json
 
 
@@ -20,7 +20,7 @@ def configurationPanelCodes(req: HttpRequest):
     if req.method == "GET":
         codes_products = generarCodigos(num_products)
 
-        form_worlds = PalabrasForm(codes=codes_products)
+        form_worlds = CodesForm(codes=codes_products)
 
         context_worlds_form = {
             "form_worlds": form_worlds,
@@ -37,7 +37,7 @@ def configurationPanelCodes(req: HttpRequest):
             if name.__contains__("producto_"):
                 codes.append(value)
 
-        form_worlds = PalabrasForm(req.POST, codes=codes)
+        form_worlds = CodesForm(req.POST, codes=codes)
 
         context_worlds_form = {
             "form_worlds": form_worlds,
@@ -51,9 +51,8 @@ def configurationPanelCodes(req: HttpRequest):
                 codes_sort["product_codes"].append({name: value})
 
             codes_sort["sort_codes"] = sorts_code
-
             req.session["form_codes"] = codes_sort
-            print("Todo ok")
+            return redirect(reverse("cata_system:panel_configuracion_words"))
         else:
             context_worlds_form["error"] = "error en los datos recibidos"
 

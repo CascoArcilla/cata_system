@@ -1,8 +1,11 @@
 from django.http import HttpRequest
-from ..utils import general_error
+from django.shortcuts import render
+from ..models.palabra import Palabra
 
 def configurationPanelWords(req: HttpRequest):
     if req.method == "GET":
-        return general_error("This endpoint is not implemented yet.")
-    else:
-        return general_error("Method not allowed.")
+        allWords =  Palabra.objects.all()
+        context = {
+            "words": allWords
+        }
+        return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)

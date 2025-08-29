@@ -5,8 +5,9 @@ from .management_catadores import managementCatadores
 from .sessions_panel import sesionsPanel
 from .seleccion_tecnica import selecionTecnica
 from .configuration_panel_basic import configurationPanelBasic
-from .configuration_panel_tags import configuracionPanelTags
+from .configuration_panel_tags import configurationPanelTags
 from .configuration_panel_codes import configurationPanelCodes
+from .configuration_panel_words import configurationPanelWords
 from .api_tag import newTag
 from .tester_create import testerCreate
 from .tester_search import testerSearch
