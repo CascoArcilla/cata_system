@@ -7,9 +7,9 @@ class TestsApiWords(TestCase):
     def setUp(self):
         Palabra.objects.create(nombre_palabra="salado")
 
-    def test_get_word_fail(self):
+    def test_get_words_fail(self):
         word_name = "dulce"
-        expected_error = "palabra no encontrada"
+        expected_error = "no existen palabras"
 
         response = self.client.get(
             reverse("cata_system:api_palabras")+f"?palabra={word_name}"
@@ -21,7 +21,7 @@ class TestsApiWords(TestCase):
         self.assertIn("error", res_json)
         self.assertEqual(res_json["error"], expected_error)
 
-    def test_get_word_no_parameter(self):
+    def test_get_words_no_parameter(self):
         expected_error = "parametros no encontrados"
 
         response = self.client.get(reverse("cata_system:api_palabras"))
@@ -32,11 +32,11 @@ class TestsApiWords(TestCase):
         self.assertIn("error", res_json)
         self.assertEqual(res_json["error"], expected_error)
 
-    def test_get_word_success(self):
-        word_name = "salado"
-        expected_message = "dato localizado"
+    def test_get_words_success(self):
+        word_name = "sal"
+        expected_message = "datos localizados"
 
-        expected_data = Palabra.objects.get(nombre_palabra=word_name).to_dict()
+        expected_data = Palabra.objects.filter(nombre_palabra__contains=word_name)
 
         response = self.client.get(
             reverse("cata_system:api_palabras")+f"?palabra={word_name}"
@@ -50,8 +50,7 @@ class TestsApiWords(TestCase):
         self.assertEqual(res_json["message"], expected_message)
 
         data = res_json["data"]
-        self.assertEqual(data["id"], expected_data["id"])
-        self.assertEqual(data["name"], expected_data["nombre_palabra"])
+        self.assertEqual(len(data), len(expected_data))
 
     def test_post_word_success(self):
         word_name = "dulce"

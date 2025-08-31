@@ -8,18 +8,19 @@ def words(req: HttpRequest):
     if req.method == "GET":
         try:
             word_name = req.GET["palabra"]
-            fund_word = Palabra.objects.get(nombre_palabra=word_name)
+            fund_words = Palabra.objects.filter(
+                nombre_palabra__contains=word_name)
         except KeyError:
             return general_error("parametros no encontrados")
-        except Palabra.DoesNotExist:
-            return general_error("palabra no encontrada")
+        
+        if not fund_words:
+            return general_error("no existen palabras")
+
+        response_words = [word.to_dict() for word in fund_words]
 
         response = {
-            "message": "dato localizado",
-            "data": {
-                "id": fund_word.id,
-                "name": fund_word.nombre_palabra,
-            }
+            "message": "datos localizados",
+            "data": response_words
         }
 
         return JsonResponse(response)
