@@ -1,3 +1,6 @@
+// **************************************
+// Logic for get to words and render UI
+// **************************************
 const imgList = document.querySelector(".ct-img-list");
 
 const listWordsSelect = [];
@@ -131,14 +134,10 @@ function showWordsFound(words) {
 
 function addWordToUse(word) {
   if (listWordsSelect.find((w) => w.id === word.id)) {
-    const noti = document.querySelector(".ct-notification-red");
-    noti.textContent = `La palabra "${word.nombre_palabra}" ya fue seleccionada`;
-    noti.classList.remove("hidden");
+    spanNotificationRed(
+      `La palabra "${word.nombre_palabra}" ya fue seleccionada`
+    );
 
-    setTimeout(() => {
-      noti.classList.add("hidden");
-    }, 1800);
-    
     return;
   }
 
@@ -146,7 +145,25 @@ function addWordToUse(word) {
   updatelistWordsSelect();
 }
 
-function spanNotificationRed(params) {}
+function spanNotificationRed(errorMessage) {
+  const noti = document.querySelector(".ct-notification-red");
+  noti.textContent = errorMessage;
+  noti.classList.remove("hidden");
+
+  setTimeout(() => {
+    noti.classList.add("hidden");
+  }, 2500);
+}
+
+function spanNotificationGreen(message) {
+  const noti = document.querySelector(".ct-notification-green");
+  noti.textContent = message;
+  noti.classList.remove("hidden");
+
+  setTimeout(() => {
+    noti.classList.add("hidden");
+  }, 3000);
+}
 
 function removeWordToUse(word) {
   const index = listWordsSelect.findIndex((w) => w.id === word.id);
@@ -172,72 +189,45 @@ function updatelistWordsSelect() {
   }
 }
 
-/*const selectWordsContainer = document.querySelector(".ct-words-select");
-const tagsWords = document.querySelectorAll(".word");
-let numberWords = 3;
-const allWords = [];
+// **************************************
+// Logic for post new Word
+// **************************************
+const formNewWord = document.querySelector(".ct-form-new-word");
+formNewWord.addEventListener("submit", postNewWord);
 
-for (let i = 0; i < tagsWords.length; i++) {
-  let atributes = tagsWords.item(i).children;
-  allWords.push({
-    id: atributes[1].innerText,
-    name: atributes[0].innerText,
-    selected: false,
-  });
-}
+async function postNewWord(e) {
+  e.preventDefault();
 
-for (let i = 1; i <= numberWords; i++) {
-  const select = creadSelect(i);
-  selectWordsContainer.appendChild(select);
-}
+  const dataForm = new FormData(this);
+  const url = "api/palabras";
 
-function creadSelect(index) {
-  const label = document.createElement("label");
-  label.attributes["form"] = `palabra-${index}`;
-  label.classList.add(
-    "font-medium",
-    "py-2",
-    "px-3",
-    "bg-gray-200",
-    "capitalize",
-    "rounded",
-    "text-center"
+  dataForm.set(
+    "nombre_palabra",
+    dataForm.get("nombre_palabra").trim().toLowerCase()
   );
 
-  const p = document.createElement("p");
-  p.innerText = `Palabra ${index}`;
+  try {
+    const respone = await fetch(url, {
+      method: "POST",
+      headers: {
+        "X-CSRFToken": dataForm.get("csrfmiddlewaretoken"),
+      },
+      body: dataForm,
+    });
 
-  const select = document.createElement("select");
-  select.attributes["id"] = `palabra-${index}`;
-  select.name = `palabra-${index}`;
-  select.required = true;
-  select.classList.add(
-    "ct-select-op",
-    "p-1",
-    "rounded",
-    "bg-gray-500",
-    "[*]:capitalize",
-    "[*]:text-white"
-  );
+    const jsonResponse = await respone.json();
 
-  const emtpyOption = document.createElement("option");
-  emtpyOption.value = "";
-  emtpyOption.innerText = "Seleccione palabra";
-  emtpyOption.attributes["selected"] = true;
-  emtpyOption.attributes["disabled"] = true;
+    if (jsonResponse.error) {
+      spanNotificationRed(`Error: ${jsonResponse.error}`);
+      return;
+    }
 
-  select.appendChild(emtpyOption);
+    const word = jsonResponse["data"];
+    addWordToUse(word);
+    spanNotificationGreen(jsonResponse["message"]);
 
-  allWords.forEach((dataWord, i) => {
-    const option = document.createElement("option");
-    option.value = dataWord.id;
-    option.innerText = dataWord.name;
-    select.appendChild(option);
-  });
-
-  label.appendChild(p);
-  label.appendChild(select);
-
-  return label;
+    formNewWord.reset();
+  } catch (error) {
+    spanNotificationRed(`Error: ${error}`);
+  }
 }
-*/

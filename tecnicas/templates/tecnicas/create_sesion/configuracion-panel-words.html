@@ -27,6 +27,9 @@
                 <section class="flex-3/5 flex flex-col gap-4">
                     <form action="" method="get" class="ct-serach-words">
                         {% csrf_token %}
+                        <p class="text-lg font-bold text-center mb-2 bg-gray-600 p-2 rounded text-white">
+                            Dejar en blaco para buscar las primeras 10 palabras
+                        </p>
                         <section class="flex flex-row gap-2">
                             <label for="search" class="w-full">
                                 <input type="text" name="search" id="search" placeholder="Buscar palabra"
@@ -56,8 +59,32 @@
                 </section>
             </article>
 
+            <article class="ct-new-tags bg-gray-600 p-5 flex justify-center items-center rounded-2xl">
+                <form method="post" action="" class="ct-form-new-word p-3">
+                    {% csrf_token %}
+                    <p class="mb-4 text-2xl font-bold text-center text-white">¿No encuentras una palabra?</p>
+                    <label for="{{ form_word.nombre_palabra.id_for_label }}"
+                        class="font-medium text-xl text-white flex gap-3 mb-4">
+                        <p class="px-4">Nueva palabra:</p>
+                        {{ form_word.nombre_palabra }}
+                    </label>
+                    <p
+                        class="ct-error-word mb-4 font-bold bg-red-500 text-white text-md capitalize text-center rounded hidden">
+                        error</p>
+                    <hr class="text-white">
+                    <article class="flex justify-center gap-8 mt-4 text-white font-medium tracking-wide">
+                        <button class="rounded px-3 py-1 bg-green-700 active:bg-green-600" type="submit">
+                            Crear y agregar a la lista
+                        </button>
+                    </article>
+                </form>
+            </article>
+
             <article
-                class="ct-notification-red absolute max-md:fixed bottom-0 mb-4 left-1/2 -translate-x-1/2 bg-red-600 text-white p-2 px-4 rounded-lg text-center font-medium hidden">
+                class="ct-notification-red absolute max-md:fixed bottom-0 mb-4 left-1/2 -translate-x-1/2 bg-red-600 text-white p-2 px-4 rounded-lg text-center font-medium hidden uppercase">
+            </article>
+            <article
+                class="ct-notification-green absolute max-md:fixed bottom-0 mb-4 left-1/2 -translate-x-1/2 bg-green-600 text-white p-2 px-4 rounded-lg text-center font-medium hidden uppercase">
             </article>
         </article>
     </section>
