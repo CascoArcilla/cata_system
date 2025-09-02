@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from ..models.palabra import Palabra
-from ..forms.word_form import WordForm
+from ..forms import WordForm
 
 import json
 
@@ -25,27 +25,18 @@ def configurationPanelWords(req: HttpRequest):
             return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)
 
         words = json.loads(req.POST.get("words"))
-
         context["words"] = words
+        
+        ids_words = [word["id"] for word in words]
 
-        print(words)
+        if len(ids_words) != len(set(ids_words)):
+            context["error"] = "existen palabras duplicadas"
+            return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)
+        
+        exist_words = Palabra.objects.filter(id__in=ids_words).count() == len(ids_words)
 
-        # form = WordForm(req.POST)
-        # all_words = Palabra.objects.all()
-        # context = {
-        #     "words": all_words,
-        #     "form_word": form
-        # }
-
-        # if form.is_valid():
-        #     new_word = form.cleaned_data.get("nombre_palabra")
-        #     if not Palabra.objects.filter(nombre_palabra__iexact=new_word).exists():
-        #         Palabra.objects.create(nombre_palabra=new_word)
-        #         context["form_word"] = WordForm()
-        #         context["words"] = Palabra.objects.all()
-        #     else:
-        #         context["error"] = "La palabra ya existe"
-        # else:
-        #     context["error"] = "Error en los datos recibidos"
+        if not exist_words:
+            context["error"] = "algunas palabras no existen"
+            return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)
 
         return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)

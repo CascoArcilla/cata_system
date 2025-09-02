@@ -239,9 +239,9 @@ async function postNewWord(e) {
 // Create Session
 // **************************************
 const formCreateSession = document.querySelector(".ct-creat-session");
-formCreateSession.addEventListener("submit", createSession);
+formCreateSession.addEventListener("submit", submitSelectWords);
 
-async function createSession(e) {
+async function submitSelectWords(e) {
   e.preventDefault();
 
   if (listWordsSelect.length === 0) {
