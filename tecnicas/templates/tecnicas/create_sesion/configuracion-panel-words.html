@@ -7,14 +7,6 @@
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
     <section class="w-fit h-fit relative">
         <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
-            <ul class="all-words hidden">
-                {% for word in words %}
-                <li class="word">
-                    <p>{{ word.nombre_palabra }}</p>
-                    <p>{{ word.id }}</p>
-                </li>
-                {% endfor %}
-            </ul>
             <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
             <hr>
             {% if error %}
@@ -36,7 +28,7 @@
                                     class="p-2 px-4 bg-gray-200 rounded-lg w-full text-lg font-medium">
                             </label>
                             <button type="submit"
-                                class="text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 text-white w-fit capitalize">
+                                class="text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit capitalize">
                                 Buscar
                             </button>
                         </section>
@@ -44,17 +36,27 @@
                     <p
                         class="ct-error-words hidden capitalize text-white bg-red-600 text-center text-2xl p-1.5 rounded">
                         error</p>
-                    <ul class="ct-palabras-encontradas  gap-2 grid-cols-2 max-h-96 overflow-y-auto">
-                        <object type="image/svg" class="flex justify-center items-center h-full">
-                            <img src="{% static 'img/lupa.svg' %}" alt="lupa de busqueda" class="h-full">
-                        </object>
+                    <ul class="ct-palabras-encontradas gap-2 grid-cols-2 max-h-96 overflow-y-auto">
+                        <div class="flex justify-center items-center">
+                            <img src="{% static 'img/lupa.svg' %}" alt="lupa de busqueda" style="width: 50%;">
+                        </div>
                     </ul>
                 </section>
                 <section class="flex-1/3 bg-gray-600 text-white p-4 rounded-lg text-center min-h-96">
                     <p class="text-xl font-bold pb-3">Lista de palabras</p>
                     <hr class="mb-3 text-white">
                     <ul class="ct-palabras-usadas flex flex-col gap-3">
+                        {% if not words %}
                         <img src="{% static 'img/list.svg' %}" alt="lista de palabras" class="ct-img-list">
+                        {% endif %}
+                        {% for word in words %}
+                        <li
+                            class="bg-gray-400 text-black rounded font-bold text-lg px-4 py-3 flex flex-wrap flex-row flex-1 min-w-fit justify-center items-center gap-3">
+                            <p class="ct-word-received" id="{{ word.id }}">{{ word.nombre_palabra }}</p>
+                            <button
+                                class="px-4 border-b-2 active:border-b-0 active:border-t-2 transition-all rounded-xl font-black w-fit capitalize active:border-red-500 border-red-800 bg-red-500">➖</button>
+                        </li>
+                        {% endfor %}
                     </ul>
                 </section>
             </article>
@@ -62,21 +64,36 @@
             <article class="ct-new-tags bg-gray-600 p-5 flex justify-center items-center rounded-2xl">
                 <form method="post" action="" class="ct-form-new-word p-3">
                     {% csrf_token %}
-                    <p class="mb-4 text-2xl font-bold text-center text-white">¿No encuentras una palabra?</p>
+                    <p class="mb-4 text-2xl min-md:text-xl font-bold text-center text-white">
+                        ¿No encuentras una palabra?
+                    </p>
                     <label for="{{ form_word.nombre_palabra.id_for_label }}"
-                        class="font-medium text-xl text-white flex gap-3 mb-4">
+                        class="font-medium text-xl text-white flex flex-wrap justify-center items-center gap-3 mb-4">
                         <p class="px-4">Nueva palabra:</p>
                         {{ form_word.nombre_palabra }}
                     </label>
                     <p
                         class="ct-error-word mb-4 font-bold bg-red-500 text-white text-md capitalize text-center rounded hidden">
-                        error</p>
+                        error
+                    </p>
                     <hr class="text-white">
                     <article class="flex justify-center gap-8 mt-4 text-white font-medium tracking-wide">
-                        <button class="rounded px-3 py-1 bg-green-700 active:bg-green-600" type="submit">
+                        <button
+                            class="text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white w-fit"
+                            type="submit">
                             Crear y agregar a la lista
                         </button>
                     </article>
+                </form>
+            </article>
+
+            <article>
+                <form action="" method="post" class="ct-creat-session flex justify-center mt-4">
+                    {% csrf_token %}
+                    <button type="submit" name="start"
+                        class="text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 text-white w-fit capitalize">
+                        Iniciar sesión
+                    </button>
                 </form>
             </article>
 

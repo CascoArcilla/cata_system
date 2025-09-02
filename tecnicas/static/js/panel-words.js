@@ -14,6 +14,8 @@ const foundWordsContainer = document.getElementsByClassName(
 const formSearch = document.getElementsByClassName("ct-serach-words")[0];
 formSearch.addEventListener("submit", getWordsByName);
 
+checInitWords();
+
 async function getWordsByName(e) {
   e.preventDefault();
   errorp.classList.add("hidden");
@@ -175,6 +177,7 @@ function removeWordToUse(word) {
 
 function updatelistWordsSelect() {
   wordsSelectContainer.innerHTML = "";
+
   listWordsSelect.forEach((word) => {
     const elemtnLi = createWordElement({
       word: word,
@@ -230,4 +233,40 @@ async function postNewWord(e) {
   } catch (error) {
     spanNotificationRed(`Error: ${error}`);
   }
+}
+
+// **************************************
+// Create Session
+// **************************************
+const formCreateSession = document.querySelector(".ct-creat-session");
+formCreateSession.addEventListener("submit", createSession);
+
+async function createSession(e) {
+  e.preventDefault();
+
+  if (listWordsSelect.length === 0) {
+    spanNotificationRed("Debe seleccionar al menos una palabra");
+    return;
+  }
+
+  const wordsInput = document.createElement("input");
+  wordsInput.type = "hidden";
+  wordsInput.name = "words";
+  wordsInput.value = JSON.stringify(listWordsSelect);
+  this.appendChild(wordsInput);
+
+  this.submit();
+}
+
+function checInitWords() {
+  const wordsSends = document.getElementsByClassName("ct-word-received");
+
+  for (let i = 0; i < wordsSends.length; i++) {
+    const id = parseInt(wordsSends.item(i).id);
+    const name = wordsSends.item(i).textContent;
+    const newWord = { id: id, nombre_palabra: name };
+    listWordsSelect.push(newWord);
+  }
+
+  updatelistWordsSelect();
 }

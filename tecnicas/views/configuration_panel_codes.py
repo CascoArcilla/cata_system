@@ -7,12 +7,12 @@ import json
 
 
 def configurationPanelCodes(req: HttpRequest):
-    data_basic = req.session["form_basic"]
-    data_tags = req.session["form_tags"]
+    if not req.session.get("form_basic") or not req.session.get("form_tags"):
+        req.session.flush()
+        return redirect(reverse("cata_system:seleccion_tecnica") +
+                        "?error=datos del formulario requerido no encontrados")
 
-    if not data_basic or not data_tags:
-        redirect(reverse("cata_system:seleccion_tecnica") +
-                 "?error=datos del formulario requerido no encontrados")
+    data_basic = req.session["form_basic"]
 
     num_products = data_basic["numero_productos"]
     num_tester = data_basic["numero_catadores"]

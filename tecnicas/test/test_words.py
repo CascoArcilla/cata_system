@@ -116,3 +116,18 @@ class TestsApiWords(TestCase):
         res_json = response.json()
         self.assertIn("error", res_json)
         self.assertEqual(res_json["error"], expected_error)
+
+    def test_post_word_too_short(self):
+        word_name = "ab"
+        expected_error = "la palabra es muy corta"
+
+        data = {"nombre_palabra": word_name}
+
+        response = self.client.post(
+            reverse("cata_system:api_palabras"),
+            data
+        )
+
+        res_json = response.json()
+        self.assertIn("error", res_json)
+        self.assertEqual(res_json["error"], expected_error)
