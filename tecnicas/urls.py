@@ -15,6 +15,7 @@ urlpatterns = [
     path("panel-configuracion-tags", views.configurationPanelTags, name="panel_configuracion_tags"),
     path("panel-configuracion-codes", views.configurationPanelCodes, name="panel_configuracion_codes"),
     path("panel-configuracion-words", views.configurationPanelWords, name="panel_configuracion_words"),
+    path("creando-sesion", views.createSession, name="creando_sesion"),
     path("nueva-etiqueta", views.newTag, name="nueva_etiqueta"),
     path("crear-catador", views.testerCreate, name="crear_catador"),
     path("buscar-catador", views.testerSearch, name="buscar_catador"),
