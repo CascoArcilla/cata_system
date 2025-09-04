@@ -3,7 +3,7 @@ const formSubmit = document.querySelector(".ct-cretae-session-form");
 document.addEventListener("DOMContentLoaded", () => {
   setTimeout(() => {
     cretaeSession();
-  }, 1000);
+  }, 2000);
 });
 
 async function cretaeSession() {

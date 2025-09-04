@@ -23,6 +23,16 @@ class TecnicaController():
     def getDataTechnique(self):
         return self.technique.toDict()
 
+    def saveTechnique(self):
+        try:
+            self.technique.save()
+        except Exception:
+            return False
+        return self.technique
+
+    def deleteTechnique(self):
+        self.technique.delete()
+
     @staticmethod
     def getTypesTechnique():
         showTecnicas = {}

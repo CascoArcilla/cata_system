@@ -2,8 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from ..utils import general_error
-from ..controllers import TecnicaController
-from ..models import TipoTecnica, EstiloPalabra
+from ..controllers import TecnicaController, EscalaController
 
 
 def createSession(req: HttpRequest):
@@ -15,23 +14,37 @@ def createSession(req: HttpRequest):
                 req.session.flush()
                 return general_error("no se ha especificado informacion necesaria para la creacion de la sesion")
 
+            # ////////////////////////////////////////////////////// #
+            #
+            # First step: Create technique and scale with their tags #
+            #
+            # ////////////////////////////////////////////////////// #
             data_basic = req.session["form_basic"]
-            controllTechnique = TecnicaController()
-            controllTechnique.setTechniqueFromBasicData(basic=data_basic)
-            print(controllTechnique.getDataTechnique())
+            controllerTechnique = TecnicaController()
+            controllerTechnique.setTechniqueFromBasicData(basic=data_basic)
+
+            technique = controllerTechnique.saveTechnique()
+            if not technique:
+                return general_error("error al guardar la tecnica")
+
+            data_scale = {
+                "scale": data_basic["tipo_escala"],
+                "size": data_basic["tamano_escala"],
+                "technique": technique
+            }
+
+            controllerScale = EscalaController(data=data_scale)
+
+            scale = controllerScale.saveScale()
+            if not scale:
+                controllerTechnique.deleteTechnique()
+                return general_error("error al guardar la escala, datos agregados previeamante borrados")
+
+            list_tags = req.session["form_tags"]
+
+            saved_tags = controllerScale.addAndSaveTags(list_tags)
+            if not saved_tags:
+                return general_error("error al guardar asociar escalas, datos agregados previeamante borrados")
 
             return JsonResponse({"message": "sesion creada", "data": {"session_id": "asd548ad4a"}})
         return general_error("ha orcurrido un error inesperado")
-
-
-{
-    'id_tecnica': 1,
-    'nombre_sesion': '',
-    'numero_productos': 3,
-    'numero_catadores': 3,
-    'numero_repeticiones': 3,
-    'estilo_palabras': 1,
-    'tipo_escala': 2,
-    'tamano_escala': 9,
-    'instrucciones': ''
-}

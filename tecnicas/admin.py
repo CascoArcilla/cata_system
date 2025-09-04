@@ -16,6 +16,9 @@ from .models import Palabra
 
 from .models import Etiqueta
 
+from .models import Escala
+from .models import EtiquetasEscala
+
 # Register your models here.
 admin.site.register(CategoriaTecnica)
 admin.site.register(TipoEscala)
@@ -31,3 +34,6 @@ admin.site.register(SesionSensorial)
 
 admin.site.register(EsAtributo)
 admin.site.register(Palabra)
+
+admin.site.register(Escala)
+admin.site.register(EtiquetasEscala)

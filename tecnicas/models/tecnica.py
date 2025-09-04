@@ -15,7 +15,7 @@ class Tecnica(models.Model):
         EstiloPalabra, on_delete=models.CASCADE, related_name="estilo_tecnica")
 
     def __str__(self):
-        return self.tipo_tecnica
+        return self.tipo_tecnica.nombre_tecnica
 
     def toDict(self):
         return {
