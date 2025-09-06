@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from ..utils import general_error
-from ..controllers import TecnicaController, EscalaController
+from ..controllers import TecnicaController, EscalaController, ProductosController
 
 
 def createSession(req: HttpRequest):
@@ -45,6 +45,25 @@ def createSession(req: HttpRequest):
             saved_tags = controllerScale.addAndSaveTags(list_tags)
             if not saved_tags:
                 return general_error("error al guardar asociar escalas, datos agregados previeamante borrados")
+
+            # ////////////////////////////////////////////////////////// #
+            #
+            # Second step: Create orders, productos and set the position #
+            #
+            # ////////////////////////////////////////////////////////// #
+            data_codes = req.session["form_codes"]
+
+            codes = []
+            for product in data_codes["product_codes"]:
+                code = next(iter(product.values()))
+                codes.append(code)
+
+            controllerProducts = ProductosController(
+                codes=codes,
+                technique=technique
+            )
+
+            raw_sort_codes = data_codes["sort_codes"]
 
             return JsonResponse({"message": "sesion creada", "data": {"session_id": "asd548ad4a"}})
         return general_error("ha orcurrido un error inesperado")

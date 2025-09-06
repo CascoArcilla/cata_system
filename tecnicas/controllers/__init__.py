@@ -1,2 +1,4 @@
 from .tecnica_controller import TecnicaController
 from .escala_controller import EscalaController
+from .productos_controller import ProductosController
+from .ordenes_controller import OrdenesController
