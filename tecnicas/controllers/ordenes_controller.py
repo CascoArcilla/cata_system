@@ -10,6 +10,7 @@ class OrdenesController():
     orders: list[Orden]
     orders_save: list[Orden]
     positions: list[Posicion]
+    savePostions: list[Posicion]
 
     def __init__(self, raw_orders: list[list[dict]], list_products: list[Producto], technique: Tecnica):
         self.products = list_products

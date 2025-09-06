@@ -38,4 +38,4 @@ class ProductosController():
             self.products_save = Producto.objects.bulk_create(self.list_product)
             return self.products_save
         except DatabaseError as error:
-            return None
+            return controller_error(error)

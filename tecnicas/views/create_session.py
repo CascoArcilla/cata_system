@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from ..utils import general_error
-from ..controllers import TecnicaController, EscalaController, ProductosController
+from ..controllers import TecnicaController, EscalaController, ProductosController, OrdenesController
 
 
 def createSession(req: HttpRequest):
@@ -63,7 +63,30 @@ def createSession(req: HttpRequest):
                 technique=technique
             )
 
+            controllerProducts.setProductsNoSave()
+            saved_prodcuts = controllerProducts.saveProducts()
+            if saved_prodcuts["error"]:
+                return general_error(saved_tags["error"])
+
             raw_sort_codes = data_codes["sort_codes"]
+            controllerOrdes = OrdenesController(
+                raw_orders=raw_sort_codes,
+                list_products=saved_prodcuts,
+                technique=technique
+            )
+
+            controllerOrdes.setOrders()
+            saved_orders = controllerOrdes.saveOrders()
+            if saved_orders["error"]:
+                return general_error(saved_orders["error"])
+            
+            seded_positions = controllerOrdes.setPositions()
+            if seded_positions["error"]:
+                return general_error(seded_positions["error"])
+            
+            saved_postions = controllerOrdes.savePostions()
+            if saved_prodcuts["error"]:
+                return general_error(saved_prodcuts["error"])
 
             return JsonResponse({"message": "sesion creada", "data": {"session_id": "asd548ad4a"}})
         return general_error("ha orcurrido un error inesperado")
