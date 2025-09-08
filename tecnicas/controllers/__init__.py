@@ -2,3 +2,6 @@ from .tecnica_controller import TecnicaController
 from .escala_controller import EscalaController
 from .productos_controller import ProductosController
 from .ordenes_controller import OrdenesController
+from .palabras_controller import PalabrasController
+from .estilo_palabras_controller import EstiloPalabrasController
+from .palabras_controller import PalabrasController

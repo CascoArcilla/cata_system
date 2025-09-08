@@ -10,7 +10,7 @@ class SesionSensorial(models.Model):
     fechaCreacion = models.DateTimeField("date published")
     activo = models.BooleanField(default=False)
     creadoPor = models.ForeignKey(Presentador, on_delete=models.CASCADE, related_name="presentador_sesion")
-    tecnica = models.ForeignKey(Tecnica, on_delete=models.CASCADE, related_name="sesion_tecnica")
+    tecnica = models.OneToOneField(Tecnica, on_delete=models.CASCADE, related_name="sesion_tecnica")
 
     def __str__(self):
         return self.codigo_sesion

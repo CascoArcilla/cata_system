@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from ..utils import general_error
-from ..controllers import TecnicaController, EscalaController, ProductosController, OrdenesController
+from ..controllers import TecnicaController, EscalaController, ProductosController, OrdenesController, EstiloPalabrasController, PalabrasController
 
 
 def createSession(req: HttpRequest):
@@ -79,14 +79,37 @@ def createSession(req: HttpRequest):
             saved_orders = controllerOrdes.saveOrders()
             if saved_orders["error"]:
                 return general_error(saved_orders["error"])
-            
+
             seded_positions = controllerOrdes.setPositions()
             if seded_positions["error"]:
                 return general_error(seded_positions["error"])
-            
+
             saved_postions = controllerOrdes.savePostions()
             if saved_prodcuts["error"]:
                 return general_error(saved_prodcuts["error"])
 
+            # /////////////////////////////////////////////////////// #
+            #
+            # Third step: Create relations technique with Words Style #
+            #
+            # /////////////////////////////////////////////////////// #
+            ids_words = req.session["form_words"]
+            words_controller = PalabrasController(ids=ids_words)
+
+            words_to_use = words_controller.setWords()
+            if words_to_use["error"]:
+                return general_error(words_to_use["error"])
+
+            style_controller = EstiloPalabrasController(
+                technique=technique, words=words_to_use)
+
+            instace_style = style_controller.createAndSaveInstaceStyle()
+            if instace_style["error"]:
+                return general_error(instace_style["error"])
+
+            words_using = style_controller.relatedWords()
+            if words_using["error"]:
+                return general_error("error")
+                
             return JsonResponse({"message": "sesion creada", "data": {"session_id": "asd548ad4a"}})
         return general_error("ha orcurrido un error inesperado")
