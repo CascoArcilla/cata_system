@@ -9,10 +9,20 @@ let sortData;
 initIU();
 
 function submitData(e) {
+  const submitData = [];
+
+  sortData.forEach((order) => {
+    const simplePosition = {};
+    order.forEach((dataPosition) => {
+      simplePosition[dataPosition["code"]] = dataPosition["position"];
+    });
+    submitData.push(simplePosition);
+  });
+  
   const codesInput = document.createElement("input");
   codesInput.type = "hidden";
   codesInput.name = "sort_codes";
-  codesInput.value = JSON.stringify(sortData);
+  codesInput.value = JSON.stringify(submitData);
   this.appendChild(codesInput);
 }
 
@@ -110,6 +120,9 @@ function shuffle(arr) {
   return arrSuffle;
 }
 
+/**
+ * Render the UI with permutations
+ */
 function addIUPermutations() {
   const container = document.getElementsByClassName("ct-orden-list")[0];
   const itemsChild = [];

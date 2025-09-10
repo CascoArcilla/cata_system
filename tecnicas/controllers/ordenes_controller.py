@@ -6,78 +6,71 @@ from django.db import DatabaseError
 class OrdenesController():
     products: list[Producto]
     technique: Tecnica
-    raw_list_orders: list[list[dict]]
+    raw_list_orders: list[dict]
     orders: list[Orden]
-    orders_save: list[Orden]
     positions: list[Posicion]
-    savePostions: list[Posicion]
 
-    def __init__(self, raw_orders: list[list[dict]], list_products: list[Producto], technique: Tecnica):
+    def __init__(self, raw_orders: list[dict], list_products: list[Producto], technique: Tecnica):
         self.products = list_products
         self.technique = technique
         self.raw_list_orders = raw_orders
 
-    def setOrders(self, new_raw_orders: list[list[dict]] = None):
-        self.orders = new_raw_orders or []
+    def serRawOrders(self, new_raw_orders: list[dict]):
+        self.raw_list_orders = new_raw_orders
 
-        for i in range(len(self.raw_list_orders)):
+    def setOrdersToSave(self):
+        self.orders = []
+        for raw in self.raw_list_orders:
             self.orders.append(Orden(id_tecnica=self.technique))
 
     def saveOrders(self):
         if not self.orders:
             return controller_error("no se han establecido las ordenes para guardar")
         try:
-            self.orders_save = Orden.objects.bulk_create(self.orders)
-            return self.orders_save
+            for order in self.orders:
+                order.save()
+            return self.orders
         except DatabaseError as error:
-            return controller_error(error)
+            return controller_error("error al guardar las ordenes")
 
     def setPositions(self):
-        codes_ids = [(product.codigoProducto, product.id)
-                     for product in self.products]
+        codes_ids_products = {}
+        for product in self.products:
+            codes_ids_products[product.codigoProducto] = product.id
+        codes_expect = list(codes_ids_products.keys())
 
-        codes_expect = [pair[0] for pair in codes_ids]
-
-        if len(self.orders_save) != len(self.raw_list_orders):
+        if len(self.orders) != len(self.raw_list_orders):
             return controller_error("el numero de ordenes guardados no coinciden con los recibidos")
 
         self.positions = []
+        for index, order in enumerate(self.raw_list_orders):
+            received_codes_order = list(order.keys())
 
-        for index, raw_order in enumerate(self.raw_list_orders):
-            codes_raw_orders = [next(iter(position.values()))
-                                for position in raw_order]
-
-            if not set(codes_raw_orders) == set(codes_expect):
-                self.positions = []
+            if set(received_codes_order) != set(codes_expect):
                 return controller_error("las ordenes mandadas no contienen los productos esperados")
 
-            for data_position in raw_order:
-                code = data_position["code"]
-                position = data_position["position"]
+            for name, position_index in order.items():
+                list_product_use = [product for product in self.products
+                                    if product.codigoProducto == name]
 
-                locate_code_id = [
-                    code_id for code_id in codes_ids if code in code_id]
+                if len(list_product_use) != 1:
+                    return controller_error("no pueden existir dos productos que ocupen la misma posicion de un orden")
 
-                if not len(locate_code_id) == 1:
-                    return controller_error("no es posible asociar mas de un producto a un modelo posicion")
-                else:
-                    locate_code_id = locate_code_id[0]
-
+                product_use = list_product_use[0]
                 new_position = Posicion(
-                    id_producto=Producto.objects.get(id=locate_code_id[1]),
-                    id_orden=self.saveOrders[index],
-                    posicion=position,
+                    id_producto=product_use,
+                    id_orden=self.orders[index],
+                    posicion=position_index
                 )
-
                 self.positions.append(new_position)
-
         return self.positions
 
-    def savePostions(self):
+    def savePositions(self):
         if not self.positions:
             return controller_error("no se han establecido posiciones para guargar")
         try:
-            self.positions_save = Posicion.objects.bulk_create(self.positions)
-            return self.positions_save
+            for position in self.positions:
+                position.save()
+            return self.positions
         except DatabaseError as error:
-            return controller_error(error)
+            return controller_error("error al guardar las posiciones")

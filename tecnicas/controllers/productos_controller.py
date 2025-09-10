@@ -9,14 +9,11 @@ class ProductosController():
     technique: Tecnica
 
     def __init__(self, codes: list[str], technique: Tecnica):
-        for code in codes:
-            self.list_codes.append(code)
-
+        self.list_codes = codes
         self.technique = technique
 
-    def setListCodes(self, codes: list[str]):
-        for code in codes:
-            self.list_codes.append(code)
+    def setListCodes(self, new_codes: list[str]):
+        self.list_codes = new_codes
 
     def setTechnique(self, technique: Tecnica):
         self.technique = technique
@@ -35,7 +32,8 @@ class ProductosController():
             return controller_error("no se han establecido los productos para guardar")
 
         try:
-            self.products_save = Producto.objects.bulk_create(self.list_product)
-            return self.products_save
+            for product in self.list_product:
+                product.save()
+            return self.list_product
         except DatabaseError as error:
-            return controller_error(error)
+            return controller_error("error al guardar los productos")

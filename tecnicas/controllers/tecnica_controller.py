@@ -1,4 +1,6 @@
 from ..models import TipoTecnica, CategoriaTecnica, Tecnica, EstiloPalabra
+from django.db import DatabaseError
+from ..utils import controller_error
 
 
 class TecnicaController():
@@ -26,9 +28,9 @@ class TecnicaController():
     def saveTechnique(self):
         try:
             self.technique.save()
-        except Exception:
-            return False
-        return self.technique
+            return self.technique
+        except DatabaseError:
+            return controller_error("No se ha podido guardar la tecnica")
 
     def deleteTechnique(self):
         self.technique.delete()

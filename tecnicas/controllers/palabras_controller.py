@@ -22,4 +22,4 @@ class PalabrasController():
             self.words = searched_words
             return self.words
         except DatabaseError as error:
-            return controller_error(error)
+            return controller_error("error al guardar buscar palabras")

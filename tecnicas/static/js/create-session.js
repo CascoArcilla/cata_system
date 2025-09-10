@@ -1,9 +1,7 @@
 const formSubmit = document.querySelector(".ct-cretae-session-form");
 
 document.addEventListener("DOMContentLoaded", () => {
-  setTimeout(() => {
-    cretaeSession();
-  }, 2000);
+  cretaeSession();
 });
 
 async function cretaeSession() {
@@ -27,18 +25,34 @@ async function cretaeSession() {
     }
 
     const data = jsonResponse["data"];
-    renderElementsResponse({ sessionId: data["session_id"] });
+    renderElementsResponse({
+      sessionId: data["codigo_sesion"],
+      nameSession: data["nombre_sesion"],
+    });
   } catch (error) {
     renderElementsResponse({ error: jsonResponse.error });
   }
 }
 
-function renderElementsResponse({ sessionId = "No id", error = false }) {
+function renderElementsResponse({
+  sessionId = "No id",
+  error = false,
+  nameSession = "",
+}) {
   const container = document.querySelector(".ct-message-create");
   const loadElement = document.querySelector(".ct-load-create");
 
-  const p = document.createElement("p");
-  p.classList.add("text-2xl", "text-white", "text-center", "font-bold");
+  const message = document.createElement("p");
+  message.classList.add("text-2xl", "text-white", "text-center", "font-bold");
+
+  const nameSessionP = document.createElement("p");
+  nameSessionP.classList.add(
+    "text-lg",
+    "text-white",
+    "text-center",
+    "font-bold"
+  );
+
   const idSession = document.createElement("p");
   idSession.classList.add("text-lg", "text-white", "text-center", "font-bold");
   const pHelp = document.createElement("p");
@@ -47,12 +61,12 @@ function renderElementsResponse({ sessionId = "No id", error = false }) {
   // Mostrar el error que ha ocurrido //
   // ******************************** //
   if (error) {
-    p.textContent = "No se ha podido completar la creacion de la sesion";
+    message.textContent = "No se ha podido completar la creacion de la sesion";
     idSession.textContent = `Error: ${error}`;
   } else {
-    p.textContent = "La session se ha creado";
-
+    message.textContent = "La session se ha creado";
     idSession.innerHTML = `El ID de la seesion es:<br><strong class="border-b border-white">${sessionId}</strong>`;
+    nameSessionP.textContent = `Nombre de sesion: ${nameSession}`;
 
     pHelp.classList.add("text-lg", "text-white", "text-center");
     pHelp.textContent =
@@ -84,7 +98,7 @@ function renderElementsResponse({ sessionId = "No id", error = false }) {
   ];
 
   const aIndex = document.createElement("a");
-  aIndex.href = "{% url 'cata_system:index' %}";
+  aIndex.href = "/cata";
   aIndex.textContent = "Volver al inicio";
 
   aIndex.classList.add(
@@ -96,7 +110,7 @@ function renderElementsResponse({ sessionId = "No id", error = false }) {
   );
 
   const aMonitor = document.createElement("a");
-  aMonitor.href = "{% url 'cata_system:index' %}";
+  aMonitor.href = "/cata";
   aMonitor.textContent = "Monitorear la sesion";
 
   aMonitor.classList.add(
@@ -117,7 +131,10 @@ function renderElementsResponse({ sessionId = "No id", error = false }) {
 
   container.innerHTML = "";
 
-  container.appendChild(p);
+  container.appendChild(message);
+  if (nameSession != "") {
+    container.appendChild(nameSessionP);
+  }
   container.appendChild(idSession);
   container.appendChild(pHelp);
   container.appendChild(divBtns);

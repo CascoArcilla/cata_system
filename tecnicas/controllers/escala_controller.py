@@ -1,21 +1,22 @@
-from ..models import Etiqueta, EtiquetasEscala, Escala
+from ..models import Etiqueta, EtiquetasEscala, Escala, TipoEscala
 from django.db import DatabaseError
+from ..utils import controller_error
 
 
 class EscalaController():
     scale: Escala
-    tags: list[tuple[str, EtiquetasEscala]]
+    tags_relation: dict[str, EtiquetasEscala]
 
     def __init__(self, data):
         self.scale = Escala(
-            id_tipo_escala=data["scale"],
+            id_tipo_escala=TipoEscala.objects.get(id=data["id_scale"]),
             longitud=data["size"],
             tecnica=data["technique"]
         )
 
     def setScale(self, newData):
         self.scale = Escala(
-            id_tipo_escala=newData["scale"],
+            id_tipo_escala=TipoEscala.objects.get(id=newData["id_scale"]),
             longitud=newData["size"],
             tecnica=newData["technique"]
         )
@@ -23,76 +24,47 @@ class EscalaController():
     def saveScale(self):
         try:
             self.scale.save()
-        except Exception:
-            return False
-        return self.scale
+            return self.scale
+        except DatabaseError as error:
+            return controller_error("error al guardar la escala")
 
     def deleteScale(self):
         self.scale.delete()
 
-    def addAndSaveTags(self, tags: list):
+    def addAndSaveTags(self, tags: dict):
+        self.tags_relation = {}
         if self.scale.id_tipo_escala.nombre_escala == "cotinua":
-            if not self.realte_tags_type_cotinue(tags):
-                return False
+            ok_tags = self.realte_tags_type_cotinue(tags)
+            if ok_tags["error"]:
+                return ok_tags
+            return self.tags_relation
+
         elif self.scale.id_tipo_escala.nombre_escala == "estructurada":
-            if not self.realte_tags_type_structure(tags):
-                return False
-        return self.tags
+            ok_tags = self.realte_tags_type_structure(tags)
+            if ok_tags["error"]:
+                return ok_tags
+            return self.tags_relation
 
     def deleteRelationshipsWithLabels(self):
-        for tuple in self.tags:
-            relaTag = tuple[1]
-            relaTag.adelete()
+        for name, tag in self.tags_relation.items():
+            tag.delete()
 
-    def realte_tags_type_cotinue(self, tags: list):
-        try:
-            tag_start = Etiqueta.objects.get(id=tags["punto_inicial"])
-            start_point = EtiquetasEscala.objects.create(
-                id_escala=self.scale.id,
-                id_etiqueta=tag_start,
-                posicion=1
-            )
-
-            self.tags.append(("start", start_point))
-
-            tag_medium = Etiqueta.objects.get(id=tags["punto_medio"])
-            half_point = EtiquetasEscala.objects.create(
-                id_escala=self.scale.id,
-                id_etiqueta=tag_medium,
-                posicion=2
-            )
-
-            self.tags.append(("medium", half_point))
-
-            tag_end = Etiqueta.objects.get(id=tags["punto_final"])
-            end_point = EtiquetasEscala.objects.create(
-                id_escala=self.scale.id,
-                id_etiqueta=tag_end,
-                posicion=3
-            )
-
-            self.tags.append(("end", end_point))
-            return True
-        except DatabaseError as error:
-            self.deleteRelationshipsWithLabels()
-            return False
-
-    def realte_tags_type_structure(self, tags: dict):
+    def realteTags(self, tags: dict):
         try:
             index = 1
-            self.tags = []
+            self.tags_relation = {}
 
             for name, id_tag in tags.items():
                 tag = Etiqueta.objects.get(id=id_tag)
-                related_tag = EtiquetasEscala(
-                    id_escala=self.scale.id,
+                related_tag = EtiquetasEscala.objects.create(
+                    id_escala=self.scale,
                     id_etiqueta=tag,
                     posicion=index
                 )
-                self.tags.append((name, related_tag))
+                self.tags_relation[name] = related_tag
                 index += 1
 
-            return True
+            return self.tags_relation
         except DatabaseError as error:
             self.deleteRelationshipsWithLabels()
-            return False
+            return controller_error("error guardar relacion etiqueta escala")

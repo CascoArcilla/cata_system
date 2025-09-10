@@ -6,8 +6,17 @@ from ..models import TipoTecnica
 
 
 def configurationPanelBasic(req: HttpRequest):
-    req.session.flush()
-    
+    keys_forms = [
+        "form_basic",
+        "form_tags",
+        "form_codes",
+        "form_words"
+    ]
+
+    for key in keys_forms:
+        if key in req.session:
+            del req.session[key]
+
     if req.method == "POST":
         try:
             form = SesionBasicForm(req.POST)

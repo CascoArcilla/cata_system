@@ -20,7 +20,7 @@ class EstiloPalabrasController():
                 id_tecnica=self.technique)
             return self.instanceStyle
         except DatabaseError as error:
-            return controller_error(error)
+            return controller_error("error al registrar el estilo con tecnica")
 
     def relatedWords(self):
         if not self.list_words:
@@ -29,4 +29,4 @@ class EstiloPalabrasController():
             self.instanceStyle.palabras.add(*self.list_words)
             return self.instanceStyle.palabras
         except DatabaseError as error:
-            return controller_error(error)
+            return controller_error("error al relacionar palabras con el estilo tecnica")
