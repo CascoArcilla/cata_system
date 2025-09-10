@@ -4,7 +4,19 @@ from django.urls import reverse
 from ..forms import SesionBasicForm
 from ..models import TipoTecnica
 
+
 def configurationPanelBasic(req: HttpRequest):
+    keys_forms = [
+        "form_basic",
+        "form_tags",
+        "form_codes",
+        "form_words"
+    ]
+
+    for key in keys_forms:
+        if key in req.session:
+            del req.session[key]
+
     if req.method == "POST":
         try:
             form = SesionBasicForm(req.POST)
@@ -23,7 +35,7 @@ def configurationPanelBasic(req: HttpRequest):
         except KeyError:
             return redirect(reverse("cata_system:seleccion_tecnica") + "?error=error en datos de configuracion")
 
-        return render(req, "tecnicas/create_sesion/configuracion-panel-basic.html", { "form_sesion": form, "error": "Ha ocurrido un error al continuar al siguiente paso." })
+        return render(req, "tecnicas/create_sesion/configuracion-panel-basic.html", {"form_sesion": form, "error": "Ha ocurrido un error al continuar al siguiente paso."})
     elif req.method == "GET":
         try:
             id_tecnica = req.GET["id_tecnica"]
@@ -35,6 +47,6 @@ def configurationPanelBasic(req: HttpRequest):
 
         if tecnica:
             form_sesion = SesionBasicForm(id_tecnica_new=id_tecnica)
-            return render(req, "tecnicas/create_sesion/configuracion-panel-basic.html", { "form_sesion": form_sesion })
+            return render(req, "tecnicas/create_sesion/configuracion-panel-basic.html", {"form_sesion": form_sesion})
         else:
             return redirect(reverse("cata_system:seleccion_tecnica") + "?error=la_tecnica_no_existe")

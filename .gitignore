@@ -167,6 +167,7 @@ cython_debug/
 
 # Others files
 some_test
+others_files
 
 # PyCharm
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can

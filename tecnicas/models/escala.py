@@ -9,4 +9,4 @@ class Escala(models.Model):
     tecnica = models.OneToOneField(Tecnica, on_delete=models.CASCADE, related_name="escala_tecnica")
 
     def __str__(self):
-        return self.longitud
+        return self.id_tipo_escala.nombre_escala

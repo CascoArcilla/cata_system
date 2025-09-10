@@ -1,65 +1,70 @@
-from ..models import TipoEscala, Etiqueta, EtiquetasEscala, Escala, Tecnica
+from ..models import Etiqueta, EtiquetasEscala, Escala, TipoEscala
+from django.db import DatabaseError
+from ..utils import controller_error
 
 
 class EscalaController():
-
     scale: Escala
+    tags_relation: dict[str, EtiquetasEscala]
 
-    def __init__(self, scale):
-        self.scale = scale or None
-
-    def setAndSaveScale(self, type_scale: TipoEscala, size: int, technique: Tecnica):
-        self.scale = Escala.objects.create(
-            id_tipo_escala=type_scale,
-            longitud=size,
-            tecnica=technique
+    def __init__(self, data):
+        self.scale = Escala(
+            id_tipo_escala=TipoEscala.objects.get(id=data["id_scale"]),
+            longitud=data["size"],
+            tecnica=data["technique"]
         )
 
-    def setScale(self, scale):
-        self.scale = scale
-
-    def realte_tags_type_cotinue(self, tags: list):
-        tag = Etiqueta.objects.get(id=tags["punto_inicial"])
-        start_point = EtiquetasEscala.objects.create(
-            id_escala=self.scale.id,
-            id_etiqueta=tag,
-            posicion=1
+    def setScale(self, newData):
+        self.scale = Escala(
+            id_tipo_escala=TipoEscala.objects.get(id=newData["id_scale"]),
+            longitud=newData["size"],
+            tecnica=newData["technique"]
         )
 
-        tag = Etiqueta.objects.get(id=tags["punto_medio"])
-        half_point = EtiquetasEscala.objects.create(
-            id_escala=self.scale.id,
-            id_etiqueta=tag,
-            posicion=2
-        )
+    def saveScale(self):
+        try:
+            self.scale.save()
+            return self.scale
+        except DatabaseError as error:
+            return controller_error("error al guardar la escala")
 
-        tag = Etiqueta.objects.get(id=tags["punto_final"])
-        end_point = EtiquetasEscala.objects.create(
-            id_escala=self.scale.id,
-            id_etiqueta=tag,
-            posicion=3
-        )
+    def deleteScale(self):
+        self.scale.delete()
 
-        self.tags = [
-            ("start", start_point),
-            ("medium", half_point),
-            ("end", end_point)
-        ]
+    def addAndSaveTags(self, tags: dict):
+        self.tags_relation = {}
+        if self.scale.id_tipo_escala.nombre_escala == "cotinua":
+            ok_tags = self.realte_tags_type_cotinue(tags)
+            if ok_tags["error"]:
+                return ok_tags
+            return self.tags_relation
 
-        return self.tags
+        elif self.scale.id_tipo_escala.nombre_escala == "estructurada":
+            ok_tags = self.realte_tags_type_structure(tags)
+            if ok_tags["error"]:
+                return ok_tags
+            return self.tags_relation
 
-    def realte_tags_type_structure(self, tags: dict):
-        index = 1
-        self.tags = []
+    def deleteRelationshipsWithLabels(self):
+        for name, tag in self.tags_relation.items():
+            tag.delete()
 
-        for name, id_tag in tags.items():
-            tag = Etiqueta.objects.get(id=id_tag)
-            related_tag = EtiquetasEscala(
-                id_escala=self.scale.id,
-                id_etiqueta=tag,
-                posicion=index
-            )
-            self.tags.append((name, related_tag))
-            index += 1
-            
-        return self.tags
+    def realteTags(self, tags: dict):
+        try:
+            index = 1
+            self.tags_relation = {}
+
+            for name, id_tag in tags.items():
+                tag = Etiqueta.objects.get(id=id_tag)
+                related_tag = EtiquetasEscala.objects.create(
+                    id_escala=self.scale,
+                    id_etiqueta=tag,
+                    posicion=index
+                )
+                self.tags_relation[name] = related_tag
+                index += 1
+
+            return self.tags_relation
+        except DatabaseError as error:
+            self.deleteRelationshipsWithLabels()
+            return controller_error("error guardar relacion etiqueta escala")

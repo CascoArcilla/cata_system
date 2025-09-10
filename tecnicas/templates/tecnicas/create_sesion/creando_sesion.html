@@ -1,0 +1,31 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Creando sesion{% endblock %}
+
+{% block content %}
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
+    <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+        <h1 class="text-center font-bold text-4xl">Creando Sesion</h1>
+        <hr>
+        <section class="ct-load-create flex flex-col gap-4 bg-gray-600 p-6 rounded-xl">
+            <p class="text-lg text-white text-center font-bold">
+                Estamos creando la sesion, por favor espere...
+            </p>
+            <hr class="text-white">
+            <div class="w-full h-4 bg-green-500 rounded-full overflow-hidden">
+                <div class="h-full bg-red-400 animate-pulse" style="width: 100%"></div>
+            </div>
+        </section>
+        <section class="ct-message-create flex flex-col gap-4 bg-gray-600 p-6 rounded-xl hidden"></section>
+        <form action="" method="post" class="hidden ct-cretae-session-form">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="create_session">
+        </form>
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/create-session.js' %}"></script>
+{% endblock %}
