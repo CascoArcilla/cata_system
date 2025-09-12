@@ -1,4 +1,5 @@
 from django.db import DatabaseError
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from ..models import Tecnica, Presentador, SesionSensorial
 from ..utils import controller_error
 
@@ -39,3 +40,45 @@ class SesionController():
             return self.sensorial_session
         except DatabaseError as error:
             return controller_error("Error al crear la session sensorial")
+
+    @staticmethod
+    def getSessionsSavesByCretor(user_name: str, page: int):
+        elements_by_page = 9
+
+        try:
+            creator = Presentador.objects.get(nombre_usuario=user_name)
+        except Presentador.DoesNotExist:
+            return controller_error("presentador invalido")
+
+        try:
+            queryset = SesionSensorial.objects.select_related(
+                "tecnica",
+                "tecnica__tipo_tecnica",
+                "tecnica__id_estilo").only(
+                "codigo_sesion",
+                "nombre_sesion",
+                "fechaCreacion",
+                "tecnica__tipo_tecnica__nombre_tecnica",
+                "tecnica__id_estilo__nombre_estilo"
+            )
+
+            paginator = Paginator(queryset, elements_by_page)
+            sessions_in_page = paginator.get_page(page)
+        except PageNotAnInteger:
+            return controller_error("indice invalido")
+        except EmptyPage:
+            return controller_error("sin registros de sessiones")
+
+        return sessions_in_page
+
+    @staticmethod
+    def getNumberSessionsByCreator(user_name: str):
+        try:
+            creator = Presentador.objects.get(nombre_usuario=user_name)
+        except Presentador.DoesNotExist:
+            return controller_error("presentador invalido")
+
+        number_sessions = SesionSensorial.objects.filter(
+            creadoPor=creator).count()
+
+        return number_sessions/9
