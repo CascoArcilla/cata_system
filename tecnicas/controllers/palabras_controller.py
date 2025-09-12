@@ -1,4 +1,4 @@
-from ..models import Palabra
+from ..models import Palabra, Tecnica, EsAtributo
 from django.db import DatabaseError
 from ..utils import controller_error
 
@@ -23,3 +23,9 @@ class PalabrasController():
             return self.words
         except DatabaseError as error:
             return controller_error("error al guardar buscar palabras")
+
+    @staticmethod
+    def getWordsInTechnique(technique: Tecnica):
+        es_atributo = EsAtributo.objects.get(id_tecnica=technique)
+        words = es_atributo.palabras.all()
+        return words

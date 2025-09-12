@@ -13,3 +13,4 @@ from .tester_create import testerCreate
 from .tester_search import testerSearch
 from .api_words import words
 from .create_session import createSession
+from .session_details import sessionDetails

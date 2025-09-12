@@ -6,3 +6,4 @@ from .palabras_controller import PalabrasController
 from .estilo_palabras_controller import EstiloPalabrasController
 from .palabras_controller import PalabrasController
 from .sesion_controller import SesionController
+from .calificacion_controller import CalificacionController
