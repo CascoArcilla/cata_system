@@ -8,7 +8,7 @@
     <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-white rounded-xl font-bold text-2xl bg-gray-600 p-4 flex-1">
-                Detalles de la session
+                Detalles de la sesión
             </h1>
             <a href="{% url 'cata_system:index' %}">
                 <p
@@ -18,25 +18,33 @@
             </a>
         </header>
 
+        {% if error %}
+        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
+            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
+                {{ error }}
+            </p>
+        </article>
+        {% endif %}
+
         <p class="font-bold text-2xl border-b-2">
-            Infomación general
+            Información general
         </p>
         <article
             class="text-white rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 *:bg-gray-500 *:flex *:flex-wrap *:items-center *:justify-center *:max-sm:justify-normal *:gap-x-2 *:p-4 *:rounded-2xl">
             <section class="col-span-2 max-sm:col-span-1">
-                <p class="block text-xl antialiased font-bold">
+                <p class="text-xl font-bold">
                     Código:
                 </p>
-                <p class="block font-sans text-xl antialiased font-normal">
+                <p class="font-sans text-xl font-normal">
                     {{ sesion.codigo_sesion }}
                 </p>
             </section>
 
             <section class="col-span-2 max-sm:col-span-1">
-                <p class="block text-xl antialiased font-bold">
+                <p class="text-xl font-bold">
                     Nombre:
                 </p>
-                <p class="block text-xl antialiased">
+                <p class="text-xl antialiased">
                     {% if sesion.nombre_sesion %}
                     {{ sesion.nombre_sesion }}
                     {% else %}
@@ -46,42 +54,69 @@
             </section>
 
             <section>
-                <p class="block text-xl antialiased font-medium">
+                <p class="text-xl font-medium">
                     Fecha creación:
                 </p>
-                <p class="block font-sans text-lg antialiased font-normal uppercase">
+                <p class="font-sans text-lg font-normal uppercase">
                     {{ sesion.fechaCreacion }}
                 </p>
             </section>
 
             <section>
-                <p class="block text-lg antialiased font-bold">
+                <p class="text-lg font-bold">
                     Estado:
                 </p>
-                <p class="block font-sans text-lg antialiased font-normal">
+                <p class="font-sans text-lg font-normal">
                     {% if sesion.activo %}
                     En proceso
                     {% else %}
-                    Listo para iniciar repeticion
+                    Listo para iniciar repetición
                     {% endif %}
                 </p>
             </section>
 
             <section>
-                <p class="block text-xl antialiased font-medium">
+                <p class="text-xl font-medium">
                     Estilo palabras:
                 </p>
-                <p class="block font-sans text-lg antialiased font-normal uppercase">
+                <p class="font-sans text-lg font-normal uppercase">
                     {{ sesion.tecnica.id_estilo }}
                 </p>
             </section>
 
             <section>
-                <p class="block text-xl antialiased font-medium">
-                    Tecnica:
+                <p class="text-xl font-medium">
+                    Técnica:
                 </p>
-                <p class="block font-sans text-lg antialiased font-normal uppercase">
+                <p class="font-sans text-lg font-normal uppercase">
                     {{ sesion.tecnica.tipo_tecnica }}
+                </p>
+            </section>
+
+            <section>
+                <p class="text-xl font-medium">
+                    Rep. Hechas:
+                </p>
+                <p class="font-sans text-lg font-normal">
+                    {{ sesion.tecnica.repecion }}
+                </p>
+            </section>
+
+            <section>
+                <p class="text-xl font-medium">
+                    Rep. Max:
+                </p>
+                <p class="font-sans text-lg font-normal">
+                    {{ sesion.tecnica.repeticiones_max }}
+                </p>
+            </section>
+
+            <section class="col-span-2 max-sm:col-span-1">
+                <p class="text-xl font-bold">
+                    Instrucciones:
+                </p>
+                <p class="font-sans text-xl font-normal">
+                    {{ sesion.tecnica.instrucciones }}
                 </p>
             </section>
         </article>
@@ -107,8 +142,9 @@
         <article class="flex flex-wrap gap-10">
             {% if not sesion.activo %}
             <button
-                class="flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
-                Inicar repeticion
+                class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
+                onclick="startRepetition()">
+                Iniciar repetición
                 <figure class="w-10">
                     <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
                 </figure>
@@ -138,6 +174,13 @@
         <article class="bg-gray-600 p-4 text-white rounded-xl">
         </article>
         {% endif %}
+        <form action="" method="post" class="form-action-session hidden">
+            {% csrf_token %}
+        </form>
     </article>
 </article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/details-session.js' %}"></script>
 {% endblock %}
