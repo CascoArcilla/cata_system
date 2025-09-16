@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from ..controllers import DetallesSesionController
+from ...controllers import DetallesSesionController
 
 
 def sessionDetails(req: HttpRequest, session_code: str):

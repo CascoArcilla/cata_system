@@ -1,9 +1,9 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from ..utils import general_error
-from ..controllers import TecnicaController, EscalaController, ProductosController, OrdenesController, EstiloPalabrasController, PalabrasController, SesionController
-from ..models import Presentador
+from ...utils import general_error
+from ...controllers import TecnicaController, EscalaController, ProductosController, OrdenesController, EstiloPalabrasController, PalabrasController, SesionController
+from ...models import Presentador
 
 
 def createSession(req: HttpRequest):

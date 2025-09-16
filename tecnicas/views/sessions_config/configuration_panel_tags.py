@@ -1,8 +1,8 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from ..forms import SesionTagsForm, EtiquetaForm
-from ..models import TipoEscala
+from ...forms import SesionTagsForm, EtiquetaForm
+from ...models import TipoEscala
 
 
 def configurationPanelTags(req: HttpRequest):

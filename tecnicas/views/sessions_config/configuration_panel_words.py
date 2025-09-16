@@ -1,8 +1,8 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from ..models.palabra import Palabra
-from ..forms import WordForm
+from ...models.palabra import Palabra
+from ...forms import WordForm
 
 import json
 

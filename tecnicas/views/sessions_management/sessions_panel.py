@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from ..controllers import SesionController
+from ...controllers import SesionController
 
 
 def sesionsPanel(req, page: int):

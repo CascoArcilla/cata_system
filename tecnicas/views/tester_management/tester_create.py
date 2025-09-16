@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.forms import ValidationError
 from django.shortcuts import render
-from ..forms import CatadorForm
+from ...forms import CatadorForm
 
 
 def testerCreate(req: HttpRequest):

@@ -2,8 +2,8 @@ from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404
 from django.db import Error
 from django.core.exceptions import ObjectDoesNotExist
-from ..forms import CatadorForm
-from ..models import Catador
+from ...forms import CatadorForm
+from ...models import Catador
 
 def testerSearch(req : HttpRequest):
     if req.method == "GET":
