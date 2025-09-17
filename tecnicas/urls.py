@@ -19,7 +19,7 @@ urlpatterns = [
 
     # Gestion de catadores
     path("panel-catadores",
-         views.managementCatadores,
+         views.testerMenu,
          name="panel_catadores"),
 
     path("crear-catador",
