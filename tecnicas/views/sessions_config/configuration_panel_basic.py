@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from django.urls import reverse
-from ..forms import SesionBasicForm
-from ..models import TipoTecnica
+from ...forms import SesionBasicForm
+from ...models import TipoTecnica
 
 
 def configurationPanelBasic(req: HttpRequest):

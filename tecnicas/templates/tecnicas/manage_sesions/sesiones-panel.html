@@ -5,7 +5,7 @@
 
 {% block content %}
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl w-4xl">
+    <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl">
         <header class="text-center flex flex-row gap-8 items-center w-full">
             <div class="bg-gray-600 p-4 text-white rounded-xl flex-1">
                 <h1 class="font-bold text-2xl">Administra las<br>sesiones sensoriales</h1>
@@ -16,35 +16,33 @@
                     principal</a>
             </div>
         </header>
-        <section class="grid grid-cols-3 gap-4">
-            <article class="p-4 bg-gray-200 flex flex-row gap-4 justify-center items-center rounded-lg">
-                <div class="text-right *:not-last:mb-4">
-                    <p><b>Código:</b></p>
-                    <p><b>Fecha:</b></p>
-                    <p><b>Técnica:</b></p>
-                </div>
-                <div class="*:not-last:mb-4">
-                    <p>9J78GGHJK7V</p>
-                    <p>12-07-2025</p>
-                    <p>Intensidad</p>
-                </div>
-            </article>
 
-            {% for elem in elementos %}
-            <article class="p-4 bg-gray-200 flex flex-row gap-4 justify-center items-center rounded-lg">
-                <div class="text-right *:not-last:mb-4">
+        <section class="grid grid-cols-3 gap-4">
+            {% for sesion in sessions %}
+            <a href="{% url 'cata_system:detalles_sesion' session_code=sesion.codigo_sesion %}"
+                class="p-4 bg-gray-200 flex flex-row gap-2 justify-center items-center rounded-lg border-b-4 border-blue-500">
+                <div class="text-right *:not-last:mb-2">
+                    {% if sesion.nombre_sesion %}
+                    <p><b>Nombre:</b></p>
+                    {% endif %}
                     <p><b>Código:</b></p>
                     <p><b>Fecha:</b></p>
                     <p><b>Técnica:</b></p>
+                    <p><b>Estilo:</b></p>
                 </div>
-                <div class="*:not-last:mb-4">
-                    <p>{{ elem.nombre }}</p>
-                    <p>{{ elem.fecha }}</p>
-                    <p>{{ elem.tecnica }}</p>
+                <div class="*:not-last:mb-2">
+                    {% if sesion.nombre_sesion %}
+                    <p>{{ sesion.nombre_sesion }}</p>
+                    {% endif %}
+                    <p>{{ sesion.codigo_sesion }}</p>
+                    <p>{{ sesion.fechaCreacion }}</p>
+                    <p class="uppercase">{{ sesion.tecnica.tipo_tecnica.nombre_tecnica }}</p>
+                    <p class="uppercase">{{ sesion.tecnica.id_estilo.nombre_estilo }}</p>
                 </div>
-            </article>
+            </a>
             {% endfor %}
         </section>
+
         <section class="flex justify-center items-center gap-2">
             <button>
                 <img class="h-10" src="{% static 'img/less-than.svg' %}" alt="menor que">

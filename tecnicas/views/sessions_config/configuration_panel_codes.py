@@ -1,8 +1,8 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from ..utils import generarCodigos
-from ..forms import CodesForm
+from ...utils import generarCodigos
+from ...forms import CodesForm
 import json
 
 

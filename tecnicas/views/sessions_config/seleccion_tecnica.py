@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 
-from ..controllers  import TecnicaController
+from ...controllers  import TecnicaController
 
 def selecionTecnica(req:HttpRequest):
     tipos = TecnicaController.getTypesTechnique()

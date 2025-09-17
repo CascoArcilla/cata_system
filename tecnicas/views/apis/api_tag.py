@@ -1,8 +1,8 @@
 from django.http import HttpRequest, JsonResponse
 from django.db import IntegrityError
-from ..models import Etiqueta
-from ..forms import EtiquetaForm
-from ..utils import general_error
+from ...models import Etiqueta
+from ...forms import EtiquetaForm
+from ...utils import general_error
 
 
 def newTag(req: HttpRequest):

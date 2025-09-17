@@ -1,8 +1,8 @@
 from django.http import HttpRequest, JsonResponse
 from django.db import IntegrityError
-from ..models import Palabra
-from ..utils import general_error
-from ..forms.word_form import WordForm
+from ...models import Palabra
+from ...utils import general_error
+from ...forms.word_form import WordForm
 
 
 def words(req: HttpRequest):
