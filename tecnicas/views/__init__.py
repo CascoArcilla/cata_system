@@ -1,5 +1,5 @@
 from .autentication import autentication
-from .login_catador import catadorLogin
+from .login_tester import testerLogin
 from .main_panel import mainPanel
 
 from .sessions_management.sessions_panel import sesionsPanel

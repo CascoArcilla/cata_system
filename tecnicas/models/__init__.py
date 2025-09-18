@@ -26,3 +26,5 @@ from .dato_valor import ValorBooleano
 
 from .orden import Orden
 from .orden import Posicion
+
+from .participacion import Participacion

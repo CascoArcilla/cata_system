@@ -32,6 +32,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# SESSIONS TIMEOUT
+SESSION_COOKIE_AGE = 30 * 60
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 
 # Application definition
 

@@ -13,7 +13,7 @@ urlpatterns = [
          name="autenticacion"),
 
     path("catador-login",
-         views.catadorLogin,
+         views.testerLogin,
          name="catador_login"),
 
 
