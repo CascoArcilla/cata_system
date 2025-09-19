@@ -20,7 +20,7 @@
 
         {% if error %}
         <hr>
-        
+
         <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
             <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
                 {{ error }}
@@ -88,15 +88,14 @@
         <hr>
 
         <article class="flex flex-wrap gap-10">
-            <a href="">
-                <button
-                    class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
-                    Iniciar técnica
-                    <figure class="w-10">
-                        <img src="{% static 'img/check.svg' %}" alt="flechas girando" class="invert">
-                    </figure>
-                </button>
-            </a>
+            <button
+                class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
+                onclick="startTest()">
+                Iniciar técnica
+                <figure class="w-10">
+                    <img src="{% static 'img/check.svg' %}" alt="flechas girando" class="invert">
+                </figure>
+            </button>
             <button
                 class="flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
                 Salir se la sesión
@@ -106,9 +105,14 @@
             </button>
         </article>
 
-        <form action="" method="post" class="hidden">
-            <input type="hidden" value="start_posting" name="action">
+        <form action="" method="post" class="hidden ct-action-form">
+            {% csrf_token %}
+            <input type="hidden" value="pipo" name="action">
         </form>
     </article>
 </article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/start-tester-test.js' %}"></script>
 {% endblock %}
