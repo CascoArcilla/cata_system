@@ -36,6 +36,14 @@ class TecnicaController():
         self.technique.delete()
 
     @staticmethod
+    def getTechniqueById(id: int):
+        try:
+            technique = Tecnica.objects.get(id)
+            return technique
+        except Tecnica.DoesNotExist:
+            return controller_error("Técnica no encontrada")
+
+    @staticmethod
     def getTypesTechnique():
         showTecnicas = {}
         categories = CategoriaTecnica.objects.all()

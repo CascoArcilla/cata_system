@@ -1,4 +1,5 @@
 {% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
 
 {% block title %}Detalles Sesion{% endblock %}
 
@@ -7,9 +8,107 @@
     <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-white rounded-xl font-bold text-2xl bg-gray-600 p-4 flex-1">
-                Detalles de la sesión
+                Panel principal de Catadores
             </h1>
         </header>
+
+        <article>
+            <p class="text-2xl font-medium text-center bg-gray-200 p-4 rounded-lg">
+                Información sobre la sesión en la que participa
+            </p>
+        </article>
+
+        {% if error %}
+        <hr>
+        
+        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
+            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
+                {{ error }}
+            </p>
+        </article>
+        {% endif %}
+
+        <hr>
+
+        <article
+            class="text-white rounded-xl grid grid-cols-1 gap-3 text-center *:bg-gray-500 *:flex *:flex-wrap *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
+            {% if session %}
+            <section>
+                <p class="text-xl font-bold">
+                    Código:
+                </p>
+                <p class="font-sans text-xl font-normal">
+                    {{ session.codigo_sesion }}
+                </p>
+            </section>
+
+            <section>
+                <p class="text-xl font-bold">
+                    {% if session.nombre_sesion %}
+                    {{ session.nombre_sesion }}
+                    {% else %}
+                    Sin nombre
+                    {% endif %}
+                </p>
+            </section>
+
+            <section>
+                <p class="text-xl font-medium">
+                    Esta sesión usa la técnica <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+                </p>
+            </section>
+
+            <section>
+                <p class="text-xl font-medium">
+                    Esta sesión usa el estilo de palabras
+                    “<span class="uppercase">{{ session.tecnica.id_estilo }}</span>”
+                </p>
+            </section>
+
+            <section>
+                <p class="text-xl font-medium">
+                    Repetición número {{ session.tecnica.repecion }}
+                </p>
+            </section>
+
+            <section>
+                <p class="text-xl">
+                    {{ session.tecnica.instrucciones }}
+                </p>
+            </section>
+            {% else %}
+            <section>
+                <p class="text-xl font-medium">
+                    Ha ocurrido un error en renderizar esta vista
+                </p>
+            </section>
+            {% endif %}
+        </article>
+
+        <hr>
+
+        <article class="flex flex-wrap gap-10">
+            <a href="">
+                <button
+                    class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                    Iniciar técnica
+                    <figure class="w-10">
+                        <img src="{% static 'img/check.svg' %}" alt="flechas girando" class="invert">
+                    </figure>
+                </button>
+            </a>
+            <button
+                class="flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                Salir se la sesión
+                <figure class="w-10">
+                    <img src="{% static 'img/exit.svg' %}" alt="bote de basura" class="invert">
+                </figure>
+            </button>
+        </article>
+
+        <form action="" method="post" class="hidden">
+            <input type="hidden" value="start_posting" name="action">
+        </form>
     </article>
 </article>
 {% endblock %}

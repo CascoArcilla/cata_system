@@ -9,3 +9,4 @@ from .sesion_controller import SesionController
 from .calificacion_controller import CalificacionController
 from .detalles_sesion_controller import DetallesSesionController
 from .login_tester_controller import LoginTesterController
+from .main_tester_form_controller import MainTesterFormController

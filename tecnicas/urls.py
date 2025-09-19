@@ -68,7 +68,7 @@ urlpatterns = [
          views.testerLogin,
          name="catador_login"),
 
-    path("catador-main",
+    path("testers/catador-main",
          views.mainTesterForm,
          name="catador_main"),
 
