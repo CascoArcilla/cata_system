@@ -4,20 +4,32 @@
 
 {% block content %}
 <article class="w-full h-full flex flex-col justify-center items-center bg-gray-600">
-    <form action="./auth" method="post" class="bg-gray-200 w-xl p-8 rounded-xl">
+    <form action="" method="post" class="bg-gray-200 w-xl p-8 rounded-xl">
+        {% csrf_token %}
         <header class="text-center">
             <h1 class="text-5xl font-bold">Cateo System</h1>
             <p class="text-2xl font-medium mt-3">Catadores</p>
         </header>
-        <section class="flex flex-col gap-6 items-center w-full mt-5">
+
+        {% if error %}
+        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
+            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
+                {{ error }}
+            </p>
+        </article>
+        {% endif %}
+
+        <article class="flex flex-col gap-6 items-center w-full mt-5">
             <label for="id">
-                <input type="text" name="id" id="id" placeholder="Codigo de sesion"
-                    class="placeholder:text-gray-100 placeholder:text-xl bg-gray-400 py-3 px-6 rounded-xl w-sm border-b-2 border-blue-700" required>
+                <input type="text" name="code_session" id="id" placeholder="Codigo de sesion"
+                    class="placeholder:text-gray-100 placeholder:text-xl bg-gray-400 py-3 px-6 rounded-xl w-sm border-b-2 border-blue-700"
+                    required>
             </label>
 
             <label for="id">
-                <input type="text" name="id" id="id" placeholder="Nombre de usuario"
-                    class="placeholder:text-gray-100 placeholder:text-xl bg-gray-400 py-3 px-6 rounded-xl w-sm border-b-2 border-blue-700" required>
+                <input type="text" name="user_tester" id="id" placeholder="Nombre de usuario"
+                    class="placeholder:text-gray-100 placeholder:text-xl bg-gray-400 py-3 px-6 rounded-xl w-sm border-b-2 border-blue-700"
+                    required>
             </label>
 
             <section class="flex flex-row flex-wrap gap-4 w-f ull justify-center">
@@ -25,7 +37,16 @@
                     class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-xl px-8 py-2 text-center uppercase">Ingresar</button>
             </section>
 
-        </section>
+        </article>
     </form>
 </article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const error = document.querySelector(".ct-notification-error")
+    setTimeout(() => {
+        error.classList.add("hidden")
+    }, 4000)
+</script>
 {% endblock %}

@@ -1,5 +1,5 @@
 from .autentication import autentication
-from .login_catador import catadorLogin
+from .login_tester import testerLogin
 from .main_panel import mainPanel
 
 from .sessions_management.sessions_panel import sesionsPanel
@@ -18,3 +18,5 @@ from .tester_management.tester_search import testerSearch
 
 from .apis.api_tag import newTag
 from .apis.api_words import words
+
+from .tester_forms.main_tester_form import mainTesterForm

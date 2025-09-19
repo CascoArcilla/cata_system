@@ -17,4 +17,4 @@ class SesionSensorial(models.Model):
         Tecnica, on_delete=models.CASCADE, related_name="sesion_tecnica")
 
     def __str__(self):
-        return self.codigo_sesion
+        return self.nombre_sesion if self.nombre_sesion else self.codigo_sesion
