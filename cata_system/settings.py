@@ -28,9 +28,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-u)t2290d+c@$$7@!%@m&=w44$a@haxew8$!!tggh!up-+0-ll('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 # SESSIONS TIMEOUT
 SESSION_COOKIE_AGE = 30 * 60
@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 ]
 
 TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = 'C:/Program Files/nodejs/npm.cmd'
+NPM_BIN_PATH = 'npm'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
