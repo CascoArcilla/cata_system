@@ -16,7 +16,7 @@ function startRepetition() {
   const inputUser = document.createElement("input");
   inputUser.type = "hidden";
   inputUser.name = "username";
-  inputUser.value = "pollo";
+  inputUser.value = "aguBido";
 
   actionForm.appendChild(inputAction);
   actionForm.appendChild(inputUser);

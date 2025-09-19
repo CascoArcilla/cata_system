@@ -1,5 +1,6 @@
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from ..utils import general_error
 from ..controllers import LoginTesterController
 
@@ -30,5 +31,6 @@ def testerLogin(req: HttpRequest):
         req.session["code_session"] = session_code
 
         req.session.set_expiry(20*60)
+        return redirect(reverse("cata_system:catador_main"))
     else:
         return render(req, "tecnicas/cata-login.html")

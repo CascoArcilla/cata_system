@@ -12,10 +12,6 @@ urlpatterns = [
          views.autentication,
          name="autenticacion"),
 
-    path("catador-login",
-         views.testerLogin,
-         name="catador_login"),
-
 
     # Gestion de catadores
     path("panel-catadores",
@@ -66,6 +62,15 @@ urlpatterns = [
          views.sessionDetails,
          name="detalles_sesion"),
 
+
+    # Vistas para catadores
+    path("catador-login",
+         views.testerLogin,
+         name="catador_login"),
+
+    path("catador-main",
+         views.mainTesterForm,
+         name="catador_main"),
 
     # APIs
     path("nueva-etiqueta",

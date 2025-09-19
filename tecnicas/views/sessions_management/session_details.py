@@ -12,12 +12,12 @@ def sessionDetails(req: HttpRequest, session_code: str):
     elif req.method == "POST":
         if req.POST["action"] == "start_session":
             response = DetallesSesionController.startRepetition(
-                session_code, req.POST.get("username"))
+                session_code=session_code, username=req.POST["username"])
             if isinstance(response, dict):
                 context["error"] = response["error"]
                 return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
-
-            return redirect(reverse("cata_system:----"))
+            context["message"] = "La sesión ha iniciado"
+            return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
         elif req.POST.get("action") == "delete_session":
             pass
         elif req.POST.get("action") == "monitor_session":

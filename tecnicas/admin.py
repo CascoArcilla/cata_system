@@ -20,6 +20,7 @@ from .models import Escala
 from .models import EtiquetasEscala
 
 from .models import Producto
+from .models import Participacion
 
 # Register your models here.
 admin.site.register(CategoriaTecnica)
@@ -41,3 +42,4 @@ admin.site.register(Escala)
 admin.site.register(EtiquetasEscala)
 
 admin.site.register(Producto)
+admin.site.register(Participacion)
