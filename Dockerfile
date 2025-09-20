@@ -7,12 +7,12 @@ RUN apt install -y python3 python3-pip python3-mysqldb
 WORKDIR /app
 
 COPY . .
-WORKDIR /app
+RUN ls
+RUN pip --version
+RUN python3 --version
 
-RUN chmod 777 ./requirements.txt
 RUN python3 -m pip install -r requirements.txt
 
-RUN chmod 777 ./tecnicas/migrations
 RUN python3 manage.py migrate
 
 RUN chmod 777 ./create_superuser.py
