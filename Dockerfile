@@ -6,9 +6,11 @@ RUN ls
 
 COPY requirements.txt .
 
+RUN python -m pip install -r --upgrade pip
+
 RUN ls
 
-RUN python -m pip install requirements.txt
+RUN python -m pip install -r requirements.txt
 
 COPY . .
 
