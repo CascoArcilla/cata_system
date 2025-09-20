@@ -2,8 +2,13 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+RUN ls
+
 COPY . .
-RUN pip install --no-cache-dir -r requirements.txt
+
+RUN ls
+
+RUN python -m pip install --no-cache-dir -r requirements.txt
 
 RUN python manege.py migrate
 
