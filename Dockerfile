@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     python3-mysqldb \
     python3.12-venv \
+    pkg-config \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /cata_system
@@ -19,8 +20,9 @@ RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN ls -lah
 
-RUN python3 -m pip install --upgrade pip && \
-    python3 -m pip install -r requirements.txt
+RUN python3 -m pip install --upgrade pip
+
+RUN python3 -m pip install -r requirements.txt
 
 RUN python3 manage.py migrate
 RUN python3 manage.py tailwind build
