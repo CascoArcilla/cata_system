@@ -17,10 +17,6 @@ class MainTesterFormController():
             return controller_error("Parámetros inexistentes")
 
     def assignOrder(self):
-        self.checkAssignOrder()
-        if isinstance(self.order, Orden):
-            return self.order
-
         with transaction.atomic():
             orders_without_tester = Orden.objects.select_for_update().filter(
                 id_tecnica=self.session.tecnica, id_catador=None)
@@ -37,12 +33,13 @@ class MainTesterFormController():
             return self.order_to_assign
 
     def checkAssignOrder(self):
-        if not self.tester or self.session:
+        if not self.tester or not self.session:
             return controller_error("Atributos no establecidos")
-
+        
         try:
             res_order = Orden.objects.get(
-                id_tecnica=self.session.tecnica, id_catador=self.tester.id)
+                id_tecnica=self.session.tecnica, id_catador=self.tester)
             self.order = res_order
+            return self.order
         except Orden.DoesNotExist:
             return controller_error("Catador sin orden")
