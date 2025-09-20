@@ -1,50 +1,86 @@
-FROM debian:12.10
+FROM python:3.11-slim
 
-RUN apt -y update
-RUN apt install -y python3 python3-pip python3-mysqldb
-
-RUN PIP_BREAK_SYSTEM_PACKAGES=1
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    python3-dev \
+    && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
+COPY requirements.txt .
+
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
+RUN ls
+
+RUN python -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+
 COPY . .
 
-RUN pip install -r ./requirements.txt
-
-RUN python3 manage.py migrate
+RUN python manege.py migrate
+# RUN python manage.py tailwind build
+# RUN python manage.py collectstatic --noinput
 
 RUN python manege.py shell < create_superuser.py
 
+EXPOSE 7860
+
 CMD ["python3", "manage.py", "runserver", "0.0.0.0:7860"]
-# CMD ["gunicorn", "cata_system.wsgi:tecnicas", "--bind", "0.0.0.0:7860"]
-    
-# python3 manage.py runserver 0:7860; \
+
+#########
 
 # FROM python:3.11-slim
 
+# # Instalar dependencias del sistema
+# RUN apt-get update && apt-get install -y \
+#     build-essential \
+#     libpq-dev \
+#     python3-dev \
+#     && rm -rf /var/lib/apt/lists/*
+
+# # Establecer directorio de trabajo
 # WORKDIR /app
 
-# RUN ls
-
+# # Copiar requirements primero para cachear dependencias
 # COPY requirements.txt .
 
-# RUN pip install -r --upgrade pip
+# # Crear y activar entorno virtual
+# RUN python -m venv /opt/venv
+# ENV PATH="/opt/venv/bin:$PATH"
 
-# RUN ls
+# # Instalar dependencias de Python
+# RUN pip install --upgrade pip && \
+#     pip install -r requirements.txt
 
-# RUN pip install -r requirements.txt
+# # Copiar el resto de la aplicación
+# COPY . .
+
+# # Exponer puerto
+# EXPOSE 7860
+
+# # Comando para ejecutar la aplicación
+# CMD ["python", "manage.py", "runserver", "0.0.0.0:7860"]
+
+# FROM debian:12.10
+
+# RUN apt -y update
+# RUN apt install -y python3 python3-pip python3-mysqldb
+
+# RUN PIP_BREAK_SYSTEM_PACKAGES=1
+
+# WORKDIR /app
 
 # COPY . .
 
-# RUN python manege.py migrate
+# RUN pip install -r ./requirements.txt
 
-# RUN python manage.py tailwind build
-
-# RUN python manage.py collectstatic --noinput
+# RUN python3 manage.py migrate
 
 # RUN python manege.py shell < create_superuser.py
 
-# EXPOSE 7860
-
-# # Comando de inicio (usar gunicorn en vez de runserver en producción)
+# CMD ["python3", "manage.py", "runserver", "0.0.0.0:7860"]
 # CMD ["gunicorn", "cata_system.wsgi:tecnicas", "--bind", "0.0.0.0:7860"]
+    
