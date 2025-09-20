@@ -11,7 +11,8 @@ RUN ls
 RUN pip --version
 RUN python3 --version
 
-RUN python3 -m pip install -r requirements.txt
+RUN chmod 777 ./requirements.txt
+RUN pip install -r ./requirements.txt
 
 RUN python3 manage.py migrate
 
