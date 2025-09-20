@@ -6,19 +6,16 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
+WORKDIR /cata_system
 
 COPY requirements.txt .
 
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-
-RUN ls
-
-RUN python -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+RUN ls -lah
 
 COPY . .
+RUN ls -lah
 
 RUN python manege.py migrate
 # RUN python manage.py tailwind build
