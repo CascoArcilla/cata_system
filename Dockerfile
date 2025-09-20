@@ -14,12 +14,12 @@ RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN ls -lah
 
-COPY . .
-RUN ls -lah
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
 RUN python manage.py migrate
-# RUN python manage.py tailwind build
-# RUN python manage.py collectstatic --noinput
+RUN python manage.py tailwind build
+RUN python manage.py collectstatic --noinput
 
 RUN python manage.py shell < create_superuser.py
 
