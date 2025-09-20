@@ -17,11 +17,11 @@ RUN ls -lah
 COPY . .
 RUN ls -lah
 
-RUN python manege.py migrate
+RUN python manage.py migrate
 # RUN python manage.py tailwind build
 # RUN python manage.py collectstatic --noinput
 
-RUN python manege.py shell < create_superuser.py
+RUN python manage.py shell < create_superuser.py
 
 EXPOSE 7860
 
