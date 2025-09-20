@@ -4,11 +4,13 @@ WORKDIR /app
 
 RUN ls
 
-COPY . .
+COPY requirements.txt .
 
 RUN ls
 
-RUN python -m pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install requirements.txt
+
+COPY . .
 
 RUN python manege.py migrate
 
