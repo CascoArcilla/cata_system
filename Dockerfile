@@ -1,12 +1,12 @@
-FROM ubuntu:24.04
+FROM python:3.11-slim
 
-RUN export DEBIAN_FRONTEND=noninteractive
+# RUN export DEBIAN_FRONTEND=noninteractivek
 
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     python3 \
-    python3-dev \
+    # python3-dev \
     python3-mysqldb \
     python3.12-venv \
     pkg-config \
@@ -21,12 +21,13 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN ls -lah
 
 RUN python3 -m pip install --upgrade pip
-
 RUN python3 -m pip install -r requirements.txt
 
-RUN python3 manage.py migrate
-RUN python3 manage.py tailwind build
-RUN python3 manage.py collectstatic --noinput
+COPY . .
+
+# RUN python3 manage.py migrate
+# RUN python3 manage.py tailwind build
+# RUN python3 manage.py collectstatic --noinput
 
 RUN python3 manage.py shell < create_superuser.py
 
