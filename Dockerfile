@@ -4,12 +4,13 @@ RUN export DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    default-libmysqlclient-dev \
     libpq-dev \
     python3 \
-    # python3-dev \
     python3-mysqldb \
     python3.12-venv \
     pkg-config \
+    libmysqlclient-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /cata_system
@@ -20,10 +21,9 @@ RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 RUN ls -lah
 
-RUN python3 -m pip install --upgrade pip
-RUN python3 -m pip install -r requirements.txt
-
-RUN python3 -m pip install mysqlclient
+RUN pip install --upgrade pip && \
+    pip install wheel && \
+    pip install -r requirements.txt
 
 COPY . .
 
