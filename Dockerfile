@@ -1,16 +1,13 @@
 FROM ubuntu:24.04
 
-# RUN export DEBIAN_FRONTEND=noninteractive
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     python3 python3-dev python3-pip python3-venv \
-    # python3-mysqldb
     gcc pkg-config \
     default-libmysqlclient-dev \
-    # libmysqlclient-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /cata_system
@@ -27,6 +24,7 @@ RUN pip install --upgrade pip && \
 
 COPY . .
 
+RUN python3 manage.py makemigrations
 RUN python3 manage.py migrate
 # RUN python3 manage.py tailwind build
 # RUN python3 manage.py collectstatic --noinput
