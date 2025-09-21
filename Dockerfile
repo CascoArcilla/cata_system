@@ -1,6 +1,6 @@
-FROM python:3.11-slim
+FROM ubuntu:24.04
 
-# RUN export DEBIAN_FRONTEND=noninteractivek
+RUN export DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -22,8 +22,6 @@ RUN ls -lah
 
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install -r requirements.txt
-
-COPY . .
 
 # RUN python3 manage.py migrate
 # RUN python3 manage.py tailwind build
