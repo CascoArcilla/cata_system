@@ -1,16 +1,24 @@
 FROM ubuntu:24.04
 
-RUN export DEBIAN_FRONTEND=noninteractive
+# RUN export DEBIAN_FRONTEND=noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
+
+# RUN apt-get update && apt-get install -y \
+#     build-essential \
+#     default-libmysqlclient-dev \
+#     libpq-dev \
+#     python3 \
+#     python3-mysqldb \
+#     python3.12-venv \
+#     pkg-config \
+#     libmysqlclient-dev \
+#     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    python3 python3-pip python3-dev \
+    gcc pkg-config \
     default-libmysqlclient-dev \
-    libpq-dev \
-    python3 \
-    python3-mysqldb \
-    python3.12-venv \
-    pkg-config \
-    libmysqlclient-dev \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /cata_system
