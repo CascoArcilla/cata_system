@@ -23,7 +23,9 @@ RUN ls -lah
 RUN python3 -m pip install --upgrade pip
 RUN python3 -m pip install -r requirements.txt
 
-# RUN python3 manage.py migrate
+COPY . .
+
+RUN python3 manage.py migrate
 # RUN python3 manage.py tailwind build
 # RUN python3 manage.py collectstatic --noinput
 
