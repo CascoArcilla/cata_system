@@ -30,7 +30,9 @@ SECRET_KEY = 'django-insecure-u)t2290d+c@$$7@!%@m&=w44$a@haxew8$!!tggh!up-+0-ll(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["https://chartmand-cata-system.hf.space"]
+
+CSRF_TRUSTED_ORIGINS = ["https://chartmand-cata-system.hf.space"]
 
 # SESSIONS TIMEOUT
 SESSION_COOKIE_AGE = 30 * 60
