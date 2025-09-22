@@ -26,6 +26,7 @@ RUN pip install --upgrade pip && \
 
 COPY . .
 
+RUN python3 manage.py tailwind install
 RUN python3 manage.py tailwind build
 RUN python manage.py collectstatic --noinput
 
