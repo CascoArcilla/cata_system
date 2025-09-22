@@ -28,14 +28,6 @@ class SesionBasicForm(forms.Form):
         "placeholder": "Solo números"
     }), required=True)
 
-    estilo_palabras = forms.ModelChoiceField(queryset=EstiloPalabra.objects.all(), widget=forms.RadioSelect(attrs={
-        "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
-    }), required=True, initial=EstiloPalabra.objects.first())
-
-    tipo_escala = forms.ModelChoiceField(queryset=TipoEscala.objects.all(), widget=forms.RadioSelect(attrs={
-        "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
-    }), required=True, initial=TipoEscala.objects.first())
-
     tamano_escala = forms.IntegerField(widget=forms.NumberInput(attrs={
         "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
     }), required=True, min_value=5)
@@ -47,6 +39,14 @@ class SesionBasicForm(forms.Form):
 
     def __init__(self, *args, id_tecnica_new=0, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields['estilo_palabras'] = forms.ModelChoiceField(queryset=EstiloPalabra.objects.all(), widget=forms.RadioSelect(attrs={
+        "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
+        }), required=True, initial=EstiloPalabra.objects.first())
+
+        self.fields['tipo_escala'] = forms.ModelChoiceField(queryset=TipoEscala.objects.all(), widget=forms.RadioSelect(attrs={
+            "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
+        }), required=True, initial=TipoEscala.objects.first())
 
         if id_tecnica_new != 0:
             self.fields['id_tecnica'] = forms.IntegerField(
