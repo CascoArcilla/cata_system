@@ -8,15 +8,17 @@ RUN apt-get update && apt-get install -y \
     python3 python3-dev python3-pip python3-venv \
     gcc pkg-config \
     default-libmysqlclient-dev \
+    nodejs npm \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /cata_system
+
+RUN npm install -g pnpm
 
 COPY requirements.txt .
 
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
-RUN ls -lah
 
 RUN pip install --upgrade pip && \
     pip install wheel && \
