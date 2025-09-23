@@ -1,4 +1,4 @@
-from ..models import Calificacion, Tecnica
+from ...models import Calificacion, Tecnica
 
 
 class CalificacionController():

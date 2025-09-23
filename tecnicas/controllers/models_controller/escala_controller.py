@@ -1,6 +1,6 @@
-from ..models import Etiqueta, EtiquetasEscala, Escala, TipoEscala
+from ...models import Etiqueta, EtiquetasEscala, Escala, TipoEscala
 from django.db import DatabaseError
-from ..utils import controller_error
+from ...utils import controller_error
 
 
 class EscalaController():

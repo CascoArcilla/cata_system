@@ -1,5 +1,5 @@
-from ..models import Orden, Posicion, Producto, Tecnica
-from ..utils import controller_error
+from ...models import Orden, Posicion, Producto, Tecnica
+from ...utils import controller_error
 from django.db import DatabaseError
 
 

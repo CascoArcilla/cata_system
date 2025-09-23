@@ -1,5 +1,5 @@
-from ..models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, Calificacion, Vocabulario, EsVocabulario
-from ..utils import controller_error, shuffleArray
+from ...models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, Calificacion, Vocabulario, EsVocabulario
+from ...utils import controller_error, shuffleArray
 from django.db import transaction
 
 

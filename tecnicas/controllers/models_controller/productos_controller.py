@@ -1,6 +1,6 @@
 from django.db import DatabaseError
-from ..utils import controller_error
-from ..models import Producto, Tecnica
+from ...utils import controller_error
+from ...models import Producto, Tecnica
 
 
 class ProductosController():

@@ -1,5 +1,5 @@
-from ..models import Catador, SesionSensorial, Participacion
-from ..utils import controller_error
+from ...models import Catador, SesionSensorial, Participacion
+from ...utils import controller_error
 from django.db import transaction
 
 

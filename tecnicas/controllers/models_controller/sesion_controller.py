@@ -1,7 +1,7 @@
 from django.db import DatabaseError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from ..models import Tecnica, Presentador, SesionSensorial
-from ..utils import controller_error
+from ...models import Tecnica, Presentador, SesionSensorial
+from ...utils import controller_error
 
 
 class SesionController():
