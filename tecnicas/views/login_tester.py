@@ -29,6 +29,7 @@ def testerLogin(req: HttpRequest):
 
         req.session["cata_username"] = tester_user
         req.session["code_session"] = session_code
+        req.session["id_participation"] = taster_participation.id
 
         req.session.set_expiry(20*60)
         return redirect(reverse("cata_system:catador_main"))

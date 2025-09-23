@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from ...controllers import SesionController, MainTesterFormController
-from ...models import Orden
 
 
 def mainTesterForm(req: HttpRequest):
@@ -12,28 +12,43 @@ def mainTesterForm(req: HttpRequest):
         "session": session
     }
 
+    view_controller = MainTesterFormController(
+        req.session["code_session"], req.session["cata_username"])
+
     if req.method == "GET":
+        order = view_controller.checkAssignOrder()
+
+        if not isinstance(order, dict):
+            req.session["id_order"] = order.id
+            if view_controller.isEndedSession(req.session["id_participation"]):
+                context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
+                context["has_ended"] = True
+
         return render(req, "tecnicas/forms_tester/main_tester.html", context)
     elif req.method == "POST":
         if req.POST["action"] == "start_posting":
-            view_controller = MainTesterFormController(
-                req.session["code_session"], req.session["cata_username"])
-
-            order = view_controller.checkAssignOrder()
-            if not isinstance(order, dict):
-                req.session["id_order"] = order.id
-                context["error"] = "Catador tiene orden"
-                return render(req, "tecnicas/forms_tester/main_tester.html", context)
+            if "id_order" in req.session:
+                update_participation = view_controller.endedToFalseAndActiveTester(req.session["id_participation"])
+                if isinstance(update_participation, dict):
+                    context["error"] = update_participation["error"]
+                    return render(req, "tecnicas/forms_tester/main_tester.html", context)
+                
+                return redirect(reverse("cata_system:session_convencional"))
 
             order = view_controller.assignOrder()
             if isinstance(order, dict):
                 context["error"] = order["error"]
                 return render(req, "tecnicas/forms_tester/main_tester.html", context)
+            
+            update_participation = view_controller.endedToFalseAndActiveTester(req.session["id_participation"])
+            if isinstance(update_participation, dict):
+                context["error"] = update_participation["error"]
+                return render(req, "tecnicas/forms_tester/main_tester.html", context)
 
-            print(order)
-            return render(req, "tecnicas/forms_tester/main_tester.html", context)
+            return redirect(reverse("cata_system:session_convencional"))
         elif req.POST["action"] == "close_session":
-            pass
+            req.session.flush()
+            return redirect(reverse("cata_system:catador_login"))
         else:
             context["error"] = "Acción sin especificar"
             return render(req, "tecnicas/forms_tester/main_tester.html", context)

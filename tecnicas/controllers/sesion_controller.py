@@ -91,6 +91,14 @@ class SesionController():
             return session
         except SesionSensorial.DoesNotExist:
             return controller_error("La sesión ya no existe")
+        
+    @staticmethod
+    def getSessionByCode(code: str):
+        try:
+            session = SesionSensorial.objects.get(codigo_sesion=code)
+            return session
+        except SesionSensorial.DoesNotExist:
+            return controller_error("La sesión ya no existe")
 
     @staticmethod
     def getNumberSessionsByCreator(user_name: str):

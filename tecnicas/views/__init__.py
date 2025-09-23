@@ -20,3 +20,4 @@ from .apis.api_tag import newTag
 from .apis.api_words import words
 
 from .tester_forms.main_tester_form import mainTesterForm
+from .tester_forms.convencional_scales import convencionalScales
