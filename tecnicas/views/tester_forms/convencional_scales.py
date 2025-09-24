@@ -72,6 +72,8 @@ def convencionalScales(req: HttpRequest):
         if isinstance(next_position, list):
             next_position = next_position[0]
 
+        context["product"] = next_position.id_producto
+
         ratings_product = CalificacionController.getRatings(
             technique=technique,
             product=next_position.id_producto,
