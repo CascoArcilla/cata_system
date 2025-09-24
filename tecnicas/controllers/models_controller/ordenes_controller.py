@@ -74,3 +74,11 @@ class OrdenesController():
             return self.positions
         except DatabaseError as error:
             return controller_error("error al guardar las posiciones")
+
+    @staticmethod
+    def getOrderById(id: int):
+        try:
+            order = Orden.objects.get(id=id)
+            return order
+        except Orden.DoesNotExist:
+            return controller_error("No existe orden")

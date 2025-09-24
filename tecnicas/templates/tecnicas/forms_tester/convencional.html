@@ -1,4 +1,4 @@
-{% extends 'tecnicas/layouts/base.html' %}
+    {% extends 'tecnicas/layouts/base.html' %}
 
 {% block title %}Convencional{% endblock %}
 
@@ -11,9 +11,37 @@
             </h1>
         </header>
 
+        {% if error %}
+        <hr>
+
+        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
+            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
+                {{ error }}
+            </p>
+        </article>
+        {% endif %}
+
         <article>
             <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
                 {{ session.tecnica.instrucciones }}
+            </p>
+        </article>
+
+        <article>
+            <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
+                {{ scale }}
+            </p>
+        </article>
+
+        <article>
+            <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
+                {{ tags }}
+            </p>
+        </article>
+
+        <article>
+            <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
+                {{ words }}
             </p>
         </article>
     </article>

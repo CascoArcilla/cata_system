@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from ...controllers import SesionController, MainTesterFormController
+from ...controllers import SesionController, MainTesterFormController, ParticipacionController
 
 
 def mainTesterForm(req: HttpRequest):
@@ -20,7 +20,7 @@ def mainTesterForm(req: HttpRequest):
 
         if not isinstance(order, dict):
             req.session["id_order"] = order.id
-            if view_controller.isEndedSession(req.session["id_participation"]):
+            if view_controller.isEndedSession(id_participation=req.session["id_participation"], repetition=session.tecnica.repecion):
                 context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
                 context["has_ended"] = True
 
@@ -28,19 +28,21 @@ def mainTesterForm(req: HttpRequest):
     elif req.method == "POST":
         if req.POST["action"] == "start_posting":
             if "id_order" in req.session:
-                update_participation = view_controller.endedToFalseAndActiveTester(req.session["id_participation"])
+                update_participation = ParticipacionController.enterSession(
+                    id_participation=req.session["id_participation"])
                 if isinstance(update_participation, dict):
                     context["error"] = update_participation["error"]
                     return render(req, "tecnicas/forms_tester/main_tester.html", context)
-                
+
                 return redirect(reverse("cata_system:session_convencional"))
 
             order = view_controller.assignOrder()
             if isinstance(order, dict):
                 context["error"] = order["error"]
                 return render(req, "tecnicas/forms_tester/main_tester.html", context)
-            
-            update_participation = view_controller.endedToFalseAndActiveTester(req.session["id_participation"])
+
+            update_participation = ParticipacionController.enterSession(
+                id_participation=req.session["id_participation"])
             if isinstance(update_participation, dict):
                 context["error"] = update_participation["error"]
                 return render(req, "tecnicas/forms_tester/main_tester.html", context)

@@ -1,4 +1,4 @@
-from ...models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, Calificacion, Vocabulario, EsVocabulario
+from ...models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, Calificacion, EsVocabulario
 from ...utils import controller_error, shuffleArray
 from django.db import transaction
 
@@ -18,10 +18,10 @@ class MainTesterFormController():
 
     def assignOrder(self):
         with transaction.atomic():
-            orders_without_tester = Orden.objects.select_for_update().filter(
-                id_tecnica=self.session.tecnica, id_catador=None)
+            orders_without_tester = list(Orden.objects.select_for_update().filter(
+                id_tecnica=self.session.tecnica, id_catador=None))
 
-            if not len(orders_without_tester):
+            if not orders_without_tester:
                 return controller_error("Las ordenes se han acabado")
 
             shuffle_orders = shuffleArray(orders_without_tester)
@@ -44,24 +44,14 @@ class MainTesterFormController():
         except Orden.DoesNotExist:
             return controller_error("Catador sin orden")
 
-    def endedToFalseAndActiveTester(self, id_participation: int):
-        try:
-            self.participation = Participacion.objects.get(id=id_participation)
-            self.participation.finalizado = False
-            self.participation.activo = True
-            self.participation.save()
-            return self.participation
-        except Participacion.DoesNotExist:
-            return controller_error("No se ha encontrado la participación")
-
-    def isEndedSession(self, id_participation: int):
+    def isEndedSession(self, id_participation: int, repetition: int):
         if not self.order or not id_participation:
             return controller_error("Se requieren datos para comprobar la finalización")
 
         try:
-            self.participation = Participacion.objects.get(id=id_participation)
+            participation = Participacion.objects.get(id=id_participation)
 
-            if self.participation.finalizado:
+            if participation.finalizado:
                 num_products = Producto.objects.filter(
                     id_tecnica=self.session.tecnica).count()
 
@@ -79,12 +69,12 @@ class MainTesterFormController():
                     num_words = e_vocabulary.id_vocabulario.palabras.count()
 
                 num_ratings_now = Calificacion.objects.filter(
-                    id_tecnica=self.session.tecnica, id_catador=self.tester).count()
+                    id_tecnica=self.session.tecnica, id_catador=self.tester, num_repeticion=repetition).count()
 
                 num_ratings_max_by_tester = num_products * num_words
 
                 return not num_ratings_now <= num_ratings_max_by_tester
             else:
-                return self.participation.finalizado
+                return participation.finalizado
         except Participacion.DoesNotExist:
             return controller_error("No se ha encontrado la participación")

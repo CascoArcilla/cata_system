@@ -18,7 +18,7 @@ class LoginTesterController():
             self.session = SesionSensorial.objects.get(
                 codigo_sesion=code_session)
 
-            return True
+            return (self.tester, self.session)
         except (Catador.DoesNotExist, SesionSensorial.DoesNotExist):
             return controller_error("Credenciales inválidas")
 

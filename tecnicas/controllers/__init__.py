@@ -7,6 +7,11 @@ from .models_controller.estilo_palabras_controller import EstiloPalabrasControll
 from .models_controller.palabras_controller import PalabrasController
 from .models_controller.sesion_controller import SesionController
 from .models_controller.calificacion_controller import CalificacionController
+from .models_controller.catador_controller import CatadorController
+from .models_controller.posicion_controller import PosicionController
+from .models_controller.particiapacion_controller import ParticipacionController
+from .models_controller.dato_controller import DatoController
+
 from .views_controller.detalles_sesion_controller import DetallesSesionController
 from .views_controller.login_tester_controller import LoginTesterController
 from .views_controller.main_tester_form_controller import MainTesterFormController
