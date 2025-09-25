@@ -96,6 +96,7 @@ def convencionalScales(req: HttpRequest):
 
         scale = EscalaController.getScaleByTechnique(technique=technique)
         context["scale"] = scale
+        context["type_scale"] = scale.id_tipo_escala.nombre_escala
 
         use_tags = EscalaController.getRelatedTagsInScale(scale=scale)
         context["tags"] = use_tags

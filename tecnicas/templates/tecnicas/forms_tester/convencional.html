@@ -1,6 +1,30 @@
-    {% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/base.html' %}
+
+{% load static %}
 
 {% block title %}Convencional{% endblock %}
+
+{% block extra_css %}
+<style>
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--color-blue-500);
+        cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #3b82f6;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
 
 {% block content %}
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
@@ -13,7 +37,6 @@
 
         {% if error %}
         <hr>
-
         <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
             <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
                 {{ error }}
@@ -21,38 +44,118 @@
         </article>
         {% endif %}
 
-        <article>
-            <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
-                {{ session.tecnica.instrucciones }}
-            </p>
+        <article class="hidden">
+            <ul class="list-words">
+                {% for word in words %}
+                <li class="item-word">
+                    <p class="word-id">
+                        {{ word.id }}
+                    </p>
+                    <p class="word-name">
+                        {{ word.nombre_palabra }}
+                    </p>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <ul class="list-tags">
+                {% for tag in tags %}
+                <li class="item-tag">
+                    <p class="tag-id">
+                        {{ tag.posicion }}
+                    </p>
+                    <p class="tag-name">
+                        {{ tag.id_etiqueta }}
+                    </p>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="scale-data">
+                <p class="scale-type">
+                    {{ scale.id_tipo_escala }}
+                </p>
+                <p class="scale-size">
+                    {{ scale.longitud }}
+                </p>
+            </div>
         </article>
 
-        <article>
-            <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
-                {{ product }}
-            </p>
+        <article class="rounded grid grid-cols-2 max-sm:grid-cols-1 gap-4">
+            <section class="flex flex-col items-center justify-center bg-gray-200 p-2 rounded-lg">
+                <p class="text-lg font-medium text-center">
+                    {{ session.tecnica.instrucciones }}
+                </p>
+            </section>
+            <section class="flex flex-col items-center justify-center bg-gray-200 p-2 rounded-lg">
+                <p class="text-lg font-bold text-center">
+                    Producto:
+                </p>
+                <p class="text-2xl font-bold text-center">
+                    {{ product }}
+                </p>
+            </section>
         </article>
 
-        <article>
-            <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
-                {{ scale }}
-            </p>
-        </article>
+        {% if type_scale == "continua" %}
+        <article class="scale-continue-container [&>*:not(:last-child)]:mb-5">
+            {% for word in words %}
+            <form action="" method="post" class="form-rating-{{word}}">
+                {% csrf_token %}
+                <article class="bg-gray-200 p-6 rounded-lg mb-3">
+                    <label for="id-range-word-{{word}}"
+                        class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
 
-        <article>
-            <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
-                {{ tags }}
-            </p>
-        </article>
+                    <section class="block">
+                        <div class="relative">
+                            <input id="id-range-word-{{word}}" type="range" min="0" max="1000" value="500"
+                                name="rating-word"
+                                class="w-full h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer slider">
 
-        <article>
-            <p class="text-lg font-medium text-center bg-gray-200 p-4 rounded">
-                {{ words }}
-            </p>
+                            <div class="absolute top-0 left-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
+                            </div>
+
+                            <div
+                                class="absolute top-1/5 left-1/2 w-0.5 transform -translate-x-1/2 h-4/5 bg-red-500 z-10">
+                            </div>
+
+                            <div class="absolute top-0 right-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-between mt-4">
+                            {% for tag in tags %}
+                            <div class="flex flex-col items-start text-left w-[120px]">
+                                <span class="text-sm font-medium text-gray-700 break-words first-letter:capitalize">
+                                    {{ tag.id_etiqueta }}
+                                </span>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                </article>
+                <article class="flex justify-end gap-2">
+                    <button type="button" onclick="checkSendRating('{{word}}')"
+                        class="ct-btn-check-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit disabled:bg-amber-600">
+                        ¿Guardar calificación?
+                    </button>
+                    <button type="button" onclick="sendRating('{{word}}')"
+                        class="ct-btn-submit-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-500 text-white w-fit disabled:bg-amber-600 hidden">
+                        Estoy seguro
+                    </button>
+                    <button type="button" onclick="cancelSendRating('{{word}}')"
+                        class="ct-btn-cancel-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-500 text-white w-fit disabled:bg-amber-600 hidden">
+                        Cancelar
+                    </button>
+                </article>
+            </form>
+            {% endfor %}
         </article>
+        {% endif %}
     </article>
 </article>
 {% endblock %}
 
 {% block extra_js %}
+<script src="{% static 'js/created-scale.js' %}"></script>
 {% endblock %}
