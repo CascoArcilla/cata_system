@@ -97,12 +97,12 @@
             </section>
         </article>
 
-        {% if type_scale == "continua" %}
-        <article class="scale-continue-container [&>*:not(:last-child)]:mb-5">
+        <article class="scale-continue-container [&>*:not(:last-child)]:mb-5 flex flex-col items-center justify-center">
+            {% if type_scale == "continua" %}
             {% for word in words %}
             <form action="" method="post" class="form-rating-{{word}}">
                 {% csrf_token %}
-                <article class="bg-gray-200 p-6 rounded-lg mb-3">
+                <article class="bg-gray-200 p-6 rounded-lg mb-3 w-fit">
                     <label for="id-range-word-{{word}}"
                         class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
 
@@ -110,7 +110,8 @@
                         <div class="relative">
                             <input id="id-range-word-{{word}}" type="range" min="0" max="1000" value="500"
                                 name="rating-word"
-                                class="w-full h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer slider">
+                                class="h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer slider"
+                                style="width: {{scale.longitud}}cm;">
 
                             <div class="absolute top-0 left-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
                             </div>
@@ -125,8 +126,8 @@
 
                         <div class="flex justify-between mt-4">
                             {% for tag in tags %}
-                            <div class="flex flex-col items-start text-left w-[120px]">
-                                <span class="text-sm font-medium text-gray-700 break-words first-letter:capitalize">
+                            <div class="flex flex-col items-start text-left w-[100px]">
+                                <span class="text-xs     font-medium text-gray-700 break-words first-letter:capitalize">
                                     {{ tag.id_etiqueta }}
                                 </span>
                             </div>
@@ -150,8 +151,8 @@
                 </article>
             </form>
             {% endfor %}
+            {% endif %}
         </article>
-        {% endif %}
     </article>
 </article>
 {% endblock %}

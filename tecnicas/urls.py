@@ -84,4 +84,8 @@ urlpatterns = [
     path("api/palabras",
          views.words,
          name="api_palabras"),
+
+    path("testers/api/ratingword",
+         views.reatingWord,
+         name="api_rating_word"),
 ]

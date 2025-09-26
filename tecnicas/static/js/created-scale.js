@@ -20,10 +20,11 @@ function cancelSendRating(word) {
 
 async function sendRating(word) {
   const formRatingWord = document.querySelector(`.form-rating-${word}`);
-  console.log(formRatingWord);
 
-  const dataForm = new FormData(this);
+  const dataForm = new FormData(formRatingWord);
   const url = "/cata/testers/api/ratingword";
+
+  dataForm.set("name-word", word);
 
   try {
     const respone = await fetch(url, {
@@ -42,7 +43,32 @@ async function sendRating(word) {
     }
 
     console.log(jsonResponse);
+    remplaceForm(formRatingWord, jsonResponse.message);
   } catch (error) {
     console.log("Error:", error);
   }
+}
+
+function remplaceForm(oldForm, message) {
+  const articleContainer = document.createElement("article");
+  const thankYouMessage = document.createElement("p");
+  const messageResponse = document.createElement("p");
+
+  thankYouMessage.textContent =
+    "Palabra calificada, gracias por la participación";
+  messageResponse.textContent = message;
+
+  articleContainer.classList.add(
+    "bg-gray-200",
+    "p-6",
+    "rounded-lg",
+    "mb-3",
+    "text-center"
+  );
+  thankYouMessage.classList.add("text-2xl", "font-bold");
+  messageResponse.classList.add("text-lg");
+
+  articleContainer.appendChild(thankYouMessage);
+  articleContainer.appendChild(messageResponse);
+  oldForm.replaceWith(articleContainer);
 }

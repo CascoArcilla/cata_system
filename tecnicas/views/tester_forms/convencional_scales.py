@@ -6,6 +6,9 @@ from ...controllers import SesionController, PosicionController, CalificacionCon
 '''
  **** Esta vista para sesion con tecnica convencional de escalas, al entrar debe:
  **** ****
+
+ ++++ Por el lado del servidor
+ ++++ ++++
  * Obtner los productos que se evaluan en la tecnica
  * Ordenar los productos segun la Poscion en que se encuentre en el Orden ya establecidos
  * Obtner las palabras para evaluar
@@ -33,6 +36,28 @@ from ...controllers import SesionController, PosicionController, CalificacionCon
     - Comprobar que palabras no estan tienen dato
     - Mandar palabras para el usuario
  * Obtener informacion de la escala para mandar
+
+ ++++ Por el lado del cliente
+ ++++ ++++
+ + Mostrar en todo momento las instrucciones en la parte superior de la pagina
+ + Mostrar la repeticion en la que esta
+ + Mostrar el producto que esta calificando
+ + Desglozar las palabras para calificar
+    - Cada palabra debe contar con su input segun el tipo
+    - Para cada input se debe poder guardar la calificacion
+    - Anstes de guardar la calificacion preguntar por la confirmacion a la hora de guardar el dato
+    - Especficar las etiquetas por debajo del input de ripo ranto
+        - Para las escalas de tipo continua
+            - La longitud de la barra de la escala debe ser igual al tamaño que se especifico en la configuracion
+            - Contar con un input de tipo range
+            - Contar con etiqueta en el inicio de la barra, en el medio y al final
+            - La escala debe terner marcas al inicio, medio y final
+            - El rango de la barra debe ir de 0 a 1000
+        - Para las escalas de tipo estructurada
+            - Su longitud sera tan largo como el contendor que lo aloja
+            - La barra se divide segun el numero de etiquetas que estas posean
+            - Cata longitud debe poser una marca y solo estas seran las unicas posibles respuestas
+            - Cata segmento en el que se dibide debe tener la etiqueda correspondiente por debaj
 '''
 
 
