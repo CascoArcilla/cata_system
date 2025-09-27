@@ -81,23 +81,33 @@
             </div>
         </article>
 
-        <article class="rounded grid grid-cols-2 max-sm:grid-cols-1 gap-4">
-            <section class="flex flex-col items-center justify-center bg-gray-200 p-2 rounded-lg">
+        <article class="rounded flex flex-col gap-4">
+            <section class="flex items-center justify-center bg-gray-200 p-2 rounded-lg">
                 <p class="text-lg font-medium text-center">
                     {{ session.tecnica.instrucciones }}
                 </p>
             </section>
-            <section class="flex flex-col items-center justify-center bg-gray-200 p-2 rounded-lg">
-                <p class="text-lg font-bold text-center">
-                    Producto:
-                </p>
-                <p class="text-2xl font-bold text-center">
-                    {{ product }}
-                </p>
+            <section class="flex items-center justify-center flex-wrap gap-4">
+                <div class="bg-gray-200 p-2 rounded-lg flex-1">
+                    <p class="text-lg font-bold text-center">
+                        Producto:
+                    </p>
+                    <p class="text-2xl font-bold text-center">
+                        {{ product }}
+                    </p>
+                </div>
+                <div class="bg-gray-200 p-2 rounded-lg flex-1">
+                    <p class="text-lg font-bold text-center">
+                        Repetición:
+                    </p>
+                    <p class="text-2xl font-bold text-center">
+                        {{ session.tecnica.repecion }}
+                    </p>
+                </div>
             </section>
         </article>
 
-        <article class="scale-continue-container [&>*:not(:last-child)]:mb-5 flex flex-col items-center justify-center">
+        <article class="scales-container [&>*:not(:last-child)]:mb-5 flex flex-col items-center justify-center">
             {% if type_scale == "continua" %}
             {% for word in words %}
             <form action="" method="post" class="form-rating-{{word}}">
@@ -125,29 +135,39 @@
                         </div>
 
                         <div class="flex justify-between mt-4">
-                            {% for tag in tags %}
                             <div class="flex flex-col items-start text-left w-[100px]">
-                                <span class="text-xs     font-medium text-gray-700 break-words first-letter:capitalize">
-                                    {{ tag.id_etiqueta }}
+                                <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
+                                    {{ tags.0.id_etiqueta }}
                                 </span>
                             </div>
-                            {% endfor %}
+                            <div class="flex flex-col items-start text-center w-[100px]">
+                                <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
+                                    {{ tags.1.id_etiqueta }}
+                                </span>
+                            </div>
+                            <div class="flex flex-col items-start text-right w-[100px]">
+                                <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
+                                    {{ tags.2.id_etiqueta }}
+                                </span>
+                            </div>
                         </div>
                     </section>
                 </article>
-                <article class="flex justify-end gap-2">
-                    <button type="button" onclick="checkSendRating('{{word}}')"
-                        class="ct-btn-check-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit disabled:bg-amber-600">
-                        ¿Guardar calificación?
-                    </button>
-                    <button type="button" onclick="sendRating('{{word}}')"
-                        class="ct-btn-submit-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-500 text-white w-fit disabled:bg-amber-600 hidden">
-                        Estoy seguro
-                    </button>
-                    <button type="button" onclick="cancelSendRating('{{word}}')"
-                        class="ct-btn-cancel-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-500 text-white w-fit disabled:bg-amber-600 hidden">
-                        Cancelar
-                    </button>
+                <article class="flex flex-col justify-center gap-2 items-end actions-{{word}}">
+                    <section class="flex justify-end items-center gap-2 btns-container">
+                        <button type="button" onclick="checkSendRating('{{word}}')"
+                            class="ct-btn-check-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit disabled:bg-amber-600">
+                            ¿Guardar calificación?
+                        </button>
+                        <button type="button" onclick="sendRating('{{word}}')"
+                            class="ct-btn-submit-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-500 text-white w-fit disabled:bg-amber-600 hidden">
+                            Estoy seguro
+                        </button>
+                        <button type="button" onclick="cancelSendRating('{{word}}')"
+                            class="ct-btn-cancel-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-500 text-white w-fit disabled:bg-amber-600 hidden">
+                            Cancelar
+                        </button>
+                    </section>
                 </article>
             </form>
             {% endfor %}

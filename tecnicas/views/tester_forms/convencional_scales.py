@@ -46,7 +46,7 @@ from ...controllers import SesionController, PosicionController, CalificacionCon
     - Cada palabra debe contar con su input segun el tipo
     - Para cada input se debe poder guardar la calificacion
     - Anstes de guardar la calificacion preguntar por la confirmacion a la hora de guardar el dato
-    - Especficar las etiquetas por debajo del input de ripo ranto
+    - Especficar las etiquetas por debajo del input de ripo rango
         - Para las escalas de tipo continua
             - La longitud de la barra de la escala debe ser igual al tamaño que se especifico en la configuracion
             - Contar con un input de tipo range
@@ -57,7 +57,7 @@ from ...controllers import SesionController, PosicionController, CalificacionCon
             - Su longitud sera tan largo como el contendor que lo aloja
             - La barra se divide segun el numero de etiquetas que estas posean
             - Cata longitud debe poser una marca y solo estas seran las unicas posibles respuestas
-            - Cata segmento en el que se dibide debe tener la etiqueda correspondiente por debaj
+            - Cata segmento en el que se divide debe tener la etiqueda correspondiente por debajo
 '''
 
 
