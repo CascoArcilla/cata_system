@@ -1,6 +1,6 @@
-from ..models import TipoTecnica, CategoriaTecnica, Tecnica, EstiloPalabra
+from ...models import TipoTecnica, CategoriaTecnica, Tecnica, EstiloPalabra
 from django.db import DatabaseError
-from ..utils import controller_error
+from ...utils import controller_error
 
 
 class TecnicaController():

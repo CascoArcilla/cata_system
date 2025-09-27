@@ -1,6 +1,6 @@
-from ..models import EsAtributo, Tecnica, Palabra
+from ...models import EsAtributo, Tecnica, Palabra
 from django.db import DatabaseError
-from ..utils import controller_error
+from ...utils import controller_error
 
 
 class EstiloPalabrasController():

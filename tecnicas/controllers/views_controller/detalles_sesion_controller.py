@@ -1,6 +1,6 @@
-from ..models import SesionSensorial, Presentador, Tecnica
-from . import CalificacionController, PalabrasController
-from ..utils import controller_error
+from ...models import SesionSensorial, Presentador, Tecnica
+from .. import CalificacionController, PalabrasController
+from ...utils import controller_error
 
 
 class DetallesSesionController():

@@ -72,6 +72,10 @@ urlpatterns = [
          views.mainTesterForm,
          name="catador_main"),
 
+    path("testers/en-session/convencional",
+         views.convencionalScales,
+         name="session_convencional"),
+
     # APIs
     path("nueva-etiqueta",
          views.newTag,
@@ -80,4 +84,8 @@ urlpatterns = [
     path("api/palabras",
          views.words,
          name="api_palabras"),
+
+    path("testers/api/ratingword",
+         views.reatingWord,
+         name="api_rating_word"),
 ]

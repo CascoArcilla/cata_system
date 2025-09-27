@@ -18,5 +18,7 @@ from .tester_management.tester_search import testerSearch
 
 from .apis.api_tag import newTag
 from .apis.api_words import words
+from .apis.rating_word import reatingWord
 
 from .tester_forms.main_tester_form import mainTesterForm
+from .tester_forms.convencional_scales import convencionalScales

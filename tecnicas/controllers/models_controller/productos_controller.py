@@ -1,6 +1,6 @@
 from django.db import DatabaseError
-from ..utils import controller_error
-from ..models import Producto, Tecnica
+from ...utils import controller_error
+from ...models import Producto, Tecnica
 
 
 class ProductosController():
@@ -37,3 +37,17 @@ class ProductosController():
             return self.list_product
         except DatabaseError as error:
             return controller_error("error al guardar los productos")
+
+    @staticmethod
+    def getProductsByTechniqe(technique: Tecnica = None, id_technique: int = None):
+        if technique is not None:
+            products = list(Producto.objects.filter(id_tecnica=technique))
+            if not products:
+                return controller_error("No existen productos en esta técnica")
+            return products
+        
+        if id_technique is not None:
+            products = list(Producto.objects.filter(id_tecnica_id=id_technique))
+            if not products:
+                return controller_error("No existen productos en esta técnica")
+            return products
