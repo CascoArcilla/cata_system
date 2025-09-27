@@ -1,6 +1,6 @@
-from ..models import Etiqueta, EtiquetasEscala, Escala, TipoEscala
+from ...models import Etiqueta, EtiquetasEscala, Escala, TipoEscala, Tecnica
 from django.db import DatabaseError
-from ..utils import controller_error
+from ...utils import controller_error
 
 
 class EscalaController():
@@ -68,3 +68,31 @@ class EscalaController():
         except DatabaseError as error:
             self.deleteRelationshipsWithLabels()
             return controller_error("error guardar relacion etiqueta escala")
+
+    @staticmethod
+    def getScaleByTechnique(technique: Tecnica = None, id_technique: int = None):
+        if technique is not None:
+            scale = Escala.objects.select_related("id_tipo_escala").only(
+                "id_tipo_escala", "longitud").get(tecnica=technique)
+            return scale
+
+        if id_technique is not None:
+            scale = Escala.objects.select_related("id_tipo_escala").only(
+                "id_tipo_escala", "longitud").get(tecnica_id=id_technique)
+            return scale
+
+    @staticmethod
+    def getRelatedTagsInScale(scale: Escala = None, id_scale: int = None):
+        if scale is not None:
+            scale_tags = list(EtiquetasEscala.objects.filter(
+                id_escala=scale).select_related("id_etiqueta"))
+            if len(scale_tags) == 0:
+                return controller_error("Imposible obtener las etiquetas")
+            return scale_tags
+
+        if id_scale is not None:
+            scale_tags = list(EtiquetasEscala.objects.filter(
+                id_escala_id=scale).select_related("id_etiqueta"))
+            if len(scale_tags) == 0:
+                return controller_error("Imposible obtener las etiquetas")
+            return scale_tags

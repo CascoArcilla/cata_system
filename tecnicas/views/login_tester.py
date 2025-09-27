@@ -21,6 +21,8 @@ def testerLogin(req: HttpRequest):
         if isinstance(existCredentials, dict):
             context = {"error": existCredentials["error"]}
             return render(req, "tecnicas/cata-login.html", context)
+        
+        session = existCredentials[1]
 
         taster_participation = login_controller.validateEntry()
         if isinstance(taster_participation, dict):
@@ -29,6 +31,8 @@ def testerLogin(req: HttpRequest):
 
         req.session["cata_username"] = tester_user
         req.session["code_session"] = session_code
+        req.session["id_techniqe"] = session.tecnica.id
+        req.session["id_participation"] = taster_participation.id
 
         req.session.set_expiry(20*60)
         return redirect(reverse("cata_system:catador_main"))

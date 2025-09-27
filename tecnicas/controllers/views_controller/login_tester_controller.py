@@ -1,5 +1,5 @@
-from ..models import Catador, SesionSensorial, Participacion
-from ..utils import controller_error
+from ...models import Catador, SesionSensorial, Participacion
+from ...utils import controller_error
 from django.db import transaction
 
 
@@ -18,7 +18,7 @@ class LoginTesterController():
             self.session = SesionSensorial.objects.get(
                 codigo_sesion=code_session)
 
-            return True
+            return (self.tester, self.session)
         except (Catador.DoesNotExist, SesionSensorial.DoesNotExist):
             return controller_error("Credenciales inválidas")
 

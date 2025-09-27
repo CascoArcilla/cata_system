@@ -1,5 +1,5 @@
-from ..models import Presentador
-from ..utils import controller_error
+from ...models import Presentador
+from ...utils import controller_error
 
 
 class PresentadorController():
