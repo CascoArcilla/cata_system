@@ -15,3 +15,4 @@ from .models_controller.dato_controller import DatoController
 from .views_controller.detalles_sesion_controller import DetallesSesionController
 from .views_controller.login_tester_controller import LoginTesterController
 from .views_controller.main_tester_form_controller import MainTesterFormController
+from .views_controller.api_rating_controller import ApiRatingController
