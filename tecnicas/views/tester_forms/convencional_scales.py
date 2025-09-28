@@ -84,7 +84,7 @@ def convencionalScales(req: HttpRequest):
             positions=sorted_positions,
             user_cata=req.session["cata_username"],
             id_technique=req.session["id_techniqe"],
-            repetition=session.tecnica.repecion,
+            repetition=session.tecnica.repeticion,
             technique=technique,
             num_words=len(words)
         )
@@ -102,7 +102,7 @@ def convencionalScales(req: HttpRequest):
         ratings_product = CalificacionController.getRatings(
             technique=technique,
             product=next_position.id_producto,
-            repetition=technique.repecion,
+            repetition=technique.repeticion,
             user_tester=req.session["cata_username"]
         )
 

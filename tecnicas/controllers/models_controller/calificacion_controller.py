@@ -19,7 +19,7 @@ class CalificacionController():
         try:
             self.rating.full_clean()
             if not repetition:
-                self.rating.num_repeticion = self.rating.id_tecnica.repecion
+                self.rating.num_repeticion = self.rating.id_tecnica.repeticion
         except ValidationError as e:
             return controller_error(e.message)
 
@@ -33,7 +33,7 @@ class CalificacionController():
 
     @staticmethod
     def getRatingsByTechnique(technique: Tecnica):
-        repetition = technique.repecion
+        repetition = technique.repeticion
 
         if not repetition:
             return {"error": "sin datos calficados aun"}
