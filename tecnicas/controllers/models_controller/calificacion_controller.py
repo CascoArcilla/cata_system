@@ -1,12 +1,39 @@
 from ...models import Calificacion, Tecnica, Posicion, Producto, Catador
-from ...utils import controller_error
+from ...utils import controller_error, getId
+from django.core.exceptions import ValidationError
 from collections import defaultdict
 
 
 class CalificacionController():
+    def __init__(self, product: Producto | int, technique: Tecnica | int, tester: Catador | int):
+        atributes = {
+            "num_repeticion": 0,
+            "id_tecnica_id": getId(technique),
+            "id_producto_id": getId(product),
+            "id_catador_id": getId(tester),
+        }
+
+        self.rating = Calificacion(**atributes)
+
+    def setRepetition(self, repetition):
+        try:
+            self.rating.full_clean()
+            if not repetition:
+                self.rating.num_repeticion = self.rating.id_tecnica.repeticion
+        except ValidationError as e:
+            return controller_error(e.message)
+
+    def saveRating(self):
+        try:
+            self.rating.full_clean()
+            self.rating.save()
+            return self.rating
+        except ValidationError as e:
+            return controller_error(e.message)
+
     @staticmethod
     def getRatingsByTechnique(technique: Tecnica):
-        repetition = technique.repecion
+        repetition = technique.repeticion
 
         if not repetition:
             return {"error": "sin datos calficados aun"}

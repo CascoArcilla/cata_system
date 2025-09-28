@@ -37,11 +37,11 @@ class DetallesSesionController():
             return controller_error("solo el presentador que crea la sesión puede iniciar la repetición")
         elif session.activo:
             return controller_error("la sesión ya está activada")
-        elif technique.repecion == technique.repeticiones_max:
+        elif technique.repeticion == technique.repeticiones_max:
             return controller_error("se ha alcanzado el número de repeticiones máxima")
 
         session.activo = True
-        technique.repecion = technique.repecion + 1
+        technique.repeticion = technique.repeticion + 1
 
         technique.save()
         session.save()

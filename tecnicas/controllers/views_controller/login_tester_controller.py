@@ -29,7 +29,7 @@ class LoginTesterController():
         if not self.session.activo:
             return controller_error("La sesión no está activa actualmente")
 
-        if self.session.tecnica.repecion > 1:
+        if self.session.tecnica.repeticion > 1:
             try:
                 self.taster_participation = Participacion.objects.get(
                     tecnica=self.session.tecnica, catador=self.tester)
