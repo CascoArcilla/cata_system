@@ -44,43 +44,6 @@
         </article>
         {% endif %}
 
-        <article class="hidden">
-            <ul class="list-words">
-                {% for word in words %}
-                <li class="item-word">
-                    <p class="word-id">
-                        {{ word.id }}
-                    </p>
-                    <p class="word-name">
-                        {{ word.nombre_palabra }}
-                    </p>
-                </li>
-                {% endfor %}
-            </ul>
-
-            <ul class="list-tags">
-                {% for tag in tags %}
-                <li class="item-tag">
-                    <p class="tag-id">
-                        {{ tag.posicion }}
-                    </p>
-                    <p class="tag-name">
-                        {{ tag.id_etiqueta }}
-                    </p>
-                </li>
-                {% endfor %}
-            </ul>
-
-            <div class="scale-data">
-                <p class="scale-type">
-                    {{ scale.id_tipo_escala }}
-                </p>
-                <p class="scale-size">
-                    {{ scale.longitud }}
-                </p>
-            </div>
-        </article>
-
         <article class="rounded flex flex-col gap-4">
             <section class="flex items-center justify-center bg-gray-200 p-2 rounded-lg">
                 <p class="text-lg font-medium text-center">
@@ -92,8 +55,9 @@
                     <p class="text-lg font-bold text-center">
                         Producto:
                     </p>
-                    <p class="text-2xl font-bold text-center">
-                        {{ product }}
+                    <p class="text-2xl font-bold text-center ct-product-rating">
+                        <span class="code-product">{{ product }}</span>
+                        <span class="hidden id-product">{{ product.id }}</span>
                     </p>
                 </div>
                 <div class="bg-gray-200 p-2 rounded-lg flex-1">
@@ -101,7 +65,7 @@
                         Repetición:
                     </p>
                     <p class="text-2xl font-bold text-center">
-                        {{ session.tecnica.repecion }}
+                        {{ session.tecnica.repeticion }}
                     </p>
                 </div>
             </section>
@@ -115,6 +79,8 @@
                 <article class="bg-gray-200 p-6 rounded-lg mb-3 w-fit">
                     <label for="id-range-word-{{word}}"
                         class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
+                    
+                    <span class="hidden id-word" >{{ word.id }}</span>
 
                     <section class="block">
                         <div class="relative">

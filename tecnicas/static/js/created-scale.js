@@ -46,7 +46,17 @@ async function sendRating(word) {
   const dataForm = new FormData(formRatingWord);
   const url = "/cata/testers/api/ratingword";
 
-  dataForm.set("name-word", word);
+  const codeProduct = document
+    .querySelector(".ct-product-rating")
+    .querySelector(".code-product").textContent;
+  const idProduct = document
+    .querySelector(".ct-product-rating")
+    .querySelector(".id-product").textContent;
+
+  const idWord = formRatingWord.querySelector(".id-word").textContent;
+
+  dataForm.set("info-product", { code: codeProduct, id: idProduct });
+  dataForm.set("info-word", { name: word, id: idWord });
 
   try {
     const respone = await fetch(url, {

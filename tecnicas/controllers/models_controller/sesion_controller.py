@@ -82,7 +82,7 @@ class SesionController():
             ).only(
                 "codigo_sesion",
                 "nombre_sesion",
-                "tecnica__repecion",
+                "tecnica__repeticion",
                 "tecnica__instrucciones",
                 "tecnica__tipo_tecnica__nombre_tecnica",
                 "tecnica__id_estilo__nombre_estilo"
