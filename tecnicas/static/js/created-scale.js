@@ -55,8 +55,10 @@ async function sendRating(word) {
 
   const idWord = formRatingWord.querySelector(".id-word").textContent;
 
-  dataForm.set("info-product", { code: codeProduct, id: idProduct });
-  dataForm.set("info-word", { name: word, id: idWord });
+  dataForm.set("code-product", codeProduct);
+  dataForm.set("id-product", idProduct);
+  dataForm.set("name-word", word);
+  dataForm.set("id-word", idWord);
 
   try {
     const respone = await fetch(url, {
