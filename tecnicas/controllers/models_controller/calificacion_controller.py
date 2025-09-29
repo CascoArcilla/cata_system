@@ -1,7 +1,8 @@
+from django.core.exceptions import ValidationError
+from django.db import DatabaseError
+from collections import defaultdict
 from ...models import Calificacion, Tecnica, Posicion, Producto, Catador
 from ...utils import controller_error, getId
-from django.core.exceptions import ValidationError
-from collections import defaultdict
 
 
 class CalificacionController():
@@ -15,21 +16,30 @@ class CalificacionController():
 
         self.rating = Calificacion(**atributes)
 
-    def setRepetition(self, repetition):
+    def validateRating(self):
         try:
-            self.rating.full_clean()
-            if not repetition:
-                self.rating.num_repeticion = self.rating.id_tecnica.repeticion
+            self.rating.clean()
+            return self.rating
         except ValidationError as e:
-            return controller_error(e.message)
+            return controller_error("No es posible validar la calificación")
+
+    def setRepetition(self, repetition: int = None) -> int | dict:
+        try:
+            if repetition is not None:
+                self.rating.num_repeticion = repetition
+            else:
+                self.rating.num_repeticion = self.rating.id_tecnica.repeticion
+
+            return self.rating.num_repeticion
+        except ValidationError as e:
+            return controller_error(e)
 
     def saveRating(self):
         try:
-            self.rating.full_clean()
             self.rating.save()
             return self.rating
         except ValidationError as e:
-            return controller_error(e.message)
+            return controller_error(e)
 
     @staticmethod
     def getRatingsByTechnique(technique: Tecnica):
@@ -120,9 +130,9 @@ class CalificacionController():
             ratings_dict[rat.id_producto.id].append(rat)
 
         for index, product in enumerate(check_products):
-            rating_of_product = ratings_dict.get(product.id, [])
+            ratings_of_product = ratings_dict.get(product.id, [])
 
-            if rating_of_product < num_words or len(rating_of_product) == 0:
+            if len(ratings_of_product) < num_words or len(ratings_of_product) == 0:
                 return positions[index]
 
         return controller_error("Sin productos por calificar")

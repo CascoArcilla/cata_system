@@ -22,6 +22,7 @@ def testerLogin(req: HttpRequest):
             context = {"error": existCredentials["error"]}
             return render(req, "tecnicas/cata-login.html", context)
         
+        tester = existCredentials[0]
         session = existCredentials[1]
 
         taster_participation = login_controller.validateEntry()
@@ -30,6 +31,7 @@ def testerLogin(req: HttpRequest):
             return render(req, "tecnicas/cata-login.html", context)
 
         req.session["cata_username"] = tester_user
+        req.session["id_cata"] = tester.id
         req.session["code_session"] = session_code
         req.session["id_techniqe"] = session.tecnica.id
         req.session["id_participation"] = taster_participation.id

@@ -29,26 +29,34 @@
 '''
 from django.http import HttpRequest, JsonResponse
 from ...controllers import ApiRatingController, CalificacionController, DatoController
+from ...utils import general_error
+import json
 
 
 def reatingWord(req:  HttpRequest):
     if req.method == "POST":
-        if not req.POST["rating-word"] or not req.POST["info-product"] or not req.POST["info-word"]:
+        if not req.POST["rating-word"] or not req.POST["id-word"] or not req.POST["id-product"]:
             return JsonResponse({"error": "No se mandó información necesaria para la calificación"})
 
-        received_rating = req.POST["rating-word"]
-        received_word = req.POST["info-word"]
-        received_product = req.POST["info-word"]
+        received_rating = json.loads(req.POST.get("rating-word"))
+        received_id_word = json.loads(req.POST.get("id-word"))
+        received_id_product = json.loads(req.POST.get("id-product"))
 
         view_controller = ApiRatingController(
-            CalificacionController(technique=req.session["id_techniqe"], product=received_product.id)
+            rating_controller=CalificacionController(
+                technique=req.session["id_techniqe"],
+                product=received_id_product,
+                tester=req.session["id_cata"]
+            ),
+            data_controller=DatoController(
+                word=received_id_word,
+                rating=0,
+                value_rating=received_rating
             )
+        )
 
-        return JsonResponse({
-            "message": "Ok",
-            "data": {
-                "word": word,
-                "rating": rating,
-                "cata_ser": req.session["cata_username"]
-            }
-        })
+        response_data = view_controller.logicView()
+
+        return JsonResponse(response_data)
+    else:
+        return general_error("No puede usar este método aquí")
