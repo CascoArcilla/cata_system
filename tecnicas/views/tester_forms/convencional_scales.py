@@ -115,9 +115,9 @@ def convencionalScales(req: HttpRequest):
             recoreded_data = DatoController.getRerecordedData(ratings=ratings_product)
             if not recoreded_data:
                 context["words"] = words
-            
-            words_to_use = PalabrasController.getWordsWithoutData(recoreded_data=recoreded_data, words=words)
-            context["words"] = words_to_use
+            else:
+                words_to_use = PalabrasController.getWordsWithoutData(recoreded_data=recoreded_data, words=words)
+                context["words"] = words_to_use
 
         scale = EscalaController.getScaleByTechnique(technique=technique)
         context["scale"] = scale

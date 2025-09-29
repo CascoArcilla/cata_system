@@ -1,29 +1,20 @@
 from django.contrib import admin
 
-from .models import CategoriaTecnica
-from .models import TipoTecnica
-from .models import TipoEscala
-from .models import EstiloPalabra
+from .models import CategoriaTecnica, TipoTecnica, TipoEscala, EstiloPalabra
 
-from .models import Catador
-from .models import Presentador
+from .models import Catador, Presentador
 
-from .models import Tecnica
-from .models import SesionSensorial
+from .models import Tecnica, SesionSensorial
 
-from .models import EsAtributo
-from .models import Palabra
+from .models import EsAtributo, Palabra
 
-from .models import Etiqueta
+from .models import Etiqueta, Escala, EtiquetasEscala
 
-from .models import Escala
-from .models import EtiquetasEscala
+from .models import Producto, Participacion
 
-from .models import Producto
-from .models import Participacion
+from .models import Orden, Posicion
 
-from .models import Orden
-from .models import Posicion
+from .models import Dato, ValorDecimal, ValorBooleano, Calificacion
 
 # Register your models here.
 admin.site.register(CategoriaTecnica)
@@ -49,3 +40,8 @@ admin.site.register(Participacion)
 
 admin.site.register(Orden)
 admin.site.register(Posicion)
+
+admin.site.register(Dato)
+admin.site.register(ValorDecimal)
+admin.site.register(ValorBooleano)
+admin.site.register(Calificacion)
