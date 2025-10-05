@@ -23,12 +23,23 @@
         background: #3b82f6;
         cursor: pointer;
     }
+
+    @media (width < 40rem) {
+        .container-forms {
+            width: inherit;
+
+        }
+
+        .container-input {
+            overflow-x: scroll;
+        }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded">
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10 max-sm:">
+    <article class="flex flex-col gap-8 bg-gray-400 p-10 max-sm:py-10 max-sm:px-3 rounded container-forms">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-white rounded font-bold text-2xl bg-gray-600 p-4 flex-1">
                 Sesión usando técnica Convencional
@@ -69,55 +80,65 @@
                     </p>
                 </div>
             </section>
+            <section class="flex flex-col bg-red-200 py-2 px-4 rounded-lg min-sm:hidden">
+                <p>
+                    El largo de estas escalas puede afectar la vista en dispositivos móviles. Para ver el resto de la
+                    escala puede deslizar con el dedo a la derecha o la izquierda sin tocar la escala.
+                </p>
+            </section>
         </article>
 
-        <article class="scales-container [&>*:not(:last-child)]:mb-5 flex flex-col items-center justify-center">
+        <article class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3 flex flex-col items-center justify-center">
             {% if type_scale == "continua" %}
             {% for word in words %}
-            <form action="" method="post" class="form-rating-{{word}}">
+            <form action="" method="post" class="form-rating-{{word}} w-full">
                 {% csrf_token %}
-                <article class="bg-gray-200 p-6 rounded-lg mb-3 w-fit">
-                    <label for="id-range-word-{{word}}"
-                        class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
-                    
-                    <span class="hidden id-word" >{{ word.id }}</span>
+                <article class="container-input w-full">
+                    <article class="bg-gray-200 p-6 rounded-lg mb-3 w-fit">
+                        <label for="id-range-word-{{word}}"
+                            class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
 
-                    <section class="block">
-                        <div class="relative">
-                            <input id="id-range-word-{{word}}" type="range" min="0" max="1000" value="500"
-                                name="rating-word"
-                                class="h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer slider"
-                                style="width: {{scale.longitud}}cm;">
+                        <span class="hidden id-word">{{ word.id }}</span>
 
-                            <div class="absolute top-0 left-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
+                        <section class="block">
+                            <div class="relative">
+                                <input id="id-range-word-{{word}}" type="range" min="0" max="1000" value="500"
+                                    name="rating-word"
+                                    class="h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer slider"
+                                    style="width: {{scale.longitud}}cm;">
+
+                                <div
+                                    class="absolute top-0 left-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
+                                </div>
+
+                                <div
+                                    class="absolute top-1/5 left-1/2 w-0.5 transform -translate-x-1/2 h-4/5 bg-red-500 z-10">
+                                </div>
+
+                                <div
+                                    class="absolute top-0 right-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
+                                </div>
                             </div>
 
-                            <div
-                                class="absolute top-1/5 left-1/2 w-0.5 transform -translate-x-1/2 h-4/5 bg-red-500 z-10">
+                            <div class="flex justify-between mt-4">
+                                <div class="flex flex-col items-start text-left w-[100px]">
+                                    <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
+                                        {{ tags.0.id_etiqueta }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col items-start text-center w-[100px]">
+                                    <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
+                                        {{ tags.1.id_etiqueta }}
+                                    </span>
+                                </div>
+                                <div class="flex flex-col items-start text-right w-[100px]">
+                                    <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
+                                        {{ tags.2.id_etiqueta }}
+                                    </span>
+                                </div>
                             </div>
-
-                            <div class="absolute top-0 right-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
-                            </div>
-                        </div>
-
-                        <div class="flex justify-between mt-4">
-                            <div class="flex flex-col items-start text-left w-[100px]">
-                                <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
-                                    {{ tags.0.id_etiqueta }}
-                                </span>
-                            </div>
-                            <div class="flex flex-col items-start text-center w-[100px]">
-                                <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
-                                    {{ tags.1.id_etiqueta }}
-                                </span>
-                            </div>
-                            <div class="flex flex-col items-start text-right w-[100px]">
-                                <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
-                                    {{ tags.2.id_etiqueta }}
-                                </span>
-                            </div>
-                        </div>
-                    </section>
+                        </section>
+                    </article>
                 </article>
                 <article class="flex flex-col justify-center gap-2 items-end actions-{{word}}">
                     <section class="flex justify-end items-center gap-2 btns-container">
