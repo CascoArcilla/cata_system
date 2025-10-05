@@ -5,7 +5,7 @@
 
 {% block content %}
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl">
+    <article class="flex flex-col gap-8 bg-gray-400 p-10 max-lg:p-6 max-sm:px-2 rounded-2xl max-lg:rounded-none">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-white rounded-xl font-bold text-2xl bg-gray-600 p-4 flex-1">
                 Detalles de la sesión
@@ -38,21 +38,21 @@
             Información general
         </p>
         <article
-            class="text-white rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 *:bg-gray-500 *:flex *:flex-wrap *:items-center *:justify-center *:max-sm:justify-normal *:gap-x-2 *:p-4 *:rounded-2xl">
+            class="text-white rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 *:bg-gray-500 *:flex *:flex-wrap *:items-center *:justify-center *:max-sm:justify-normal *:gap-x-2 *:p-4 *:rounded-2xl text-xl max-sm:text-base">
             <section class="col-span-2 max-sm:col-span-1">
-                <p class="text-xl font-bold">
+                <p class="font-bold">
                     Código:
                 </p>
-                <p class="font-sans text-xl font-normal">
+                <p class="font-sans">
                     {{ sesion.codigo_sesion }}
                 </p>
             </section>
 
             <section class="col-span-2 max-sm:col-span-1">
-                <p class="text-xl font-bold">
+                <p class="font-bold">
                     Nombre:
                 </p>
-                <p class="text-xl antialiased">
+                <p class="antialiased">
                     {% if sesion.nombre_sesion %}
                     {{ sesion.nombre_sesion }}
                     {% else %}
@@ -62,19 +62,19 @@
             </section>
 
             <section>
-                <p class="text-xl font-medium">
+                <p class="font-bold">
                     Fecha creación:
                 </p>
-                <p class="font-sans text-lg font-normal uppercase">
+                <p class="font-sans font-normal uppercase">
                     {{ sesion.fechaCreacion }}
                 </p>
             </section>
 
             <section>
-                <p class="text-lg font-bold">
+                <p class="font-bold">
                     Estado:
                 </p>
-                <p class="font-sans text-lg font-normal">
+                <p class="font-sans text-lg max-sm:text-base font-normal">
                     {% if sesion.activo %}
                     En proceso
                     {% else %}
@@ -84,46 +84,46 @@
             </section>
 
             <section>
-                <p class="text-xl font-medium">
+                <p class="font-bold">
                     Estilo palabras:
                 </p>
-                <p class="font-sans text-lg font-normal uppercase">
+                <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
                     {{ sesion.tecnica.id_estilo }}
                 </p>
             </section>
 
             <section>
-                <p class="text-xl font-medium">
+                <p class="font-bold">
                     Técnica:
                 </p>
-                <p class="font-sans text-lg font-normal uppercase">
+                <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
                     {{ sesion.tecnica.tipo_tecnica }}
                 </p>
             </section>
 
             <section>
-                <p class="text-xl font-medium">
+                <p class="font-bold">
                     Rep. Hechas:
                 </p>
-                <p class="font-sans text-lg font-normal">
+                <p class="font-sans text-lg max-sm:text-base font-normal">
                     {{ sesion.tecnica.repeticion }}
                 </p>
             </section>
 
             <section>
-                <p class="text-xl font-medium">
+                <p class="font-medium">
                     Rep. Max:
                 </p>
-                <p class="font-sans text-lg font-normal">
+                <p class="font-sans text-lg max-sm:text-base font-normal">
                     {{ sesion.tecnica.repeticiones_max }}
                 </p>
             </section>
 
             <section class="col-span-2 max-sm:col-span-1">
-                <p class="text-xl font-bold">
+                <p class="font-bold">
                     Instrucciones:
                 </p>
-                <p class="font-sans text-xl font-normal">
+                <p class="font-sans text-xl max-sm:text-base font-normal">
                     {{ sesion.tecnica.instrucciones }}
                 </p>
             </section>
@@ -147,10 +147,10 @@
         <p class="font-bold text-2xl border-b-2">
             Acciones disponibles
         </p>
-        <article class="flex flex-wrap gap-10">
+        <article class="flex flex-wrap gap-10 max-sm:gap-2">
             {% if not sesion.activo %}
             <button
-                class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
+                class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
                 onclick="startRepetition()">
                 Iniciar repetición
                 <figure class="w-10">
@@ -159,7 +159,7 @@
             </button>
             {% else %}
             <button
-                class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
                 Monitorear repetición
                 <figure class="w-10">
                     <img src="{% static 'img/monitor.svg' %}" alt="flechas girando" class="invert">
@@ -168,7 +168,7 @@
             {% endif %}
 
             <button
-                class="flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                class="flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
                 borrar
                 <figure class="w-10">
                     <img src="{% static 'img/basura.svg' %}" alt="bote de basura" class="invert">

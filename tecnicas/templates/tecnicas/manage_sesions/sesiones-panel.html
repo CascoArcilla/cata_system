@@ -5,8 +5,8 @@
 
 {% block content %}
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl">
-        <header class="text-center flex flex-row gap-8 items-center w-full">
+    <article class="max-sm:w-full flex flex-col gap-8 bg-gray-400 p-10 max-lg:p-6 max-sm:px-0 rounded-2xl">
+        <header class="text-center flex flex-row max-sm:flex-col gap-8 items-center w-full">
             <div class="bg-gray-600 p-4 text-white rounded-xl flex-1">
                 <h1 class="font-bold text-2xl">Administra las<br>sesiones sensoriales</h1>
             </div>
@@ -17,7 +17,7 @@
             </div>
         </header>
 
-        <section class="grid grid-cols-3 gap-4">
+        <section class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-4">
             {% for sesion in sessions %}
             <a href="{% url 'cata_system:detalles_sesion' session_code=sesion.codigo_sesion %}"
                 class="p-4 bg-gray-200 flex flex-row gap-2 justify-center items-center rounded-lg border-b-4 border-blue-500">
