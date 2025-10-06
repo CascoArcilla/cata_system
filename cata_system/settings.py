@@ -70,7 +70,7 @@ MIDDLEWARE = [
 
     'django_browser_reload.middleware.BrowserReloadMiddleware',
 
-    'tecnicas.middlewares.LoginTesterMiddleware'
+    'tecnicas.middlewares.LoginTesterMiddleware',
 ]
 
 ROOT_URLCONF = 'cata_system.urls'
