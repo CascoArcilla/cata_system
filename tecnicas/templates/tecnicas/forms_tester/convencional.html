@@ -40,11 +40,23 @@
 {% block content %}
 <article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10 max-sm:">
     <article class="flex flex-col gap-8 bg-gray-400 p-10 max-sm:py-10 max-sm:px-3 rounded container-forms">
-        <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
+        <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
             <h1 class="text-white rounded font-bold text-2xl bg-gray-600 p-4 flex-1">
-                Sesión usando técnica Convencional
+                Sesión usando <br>técnica Convencional
             </h1>
+            <button
+                class="text-lg font-bold tracking-wider p-2 px-8 border-b-4 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-500 text-gray-300"
+                onclick="exit_sesion('form-actions')">
+                Salir de la sesión
+            </button>
         </header>
+
+        <article class="hidden">
+            <form action="{% url 'cata_system:catador_main' %}" method="post" class="form-actions">
+                {% csrf_token %}
+                <input type="hidden" name="action" class="action-input">
+            </form>
+        </article>
 
         {% if error %}
         <hr>
@@ -88,7 +100,8 @@
             </section>
         </article>
 
-        <article class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3 flex flex-col items-center justify-center">
+        <article
+            class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3 flex flex-col items-center justify-center">
             {% if type_scale == "continua" %}
             {% for word in words %}
             <form action="" method="post" class="form-rating-{{word}} w-full">
@@ -166,4 +179,5 @@
 
 {% block extra_js %}
 <script src="{% static 'js/created-scale.js' %}"></script>
+<script src="{% static 'js/actions-form.js' %}"></script>
 {% endblock %}
