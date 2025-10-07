@@ -4,6 +4,7 @@ from .main_panel import mainPanel
 
 from .sessions_management.sessions_panel import sesionsPanel
 from .sessions_management.session_details import sessionDetails
+from .sessions_management.session_monitor import sessionMonitor
 
 from .sessions_config.seleccion_tecnica import selecionTecnica
 from .sessions_config.configuration_panel_basic import configurationPanelBasic

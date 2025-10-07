@@ -62,6 +62,10 @@ urlpatterns = [
          views.sessionDetails,
          name="detalles_sesion"),
 
+    path("monitor/<str:session_code>",
+         views.sessionMonitor,
+         name="monitor_sesion"),
+
 
     # Vistas para catadores
     path("catador-login",
