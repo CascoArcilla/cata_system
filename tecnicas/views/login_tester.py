@@ -36,7 +36,7 @@ def testerLogin(req: HttpRequest):
         req.session["id_techniqe"] = session.tecnica.id
         req.session["id_participation"] = taster_participation.id
 
-        req.session.set_expiry(10)
+        req.session.set_expiry(15*60)
 
         response = redirect(reverse("cata_system:catador_main"))
         response.set_cookie('id_participacion',
