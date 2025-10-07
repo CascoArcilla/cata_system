@@ -56,7 +56,8 @@ class LoginTesterController():
 
                     self.taster_participation = Participacion.objects.create(
                         tecnica=self.session.tecnica,
-                        catador=self.tester
+                        catador=self.tester,
+                        finalizado=False
                     )
 
                     return self.taster_participation

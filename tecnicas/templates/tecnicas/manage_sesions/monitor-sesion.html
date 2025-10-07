@@ -1,0 +1,112 @@
+{% extends 'tecnicas/layouts/base.html' %}
+
+{% block title %}Monitoreo{% endblock %}
+
+{% block content %}
+<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
+    <article
+        class="flex flex-col gap-8 bg-gray-400 p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-2xl max-lg:rounded-none">
+        <header class="text-center">
+            <h1 class="text-3xl font-bold">Sesión sensorial en curso</h1>
+        </header>
+
+        {% if error %}
+        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
+            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
+                {{ error }}
+            </p>
+        </article>
+        {% endif %}
+
+        <section class="flex flex-col sm:flex-row justify-between items-center gap-10 mb-6">
+            <p class="text-xl text-center bg-gray-600 p-4 text-white rounded-lg">
+                Código de sesión:<br>
+                <span class="font-mono text-2xl font-bold">{{ code_session }}</span>
+            </p>
+            <button
+                class="uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600">
+                Finalizar sesión
+            </button>
+        </section>
+
+        <section aria-labelledby="catadores-titulo">
+            <article
+                class="flex max-sm:flex-col justify-around bg-gray-200 border border-gray-300 rounded-md p-3 mb-4 items-center">
+                <button
+                    class="uppercase text-lg max-sm:text-base tracking-wider p-2 px-3 border-b-3 active:border-b-0 active:border-t-3 active:border-blue-500 border-blue-800 transition-all rounded-xl bg-blue-600 text-white font-bold"
+                    onclick="reloadPage()">
+                    Actualizar lista
+                </button>
+                <h2 id="catadores-titulo" class="text-2xl text-center font-bold rounded-lg text-gray-700 py-2 px-3">
+                    Catadores activos
+                </h2>
+            </article>
+
+            <article
+                class="flex flex-col justify-center gap-3 bg-gray-200 border border-gray-300 rounded-md p-3 mb-4 text-lg max-sm:text-sm text-gray-700">
+                <div class="flex justify-center items-center">
+                    <h2 class="text-xl font-semibold">Participantes</h2>
+                </div>
+                <section class="flex flex-wrap justify-around items-center">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <span class="font-semibold">Máximo:</span>
+                        <span>{{ max_testers }}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <span class="font-semibold">Actuales:</span>
+                        <span>{{ current_testers }}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <span class="font-semibold">Activos:</span>
+                        <span class="text-green-600 font-semibold">{{ active_testers }}</span>
+                    </div>
+                </section>
+            </article>
+
+            <article class="max-sm:overflow-x-auto">
+                <div class="min-w-[400px] sm:min-w-0">
+                    <div
+                        class="grid grid-cols-4 bg-gray-300 text-center font-semibold text-sm rounded-t-lg max-sm:w-full [&_>*]:px-2">
+                        <div class="py-2 border-r border-gray-400">Usuario</div>
+                        <div class="py-2 border-r border-gray-400">Nombre</div>
+                        <div class="py-2 border-r border-gray-400">Estado</div>
+                        <div class="py-2">Finalizado</div>
+                    </div>
+
+                    <ul class="divide-y divide-gray-400 max-sm:w-full">
+                        {% for parti in participations %}
+                        <li class="grid grid-cols-4 text-center bg-gray-200 py-2 [&_>*]:px-2">
+                            <p class="border-r border-gray-400">{{ parti.catador.usuarioCatador }}</p>
+                            <p class="border-r border-gray-400">
+                                {{ parti.catador.nombre }}
+                                {{ parti.catador.apellido}}
+                            </p>
+
+                            {% if parti.activo %}
+                            <p class="border-r border-gray-400 text-green-600 font-semibold">Activo</p>
+                            {% else %}
+                            <p class="border-r border-gray-400 text-red-500 font-semibold">No activo</p>
+                            {% endif %}
+
+                            {% if parti.finalizado %}
+                            <p class="text-green-600 font-semibold">Si</p>
+                            {% else %}
+                            <p class="text-red-500 font-semibold">No</p>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function reloadPage () {
+        location.reload()
+    }
+</script>
+{% endblock %}

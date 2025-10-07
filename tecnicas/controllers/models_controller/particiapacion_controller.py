@@ -1,4 +1,4 @@
-from ...models import Participacion
+from ...models import Participacion, Tecnica
 from ...utils import controller_error
 
 
@@ -34,3 +34,15 @@ class ParticipacionController():
             return participation
         except Participacion.DoesNotExist:
             return controller_error("No se ha encontrado la participación")
+        
+    @staticmethod
+    def getParticipationsInTechinique(technique: Tecnica| int):
+        filters = {}
+
+        if isinstance(technique, int):
+            filters["tecnica_id"] = technique
+        else:
+            filters["tecnica"] = technique
+
+        participations = list(Participacion.objects.filter(**filters))
+        return participations
