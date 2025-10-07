@@ -21,7 +21,7 @@ def testerLogin(req: HttpRequest):
         if isinstance(existCredentials, dict):
             context = {"error": existCredentials["error"]}
             return render(req, "tecnicas/cata-login.html", context)
-        
+
         tester = existCredentials[0]
         session = existCredentials[1]
 
@@ -36,7 +36,11 @@ def testerLogin(req: HttpRequest):
         req.session["id_techniqe"] = session.tecnica.id
         req.session["id_participation"] = taster_participation.id
 
-        req.session.set_expiry(20*60)
-        return redirect(reverse("cata_system:catador_main"))
+        req.session.set_expiry(15*60)
+
+        response = redirect(reverse("cata_system:catador_main"))
+        response.set_cookie('id_participacion',
+                            taster_participation.id, max_age=60*60*24)
+        return response
     else:
         return render(req, "tecnicas/cata-login.html")

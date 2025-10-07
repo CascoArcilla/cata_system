@@ -51,6 +51,12 @@ def mainTesterForm(req: HttpRequest):
         elif req.POST["action"] == "close_session":
             req.session.flush()
             return redirect(reverse("cata_system:catador_login"))
+        elif req.POST["action"] == "exit_session":
+            response = ParticipacionController.outSession(
+                req.session["id_participation"])
+            if isinstance(response, dict):
+                context["error"] = response["error"]
+            return render(req, "tecnicas/forms_tester/main_tester.html", context)
         else:
             context["error"] = "Acción sin especificar"
             return render(req, "tecnicas/forms_tester/main_tester.html", context)
