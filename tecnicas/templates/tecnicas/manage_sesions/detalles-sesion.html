@@ -4,8 +4,8 @@
 {% block title %}Detalles Sesion{% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-surface-general mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-surface-alter p-10 max-lg:p-6 max-sm:px-2 rounded-xl max-lg:rounded-none">
+<article class="ct-container">
+    <article class="ct-wrap-content">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
                 Detalles de la sesión
@@ -38,7 +38,7 @@
             Información general
         </p>
         <article
-            class="text-black rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 *:bg-surface-card *:flex *:flex-wrap *:items-center *:justify-center *:max-sm:justify-normal *:gap-x-2 *:p-4 *:rounded-2xl text-xl max-sm:text-base">
+            class="text-black rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 max-sm:gap-1 *:bg-surface-card *:flex *:flex-wrap *:items-center *:justify-center *:max-sm:justify-normal *:gap-x-2 *:p-4 *:rounded-2xl text-xl max-sm:text-base">
             <section class="col-span-2 max-sm:col-span-1">
                 <p class="font-bold">
                     Código:
@@ -183,13 +183,13 @@
         </p>
 
         {% if calificaciones.error %}
-        <article class="bg-surface-general p-4 text-white rounded-xl">
+        <article class="bg-surface-card p-4 text-white rounded-xl">
             <p class="block font-sans text-xl antialiased font-normal uppercase tracking-wider text-center">
                 {{ calificaciones.error }}
             </p>
         </article>
         {% else %}
-        <article class="bg-surface-general p-4 text-white rounded-xl">
+        <article class="bg-surface-card p-4 text-white rounded-xl">
         </article>
         {% endif %}
         <form action="" method="post" class="form-action-session hidden">

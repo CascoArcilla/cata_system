@@ -19,6 +19,14 @@
   @apply border-b-4 active:border-b-0 active:border-t-4 transition-all;
 }
 
+.ct-container {
+  @apply w-full flex flex-col justify-center items-center bg-surface-general mt-10 mb-10;
+}
+
+.ct-wrap-content {
+  @apply flex flex-col gap-8 bg-surface-alter p-10 max-lg:p-6 max-sm:px-2 rounded-xl max-lg:rounded-none;
+}
+
 /* 
 #FFECC0
 #FFC29B
