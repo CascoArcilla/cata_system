@@ -1,4 +1,9 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --color-main-surface: #dd1550;
+}
 
 /**
   * A catch-all path to Django template files, JavaScript, and Python files
