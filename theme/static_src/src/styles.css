@@ -2,8 +2,40 @@
 @plugin "daisyui";
 
 @theme {
-  --color-main-surface: #dd1550;
+  --color-surface-general: #B95E82;
+  --color-surface-alter: #F39F9F;
+  --color-surface-sweet: #FFC29B;
+  --color-surface-ligt: #FFECC0;
+  --color-surface-card: #FFF3E0;
+  --color-surface-alter-card: #91C4C3;
+  --color-btn-primary: #4CAF50;
+  --color-btn-secondary: #E45A92;
+  --color-btn-tertiary: #FFACAC;
+  --color-ct-success: #2E7D32;
+  --color-ct-error: #E62727;
 }
+
+.btn-push {
+  @apply border-b-4 active:border-b-0 active:border-t-4 transition-all;
+}
+
+/* 
+#FFECC0
+#FFC29B
+#F39F9F
+#B95E82
+
+#80A1BA
+#91C4C3
+#B4DEBD
+#FFF7DD
+
+#3E1E68
+#5D2F77
+#E45A92
+#FFACAC
+*/
+
 
 /**
   * A catch-all path to Django template files, JavaScript, and Python files
@@ -13,3 +45,5 @@
   * the scope of this path.
   */
 @source "../../../**/*.{html,py,js}";
+@source "../../../tecnicas/templates/tecnicas/*.{html,py,js}";
+@source "../../../tecnicas/templates/tecnicas/**/*.{html,py,js}";
