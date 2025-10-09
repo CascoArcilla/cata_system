@@ -3,11 +3,10 @@
 {% block title %}Monitoreo{% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article
-        class="flex flex-col gap-8 bg-gray-400 p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-2xl max-lg:rounded-none">
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
         <header class="text-center">
-            <h1 class="text-3xl font-bold">Sesión sensorial en curso</h1>
+            <h1 class="text-3xl font-bold text-black">Sesión sensorial en curso</h1>
         </header>
 
         {% if error %}
@@ -19,21 +18,21 @@
         {% endif %}
 
         <section class="flex flex-col sm:flex-row justify-between items-center gap-10 mb-6">
-            <p class="text-xl text-center bg-gray-600 p-4 text-white rounded-lg">
+            <p class="text-xl text-center bg-surface-card p-4 text-black rounded-lg shadow-lg">
                 Código de sesión:<br>
                 <span class="font-mono text-2xl font-bold">{{ code_session }}</span>
             </p>
             <button
-                class="uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600">
+                class="uppercase text-lg max-sm:text-base tracking-wider p-4 rounded-xl bg-ct-error text-white font-bold border-red-800 btn-push">
                 Finalizar sesión
             </button>
         </section>
 
         <section aria-labelledby="catadores-titulo">
             <article
-                class="flex max-sm:flex-col justify-around bg-gray-200 border border-gray-300 rounded-md p-3 mb-4 items-center">
+                class="flex max-sm:flex-col justify-around bg-surface-card border border-gray-300 rounded-md p-3 mb-4 items-center shadow-lg">
                 <button
-                    class="uppercase text-lg max-sm:text-base tracking-wider p-2 px-3 border-b-3 active:border-b-0 active:border-t-3 active:border-blue-500 border-blue-800 transition-all rounded-xl bg-blue-600 text-white font-bold"
+                    class="uppercase text-lg max-sm:text-base tracking-wider p-2 px-3 transition-all rounded-xl bg-btn-secondary font-bold btn-push border-pink-800"
                     onclick="reloadPage()">
                     Actualizar lista
                 </button>
@@ -43,7 +42,7 @@
             </article>
 
             <article
-                class="flex flex-col justify-center gap-3 bg-gray-200 border border-gray-300 rounded-md p-3 mb-4 text-lg max-sm:text-sm text-gray-700">
+                class="flex flex-col justify-center gap-3 bg-surface-card border border-gray-300 rounded-md p-3 mb-4 text-lg max-sm:text-sm text-gray-700 shadow-lg">
                 <div class="flex justify-center items-center">
                     <h2 class="text-xl font-semibold">Participantes</h2>
                 </div>
@@ -63,19 +62,19 @@
                 </section>
             </article>
 
-            <article class="max-sm:overflow-x-auto">
+            <article class="max-sm:overflow-x-auto shadow-lg">
                 <div class="min-w-[400px] sm:min-w-0">
                     <div
-                        class="grid grid-cols-4 bg-gray-300 text-center font-semibold text-sm rounded-t-lg max-sm:w-full [&_>*]:px-2">
+                        class="grid grid-cols-4 bg-surface-sweet text-center font-semibold text-black text-sm rounded-t-lg max-sm:w-full [&_>*]:px-2">
                         <div class="py-2 border-r border-gray-400">Usuario</div>
                         <div class="py-2 border-r border-gray-400">Nombre</div>
                         <div class="py-2 border-r border-gray-400">Estado</div>
                         <div class="py-2">Finalizado</div>
                     </div>
 
-                    <ul class="divide-y divide-gray-400 max-sm:w-full">
+                    <ul class="divide-y divide-gray-400 max-sm:w-full text-black">
                         {% for parti in participations %}
-                        <li class="grid grid-cols-4 text-center bg-gray-200 py-2 [&_>*]:px-2">
+                        <li class="grid grid-cols-4 text-center bg-surface-card py-2 [&_>*]:px-2">
                             <p class="border-r border-gray-400">{{ parti.catador.usuarioCatador }}</p>
                             <p class="border-r border-gray-400">
                                 {{ parti.catador.nombre }}

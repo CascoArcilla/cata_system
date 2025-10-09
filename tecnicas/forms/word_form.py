@@ -9,12 +9,12 @@ class WordForm(forms.ModelForm):
         max_length=255,
         error_messages={
             "required": "parametros requeridos",
-            "unique": "palabra repetida",  # Ojo: 'unique' lo maneja ModelForm, no aquí
+            "unique": "palabra repetida",
             "min_length": "la palabra es muy corta",
             "max_length": "la palabra es muy larga",
         },
         widget=forms.TextInput(attrs={
-            "class": "bg-gray-300 border-b text-center text-black pb-1 rounded",
+            "class": "bg-surface-sweet border-b text-center text-black pb-1 rounded",
             "placeholder": "Ingrese palabra",
             "oninput": "this.value = this.value.toLowerCase()",
         })

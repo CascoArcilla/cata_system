@@ -3,19 +3,9 @@
 
 {% block title %}Panel Configuracion{% endblock %}
 
-<!--
-||||Debe tener los siguietens campos para:
--- Convenvionales tipo escalas
-- Preguntar si desea darle un nombre a la sesion
-- Numero produtos
-- Numero jueces
-- Numero repeticiones, debe ser mayor a 1, no validar si es menos [-------------REALIZAR-------------]
-- Tipo de escala, seran dos, de rango o estructurada
--->
-
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
-    <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+<article class="cts-container-main">
+    <article class="cts-wrap-content text-black">
         <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
         {% if error %}
         <p class="text-sm bg-red-200 text-center">{{ error }}</p>
@@ -23,7 +13,6 @@
         <hr>
         <form method="post" action="" class="[&>article]:not-last:mb-4 [&>article]:not-first:pt-4 [&>article]:px-6">
             {% csrf_token %}
-
             <label for="form_sesion.id_tecnica.id_for_label" class="hidden">
                 {{ form_sesion.id_tecnica }}
             </label>
@@ -66,15 +55,18 @@
                 <section class="flex flex-row gap-4 justify-around flex-wrap">
                     {% for escala in form_sesion.estilo_palabras %}
                     <label for="{{escala.id_for_label}}"
-                        class="ct-radio-estilo uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit">
+                        class="ct-radio-estilo uppercase text-lg tracking-wider font-bold p-2 px-4 rounded-xl cts-btn-secondary btn-push">
                         {{ escala.tag }}
                         {{ escala.choice_label }}
                     </label>
                     {% endfor %}
                 </section>
-                <p
-                    class="ct-ayuda-estilo text-lg font-bold tracking-wide bg-gray-600 text-white text-center py-1 px-4 rounded-xl">
-                </p>
+                <section class="w-full flex justify-center items-center">
+                    <p
+                        class="ct-ayuda-estilo max-w-2xl text-lg font-medium tracking-wide bg-surface-card text-center py-1 px-4 rounded-xl">
+                    </p>
+                </section>
+
             </article>
             <hr>
             <article class="cs-escalas-radio flex flex-col gap-4">
@@ -82,7 +74,7 @@
                 <section class="flex flex-row gap-4 justify-around flex-wrap">
                     {% for escala in form_sesion.tipo_escala %}
                     <label for="{{escala.id_for_label}}"
-                        class="ct-radio-escala uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit">
+                        class="ct-radio-escala uppercase text-lg tracking-wider font-bold p-2 px-4 rounded-xl cts-btn-primary btn-push">
                         {{ escala.tag }}
                         {{ escala.choice_label }}
                     </label>
@@ -97,7 +89,7 @@
 
                 <section class="py-2 px-5 flex flex-col justify-center items-center gap-2 relative">
                     <label for="{{ form_sesion.tamano_escala.id_for_label }}"
-                        class="ct-size-scale text-lg flex flex-col items-center px-2 font-medium">
+                        class="ct-size-scale text-xl flex flex-col items-center px-2 font-bold">
                         <p>Establece número de segmentos:</p>
                         {{ form_sesion.tamano_escala }}
                     </label>
@@ -110,9 +102,15 @@
                 </section>
             </article>
             <hr>
-            <article class="cs-escalas-radio flex flex-col items-center gap-4">
-                <button type="submit"
-                    class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 text-white w-fit">Continuar</button>
+            <article class="cs-escalas-radio w-full flex max-sm:flex-col flex-wrap items-center justify-center gap-4">
+                <button type="submit" class="cts-btn-general cts-btn-primary btn-push flex-1/4 w-full">
+                    Continuar
+                </button>
+                <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1/4 w-full">
+                    <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
+                        Cancelar la creación
+                    </button>
+                </a>
             </article>
         </form>
     </article>

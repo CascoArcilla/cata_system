@@ -47,14 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'tecnicas.apps.TecnicasConfig',
-
+    
     'tailwind',
     'theme',
-
-    'django_browser_reload'
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ['django_browser_reload']
 
 TAILWIND_APP_NAME = 'theme'
 NPM_BIN_PATH = 'C:/Program Files/nodejs/pnpm.cmd'
@@ -68,10 +68,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'django_browser_reload.middleware.BrowserReloadMiddleware',
-
     'tecnicas.middlewares.LoginTesterMiddleware',
 ]
+
+if DEBUG:
+    MIDDLEWARE += [
+        "django_browser_reload.middleware.BrowserReloadMiddleware",
+    ]
 
 ROOT_URLCONF = 'cata_system.urls'
 

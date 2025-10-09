@@ -9,17 +9,17 @@ class SesionTagsForm(forms.Form):
         if tipo_escala == "estructurada":
             for i in range(longitud):
                 self.fields[f'segmento_{i+1}'] = forms.ModelChoiceField(queryset=Etiqueta.objects.all(), required=True, label=f"segmento {i+1}", empty_label="Selecione opcion", widget=forms.Select(attrs={
-                    "class":"ct-select-op p-1 rounded bg-gray-200 [*]:capitalize"
+                    "class":"ct-select-op p-1 max-sm:w-full bg-surface-ligt [*]:capitalize"
                 }))
         else:
             self.fields['punto_inicial'] = forms.ModelChoiceField(queryset=Etiqueta.objects.all(), required=True, label="Punto inicial", empty_label="Selecione opcion", widget=forms.Select(attrs={
-                    "class":"ct-select-op p-1 rounded bg-gray-200 [*]:capitalize"
+                    "class":"ct-select-op p-1 max-sm:w-full bg-surface-ligt [*]:capitalize"
                 }))
             
             self.fields['punto_medio'] = forms.ModelChoiceField(queryset=Etiqueta.objects.all(), required=True, label="Punto medio", empty_label="Selecione opcion", widget=forms.Select(attrs={
-                    "class":"ct-select-op p-1 rounded bg-gray-200 [*]:capitalize"
+                    "class":"ct-select-op p-1 max-sm:w-full bg-surface-ligt [*]:capitalize"
                 }))
             
             self.fields['punto_final'] = forms.ModelChoiceField(queryset=Etiqueta.objects.all(), required=True, label="Punto final", empty_label="Selecione opcion", widget=forms.Select(attrs={
-                    "class":"ct-select-op p-1 rounded bg-gray-200 [*]:capitalize"
+                    "class":"ct-select-op p-1 max-sm:w-full bg-surface-ligt [*]:capitalize"
                 }))

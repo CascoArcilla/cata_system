@@ -4,17 +4,17 @@
 {% block title %}Detalles Sesion{% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-gray-400 p-10 max-lg:p-6 max-sm:px-2 rounded-2xl max-lg:rounded-none">
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
-            <h1 class="text-white rounded-xl font-bold text-2xl bg-gray-600 p-4 flex-1">
+            <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
                 Detalles de la sesión
             </h1>
-            <a href="{% url 'cata_system:index' %}">
-                <p
-                    class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-600 text-white">
-                    Panel principal
-                </p>
+            <a href="{% url 'cata_system:index' %}" class="w-fit">
+                <button
+                    class="cts-btn-general cts-btn-error btn-push">
+                    Volver a las Sesiones
+                </button>
             </a>
         </header>
 
@@ -34,11 +34,11 @@
         </article>
         {% endif %}
 
-        <p class="font-bold text-2xl border-b-2">
+        <p class="text-black font-bold text-2xl border-b-2">
             Información general
         </p>
         <article
-            class="text-white rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 *:bg-gray-500 *:flex *:flex-wrap *:items-center *:justify-center *:max-sm:justify-normal *:gap-x-2 *:p-4 *:rounded-2xl text-xl max-sm:text-base">
+            class="text-black rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 max-sm:gap-1 *:bg-surface-card *:flex *:flex-wrap *:items-center *:justify-center *:max-sm:justify-normal *:gap-x-2 *:p-4 *:rounded-2xl text-xl max-sm:text-base">
             <section class="col-span-2 max-sm:col-span-1">
                 <p class="font-bold">
                     Código:
@@ -129,14 +129,14 @@
             </section>
         </article>
 
-        <p class="font-bold text-2xl border-b-2">
+        <p class="text-black font-bold text-2xl border-b-2">
             Palabras usadas para calificar
         </p>
         <article
-            class="text-white rounded-xl grid grid-cols-4 max-sm:grid-cols-1 gap-3 *:bg-gray-500 *:flex *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
+            class="text-white rounded-xl grid grid-cols-4 max-sm:grid-cols-1 gap-3 *:bg-surface-ligt *:flex *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
             {% for palabra in palabras %}
             <section>
-                <p class="block text-xl antialiased font-medium">
+                <p class="block text-black text-xl antialiased font-medium">
                     {{ palabra.nombre_palabra }}
                 </p>
             </section>
@@ -144,7 +144,7 @@
         </article>
 
 
-        <p class="font-bold text-2xl border-b-2">
+        <p class="text-black font-bold text-2xl border-b-2">
             Acciones disponibles
         </p>
         <article class="flex flex-wrap gap-10 max-sm:gap-2">
@@ -170,7 +170,7 @@
             {% endif %}
 
             <button
-                class="flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2">
                 borrar
                 <figure class="w-10">
                     <img src="{% static 'img/basura.svg' %}" alt="bote de basura" class="invert">
@@ -178,18 +178,18 @@
             </button>
         </article>
 
-        <p class="font-bold text-2xl border-b-2">
+        <p class="text-black font-bold text-2xl border-b-2">
             Datos obtenidos
         </p>
 
         {% if calificaciones.error %}
-        <article class="bg-gray-600 p-4 text-white rounded-xl">
+        <article class="bg-surface-card p-4 text-white rounded-xl">
             <p class="block font-sans text-xl antialiased font-normal uppercase tracking-wider text-center">
                 {{ calificaciones.error }}
             </p>
         </article>
         {% else %}
-        <article class="bg-gray-600 p-4 text-white rounded-xl">
+        <article class="bg-surface-card p-4 text-white rounded-xl">
         </article>
         {% endif %}
         <form action="" method="post" class="form-action-session hidden">

@@ -3,19 +3,10 @@
 
 {% block title %}Panel Configuracion{% endblock %}
 
-<!--
-||||Debe tener los siguietens campos para:
--- Convenvionales tipo escalas
-- Agregar palabras o Elejir vocabulario
-- Instrucciones
-- Orden de presentacion
-- Presentar un orden basico segun el numero de catadores y los productos, esta se le muestra el presentador
--->
-
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
+<article class="cts-container-main">
     <section class="w-fit h-fit relative">
-        <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+        <article class="cts-wrap-content text-black w-full">
             <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
             <hr>
             {% if error %}
@@ -25,11 +16,12 @@
             {% endif %}
             <form method="post" action="" class="flex flex-col gap-5">
                 {% csrf_token %}
-                <article class="p-4 flex flex-col gap-2 rounded">
+                <article class="p-4 flex flex-col gap-2 rounded max-sm:text-center">
                     <h2 class="text-2xl mb-2 font-bold">Seleccion de etiquetas</h2>
                     {% for field in form_tags %}
-                    <div class="flex flex-row justify-center items-center gap-5 text-lg">
-                        <label for="{{ field.id_for_label }}" class="font-medium p-1 px-3 bg-gray-200 capitalize rounded">
+                    <div class="flex max-sm:flex-col justify-center items-center gap-5 max-sm:gap-2 text-lg border-b-4 border-l-4 border-btn-secondary bg-surface-card p-1">
+                        <label for="{{ field.id_for_label }}"
+                            class="font-medium p-1 px-3 max-sm:w-full capitalize rounded">
                             {{ field.label }}
                         </label>
                         {{ field }}
@@ -37,40 +29,56 @@
                     {% endfor %}
                 </article>
                 <hr>
-                <article class="flex gap-3 flex-wrap p-2 justify-center rounded">
-                    <p class="bg-gray-300 p-2 text-center rounded font-bold text-md">
+                <article class="flex flex-col gap-3 p-2 justify-center items-center bg-surface-card rounded">
+                    <p class="p-2 text-center rounded font-bold text-md">
                         Agregar otra etiqueta
                     </p>
                     <button type="button" onclick="showHiddeExtraTags()"
-                        class="p-1 px-10 uppercase text-lg tracking-wider font-medium border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 w-fit">
+                        class="cts-btn-general cts-btn-secondary btn-push w-40">
                         ➕
                     </button>
                 </article>
                 <hr>
-                <article class="flex justify-center items-center py-3 rounded">
-                    <button type="submit"
-                    class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-yellow-500 border-yellow-800  transition-all rounded-xl bg-yellow-500 text-white w-fit">Continuar</button>
+                <article class="cs-escalas-radio w-full flex flex-col gap-4">
+                    <section class="flex max-sm:flex-col flex-wrap items-center justify-center gap-4">
+                        <button type="submit" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full">
+                            Continuar
+                        </button>
+                        <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1 w-full">
+                            <button type="button" class="cts-btn-general cts-btn-secondary btn-push w-full">
+                                Paso anterior
+                            </button>
+                        </a>
+                    </section>
+                    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1 w-full">
+                        <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
+                            Cancelar la creación
+                        </button>
+                    </a>
                 </article>
             </form>
         </article>
         <article
-            class="ct-new-tags absolute top-0 w-full h-full bg-gray-600/70 p-5 flex justify-center items-center rounded-2xl hidden">
-            <section class="p-5 bg-gray-400 w-fit rounded">
+            class="ct-new-tags absolute top-0 w-full h-full bg-surface-sweet/70 p-5 flex justify-center items-center rounded-2xl hidden">
+            <section class="p-5 bg-surface-ligt border border-surface-general w-fit rounded">
                 <form method="post" action="" class="ct-form-new-tag p-3">
                     {% csrf_token %}
                     <label for="{{ form_new_tag.nueva_etiqueta.id_for_label }}"
-                        class="font-medium text-md text-white flex gap-3">
-                        <p class="bg-gray-600 px-4">Nueva etiqueta:</p>
+                        class="font-medium text-md text-black flex max-sm:flex-col gap-3">
+                        <p class="bg-btn-secondary sm:p-4 p-1 font-semibold">Nueva etiqueta:</p>
                         {{ form_new_tag.nueva_etiqueta }}
                     </label>
                     <p
                         class="ct-error-tag mt-4 font-bold bg-red-500 text-white text-md capitalize text-center rounded hidden">
                         error</p>
-                    <article class="flex justify-center gap-8 mt-4 text-white font-medium tracking-wide">
-                        <button class="rounded px-3 py-1 bg-green-700 active:bg-green-600"
-                            type="submit">Agregar</button>
-                        <button class="rounded px-3 py-1 bg-red-500 active:bg-red-400" type="button"
-                            onclick="showHiddeExtraTags()">Cancelar</button>
+                    <article class="flex max-sm:flex-col justify-center gap-8 max-sm:gap-4 mt-4 text-white font-medium tracking-wide">
+                        <button type="submit" class="cts-btn-general cts-btn-primary btn-push">
+                            Agregar
+                        </button>
+                        <button class="cts-btn-general cts-btn-error btn-push" type="button"
+                            onclick="showHiddeExtraTags()">
+                            Cancelar
+                        </button>
                     </article>
                 </form>
             </section>
@@ -84,7 +92,6 @@
 
 {%if escala == "estructurada"%}
 <script>
-    // Asignacion rapida de valores a los select
     for (let i = 0; i < options.length; i++) {
         if (options.item(i).value) {
             values.push(options.item(i).value)

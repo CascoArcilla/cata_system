@@ -3,7 +3,7 @@ from ...controllers import SesionController
 
 
 def sesionsPanel(req, page: int):
-    context = {}
+    context = {"page": page}
 
     sessions_in_page = SesionController.getSessionsSavesByCretor(
         user_name="aguBido", page=page)

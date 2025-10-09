@@ -18,7 +18,7 @@ function submitData(e) {
     });
     submitData.push(simplePosition);
   });
-  
+
   const codesInput = document.createElement("input");
   codesInput.type = "hidden";
   codesInput.name = "sort_codes";
@@ -139,6 +139,8 @@ function addIUPermutations() {
     unlist.classList.add(
       "flex",
       "flex-wrap",
+      "justify-center",
+      "items-center",
       "gap-3",
       "px-3",
       "py-1",
@@ -158,7 +160,16 @@ function addIUPermutations() {
     });
 
     const section = document.createElement("section");
-    section.classList.add("bg-gray-400", "py-2");
+    section.classList.add(
+      "bg-surface-card",
+      "py-2",
+      "sm:max-w-80",
+      "w-full",
+      "flex",
+      "flex-col",
+      "justify-center",
+      "items-center"
+    );
 
     section.appendChild(paragraph);
     section.appendChild(unlist);
