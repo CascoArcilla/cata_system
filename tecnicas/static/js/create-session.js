@@ -43,18 +43,17 @@ function renderElementsResponse({
   const loadElement = document.querySelector(".ct-load-create");
 
   const message = document.createElement("p");
-  message.classList.add("text-2xl", "text-white", "text-center", "font-bold");
+  message.classList.add("text-2xl", "text-center", "font-bold");
 
   const nameSessionP = document.createElement("p");
   nameSessionP.classList.add(
     "text-lg",
-    "text-white",
     "text-center",
     "font-bold"
   );
 
   const idSession = document.createElement("p");
-  idSession.classList.add("text-lg", "text-white", "text-center", "font-bold");
+  idSession.classList.add("text-lg", "text-center", "font-bold");
   const pHelp = document.createElement("p");
 
   // ******************************** //
@@ -68,7 +67,7 @@ function renderElementsResponse({
     idSession.innerHTML = `El ID de la seesion es:<br><strong class="border-b border-white">${sessionId}</strong>`;
     nameSessionP.textContent = `Nombre de sesion: ${nameSession}`;
 
-    pHelp.classList.add("text-lg", "text-white", "text-center");
+    pHelp.classList.add("text-lg", "text-center");
     pHelp.textContent =
       "Puedes pasar este ID a los catadores para que ingresen a la sesion";
   }
@@ -84,16 +83,9 @@ function renderElementsResponse({
 
   const stylesBtns = [
     "uppercase",
-    "text-lg",
     "tracking-wider",
-    "font-medium",
-    "p-2",
-    "px-4",
-    "border-b-2",
-    "active:border-b-0",
-    "active:border-t-2",
-    "transition-all",
-    "rounded-xl",
+    "cts-btn-general",
+    "btn-push",
     "w-fit",
   ];
 
@@ -103,27 +95,21 @@ function renderElementsResponse({
 
   aIndex.classList.add(
     ...stylesBtns,
-    "active:border-blue-500",
-    "border-blue-800",
-    "bg-blue-500",
-    "text-white"
+    "cts-btn-secondary"
   );
 
-  const aMonitor = document.createElement("a");
-  aMonitor.href = "/cata";
-  aMonitor.textContent = "Monitorear la sesion";
+  const aDetails = document.createElement("a");
+  aDetails.href = `/cata/detalles-sesion/${sessionId}`;
+  aDetails.textContent = "Ver detalles la sesion";
 
-  aMonitor.classList.add(
+  aDetails.classList.add(
     ...stylesBtns,
-    "active:border-yellow-500",
-    "border-yellow-800",
-    "bg-yellow-500",
-    "text-black"
+    "cts-btn-tertiary"
   );
 
   divBtns.appendChild(aIndex);
   if (!error) {
-    divBtns.appendChild(aMonitor);
+    divBtns.appendChild(aDetails);
   }
 
   loadElement.classList.add("hidden");

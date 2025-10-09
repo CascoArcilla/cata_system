@@ -16,7 +16,7 @@ module.exports = {
         "surface-alter-card": "#91C4C3",
         "btn-primary": "#4CAF50",
         "btn-secondary": "#E45A92",
-        "btn-tertiary": "#FFACAC",
+        "btn-tertiary": "#CCECC0",
         "ct-success": "#2E7D32",
         "ct-error": "#E62727",
       },

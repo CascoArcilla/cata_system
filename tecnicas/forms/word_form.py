@@ -14,7 +14,7 @@ class WordForm(forms.ModelForm):
             "max_length": "la palabra es muy larga",
         },
         widget=forms.TextInput(attrs={
-            "class": "bg-gray-300 border-b text-center text-black pb-1 rounded",
+            "class": "bg-surface-sweet border-b text-center text-black pb-1 rounded",
             "placeholder": "Ingrese palabra",
             "oninput": "this.value = this.value.toLowerCase()",
         })

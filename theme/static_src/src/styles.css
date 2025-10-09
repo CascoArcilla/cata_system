@@ -23,7 +23,7 @@
 }
 
 .cts-btn-tertiary {
-  @apply text-white bg-btn-tertiary border-pink-800;
+  @apply text-gray-700 bg-btn-tertiary border-green-600;
 }
 
 .cts-btn-error {
