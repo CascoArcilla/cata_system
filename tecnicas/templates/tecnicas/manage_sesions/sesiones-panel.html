@@ -4,59 +4,72 @@
 {% block title %}Panel Sesiones{% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="max-sm:w-full flex flex-col gap-8 bg-gray-400 p-10 max-lg:p-6 max-sm:px-0 rounded-2xl">
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
         <header class="text-center flex flex-row max-sm:flex-col gap-8 items-center w-full">
-            <div class="bg-gray-600 p-4 text-white rounded-xl flex-1">
+            <div class="bg-surface-card p-4 text-black shadow-lg rounded-xl flex-1">
                 <h1 class="font-bold text-2xl">Administra las<br>sesiones sensoriales</h1>
             </div>
-            <div class="flex-1">
-                <a href="{% url 'cata_system:index' %}"
-                    class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-xl p-4 text-center uppercase">Panel
-                    principal</a>
+            <div class="flex-1 flex justify-end items-center">
+                <a href="{% url 'cata_system:index' %}" class="w-fit">
+                    <button class="cts-btn-general cts-btn-error btn-push">
+                        Ir al Panel principal
+                    </button>
+                </a>
             </div>
         </header>
 
-        <section class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-4">
+        <section class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 w-full gap-4 justify-center">
             {% for sesion in sessions %}
-            <a href="{% url 'cata_system:detalles_sesion' session_code=sesion.codigo_sesion %}"
-                class="p-4 bg-gray-200 flex flex-row gap-2 justify-center items-center rounded-lg border-b-4 border-blue-500">
-                <div class="text-right *:not-last:mb-2">
-                    {% if sesion.nombre_sesion %}
-                    <p><b>Nombre:</b></p>
-                    {% endif %}
-                    <p><b>Código:</b></p>
-                    <p><b>Fecha:</b></p>
-                    <p><b>Técnica:</b></p>
-                    <p><b>Estilo:</b></p>
+            <div class="card bg-surface-card shadow-lg text-black sm:max-w-80 w-full flex justify-center items-center">
+                <div class="card-body flex flex-col justify-between">
+                    <div class="flex flex-col gap-1 [&>*]:first:text-xl [&>*]:first:font-bold [&>*]:first:border-b">
+                        {% if sesion.nombre_sesion %}
+                        <h2>{{ sesion.nombre_sesion }}</h2>
+                        <span class="text-lg underline"><b>Código:</b><br>{{ sesion.codigo_sesion }}</span>
+                        {% else %}
+                        <span class="text-lg">Código:<br>{{ sesion.codigo_sesion }}</span>
+                        {% endif %}
+                    </div>
+                    <ul class="mt-6 flex flex-col gap-2 text-base">
+                        <li>
+                            Se usa la Técnica:
+                            <span class="uppercase font-bold">
+                                {{ sesion.tecnica.tipo_tecnica.nombre_tecnica }}
+                            </span>
+                        </li>
+                        <li>
+                            El Estilo de palabras:
+                            <span class="uppercase font-bold">
+                                {{ sesion.tecnica.id_estilo.nombre_estilo }}
+                            </span>
+                        </li>
+                        <li>
+                            {{ sesion.fechaCreacion }}
+                        </li>
+                    </ul>
+                    <div class="mt-6">
+                        <a href="{% url 'cata_system:detalles_sesion' session_code=sesion.codigo_sesion %}">
+                            <button class="btn bg-btn-primary border-0 block w-full btn-push">
+                                Inspeccionar sesión
+                            </button>
+                        </a>
+                    </div>
                 </div>
-                <div class="*:not-last:mb-2">
-                    {% if sesion.nombre_sesion %}
-                    <p>{{ sesion.nombre_sesion }}</p>
-                    {% endif %}
-                    <p>{{ sesion.codigo_sesion }}</p>
-                    <p>{{ sesion.fechaCreacion }}</p>
-                    <p class="uppercase">{{ sesion.tecnica.tipo_tecnica.nombre_tecnica }}</p>
-                    <p class="uppercase">{{ sesion.tecnica.id_estilo.nombre_estilo }}</p>
-                </div>
-            </a>
+            </div>
             {% endfor %}
         </section>
 
         <section class="flex justify-center items-center gap-2">
-            <button>
-                <img class="h-10" src="{% static 'img/less-than.svg' %}" alt="menor que">
-            </button>
-            <ul class="flex flex-row gap-2">
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>. . .</li>
-                <li>8</li>
-            </ul>
-            <button>
-                <img class="h-10" src="{% static 'img/greater-than.svg' %}" alt="mayor que">
-            </button>
+            <div class="join">
+                <button class="join-item btn bg-btn-secondary">
+                    <img class="h-full" src="{% static 'img/less-than.svg' %}" alt="menor que">
+                </button>
+                <button class="join-item btn bg-btn-secondary">Page {{ page }}</button>
+                <button class="join-item btn bg-btn-secondary">
+                    <img class="h-full" src="{% static 'img/greater-than.svg' %}" alt="mayor que">
+                </button>
+            </div>
         </section>
     </article>
 </article>

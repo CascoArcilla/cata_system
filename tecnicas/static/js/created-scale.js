@@ -81,6 +81,7 @@ async function sendRating(word) {
       addBtnNextWord();
     }
   } catch (error) {
+    addOrRemoveWaitSpin(containerBtn, false, "La sesión ha caducado");
     console.log("Error:", error);
   }
 }

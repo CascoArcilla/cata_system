@@ -57,8 +57,8 @@ async function getWordsByName(e) {
 function createWordElement({ word, add = true, callback = null }) {
   const li = document.createElement("li");
   li.classList.add(
-    add ? "bg-gray-600" : "bg-gray-400",
-    add ? "text-white" : "text-black",
+    add ? "bg-surface-card" : "bg-surface-sweet",
+    "text-black",
     "rounded",
     "font-bold",
     "text-lg",

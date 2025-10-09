@@ -8,32 +8,32 @@ class SesionBasicForm(forms.Form):
     id_tecnica = forms.IntegerField(widget=forms.HiddenInput())
 
     nombre_sesion = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
-        "class": "bg-gray-200 border-b-1 text-center w-full p-1",
+        "class": "bg-surface-ligt border-b-1 text-center w-full p-1",
         "name": "nombre_sesion",
         "placeholder": "Ej. Mermelada de mango picante"
     }), required=False)
 
     numero_productos = forms.IntegerField(widget=forms.NumberInput(attrs={
-        "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
+        "class": "bg-surface-ligt p-1 border-b-1 text-center w-full",
         "placeholder": "Solo números"
     }), required=True)
 
     numero_catadores = forms.IntegerField(widget=forms.NumberInput(attrs={
-        "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
+        "class": "bg-surface-ligt p-1 border-b-1 text-center w-full",
         "placeholder": "Solo números"
     }), required=True)
 
     numero_repeticiones = forms.IntegerField(widget=forms.NumberInput(attrs={
-        "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
+        "class": "bg-surface-ligt p-1 border-b-1 text-center w-full",
         "placeholder": "Solo números"
     }), required=True)
 
     tamano_escala = forms.IntegerField(widget=forms.NumberInput(attrs={
-        "class": "bg-gray-200 p-1 border-b-1 text-center w-full",
+        "class": "bg-surface-ligt p-1 border-b-1 text-center w-full",
     }), required=True, min_value=5)
 
     instrucciones = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
-        "class": "bg-gray-200 border-b-1 text-center w-full p-1",
+        "class": "bg-surface-ligt border-b-1 text-center w-full p-1",
         "placeholder": "Este campo es opcional"
     }), required=False)
 
