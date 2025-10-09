@@ -24,7 +24,7 @@
 }
 
 .ct-wrap-content {
-  @apply flex flex-col gap-8 bg-surface-alter p-10 max-lg:p-6 max-sm:px-2 rounded-xl max-lg:rounded-none;
+  @apply flex flex-col gap-8 bg-surface-alter p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-xl max-lg:rounded-none;
 }
 
 /* 

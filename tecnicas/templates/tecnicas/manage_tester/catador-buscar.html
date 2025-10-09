@@ -4,28 +4,30 @@
 {% block title %}Buscar Catador{% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 my-10">
-    <article class="flex flex-col gap-4 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+<article class="ct-container">
+    <article class="ct-wrap-content">
         <header class="flex-1 flex flex-col gap-7">
-            <div class="bg-gray-300 p-8 text-2xl font-bold rounded-2xl text-center capitalize">
+            <div class="bg-surface-card p-8 text-black text-2xl font-bold rounded-2xl text-center capitalize">
                 <h1>buscando catatador</h1>
             </div>
         </header>
-        <form action="" method="get" class="flex flex-col gap-5">
+        <form action="" method="get" class="flex flex-col gap-5 text-black">
             <h2 class="text-2xl mb-2 font-bold">Ingrese el nombre de usuario del catador</h2>
             <section class="">
                 <label for="usuario" class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
                     <div class="flex flex-wrap gap-4 justify-center items-center">
                         <p class="capitalize font-bold">nombre de usuario:</p>
-                        <input id="usuario" type="text" class="bg-gray-500 text-center w-fit p-1 rounded-lg text-white"
+                        <input id="usuario" type="text" class="bg-surface-ligt text-center w-fit p-1 rounded-lg"
                             name="user" required>
                         <button type="submit"
-                            class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-green-800  transition-all rounded-xl bg-green-600 active:bg-green-400 text-white w-fit">
-                            buscar
+                            class="w-fit text-black text-lg font-bold bg-btn-primary rounded-xl py-2 px-6 text-center border-b-green-800 btn-push">
+                            Buscar
                         </button>
-                        <a href="{% url 'cata_system:panel_catadores' %}"
-                            class="uppercase text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 border-yellow-800  transition-all rounded-xl bg-yellow-600 active:bg-yellow-400 text-white w-fit">
-                            regresar
+                        <a href="{% url 'cata_system:panel_catadores' %}">
+                            <button
+                                class="text-white w-fit bg-ct-error font-bold rounded-lg text-xl py-2 px-6 text-center border-pink-800 btn-push">
+                                Regresar
+                            </button>
                         </a>
                     </div>
                     {% if catador.errors %}
@@ -37,19 +39,21 @@
             </section>
         </form>
         {% if error %}
-        <p class="ct-notifica bg-red-500 text-center text-lg py-1 font-bold text-white tracking-wide capitalize rounded-2xl">
+        <p
+            class="ct-notifica bg-red-500 text-center text-lg py-1 font-bold text-white tracking-wide capitalize rounded-2xl">
             {{ error }}
         </p>
         {% endif %}
 
         {% if message %}
-        <p class="ct-notifica bg-green-600 text-center text-lg py-1 font-bold text-white tracking-wide capitalize rounded-2xl">
+        <p
+            class="ct-notifica bg-green-600 text-center text-lg py-1 font-bold text-white tracking-wide capitalize rounded-2xl">
             {{ message }}
         </p>
         {% endif %}
-        
+
         {% if form_catador %}
-        <form action="" method="post">
+        <form action="" method="post" class="text-black">
             {% csrf_token %}
             <section class="grid grid-cols-2 max-sm:grid-cols-1 [&>label]:px-6 max-sm:[&>label]:px-2">
                 <label for="{{ form_catador.usuarioCatador.id_for_label }}"

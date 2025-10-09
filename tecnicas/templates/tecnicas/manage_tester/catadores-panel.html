@@ -4,16 +4,19 @@
 {% block title %}Gestionar Catadores{% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center min-sm:mt-10">
-    <article class="flex flex-col bg-gray-400 p-10 max-sm:py-10 max-sm:px-3 min-sm:rounded-2xl">
+<article class="ct-container">
+    <article class="ct-wrap-content">
         <article class="grid min-sm:grid-cols-2 gap-4 p-5 rounded-2xl">
             <header class="flex-1 flex flex-col gap-4">
-                <div class="bg-gray-600 p-8 text-2xl text-white font-bold rounded-2xl text-center">
+                <div class="bg-surface-card p-8 text-2xl text-black font-bold rounded-2xl text-center">
                     <h1>Adiministra los<br>catadores aquí</h1>
                 </div>
-                <a href="{% url 'cata_system:index' %}"
-                    class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-xl p-4 text-center uppercase">Panel
-                    principal</a>
+                <a href="{% url 'cata_system:index' %}">
+                    <button
+                        class="text-white w-full bg-ct-error font-bold rounded-lg text-xl p-4 text-center border-pink-800 btn-push">
+                        Ir al Panel principal
+                    </button>
+                </a>
                 <div class="w-full h-60 bg-gray-200 rounded-2xl relative">
                     <img src="{% static 'img/pn_gc_test.webp' %}" alt="un hombre en smokin probando vino"
                         class="h-full w-full object-cover rounded-xl">
@@ -24,13 +27,17 @@
                     <img src="{% static 'img/pn_gc_people.webp' %}" alt="varias personas en fila"
                         class="w-full h-full object-cover rounded-xl">
                 </div>
-                <a class="flex-1 text-white tracking-wider font-bold bg-green-600 border-green-800 border-r-4 border-b-4 active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 transition-all rounded-xl text-xl p-4 flex justify-center items-center uppercase"
-                    href="{% url 'cata_system:crear_catador' %}">
-                    Crear Cadator
+                <a href="{% url 'cata_system:crear_catador' %}" class="flex-1">
+                    <button
+                        class="w-full h-full text-black bg-btn-primary font-bold rounded-xl px-8 py-4 text-center border-b-green-800 btn-push">
+                        Crear Cadator
+                    </button>
                 </a>
-                <a href="{% url 'cata_system:buscar_catador' %}"
-                    class="flex-1 text-white tracking-wider font-bold bg-yellow-600 border-yellow-800 border-r-4 border-b-4 active:border-r-0 active:border-b-0 active:border-t-4 active:border-l-4 transition-all rounded-xl text-xl p-4 flex justify-center items-center uppercase">
-                    Buscar Catador
+                <a href="{% url 'cata_system:buscar_catador' %}" class="flex-1">
+                    <button
+                        class="w-full h-full text-black bg-btn-secondary font-bold rounded-xl px-8 py-4 text-center border-b-pink-800 btn-push">
+                        Buscar Catador
+                    </button>
                 </a>
                 <div class="w-full h-40 rounded-2xl min-sm:hidden">
                     <img src="{% static 'img/pn_gc_people.webp' %}" alt="varias personas en fila"
