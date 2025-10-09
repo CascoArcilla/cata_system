@@ -4,15 +4,15 @@
 {% block title %}Detalles Sesion{% endblock %}
 
 {% block content %}
-<article class="ct-container">
-    <article class="ct-wrap-content">
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
                 Detalles de la sesión
             </h1>
             <a href="{% url 'cata_system:index' %}" class="w-fit">
                 <button
-                    class="text-black bg-btn-secondary font-medium rounded-lg text-xl p-4 text-center border-pink-800 btn-push">
+                    class="cts-btn-general cts-btn-error btn-push">
                     Volver a las Sesiones
                 </button>
             </a>
@@ -170,7 +170,7 @@
             {% endif %}
 
             <button
-                class="flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2">
                 borrar
                 <figure class="w-10">
                     <img src="{% static 'img/basura.svg' %}" alt="bote de basura" class="invert">

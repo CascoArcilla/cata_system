@@ -3,16 +3,18 @@
 {% block title %}Panel principal{% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-gray-400 md:p-10 p-5 rounded-2xl lg:w-4xl w-full">
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
         <header class="text-center flex sm:flex-row flex-col md:gap-8 gap-3 items-center w-full">
-            <div class="bg-gray-600 p-4 text-white rounded-xl sm:flex-1 w-full">
-                <h1 class="font-bold text-2xl">Selección de<br>técnica sensorial</h1>
+            <div class="bg-surface-card p-4 text-black rounded-xl sm:flex-1 w-full">
+                <h1 class="font-bold text-2xl">Selección de técnica sensorial</h1>
             </div>
             <div class="sm:flex-1 flex flex-row-reverse">
-                <a href="{% url 'cata_system:index' %}"
-                    class="text-white bg-blue-600 hover:bg-blue-700 active:outline-none active:ring-4 active:ring-blue-300 font-medium rounded-xl text-xl p-4 text-center uppercase">Panel
-                    principal</a>
+                <a href="{% url 'cata_system:index' %}">
+                    <button class="cts-btn-general cts-btn-error btn-push">
+                        Panel principal
+                    </button>
+                </a>
             </div>
         </header>
         <section class="text-white *:not-last:mb-4">
@@ -25,15 +27,17 @@
             {% for cate, tecnicas in tipos.items %}
             <article>
                 <button
-                    class="p-4 bg-blue-700 hover:bg-blue-800 active:ring-4 active:outline-none active:ring-blue-300 flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full z-20 relative"
+                    class="cts-btn-general cts-btn-primary btn-push flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full z-20 relative"
                     onclick="showList('{{cate}}'); hiddenError()" type="button">{{ cate }}</button>
                 {% if tecnicas %}
                 <section
-                    class="modal-list-{{ cate }} flex flex-col text-lg bg-blue-100 p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden w-full">
+                    class="modal-list-{{ cate }} flex flex-col text-lg bg-surface-ligt p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden w-full">
                     {% for tecnica in tecnicas %}
-                    <a href="{% url 'cata_system:panel_configuracion_basic'%}?id_tecnica={{tecnica.id}}"
-                        class="bg-green-700 border-l-10 border-gray-700 rounded-md px-3 py-2 w-full font-bold tracking-wider text-left uppercase">
-                        {{ tecnica.nombre_tecnica }}
+                    <a href="{% url 'cata_system:panel_configuracion_basic'%}?id_tecnica={{tecnica.id}}">
+                        <button
+                            class="cts-btn-secondary btn-push rounded-lg border-b-0 border-l-4 border-gray-700 px-3 py-2 w-full text-left font-bold uppercase">
+                            {{ tecnica.nombre_tecnica }}
+                        </button>
                     </a>
                     {% endfor %}
                 </section>

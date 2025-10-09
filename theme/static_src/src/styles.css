@@ -1,57 +1,38 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@theme {
-  --color-surface-general: #B95E82;
-  --color-surface-alter: #F39F9F;
-  --color-surface-sweet: #FFC29B;
-  --color-surface-ligt: #FFECC0;
-  --color-surface-card: #FFF3E0;
-  --color-surface-alter-card: #91C4C3;
-  --color-btn-primary: #4CAF50;
-  --color-btn-secondary: #E45A92;
-  --color-btn-tertiary: #FFACAC;
-  --color-ct-success: #2E7D32;
-  --color-ct-error: #E62727;
+
+.cts-container-main {
+  @apply w-full flex flex-col justify-center items-center bg-surface-general mt-10 mb-10;
+}
+
+.cts-wrap-content {
+  @apply flex flex-col gap-8 bg-surface-alter p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-xl max-lg:rounded-none;
+}
+
+.cts-btn-general {
+  @apply font-bold rounded-lg text-xl p-4 text-center;
+}
+
+.cts-btn-primary {
+  @apply text-white bg-btn-primary border-green-800;
+}
+
+.cts-btn-secondary {
+  @apply text-white bg-btn-secondary border-pink-800;
+}
+
+.cts-btn-tertiary {
+  @apply text-white bg-btn-tertiary border-pink-800;
+}
+
+.cts-btn-error {
+  @apply text-white bg-ct-error border-red-800;
 }
 
 .btn-push {
   @apply border-b-4 active:border-b-0 active:border-t-4 transition-all;
 }
 
-.ct-container {
-  @apply w-full flex flex-col justify-center items-center bg-surface-general mt-10 mb-10;
-}
-
-.ct-wrap-content {
-  @apply flex flex-col gap-8 bg-surface-alter p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-xl max-lg:rounded-none;
-}
-
-/* 
-#FFECC0
-#FFC29B
-#F39F9F
-#B95E82
-
-#80A1BA
-#91C4C3
-#B4DEBD
-#FFF7DD
-
-#3E1E68
-#5D2F77
-#E45A92
-#FFACAC
-*/
-
-
-/**
-  * A catch-all path to Django template files, JavaScript, and Python files
-  * that contain Tailwind CSS classes and will be scanned by Tailwind to generate the final CSS file.
-  *
-  * If your final CSS file is not being updated after code changes, you may want to broaden or narrow
-  * the scope of this path.
-  */
 @source "../../../**/*.{html,py,js}";
-@source "../../../tecnicas/templates/tecnicas/*.{html,py,js}";
-@source "../../../tecnicas/templates/tecnicas/**/*.{html,py,js}";
+@config "../tailwind.config.js"

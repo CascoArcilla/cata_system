@@ -4,16 +4,15 @@
 {% block title %}Panel Sesiones{% endblock %}
 
 {% block content %}
-<article class="ct-container">
-    <article class="ct-wrap-content">
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
         <header class="text-center flex flex-row max-sm:flex-col gap-8 items-center w-full">
             <div class="bg-surface-card p-4 text-black shadow-lg rounded-xl flex-1">
                 <h1 class="font-bold text-2xl">Administra las<br>sesiones sensoriales</h1>
             </div>
             <div class="flex-1 flex justify-end items-center">
                 <a href="{% url 'cata_system:index' %}" class="w-fit">
-                    <button
-                        class="text-black bg-btn-secondary font-medium rounded-lg text-xl p-4 text-center border-pink-800 btn-push">
+                    <button class="cts-btn-general cts-btn-error btn-push">
                         Ir al Panel principal
                     </button>
                 </a>
@@ -51,8 +50,9 @@
                     </ul>
                     <div class="mt-6">
                         <a href="{% url 'cata_system:detalles_sesion' session_code=sesion.codigo_sesion %}">
-                            <button class="btn bg-btn-primary border-0 block w-full btn-push">Inspeccionar
-                                sesión</button>
+                            <button class="btn bg-btn-primary border-0 block w-full btn-push">
+                                Inspeccionar sesión
+                            </button>
                         </a>
                     </div>
                 </div>

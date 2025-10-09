@@ -4,7 +4,7 @@ const descriptons = {
   atributos:
     "Con el estilo atributos elijes las palabras para evaluar los productos",
   vocabulario:
-    "Los vocabularios son un conjunto de palabras especificas para evaluar aspectos de un producto.",
+    "Los vocabularios son un conjunto de palabras específicas para evaluar aspectos de un producto",
 };
 
 let inputsScale;

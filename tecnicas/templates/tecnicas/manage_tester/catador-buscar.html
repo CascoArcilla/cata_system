@@ -4,8 +4,8 @@
 {% block title %}Buscar Catador{% endblock %}
 
 {% block content %}
-<article class="ct-container">
-    <article class="ct-wrap-content">
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
         <header class="flex-1 flex flex-col gap-7">
             <div class="bg-surface-card p-8 text-black text-2xl font-bold rounded-2xl text-center capitalize">
                 <h1>buscando catatador</h1>
@@ -24,7 +24,7 @@
                             Buscar
                         </button>
                         <a href="{% url 'cata_system:panel_catadores' %}">
-                            <button
+                            <button type="button"
                                 class="text-white w-fit bg-ct-error font-bold rounded-lg text-xl py-2 px-6 text-center border-pink-800 btn-push">
                                 Regresar
                             </button>
