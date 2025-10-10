@@ -51,6 +51,14 @@ class MainTesterFormController():
         try:
             participation = Participacion.objects.get(id=id_participation)
 
+            # ////////////////////////////////////////////////////////////// #
+            #
+            # Si numero_calificaciones_esperadas = productos * palabras
+            # Es igual a numero_calificaciones_actuales en la repetcion R
+            # Ha terminado la repeticion
+            #
+            # ////////////////////////////////////////////////////////////// #
+
             if participation.finalizado:
                 num_products = Producto.objects.filter(
                     id_tecnica=self.session.tecnica).count()
@@ -60,20 +68,18 @@ class MainTesterFormController():
                 num_words: int
 
                 if style_words.nombre_estilo == "atributos":
-                    e_atribues = EsAtributo.objects.get(
-                        id_tecnica=self.session.tecnica)
-                    num_words = e_atribues.palabras.count()
+                    num_words = EsAtributo.objects.get(
+                        id_tecnica=self.session.tecnica).palabras.count()
                 elif style_words.nombre_estilo == "vocabulario":
-                    e_vocabulary = EsVocabulario.objects.get(
-                        id_tecnica=self.session.tecnica)
-                    num_words = e_vocabulary.id_vocabulario.palabras.count()
+                    num_words = EsVocabulario.objects.get(
+                        id_tecnica=self.session.tecnica).id_vocabulario.palabras.count()
 
                 num_ratings_now = Calificacion.objects.filter(
                     id_tecnica=self.session.tecnica, id_catador=self.tester, num_repeticion=repetition).count()
 
-                num_ratings_max_by_tester = num_products * num_words
+                expected_ratings_repetition = num_products * num_words
 
-                return not num_ratings_now <= num_ratings_max_by_tester
+                return  num_ratings_now >= expected_ratings_repetition
             else:
                 return participation.finalizado
         except Participacion.DoesNotExist:

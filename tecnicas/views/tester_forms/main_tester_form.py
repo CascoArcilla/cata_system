@@ -20,7 +20,11 @@ def mainTesterForm(req: HttpRequest):
 
         if not isinstance(order, dict):
             req.session["id_order"] = order.id
-            if view_controller.isEndedSession(id_participation=req.session["id_participation"], repetition=session.tecnica.repeticion):
+            is_end = view_controller.isEndedSession(
+                id_participation=req.session["id_participation"], repetition=session.tecnica.repeticion)
+            
+            if is_end:
+                print("Estoy dentro y termine [0_0]")
                 context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
                 context["has_ended"] = True
 
