@@ -14,6 +14,10 @@
   @apply font-bold rounded-lg text-xl p-4 text-center;
 }
 
+.cts-btn-general-compress {
+  @apply font-bold rounded-lg text-xl text-center;
+}
+
 .cts-btn-primary {
   @apply text-white bg-btn-primary border-green-800;
 }
