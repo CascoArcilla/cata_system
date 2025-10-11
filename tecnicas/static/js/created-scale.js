@@ -117,7 +117,7 @@ function addBtnNextWord() {
 
   const btnNesxtWord = document.createElement("button");
   btnNesxtWord.classList.add(...BTN_CLASS_STYLE, "ct-btn-next-word");
-  btnNesxtWord.textContent = "Siguiente palabra";
+  btnNesxtWord.textContent = "Siguiente producto";
   btnNesxtWord.addEventListener("click", nextWord);
 
   const articleContainer = document.createElement("article");
