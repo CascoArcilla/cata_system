@@ -1,4 +1,4 @@
-from ...models import Participacion, Tecnica
+from ...models import Participacion, Tecnica, SesionSensorial
 from ...utils import controller_error
 
 
@@ -13,7 +13,7 @@ class ParticipacionController():
             return participation
         except Participacion.DoesNotExist:
             return controller_error("No se ha encontrado la participación")
-        
+
     @staticmethod
     def finishSession(id_participation: int):
         try:
@@ -24,7 +24,7 @@ class ParticipacionController():
             return participation
         except Participacion.DoesNotExist:
             return controller_error("No se ha encontrado la participación")
-        
+
     @staticmethod
     def outSession(id_participation: int):
         try:
@@ -34,9 +34,33 @@ class ParticipacionController():
             return participation
         except Participacion.DoesNotExist:
             return controller_error("No se ha encontrado la participación")
-        
+
     @staticmethod
-    def getParticipationsInTechinique(technique: Tecnica| int):
+    def outAllInSession(session: SesionSensorial | str):
+        try:
+            if isinstance(session, str):
+                use_session = SesionSensorial.objects.get(
+                    codigo_sesion=session)
+            else:
+                use_session = session
+
+            participations = Participacion.objects.filter(
+                tecnica=use_session.tecnica)
+
+            if not participations.exists():
+                message = "No se encontraron participaciones en la sesión"
+                return (False, message)
+
+            participations.update(finalizado=False)
+
+            message = "Participaciones actualizadas a finalizadas"
+            return (True, message)
+        except Exception as e:
+            print(f"Error al actualizar las participaciones: {str(e)}")
+            return (False, "Error al actualizar las participaciones")
+
+    @staticmethod
+    def getParticipationsInTechinique(technique: Tecnica | int):
         filters = {}
 
         if isinstance(technique, int):
@@ -44,5 +68,4 @@ class ParticipacionController():
         else:
             filters["tecnica"] = technique
 
-        participations = list(Participacion.objects.filter(**filters))
-        return participations
+        return list(Participacion.objects.filter(**filters))
