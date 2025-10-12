@@ -44,7 +44,7 @@ class SesionController():
 
     @staticmethod
     def getSessionsSavesByCretor(user_name: str, page: int):
-        elements_by_page = 3
+        elements_by_page = 6
 
         try:
             creator = Presentador.objects.get(nombre_usuario=user_name)
