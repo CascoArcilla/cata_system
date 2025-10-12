@@ -44,34 +44,41 @@ class SesionController():
 
     @staticmethod
     def getSessionsSavesByCretor(user_name: str, page: int):
-        elements_by_page = 9
+        elements_by_page = 3
 
         try:
             creator = Presentador.objects.get(nombre_usuario=user_name)
         except Presentador.DoesNotExist:
             return controller_error("presentador invalido")
 
-        try:
-            queryset = SesionSensorial.objects.select_related(
+        queryset = (
+            SesionSensorial.objects
+            .filter(creadoPor=creator)
+            .select_related(
                 "tecnica",
                 "tecnica__tipo_tecnica",
                 "tecnica__id_estilo"
-            ).only(
+            )
+            .only(
                 "codigo_sesion",
                 "nombre_sesion",
                 "fechaCreacion",
+                "activo",
                 "tecnica__tipo_tecnica__nombre_tecnica",
                 "tecnica__id_estilo__nombre_estilo"
             )
+            .order_by("-fechaCreacion")
+        )
 
-            paginator = Paginator(queryset, elements_by_page)
-            sessions_in_page = paginator.get_page(page)
-
-            return sessions_in_page
+        paginator = Paginator(queryset, elements_by_page)
+        try:
+            sessions_in_page = paginator.page(page)
         except PageNotAnInteger:
-            return controller_error("indice invalido")
+            return controller_error("índice inválido")
         except EmptyPage:
-            return controller_error("sin registros de sessiones")
+            return controller_error("sin registros de sesiones")
+
+        return (sessions_in_page, not sessions_in_page.number < paginator.num_pages)
 
     @staticmethod
     def getSessionByCodePanelTester(code: str):

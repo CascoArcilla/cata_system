@@ -3,9 +3,9 @@ from ...controllers import SesionController
 
 
 def sesionsPanel(req, page: int):
-    context = {"page": page}
+    context = {"num_page": page}
 
-    sessions_in_page = SesionController.getSessionsSavesByCretor(
+    (sessions_in_page, last_page) = SesionController.getSessionsSavesByCretor(
         user_name="aguBido", page=page)
 
     if isinstance(sessions_in_page, dict):
@@ -13,6 +13,7 @@ def sesionsPanel(req, page: int):
         return render(req, "tecnicas/manage_sesions/sesiones-panel.html", context=context)
 
     context["sessions"] = sessions_in_page
+    context["last_page"] = last_page
 
     number_pages = SesionController.getNumberSessionsByCreator(
         user_name="aguBido")
