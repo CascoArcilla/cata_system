@@ -1,24 +1,70 @@
-from ...models import SesionSensorial, Presentador, Tecnica
+'''
+
+Para Tecnicas Convencionales, CATA, RATA, Escala Hedonica
+Encabezados de como deben de aparecer los datos por repeticion
+
+| Repeticion: R
+| Codigo Producto | Catador | P1 | P2 | P3 | Pn |
+
+Encabezados de como deben de aparecer los datos juntos
+
+| Repeticion | Codigo Producto | Catador | P1 | P2 | P3 | Pn |
+
+'''
+
+from ...models import SesionSensorial, Presentador, Tecnica, Palabra
 from .. import CalificacionController, PalabrasController
 from ...utils import controller_error
+from collections import defaultdict
+from tecnicas.controllers import DatoController
+from tecnicas.utils import defaultdict_to_dict
 
 
 class DetallesSesionController():
-    @staticmethod
-    def getContextForView(session_code: str):
-        context = {}
+    def __init__(self, session_code: str):
+        self.session = SesionSensorial.objects.get(codigo_sesion=session_code)
 
-        session = SesionSensorial.objects.get(codigo_sesion=session_code)
-        context["sesion"] = session
+    def getContextForView(self):
+        self.context = {}
 
-        words = PalabrasController.getWordsInTechnique(session.tecnica)
-        context["palabras"] = words
+        self.context["sesion"] = self.session
 
-        rating = CalificacionController.getRatingsByTechnique(
-            technique=session.tecnica)
-        context["calificaciones"] = rating
+        self.words = PalabrasController.getWordsInTechnique(
+            self.session.tecnica)
+        self.context["palabras"] = self.words
 
-        return context
+    def getContextWithData(self):
+        ratings_for_repetition = []
+
+        ratings = CalificacionController.getRatingsByTechnique(
+            technique=self.session.tecnica)
+
+        if not ratings:
+            self.context["calificaciones"] = ratings_for_repetition
+            self.context["existen_calificaciones"] = False
+            return self.context
+
+        data = DatoController.getWordValuesForConvecional(
+            ratings=ratings, technique=self.session.tecnica)
+
+        ratings_for_repetition = defaultdict(
+            lambda: defaultdict(lambda: defaultdict(list)))
+
+        for item in data:
+            user = item["usuarioCatador"]
+            rep = item["repeticion"]
+            prod = item["producto_code"]
+
+            ratings_for_repetition[rep][user][prod].append({
+                "nombre_palabra": item["nombre_palabra"],
+                "dato_valor": item["dato_valor"]
+            })
+
+        self.context["calificaciones"] = defaultdict_to_dict(
+            ratings_for_repetition)
+        self.context["existen_calificaciones"] = True
+
+        return self.context
 
     @staticmethod
     def startRepetition(session_code: str, username: str):
@@ -45,5 +91,5 @@ class DetallesSesionController():
 
         technique.save()
         session.save()
-    
+
         return session

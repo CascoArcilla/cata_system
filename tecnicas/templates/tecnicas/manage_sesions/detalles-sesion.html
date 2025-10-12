@@ -11,8 +11,7 @@
                 Detalles de la sesión
             </h1>
             <a href="{% url 'cata_system:index' %}" class="w-fit">
-                <button
-                    class="cts-btn-general cts-btn-error btn-push">
+                <button class="cts-btn-general cts-btn-error btn-push">
                     Volver a las Sesiones
                 </button>
             </a>
@@ -182,16 +181,60 @@
             Datos obtenidos
         </p>
 
-        {% if calificaciones.error %}
-        <article class="bg-surface-card p-4 text-white rounded-xl">
-            <p class="block font-sans text-xl antialiased font-normal uppercase tracking-wider text-center">
-                {{ calificaciones.error }}
-            </p>
+        {% if existen_calificaciones %}
+        <article class="bg-surface-card p-4 text-black rounded-xl space-y-10">
+            {% for repeticion, catadores in calificaciones.items %}
+            <section class="p-4 space-y-4">
+                <h2 class="text-lg font-bold mb-3">Repetición {{ repeticion }}</h2>
+
+                <!-- Contenedor con scroll horizontal en pantallas pequeñas -->
+                <div class="overflow-x-auto rounded-lg border border-gray-300">
+                    <table class="min-w-max w-full text-sm text-center border-collapse">
+                        <thead class="bg-gray-200 text-black font-semibold">
+                            <tr>
+                                <th class="py-2 px-3 border border-gray-300">Usuario</th>
+                                <th class="py-2 px-3 border border-gray-300">Producto</th>
+                                {% for palabra in palabras %}
+                                <th class="py-2 px-3 border border-gray-300">{{ palabra }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for usuario, productos in catadores.items %}
+                            {% for codigo, valores in productos.items %}
+                            <tr>
+                                <td class="py-2 px-3 border border-gray-300">{{ usuario }}</td>
+                                <td class="py-2 px-3 border border-gray-300">{{ codigo }}</td>
+                                {% for valor in valores %}
+                                <td class="py-2 px-3 border border-gray-300">
+                                    {% if valor.dato_valor %}
+                                    {{ valor.nombre_palabra }} <br>
+                                    {{ valor.dato_valor }}
+                                    {% else %}
+                                    —
+                                    {% endif %}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-end mt-3">
+                    <button
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
+                        Descargar CSV
+                    </button>
+                </div>
+            </section>
+            {% endfor %}
         </article>
         {% else %}
-        <article class="bg-surface-card p-4 text-white rounded-xl">
-        </article>
+        {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}
         {% endif %}
+
         <form action="" method="post" class="form-action-session hidden">
             {% csrf_token %}
         </form>
@@ -202,3 +245,46 @@
 {% block extra_js %}
 <script src="{% static 'js/details-session.js' %}"></script>
 {% endblock %}
+
+<article class="bg-surface-card p-4 text-black rounded-xl space-y-10">
+    {% for repeticion, catadores in calificaciones.items %}
+    <section class="p-4 space-y-4">
+        <h2 class="text-lg font-bold mb-3">Repetición {{ repeticion }}</h2>
+
+        <div class="overflow-x-auto rounded-lg border border-gray-300">
+            <div class="min-w-max">
+                <div
+                    class="grid grid-cols-{{ palabras|length|add:2 }} text-center font-semibold text-black text-sm bg-gray-200 rounded-t-lg [&_>*]:px-2 [&>*]:not-last:border-r border-b border-gray-300">
+                    <div class="py-2">Usuario</div>
+                    <div class="py-2">Producto</div>
+                    {% for palabra in palabras %}
+                    <div class="py-2">{{ palabra }}</div>
+                    {% endfor %}
+                </div>
+
+                <ul class="divide-y divide-gray-300 text-black bg-white">
+                    {% for usuario, productos in catadores.items %}
+                    <li class="grid grid-cols-{{ palabras|length|add:2 }} text-center py-2 [&_>*]:px-2">
+                        {% for codigo, valores in productos.items %}
+                        <p class="border-r border-gray-300">{{ usuario }}</p>
+                        <p class="border-r border-gray-300">{{ codigo }}</p>
+                        {% for valor in valores %}
+                        <p class="border-r border-gray-300">{{ valor.nombre_palabra }}<br>{{ valor.dato_valor }}
+                        </p>
+                        {% endfor %}
+                        {% endfor %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="flex justify-end mt-3">
+            <button
+                class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
+                Descargar CSV
+            </button>
+        </div>
+    </section>
+    {% endfor %}
+</article>
