@@ -27,26 +27,19 @@
     @media (width < 40rem) {
         .container-forms {
             width: inherit;
-
-        }
-
-        .container-input {
-            overflow-x: scroll;
         }
     }
 </style>
 {% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10 max-sm:">
-    <article class="flex flex-col gap-8 bg-gray-400 p-10 max-sm:py-10 max-sm:px-3 rounded container-forms">
+<article class="cts-container-main">
+    <article class="cts-wrap-content text-black">
         <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
-            <h1 class="text-white rounded font-bold text-2xl bg-gray-600 p-4 flex-1">
+            <h1 class="rounded font-bold text-2xl bg-surface-ligt p-4 flex-1">
                 Sesión usando <br>técnica Convencional
             </h1>
-            <button
-                class="text-lg font-bold tracking-wider p-2 px-8 border-b-4 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-500 text-gray-300"
-                onclick="exit_sesion('form-actions')">
+            <button class="cts-btn-general cts-btn-error btn-push" onclick="exit_sesion('form-actions')">
                 Salir de la sesión
             </button>
         </header>
@@ -68,13 +61,13 @@
         {% endif %}
 
         <article class="rounded flex flex-col gap-4">
-            <section class="flex items-center justify-center bg-gray-200 p-2 rounded-lg">
+            <section class="flex items-center justify-center bg-surface-ligt p-2 rounded-lg">
                 <p class="text-lg font-medium text-center">
                     {{ session.tecnica.instrucciones }}
                 </p>
             </section>
             <section class="flex items-center justify-center flex-wrap gap-4">
-                <div class="bg-gray-200 p-2 rounded-lg flex-1">
+                <div class="bg-surface-ligt p-2 rounded-lg flex-1">
                     <p class="text-lg font-bold text-center">
                         Producto:
                     </p>
@@ -83,7 +76,7 @@
                         <span class="hidden id-product">{{ product.id }}</span>
                     </p>
                 </div>
-                <div class="bg-gray-200 p-2 rounded-lg flex-1">
+                <div class="bg-surface-ligt p-2 rounded-lg flex-1">
                     <p class="text-lg font-bold text-center">
                         Repetición:
                     </p>
@@ -101,23 +94,22 @@
         </article>
 
         <article
-            class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3 flex flex-col items-center justify-center">
+            class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3 justify-center items-center">
             {% if type_scale == "continua" %}
             {% for word in words %}
             <form action="" method="post" class="form-rating-{{word}} w-full">
                 {% csrf_token %}
-                <article class="container-input w-full">
-                    <article class="bg-gray-200 p-6 rounded-lg mb-3 w-fit">
+                <article class="overflow-x-scroll w-full">
+                    <article class="bg-surface-card p-6 rounded-lg mb-3 w-fit">
                         <label for="id-range-word-{{word}}"
                             class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
 
                         <span class="hidden id-word">{{ word.id }}</span>
 
                         <section class="block">
-                            <div class="relative">
-                                <input id="id-range-word-{{word}}" type="range" min="0" max="1000" value="500"
-                                    name="rating-word"
-                                    class="h-2 bg-gray-400 rounded-lg appearance-none cursor-pointer slider"
+                            <div class="relative mx-6">
+                                <input type="range" type="range" min="0" max="1000" value="500" name="rating-word"
+                                    class="range range-md text-blue-400 [--range-bg:orange] [--range-thumb:blue] [--range-fill:0]"
                                     style="width: {{scale.longitud}}cm;">
 
                                 <div
@@ -156,15 +148,72 @@
                 <article class="flex flex-col justify-center gap-2 items-end actions-{{word}}">
                     <section class="flex justify-end items-center gap-2 btns-container">
                         <button type="button" onclick="checkSendRating('{{word}}')"
-                            class="ct-btn-check-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-blue-500 border-blue-800  transition-all rounded-xl bg-blue-500 text-white w-fit disabled:bg-amber-600">
+                            class="ct-btn-check-{{word}} cts-btn-general-compress py-2 px-4 cts-btn-secondary btn-push">
                             ¿Guardar calificación?
                         </button>
                         <button type="button" onclick="sendRating('{{word}}')"
-                            class="ct-btn-submit-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-500 text-white w-fit disabled:bg-amber-600 hidden">
+                            class="ct-btn-submit-{{word}} cts-btn-general-compress py-2 px-4 cts-btn-primary btn-push hidden">
                             Estoy seguro
                         </button>
                         <button type="button" onclick="cancelSendRating('{{word}}')"
-                            class="ct-btn-cancel-{{word}} text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-500 text-white w-fit disabled:bg-amber-600 hidden">
+                            class="ct-btn-cancel-{{word}} cts-btn-general-compress py-2 px-4 cts-btn-error btn-push hidden">
+                            Cancelar
+                        </button>
+                    </section>
+                </article>
+            </form>
+            {% endfor %}
+            {% elif type_scale == "estructurada" %}
+            {% for word in words %}
+            <form action="" method="post" class="form-rating-{{ word }} w-full">
+                {% csrf_token %}
+                <article class="overflow-x-scroll w-full">
+                    <article class="bg-surface-card p-6 rounded-lg mb-3 w-fit">
+                        <label for="id-scale-word-{{ word }}"
+                            class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
+                        <span class="hidden id-word">{{ word.id }}</span>
+
+                        <section>
+                            <div class="w-full min-w-xs">
+                                <div class="relative mx-6">
+                                    <input type="range" min="1" max="{{scale.longitud}}" step="1" name="rating-word"
+                                        class="w-full range range-md text-blue-400 [--range-bg:orange] [--range-thumb:blue] [--range-fill:0] z-5">
+                                    <div
+                                        class="absolute top-0 left-0 w-full h-full z-10 flex justify-between pointer-events-none">
+                                        {% for tag in tags %}
+                                        <div class="w-0.5 transform -translate-x-1/2 h-full bg-red-500">
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="flex justify-between mt-4 text-xs gap-1">
+                                    {% for tag in tags %}
+                                    <div class="flex items-center justify-center text-center w-[70px]">
+                                        <span
+                                            class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
+                                            {{ tag.id_etiqueta }}
+                                        </span>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </section>
+                    </article>
+                </article>
+
+                <article class="flex flex-col justify-center gap-2 items-end actions-{{ word }}">
+                    <section class="flex justify-end items-center gap-2 btns-container">
+                        <button type="button" onclick="checkSendRating('{{ word }}')"
+                            class="ct-btn-check-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-secondary btn-push">
+                            ¿Guardar calificación?
+                        </button>
+                        <button type="button" onclick="sendRating('{{ word }}')"
+                            class="ct-btn-submit-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-primary btn-push hidden">
+                            Estoy seguro
+                        </button>
+                        <button type="button" onclick="cancelSendRating('{{ word }}')"
+                            class="ct-btn-cancel-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-error btn-push hidden">
                             Cancelar
                         </button>
                     </section>

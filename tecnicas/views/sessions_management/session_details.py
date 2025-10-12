@@ -5,19 +5,21 @@ from ...controllers import DetallesSesionController
 
 
 def sessionDetails(req: HttpRequest, session_code: str):
-    context = DetallesSesionController.getContextForView(session_code)
+    controller_view = DetallesSesionController(session_code)
+    context = controller_view.getContextForView()
 
     if req.method == "GET":
+        context = controller_view.getContextWithData()
         return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
     elif req.method == "POST":
         if req.POST["action"] == "start_session":
             response = DetallesSesionController.startRepetition(
                 session_code=session_code, username=req.POST["username"])
             if isinstance(response, dict):
+                context = controller_view.getContextWithData()
                 context["error"] = response["error"]
                 return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
-            context["message"] = "La sesión ha iniciado"
-            return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
+            return redirect(reverse("cata_system:monitor_sesion"))
         elif req.POST.get("action") == "delete_session":
             pass
         elif req.POST.get("action") == "monitor_session":

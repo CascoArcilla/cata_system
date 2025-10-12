@@ -118,7 +118,7 @@ def createSession(req: HttpRequest):
             words_using = style_controller.relatedWords()
             if isinstance(words_using, dict):
                 controllerTechnique.deleteTechnique()
-                return general_error("error")
+                return general_error(words_using["error"])
 
             # //////////////////////////////////////////////////////// #
             #
@@ -147,6 +147,12 @@ def createSession(req: HttpRequest):
                     "nombre_sesion": saved_session.nombre_sesion
                 }
             }
+
+            # /////////////////////////////// #
+            #
+            # Final step: Delete session keys #
+            #
+            # /////////////////////////////// #
 
             keys_forms = [
                 "form_basic",

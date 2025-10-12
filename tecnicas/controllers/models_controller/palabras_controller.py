@@ -18,6 +18,7 @@ class PalabrasController():
         searched_words = list(Palabra.objects.filter(id__in=self.ids_words))
         if not len(searched_words):
             return controller_error("no se han encontrado registros")
+        self.words = searched_words
         return self.words
 
     @staticmethod

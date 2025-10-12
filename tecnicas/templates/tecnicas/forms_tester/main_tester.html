@@ -4,16 +4,16 @@
 {% block title %}Detalles Sesion{% endblock %}
 
 {% block content %}
-<article class="w-full flex flex-col justify-center items-center bg-gray-600 mt-10 mb-10">
-    <article class="flex flex-col gap-8 bg-gray-400 p-10 rounded-2xl">
+<article class="cts-container-main">
+    <article class="cts-wrap-content text-black">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
-            <h1 class="text-white rounded-xl font-bold text-2xl bg-gray-600 p-4 flex-1">
+            <h1 class="rounded-xl font-bold text-2xl bg-surface-ligt p-4 flex-1">
                 Panel principal de Catadores
             </h1>
         </header>
 
         <article>
-            <p class="text-2xl font-medium text-center bg-gray-200 p-4 rounded-lg">
+            <p class="text-2xl font-medium text-center bg-surface-sweet p-4 rounded-lg">
                 Información sobre la sesión en la que participa
             </p>
         </article>
@@ -31,8 +31,8 @@
         {% if message %}
         <hr>
 
-        <article class="bg-blue-600 p-4 text-white rounded-xl ct-notification-error">
-            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
+        <article class="bg-surface-alter-card p-4 rounded-xl max-w-2xl">
+            <p class="block text-xl antialiased font-bold text-center">
                 {{ message }}
             </p>
         </article>
@@ -41,7 +41,7 @@
         <hr>
 
         <article
-            class="text-white rounded-xl grid grid-cols-1 gap-3 text-center *:bg-gray-500 *:flex *:flex-wrap *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
+            class="rounded-xl grid grid-cols-1 gap-3 text-center *:bg-surface-card *:flex *:flex-wrap *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
             {% if session %}
             <section>
                 <p class="text-xl font-bold">
@@ -99,13 +99,12 @@
 
         <article class="flex flex-wrap gap-10">
             {% if has_ended %}
-            <button
-                class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2" disabled>
-                Finalizaste la sesión
-            </button>
+            <div class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none">
+                <p class=" text-black">Finalizaste la repetición</p>
+            </div>
             {% else %}
             <button
-                class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
+                class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-primary btn-push flex flex-col justify-center items-center gap-2"
                 onclick="startTest()">
                 Iniciar técnica
                 <figure class="w-10">
@@ -114,7 +113,8 @@
             </button>
             {% endif %}
             <button
-                class="flex-1 uppercase text-lg tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-red-500 border-red-800 transition-all rounded-xl bg-red-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                class="flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
+                onclick="closeSession()">
                 Salir se la sesión
                 <figure class="w-10">
                     <img src="{% static 'img/exit.svg' %}" alt="bote de basura" class="invert">
@@ -124,7 +124,7 @@
 
         <form action="" method="post" class="hidden ct-action-form">
             {% csrf_token %}
-            <input type="hidden" name="action" value="start_posting">
+            <input type="hidden" class="action-option" name="action" value="start_posting">
         </form>
     </article>
 </article>
