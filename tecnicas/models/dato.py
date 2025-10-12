@@ -11,4 +11,4 @@ class Dato(models.Model):
         Calificacion, on_delete=models.CASCADE, related_name="dato_calificacion")
 
     def __str__(self):
-        return f"{self.id_palabra.nombre_palabra} - {self.id_calificacion.id_producto.codigoProducto}"
+        return f"{self.id_palabra.nombre_palabra} - {self.id_calificacion.id_producto.codigoProducto} - {self.id_calificacion.id_catador.usuarioCatador}"

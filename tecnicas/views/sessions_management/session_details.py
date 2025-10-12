@@ -16,8 +16,8 @@ def sessionDetails(req: HttpRequest, session_code: str):
             response = DetallesSesionController.startRepetition(
                 session_code=session_code, username=req.POST["username"])
             if isinstance(response, dict):
-                context["error"] = response["error"]
                 context = controller_view.getContextWithData()
+                context["error"] = response["error"]
                 return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
             return redirect(reverse("cata_system:monitor_sesion"))
         elif req.POST.get("action") == "delete_session":

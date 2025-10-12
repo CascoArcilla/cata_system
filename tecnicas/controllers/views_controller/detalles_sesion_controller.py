@@ -39,7 +39,7 @@ class DetallesSesionController():
         ratings = CalificacionController.getRatingsByTechnique(
             technique=self.session.tecnica)
 
-        if not ratings:
+        if isinstance(ratings, dict) or not ratings:
             self.context["calificaciones"] = ratings_for_repetition
             self.context["existen_calificaciones"] = False
             return self.context
