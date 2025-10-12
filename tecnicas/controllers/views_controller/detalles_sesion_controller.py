@@ -31,7 +31,7 @@ class DetallesSesionController():
 
         self.words = PalabrasController.getWordsInTechnique(
             self.session.tecnica)
-        self.context["palabras"] = self.words
+        self.context["palabras"] = [word.nombre_palabra for word in self.words]
 
     def getContextWithData(self):
         ratings_for_repetition = []

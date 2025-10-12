@@ -6,7 +6,7 @@
 {% block content %}
 <article class="cts-container-main">
     <article class="cts-wrap-content">
-        <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
+        <header class="text-center flex-row max-sm:flex-col w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
                 Detalles de la sesión
             </h1>
@@ -108,7 +108,7 @@
             </section>
 
             <section>
-                <p class="font-medium">
+                <p class="font-bold">
                     Rep. Max:
                 </p>
                 <p class="font-sans text-lg max-sm:text-base font-normal">
@@ -134,7 +134,7 @@
             {% for palabra in palabras %}
             <section>
                 <p class="block text-black text-xl antialiased font-medium">
-                    {{ palabra.nombre_palabra }}
+                    {{ palabra }}
                 </p>
             </section>
             {% endfor %}
@@ -180,52 +180,9 @@
         </p>
 
         {% if existen_calificaciones %}
-        <article class="bg-surface-card p-4 text-black rounded-xl space-y-10">
+        <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
             {% for repeticion, catadores in calificaciones.items %}
-            <section class="p-4 space-y-4">
-                <h2 class="text-lg font-bold mb-3">Repetición {{ repeticion }}</h2>
-
-                <div class="overflow-x-auto rounded-lg border border-surface-general">
-                    <table class="min-w-max w-full text-sm text-center border-collapse">
-                        <thead class="bg-surface-sweet text-black font-semibold">
-                            <tr>
-                                <th class="py-2 px-3 border border-surface-general">Usuario</th>
-                                <th class="py-2 px-3 border border-surface-general">Producto</th>
-                                {% for palabra in palabras %}
-                                <th class="py-2 px-3 border border-surface-general uppercase">{{ palabra }}</th>
-                                {% endfor %}
-                            </tr>
-                        </thead>
-                        <tbody class="bg-surface-ligt divide-y divide-gray-200">
-                            {% for usuario, productos in catadores.items %}
-                            {% for codigo, valores in productos.items %}
-                            <tr>
-                                <td class="py-2 px-3 border border-surface-general">{{ usuario }}</td>
-                                <td class="py-2 px-3 border border-surface-general">{{ codigo }}</td>
-                                {% for valor in valores %}
-                                <td class="py-2 px-3 border border-surface-general">
-                                    {% if valor.dato_valor %}
-                                    {{ valor.nombre_palabra }} <br>
-                                    {{ valor.dato_valor }}
-                                    {% else %}
-                                    0
-                                    {% endif %}
-                                </td>
-                                {% endfor %}
-                            </tr>
-                            {% endfor %}
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="flex justify-end mt-3">
-                    <button
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
-                        Descargar CSV
-                    </button>
-                </div>
-            </section>
+            {% include "../components/table-convencional.html" with repeticion=repeticion catadores=catadores palabras=palabras %}
             {% endfor %}
         </article>
         {% else %}
