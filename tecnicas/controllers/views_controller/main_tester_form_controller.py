@@ -1,4 +1,4 @@
-from ...models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, Calificacion, EsVocabulario
+from tecnicas.models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, Calificacion, EsVocabulario
 from ...utils import controller_error, shuffleArray
 from django.db import transaction
 
@@ -45,15 +45,12 @@ class MainTesterFormController():
             return controller_error("Catador sin orden")
 
     def isEndedSession(self, id_participation: int, repetition: int):
-        if not self.order or not id_participation:
-            return controller_error("Se requieren datos para comprobar la finalización")
-
         try:
             participation = Participacion.objects.get(id=id_participation)
 
             # ////////////////////////////////////////////////////////////// #
             #
-            # Si numero_calificaciones_esperadas = productos * palabras
+            # Si numero_calificaciones_esperadas = num_productos * num_palabras
             # Es igual a numero_calificaciones_actuales en la repetcion R
             # Ha terminado la repeticion
             #

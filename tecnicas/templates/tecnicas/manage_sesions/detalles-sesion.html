@@ -6,20 +6,17 @@
 {% block content %}
 <article class="cts-container-main">
     <article class="cts-wrap-content">
-        <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
+        <header class="text-center flex-row max-sm:flex-col w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
                 Detalles de la sesión
             </h1>
-            <a href="{% url 'cata_system:index' %}" class="w-fit">
-                <button
-                    class="cts-btn-general cts-btn-error btn-push">
-                    Volver a las Sesiones
-                </button>
-            </a>
+            <button class="cts-btn-general cts-btn-error btn-push" onclick="window.history.back()">
+                Volver a las Sesiones
+            </button>
         </header>
 
         {% if error %}
-        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
+        <article class=" bg-red-600 p-4 text-white rounded-xl ct-notification-error">
             <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
                 {{ error }}
             </p>
@@ -111,7 +108,7 @@
             </section>
 
             <section>
-                <p class="font-medium">
+                <p class="font-bold">
                     Rep. Max:
                 </p>
                 <p class="font-sans text-lg max-sm:text-base font-normal">
@@ -137,7 +134,7 @@
             {% for palabra in palabras %}
             <section>
                 <p class="block text-black text-xl antialiased font-medium">
-                    {{ palabra.nombre_palabra }}
+                    {{ palabra }}
                 </p>
             </section>
             {% endfor %}
@@ -182,16 +179,16 @@
             Datos obtenidos
         </p>
 
-        {% if calificaciones.error %}
-        <article class="bg-surface-card p-4 text-white rounded-xl">
-            <p class="block font-sans text-xl antialiased font-normal uppercase tracking-wider text-center">
-                {{ calificaciones.error }}
-            </p>
+        {% if existen_calificaciones %}
+        <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
+            {% for repeticion, catadores in calificaciones.items %}
+            {% include "../components/table-convencional.html" with repeticion=repeticion catadores=catadores palabras=palabras %}
+            {% endfor %}
         </article>
         {% else %}
-        <article class="bg-surface-card p-4 text-white rounded-xl">
-        </article>
+        {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}
         {% endif %}
+
         <form action="" method="post" class="form-action-session hidden">
             {% csrf_token %}
         </form>

@@ -1,7 +1,8 @@
 from django.db import DatabaseError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from ...models import Tecnica, Presentador, SesionSensorial
-from ...utils import controller_error
+from tecnicas.models import Tecnica, Presentador, SesionSensorial
+from tecnicas.utils import controller_error
+from ..models_controller.particiapacion_controller import ParticipacionController
 
 
 class SesionController():
@@ -91,7 +92,7 @@ class SesionController():
             return session
         except SesionSensorial.DoesNotExist:
             return controller_error("La sesión ya no existe")
-        
+
     @staticmethod
     def getSessionByCode(code: str):
         try:
@@ -111,3 +112,22 @@ class SesionController():
             return number_sessions/9
         except Presentador.DoesNotExist:
             return controller_error("presentador invalido")
+
+    @staticmethod
+    def finishRepetion(session: SesionSensorial | str):
+        if isinstance(session, str):
+            use_session = SesionSensorial.objects.get(codigo_sesion=session)
+        else:
+            use_session = session
+
+        (is_update_participations,
+         message) = ParticipacionController.outAllInSession(use_session)
+
+        if not is_update_participations:
+            return controller_error(message)
+
+        use_session.activo = False
+
+        use_session.save()
+
+        return session
