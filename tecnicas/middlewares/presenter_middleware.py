@@ -13,6 +13,6 @@ class PresenterAccessMiddleware:
                 return redirect("cata_system:autenticacion")
 
             if not hasattr(request.user, 'user_presentador'):
-                raise PermissionDenied("Solo los Presentadores pueden acceder a esta sección.")
+                return redirect("cata_system:autenticacion")
 
         return self.get_response(request)
