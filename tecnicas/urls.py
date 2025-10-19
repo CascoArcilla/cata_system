@@ -5,73 +5,73 @@ from . import views
 
 app_name = "cata_system"
 urlpatterns = [
-    path("", views.mainPanel, name="index"),
-
     # Atentificacion
     path("autenticacion",
          views.autentication,
          name="autenticacion"),
 
+    path("catador-login",
+         views.testerLogin,
+         name="catador_login"),
+
+    # Pantalla principal Presetador
+    path("presenter/", views.mainPanel, name="index"),
 
     # Gestion de catadores
-    path("panel-catadores",
+    path("presenter/panel-catadores",
          views.testerMenu,
          name="panel_catadores"),
 
-    path("crear-catador",
+    path("presenter/crear-catador",
          views.testerCreate,
          name="crear_catador"),
 
-    path("buscar-catador",
+    path("presenter/buscar-catador",
          views.testerSearch,
          name="buscar_catador"),
 
 
     # Creacion de sessiones sensoriales
-    path("seleccion-tecnica",
+    path("presenter/seleccion-tecnica",
          views.selecionTecnica,
          name="seleccion_tecnica"),
 
-    path("panel-configuracion-basic",
+    path("presenter/panel-configuracion-basic",
          views.configurationPanelBasic,
          name="panel_configuracion_basic"),
 
-    path("panel-configuracion-tags",
+    path("presenter/panel-configuracion-tags",
          views.configurationPanelTags,
          name="panel_configuracion_tags"),
 
-    path("panel-configuracion-codes",
+    path("presenter/panel-configuracion-codes",
          views.configurationPanelCodes,
          name="panel_configuracion_codes"),
 
-    path("panel-configuracion-words",
+    path("presenter/panel-configuracion-words",
          views.configurationPanelWords,
          name="panel_configuracion_words"),
 
-    path("creando-sesion",
+    path("presenter/creando-sesion",
          views.createSession,
          name="creando_sesion"),
 
 
     # Gestion de sesiones sensoriales
-    path("panel-sesiones/<int:page>",
+    path("presenter/panel-sesiones/<int:page>",
          views.sesionsPanel,
          name="panel_sesiones"),
 
-    path("detalles-sesion/<str:session_code>",
+    path("presenter/detalles-sesion/<str:session_code>",
          views.sessionDetails,
          name="detalles_sesion"),
 
-    path("monitor/<str:session_code>",
+    path("presenter/monitor/<str:session_code>",
          views.sessionMonitor,
          name="monitor_sesion"),
 
 
     # Vistas para catadores
-    path("catador-login",
-         views.testerLogin,
-         name="catador_login"),
-
     path("testers/catador-main",
          views.mainTesterForm,
          name="catador_main"),
@@ -81,7 +81,7 @@ urlpatterns = [
          name="session_convencional"),
 
     # APIs
-    path("nueva-etiqueta",
+    path("api/nueva-etiqueta",
          views.newTag,
          name="nueva_etiqueta"),
 
