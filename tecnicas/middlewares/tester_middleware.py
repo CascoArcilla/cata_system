@@ -15,8 +15,7 @@ class TesterAccessMiddleware:
                 return redirect("cata_system:catador_login")
 
             if not hasattr(request.user, 'catador'):
-                raise PermissionDenied(
-                    "Solo los Catadores pueden acceder a esta sección.")
+                return redirect("cata_system:catador_login")
 
         return self.get_response(request)
 
