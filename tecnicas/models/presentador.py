@@ -1,10 +1,12 @@
+from django.contrib.auth.models import User
 from django.db import models
 
+
 class Presentador(models.Model):
-    nombre = models.CharField(max_length=255)
-    apellido = models.CharField(max_length=255)
-    nombre_usuario = models.CharField(max_length=255, unique=True)
-    contrasena = models.CharField(max_length=255)
+    user = models.OneToOneField(
+        User, on_delete=models.CASCADE, related_name='user_presentador', default=None, null=True)
+    fecha_nacimiento = models.DateField(null=True, blank=True)
+    telefono = models.BigIntegerField(default=555)
 
     def __str__(self):
-        return self.nombre
+        return f"Presentador: {self.user.username}"

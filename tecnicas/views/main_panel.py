@@ -1,11 +1,22 @@
-from django.shortcuts import render
+from django.contrib.auth import logout
+from django.http import HttpRequest
+from django.shortcuts import render, redirect
+from tecnicas.utils import general_error
 
-def mainPanel(req):
-    pres = Presente("1233MMAS092222", "Juan Mendez Salazar")
-    return render(req, "tecnicas/main-panel.html", context={"presentador":pres})
 
-# Auxiliar classes
-class Presente():
-    def __init__(self, id, nombre):
-        self.id = id
-        self.nombre = nombre
+def mainPanel(req: HttpRequest):
+    if req.method == "GET":
+        context_view = {
+            "name": f"{req.user.first_name} {req.user.last_name}",
+            "username": f"{req.user.username}"
+        }
+        return render(req, "tecnicas/main-panel.html", context=context_view)
+    elif req.method == "POST":
+        action = req.POST["action"]
+        if action == "exit_session":
+            logout(req)
+            return redirect("cata_system:autenticacion")
+        else:
+            general_error("Acción no definida")
+    else: 
+        general_error("Método no permitido")

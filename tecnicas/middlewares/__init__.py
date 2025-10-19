@@ -1,1 +1,2 @@
-from .login_tester_middleware import LoginTesterMiddleware
+from .tester_middleware import TesterAccessMiddleware
+from .presenter_middleware import PresenterAccessMiddleware

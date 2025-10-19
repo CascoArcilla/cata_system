@@ -70,7 +70,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    'tecnicas.middlewares.LoginTesterMiddleware',
+    'tecnicas.middlewares.PresenterAccessMiddleware',
+    'tecnicas.middlewares.TesterAccessMiddleware',
 ]
 
 if DEBUG:
