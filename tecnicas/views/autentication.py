@@ -1,9 +1,8 @@
 from django.contrib.auth import authenticate, login
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from tecnicas.utils import general_error
-from tecnicas.models import Presentador
 
 @csrf_exempt
 def autentication(req: HttpRequest):
@@ -21,9 +20,7 @@ def autentication(req: HttpRequest):
             login(req, user)
             return redirect("cata_system:index")
         else:
-            return JsonResponse({
-                "success": False,
-                "error": "Credenciales inválidas o no es un Presentador"
-            })
+            context_view["error"] = "Credenciales inválidas o no es un Presentador"
+            return render(req, "tecnicas/auth.html", context_view)
     else:
         return general_error("Método no permitido")
