@@ -6,26 +6,33 @@
 <article class="cts-container-main">
     <article class="cts-wrap-content">
         <form action="" method="post" class="p-8 rounded-xl text-black">
-            <header class="text-center">
+            <header class="text-center mb-2">
                 <h1 class="text-5xl max-sm:text-3xl font-bold">Cata System</h1>
                 <p class="text-2xl max-sm:text-xl font-semibold mt-3">Presentador</p>
             </header>
+
+            {% if error %}
+            {% include "./components/error-message.html" with message=error %}
+            {% endif %}
+            {% if message %}
+            {% include "./components/error-message.html" with message=message %}
+            {% endif %}
+
             <section class="flex flex-col gap-6 items-center w-full mt-5">
-                <label for="id">
-                    <input type="text" name="id" id="id" placeholder="Ingrese Indentifiacion"
+                <label for="username">
+                    <input type="text" name="username" id="username" placeholder="Ingrese Nombre de Usuario"
                         class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-surface-ligt py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
                         required>
                 </label>
 
-                <label for="id">
-                    <input type="text" name="id" id="id" placeholder="Ingrese Contraseña"
+                <label for="password">
+                    <input type="text" name="password" id="password" placeholder="Ingrese Contraseña"
                         class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-surface-ligt py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
                         required>
                 </label>
 
                 <section class="flex flex-row flex-wrap gap-4 w-f ull justify-center">
-                    <button type="submit"
-                        class="cts-btn-general cts-btn-primary btn-push uppercase lg:w-sm">
+                    <button type="submit" class="cts-btn-general cts-btn-primary btn-push uppercase lg:w-sm">
                         Ingresar
                     </button>
                 </section>

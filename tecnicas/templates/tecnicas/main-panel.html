@@ -1,4 +1,5 @@
 {% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
 
 {% block title %}Panel principal{% endblock %}
 
@@ -14,16 +15,18 @@
                 <section class="flex flex-col text-black flex-1 flex-wrap gap-4">
                     <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl">
                         <legend class="text-black fieldset-legend px-1.5">Nombre Presentador</legend>
-                        <p class="text-3xl max-sm:text-2xl font-medium">{{ presentador.nombre }}</p>
+                        <p class="text-3xl max-sm:text-2xl font-medium">{{ name }}</p>
                     </fieldset>
                     <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl">
-                        <legend class="text-black fieldset-legend px-1.5">Identificador</legend>
-                        <p class="text-3xl max-sm:text-2xl font-medium">{{ presentador.id }}</p>
+                        <legend class="text-black fieldset-legend px-1.5">Nombre de usuario</legend>
+                        <p class="text-3xl max-sm:text-2xl font-medium">{{ username }}</p>
+                        <p class="text-3xl max-sm:text-2xl font-medium">{{ cumple }}</p>
                     </fieldset>
                 </section>
                 <section class="flex-1 flex justify-center">
                     <button type="button"
-                        class="btn btn-active text-xl tracking-wider font-bold text-black btn-error py-8 px-12 border-b-red-600 btn-push">
+                        class="btn btn-active text-xl tracking-wider font-bold text-black btn-error py-8 px-12 border-b-red-600 btn-push"
+                        onclick="exit_sesion('frm-exit')">
                         Salir del sistema
                     </button>
                 </section>
@@ -59,5 +62,13 @@
             </article>
         </article>
     </article>
+    <form action="" method="post" class="frm-exit hidden">
+        <input type="hidden" name="action" class="action-input">
+        {% csrf_token %}
+    </form>
 </article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/actions-form.js' %}"></script>
 {% endblock %}
