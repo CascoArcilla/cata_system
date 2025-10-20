@@ -16,6 +16,7 @@ from .sessions_config.create_session import createSession
 from .tester_management.tester_menu import testerMenu
 from .tester_management.tester_create import testerCreate
 from .tester_management.tester_search import testerSearch
+from .tester_management.tester_list import testerList
 
 from .apis.api_tag import newTag
 from .apis.api_words import words

@@ -28,15 +28,18 @@
                         class="w-full h-full object-cover rounded-xl">
                 </div>
                 <a href="{% url 'cata_system:crear_catador' %}" class="flex-1">
-                    <button
-                        class="w-full h-full text-black bg-btn-primary font-bold rounded-xl px-8 py-4 text-center border-b-green-800 btn-push">
+                    <button class="w-full h-full cts-btn-general-compress cts-btn-primary btn-push">
                         Crear Cadator
                     </button>
                 </a>
                 <a href="{% url 'cata_system:buscar_catador' %}" class="flex-1">
-                    <button
-                        class="w-full h-full text-black bg-btn-secondary font-bold rounded-xl px-8 py-4 text-center border-b-pink-800 btn-push">
-                        Buscar Catador
+                    <button class="w-full h-full cts-btn-general-compress cts-btn-secondary btn-push">
+                        Buscar/Actualizar Catador
+                    </button>
+                </a>
+                <a href="{% url 'cata_system:listar_catador' num_page=1 %}" class="flex-1">
+                    <button class="w-full h-full cts-btn-general-compress cts-btn-tertiary btn-push">
+                        Listar Catadores
                     </button>
                 </a>
                 <div class="w-full h-40 rounded-2xl min-sm:hidden">
