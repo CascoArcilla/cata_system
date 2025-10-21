@@ -14,21 +14,9 @@ urlpatterns = [
          views.testerLogin,
          name="catador_login"),
 
+
     # Pantalla principal Presetador
     path("presenter/", views.mainPanel, name="index"),
-
-    # Gestion de catadores
-    path("presenter/panel-catadores",
-         views.testerMenu,
-         name="panel_catadores"),
-
-    path("presenter/crear-catador",
-         views.testerCreate,
-         name="crear_catador"),
-
-    path("presenter/buscar-catador",
-         views.testerSearch,
-         name="buscar_catador"),
 
 
     # Creacion de sessiones sensoriales
@@ -57,6 +45,24 @@ urlpatterns = [
          name="creando_sesion"),
 
 
+    # Gestion de catadores
+    path("presenter/panel-catadores",
+         views.testerMenu,
+         name="panel_catadores"),
+
+    path("presenter/crear-catador",
+         views.testerCreate,
+         name="crear_catador"),
+
+    path("presenter/buscar-catador",
+         views.testerSearch,
+         name="buscar_catador"),
+
+    path("presenter/listar-catador/<int:num_page>",
+         views.testerList,
+         name="listar_catador"),
+
+
     # Gestion de sesiones sensoriales
     path("presenter/panel-sesiones/<int:page>",
          views.sesionsPanel,
@@ -79,6 +85,7 @@ urlpatterns = [
     path("testers/en-session/convencional",
          views.convencionalScales,
          name="session_convencional"),
+
 
     # APIs
     path("api/nueva-etiqueta",
