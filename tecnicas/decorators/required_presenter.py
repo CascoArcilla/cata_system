@@ -8,7 +8,7 @@ def required_presenter(view_func):
         if not request.user.is_authenticated:
             return redirect("cata_system:autenticacion")
         
-        if not hasattr(request.user, "presentador"):
+        if not hasattr(request.user, "user_presentador"):
             raise PermissionDenied(
                 "Solo los presentadores pueden acceder a esta vista")
         return view_func(request, *args, **kwargs)

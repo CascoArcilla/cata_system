@@ -47,7 +47,7 @@ class SesionController():
         elements_by_page = 6
 
         try:
-            creator = Presentador.objects.get(nombre_usuario=user_name)
+            creator = Presentador.objects.get(user__username=user_name)
         except Presentador.DoesNotExist:
             return controller_error("presentador invalido")
 
@@ -111,7 +111,7 @@ class SesionController():
     @staticmethod
     def getNumberSessionsByCreator(user_name: str):
         try:
-            creator = Presentador.objects.get(nombre_usuario=user_name)
+            creator = Presentador.objects.get(user__username=user_name)
 
             number_sessions = SesionSensorial.objects.filter(
                 creadoPor=creator).count()
