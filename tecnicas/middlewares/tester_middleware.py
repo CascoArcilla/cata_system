@@ -9,12 +9,12 @@ class TesterAccessMiddleware:
     def __call__(self, request):
         path = request.path_info
 
-        if path.startswith('/cata/tester/'):
+        if path.startswith('/cata/testers/'):
             if not request.user.is_authenticated:
                 from django.shortcuts import redirect
                 return redirect("cata_system:catador_login")
 
-            if not hasattr(request.user, 'catador'):
+            if not hasattr(request.user, 'user_catador'):
                 return redirect("cata_system:catador_login")
 
         return self.get_response(request)

@@ -22,55 +22,10 @@
         {% if error %}
         {% include "../components/error-message.html" with message=error %}
         {% else %}
+        
         <section class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 w-full gap-4 justify-center">
             {% for sesion in sessions %}
-            <div
-                class='card {{ sesion.activo|yesno:"bg-surface-ligt,bg-surface-card" }} shadow-lg text-black sm:max-w-80 w-full flex justify-center items-center'>
-                <div class="card-body flex flex-col justify-between w-full">
-                    <div class="flex flex-col gap-1 [&>*]:first:text-xl [&>*]:first:font-bold [&>*]:first:border-b">
-                        {% if sesion.nombre_sesion %}
-                        <h2>{{ sesion.nombre_sesion }}</h2>
-                        <span class="text-lg underline"><b>Código:</b><br>{{ sesion.codigo_sesion }}</span>
-                        {% else %}
-                        <span class="text-lg">Código:<br>{{ sesion.codigo_sesion }}</span>
-                        {% endif %}
-                    </div>
-                    <ul class="mt-6 flex flex-col gap-2 text-base">
-                        <li>
-                            Se usa la Técnica:
-                            <span class="uppercase font-bold">
-                                {{ sesion.tecnica.tipo_tecnica.nombre_tecnica }}
-                            </span>
-                        </li>
-                        <li>
-                            El Estilo de palabras:
-                            <span class="uppercase font-bold">
-                                {{ sesion.tecnica.id_estilo.nombre_estilo }}
-                            </span>
-                        </li>
-                        <li>
-                            {{ sesion.fechaCreacion }}
-                        </li>
-                        <li>
-                            Estado:
-                            <span class="uppercase font-bold">
-                                {% if sesion.activo %}
-                                Activo
-                                {% else %}
-                                No activo
-                                {% endif %}
-                            </span>
-                        </li>
-                    </ul>
-                    <div class="mt-6">
-                        <a href="{% url 'cata_system:detalles_sesion' session_code=sesion.codigo_sesion %}">
-                            <button class="btn bg-btn-primary border-0 block w-full btn-push">
-                                Inspeccionar sesión
-                            </button>
-                        </a>
-                    </div>
-                </div>
-            </div>
+            {% include "./components/item_session.html" with sesion=sesion %}
             {% endfor %}
         </section>
 

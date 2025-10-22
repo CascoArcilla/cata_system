@@ -18,3 +18,4 @@ from .views_controller.main_tester_form_controller import MainTesterFormControll
 from .views_controller.api_rating_controller import ApiRatingController
 from .views_controller.monitor_sesion_controller import MonitorSesionController
 from .views_controller.tester_list_controller import TesterListController
+from .views_controller.list_sessions_tester_controller import ListSessionsTesterController

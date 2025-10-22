@@ -10,7 +10,7 @@ class MainTesterFormController():
 
     def __init__(self, code_session: str, user_tester: str):
         try:
-            self.tester = Catador.objects.get(usuarioCatador=user_tester)
+            self.tester = Catador.objects.get(user__username=user_tester)
             self.session = SesionSensorial.objects.get(
                 codigo_sesion=code_session)
         except (Catador.DoesNotExist, SesionSensorial.DoesNotExist):
