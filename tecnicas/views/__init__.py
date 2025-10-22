@@ -26,3 +26,4 @@ from .tester_forms.init_tester_form import initTesterForm
 from .tester_forms.convencional_scales import convencionalScales
 from .tester_forms.panel_main_tester import mainPanelTester
 from .tester_forms.login_session import loginSessionTester
+from .tester_forms.sessions_list_tester import sessionsListTester

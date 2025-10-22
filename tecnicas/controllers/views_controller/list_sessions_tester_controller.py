@@ -4,9 +4,23 @@ from tecnicas.models import Catador, SesionSensorial, Participacion
 from tecnicas.utils import controller_error
 
 
-class MainPanelTesterController():
+class ListSessionsTesterController():
     def __init__(self):
         pass
+
+    def getContext(self, user: Catador, page: int):
+        context_view = {}
+
+        response = ListSessionsTesterController.getSessionByTester(page, user)
+        if isinstance(response, dict):
+            return response
+
+        (sessions, is_last_page, current_page) = response
+        context_view["sessions"] = sessions
+        context_view["last_page"] = is_last_page
+        context_view["page"] = current_page
+
+        return context_view
 
     @staticmethod
     def getSessionByTester(page: int, tester: Catador):
@@ -43,19 +57,20 @@ class MainPanelTesterController():
                 participacion_finalizado=participacion_finalizado_subq,
                 participacion_activo=participacion_activo_subq,
             )
-            .order_by('activo', '-fechaCreacion')
+            .order_by('participacion_finalizado', '-activo', '-fechaCreacion')
             .distinct()
         )
 
         paginator = Paginator(queryset, elements_by_page)
         try:
-            testers_in_page = paginator.page(page)
+            sessions_in_page = paginator.page(page)
         except PageNotAnInteger:
             return controller_error("índice inválido")
 
-        if not testers_in_page.object_list:
+        if not sessions_in_page.object_list:
             return controller_error("Sin registros de Catadores")
 
-        is_last_page = not testers_in_page.number < paginator.num_pages
+        current_page = sessions_in_page.number
+        is_last_page = not current_page < paginator.num_pages
 
-        return (testers_in_page, is_last_page)
+        return (sessions_in_page, is_last_page, current_page)

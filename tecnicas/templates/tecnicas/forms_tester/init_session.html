@@ -113,10 +113,10 @@
                 </figure>
             </button>
             {% endif %}
-            <a href="{% url 'cata_system:catador_main' %}">
+            <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}">
                 <button
                     class="flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2">
-                    Salir se la sesión
+                    Regresar a la lista
                     <figure class="w-10">
                         <img src="{% static 'img/exit.svg' %}" alt="bote de basura" class="invert">
                     </figure>
