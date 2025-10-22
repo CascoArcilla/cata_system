@@ -1,0 +1,122 @@
+{% extends 'tecnicas/layouts/base.html' %}
+
+{% block title %}Detalles Sesion{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-wrap-content text-black">
+        <div class="container mx-auto max-w-2xl p-4 space-y-6">
+            <div class="card bg-surface-card shadow-lg">
+                <div class="card-body">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                        <h2 class="card-title text-2xl font-semibold">Información del Usuario</h2>
+
+                        <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push">
+                            + Nueva sesión
+                        </button>
+                    </div>
+
+                    <div class="divider my-3"></div>
+
+                    <div class="flex flex-wrap gap-4 text-base">
+                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
+                            <p class="font-semibold">Nombre completo:</p>
+                            <p>{{ name }}</p>
+                        </div>
+                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
+                            <p class="font-semibold">Nombre de usuario:</p>
+                            <p>@{{ username }}</p>
+                        </div>
+                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
+                            <p class="font-semibold">Email:</p>
+                            <p>{{ email }}</p>
+                        </div>
+                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
+                            <p class="font-semibold">Teléfono:</p>
+                            <p>{{ phone }}</p>
+                        </div>
+                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
+                            <p class="font-semibold">Genero:</p>
+                            <p>{{ genere }}</p>
+                        </div>
+                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
+                            <p class="font-semibold">Nacimiento:</p>
+                            <p>{{ birthday }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <h3 class="text-xl font-semibold">Sesiones en las que ha participado</h3>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                    {% for sesion in sesiones %}
+                    <div class="card bg-base-100 border border-base-300 shadow-md hover:shadow-lg transition">
+                        <div class="card-body">
+                            <h4 class="card-title text-lg font-bold">
+                                {% if sesion.nombre %}
+                                {{ sesion.nombre }}
+                                {% else %}
+                                <span class="italic text-gray-500">Sin nombre</span>
+                                {% endif %}
+                            </h4>
+
+                            <div class="text-sm space-y-1">
+                                <p><span class="font-semibold">Código:</span> {{ sesion.codigo }}</p>
+                                <p><span class="font-semibold">Técnica:</span> {{ sesion.tecnica }}</p>
+                                <p><span class="font-semibold">Fecha:</span> {{ sesion.fecha_creacion }}</p>
+                                <p>
+                                    <span class="font-semibold">Finazliado:</span>
+                                    {% if sesion.finalizado %}
+                                    <span class="badge badge-success">Se ha concluido</span>
+                                    {% else %}
+                                    <span class="badge badge-warning">Sin concluir</span>
+                                    {% endif %}
+                                </p>
+                                {% if sesion.activo %}
+                                <p>
+                                    <span class="font-semibold">Estatus:</span>
+                                    <span class="badge badge-success">En proceso</span>
+                                </p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="col-span-full text-center text-gray-500">
+                        No hay sesiones registradas.
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {% if sesiones.has_other_pages %}
+                <div class="flex justify-center mt-6">
+                    <div class="join">
+                        {% if sesiones.has_previous %}
+                        <a href="/" class="join-item btn btn-sm">«</a>
+                        {% else %}
+                        <button class="join-item btn btn-sm btn-disabled">«</button>
+                        {% endif %}
+
+                        {% for num in sesiones.paginator.page_range %}
+                        {% if sesiones.number == num %}
+                        <button class="join-item btn btn-sm btn-active">{{ num }}</button>
+                        {% else %}
+                        <a href="/" class="join-item btn btn-sm">{{ num }}</a>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if sesiones.has_next %}
+                        <a href="/" class="join-item btn btn-sm">»</a>
+                        {% else %}
+                        <button class="join-item btn btn-sm btn-disabled">»</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </article>
+</article>
+{% endblock %}

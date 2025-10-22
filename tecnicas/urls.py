@@ -11,7 +11,7 @@ urlpatterns = [
          name="autenticacion"),
 
     path("catador-login",
-         views.testerLogin,
+         views.loginTester,
          name="catador_login"),
 
 
@@ -79,8 +79,12 @@ urlpatterns = [
 
     # Vistas para catadores
     path("testers/catador-main",
-         views.mainTesterForm,
+         views.mainPanelTester,
          name="catador_main"),
+
+    path("testers/catador-init",
+         views.initTesterForm,
+         name="catador_init"),
 
     path("testers/en-session/convencional",
          views.convencionalScales,

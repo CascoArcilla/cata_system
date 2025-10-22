@@ -13,23 +13,15 @@
             </header>
 
             {% if error %}
-            <article class="bg-ct-error p-4 text-white rounded-xl ct-notification-error">
-                <p
-                    class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
-                    {{ error }}
-                </p>
-            </article>
+            {% include "./components/error-message.html" with message=error %}
+            {% endif %}
+            {% if message %}
+            {% include "./components/error-message.html" with message=message %}
             {% endif %}
 
             <article class="flex flex-col gap-6 items-center w-full mt-5">
-                <label for="id">
-                    <input type="text" name="code_session" id="id" placeholder="Codigo de sesion"
-                        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-surface-ligt py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
-                        required>
-                </label>
-
-                <label for="id">
-                    <input type="text" name="user_tester" id="id" placeholder="Nombre de usuario"
+                <label for="tester">
+                    <input type="text" name="user_tester" id="tester" placeholder="Nombre de usuario"
                         class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-surface-ligt py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
                         required>
                 </label>
@@ -44,15 +36,4 @@
         </form>
     </article>
 </article>
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    const error = document.querySelector(".ct-notification-error")
-    if (error) {
-        setTimeout(() => {
-            error.classList.add("hidden")
-        }, 4000)
-    }
-</script>
 {% endblock %}
