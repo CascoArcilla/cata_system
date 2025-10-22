@@ -82,9 +82,13 @@ urlpatterns = [
          views.mainPanelTester,
          name="catador_main"),
 
-    path("testers/catador-init",
+    path("testers/log-in-session",
+         views.loginSessionTester,
+         name="catador_in_session"),
+
+    path("testers/init-session/<str:code_sesion>",
          views.initTesterForm,
-         name="catador_init"),
+         name="catador_init_session"),
 
     path("testers/en-session/convencional",
          views.convencionalScales,

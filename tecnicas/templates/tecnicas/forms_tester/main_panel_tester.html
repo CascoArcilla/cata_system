@@ -1,6 +1,6 @@
 {% extends 'tecnicas/layouts/base.html' %}
 
-{% block title %}Detalles Sesion{% endblock %}
+{% block title %}Panel Principal Tester{% endblock %}
 
 {% block content %}
 <article class="cts-container-main">
@@ -11,9 +11,11 @@
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                         <h2 class="card-title text-2xl font-semibold">Información del Usuario</h2>
 
-                        <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push">
-                            + Nueva sesión
-                        </button>
+                        <a href="{% url 'cata_system:catador_in_session' %}">
+                            <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push">
+                                + Nueva sesión
+                            </button>
+                        </a>
                     </div>
 
                     <div class="divider my-3"></div>

@@ -14,7 +14,7 @@ class LoginTesterController():
 
     def existCredential(self, user_tester: str, code_session: str):
         try:
-            self.tester = Catador.objects.get(usuarioCatador=user_tester)
+            self.tester = Catador.objects.get(user__username=user_tester)
             self.session = SesionSensorial.objects.get(
                 codigo_sesion=code_session)
 
@@ -23,7 +23,7 @@ class LoginTesterController():
             return controller_error("Credenciales inválidas")
 
     def validateEntry(self):
-        if not self.tester.nombre or not self.session.codigo_sesion:
+        if not self.tester.user.first_name or not self.session.codigo_sesion:
             return controller_error("Credenciales no definidas")
 
         if not self.session.activo:
