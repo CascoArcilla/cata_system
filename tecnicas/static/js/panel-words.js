@@ -28,7 +28,7 @@ async function getWordsByName(e) {
     palabra: dataForm.get("search").trim(),
   });
 
-  const url = `api/palabras?${params}`;
+  const url = `/cata/api/palabras?${params}`;
 
   try {
     const respone = await fetch(url, {
