@@ -28,10 +28,11 @@
                     onclick="finishSession()">
                     Finalizar sesión
                 </button>
-                <button class="uppercase cts-btn-general-compress cts-btn-error py-2 px-6 btn-push"
-                    onclick="window.history.back()">
-                    Regresar
-                </button>
+                <a href="{% url 'cata_system:detalles_sesion' session_code=code_session %}" class="w-full">
+                    <button class="uppercase cts-btn-general-compress cts-btn-error py-2 px-6 btn-push w-full">
+                        Regresar
+                    </button>
+                </a>
             </div>
         </section>
 

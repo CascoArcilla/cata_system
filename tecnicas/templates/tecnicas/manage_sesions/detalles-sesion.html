@@ -10,9 +10,11 @@
             <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
                 Detalles de la sesión
             </h1>
-            <button class="cts-btn-general cts-btn-error btn-push" onclick="window.history.back()">
-                Volver a las Sesiones
-            </button>
+            <a href="{% url 'cata_system:panel_sesiones' page=1 %}">
+                <button class="cts-btn-general cts-btn-error btn-push">
+                    Volver a las Sesiones
+                </button>
+            </a>
         </header>
 
         {% if error %}
@@ -182,7 +184,8 @@
         {% if existen_calificaciones %}
         <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
             {% for repeticion, catadores in calificaciones.items %}
-            {% include "../components/table-convencional.html" with repeticion=repeticion catadores=catadores palabras=palabras %}
+            {% include "../components/table-convencional.html" with repeticion=repeticion catadores=catadores
+            palabras=palabras %}
             {% endfor %}
         </article>
         {% else %}

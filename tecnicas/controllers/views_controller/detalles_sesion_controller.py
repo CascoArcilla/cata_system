@@ -69,7 +69,7 @@ class DetallesSesionController():
     @staticmethod
     def startRepetition(session_code: str, username: str):
         try:
-            creator = Presentador.objects.get(nombre_usuario=username)
+            creator = Presentador.objects.get(user__username=username)
             session = SesionSensorial.objects.get(codigo_sesion=session_code)
             technique = Tecnica.objects.get(id=session.tecnica.id)
         except Presentador.DoesNotExist:
@@ -79,7 +79,7 @@ class DetallesSesionController():
         except Tecnica.DoesNotExist:
             return controller_error("Ha ocurrido un error al recuperar la técnica")
 
-        if creator.nombre_usuario != session.creadoPor.nombre_usuario:
+        if creator.user.username != session.creadoPor.user.username:
             return controller_error("solo el presentador que crea la sesión puede iniciar la repetición")
         elif session.activo:
             return controller_error("la sesión ya está activada")
