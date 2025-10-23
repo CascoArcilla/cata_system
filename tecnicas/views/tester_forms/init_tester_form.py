@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from ...controllers import SesionController, MainTesterFormController, ParticipacionController
+from tecnicas.controllers import SesionController, MainTesterFormController, ParticipacionController
 
 
 def initTesterForm(req: HttpRequest, code_sesion: str):
@@ -22,7 +22,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
         if not isinstance(order, dict):
             req.session["id_order"] = order.id
             is_end = view_controller.isEndedSession(
-                id_participation=req.session["id_participation"], repetition=session.tecnica.repeticion)
+                repetition=session.tecnica.repeticion)
 
             if is_end:
                 context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
@@ -33,7 +33,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
         if req.POST["action"] == "start_posting":
             if "id_order" in req.session:
                 update_participation = ParticipacionController.enterSession(
-                    id_participation=req.session["id_participation"])
+                    tester=req.user.user_catador, session=session)
                 if isinstance(update_participation, dict):
                     context["error"] = update_participation["error"]
                     return render(req, template_url, context)
@@ -46,12 +46,16 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
                 return render(req, template_url, context)
 
             update_participation = ParticipacionController.enterSession(
-                id_participation=req.session["id_participation"])
+                tester=req.user.user_catador, session=session)
             if isinstance(update_participation, dict):
                 context["error"] = update_participation["error"]
                 return render(req, template_url, context)
+            
+            parameters = {
+                "code_sesion": code_sesion
+            }
 
-            return redirect(reverse("cata_system:session_convencional"))
+            return redirect(reverse("cata_system:session_convencional", kwargs=parameters))
         elif req.POST["action"] == "exit_session":
             response = ParticipacionController.outSession(
                 req.session["id_participation"])

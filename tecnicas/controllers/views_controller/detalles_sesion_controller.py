@@ -12,7 +12,7 @@ Encabezados de como deben de aparecer los datos juntos
 
 '''
 
-from ...models import SesionSensorial, Presentador, Tecnica, Palabra
+from ...models import SesionSensorial, Presentador, Tecnica
 from .. import CalificacionController, PalabrasController
 from ...utils import controller_error
 from collections import defaultdict
@@ -65,6 +65,10 @@ class DetallesSesionController():
         self.context["existen_calificaciones"] = True
 
         return self.context
+
+    def deleteSesorialSession(self):
+        technique = Tecnica.objects.get(id=self.session.tecnica.id)
+        technique.delete()
 
     @staticmethod
     def startRepetition(session_code: str, username: str):

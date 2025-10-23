@@ -3,25 +3,20 @@ from django.shortcuts import render
 from ...controllers import SesionController
 
 
-def sesionsPanel(req:HttpRequest, page: int):
+def sesionsPanel(req: HttpRequest, page: int):
     context = {"num_page": page}
 
-    (sessions_in_page, last_page) = SesionController.getSessionsSavesByCretor(
+    response = SesionController.getSessionsSavesByCretor(
         user_name=req.user.username, page=page)
 
-    if isinstance(sessions_in_page, dict):
-        context["error"] = sessions_in_page["error"]
+    if isinstance(response, dict):
+        context["error"] = response["error"]
         return render(req, "tecnicas/manage_sesions/sesiones-panel.html", context=context)
+    
+    (sessions_in_page, is_last_page, current_page) = response
 
     context["sessions"] = sessions_in_page
-    context["last_page"] = last_page
-
-    number_pages = SesionController.getNumberSessionsByCreator(
-        user_name=req.user.username)
-    if isinstance(number_pages, dict):
-        context["num_paginas"] = sessions_in_page["error"]
-        return render(req, "tecnicas/manage_sesions/sesiones-panel.html", context=context)
-
-    context["num_paginas"] = number_pages
+    context["last_page"] = is_last_page
+    context["num_paginas"] = current_page
 
     return render(req, "tecnicas/manage_sesions/sesiones-panel.html", context=context)

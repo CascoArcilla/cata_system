@@ -5,7 +5,7 @@
 
 {% block content %}
 <article class="cts-container-main">
-    <article class="cts-wrap-content">
+    <article class="cts-wrap-content relative">
         <header class="text-center flex-row max-sm:flex-col w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
                 Detalles de la sesión
@@ -167,15 +167,43 @@
                 </button>
             </a>
             {% endif %}
-
             <button
-                class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2">
+                class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
+                onclick="showWarningDialog('cts-warnig-dialog')">
                 borrar
                 <figure class="w-10">
                     <img src="{% static 'img/basura.svg' %}" alt="bote de basura" class="invert">
                 </figure>
             </button>
         </article>
+
+        <section
+            class="absolute w-full h-full flex justify-center items-center bg-surface-alter-card/70 top-0 left-0 p-6 rounded-xl cts-warnig-dialog hidden">
+            <article class="bg-surface-card p-4 space-y-6 rounded-xl">
+                <h2 class="text-4xl text-black text-center">
+                    ¡¡¡Cuidado!!!
+                </h2>
+                <p class="text-2xl text-black text-center">
+                    Esta acción no es reversible, si la continua también borrara todos los datos recopilados
+                    relacionados a esta sesión y no podrá volver a recuperarlos
+                </p>
+                <section class="text-black font-bold text-xl space-y-4">
+                    <p class="text-center">
+                        ¿Estás seguro de continuar?
+                    </p>
+                    <div class="flex max-sm:flex-col gap-4 justify-center">
+                        <button class="cts-btn-general cts-btn-error btn-push"
+                        onclick="deleteSession()">
+                            Estoy seguro
+                        </button>
+                        <button class="cts-btn-general cts-btn-primary btn-push"
+                            onclick="hiddenWarningDialog('cts-warnig-dialog')">
+                            No, cancelar
+                        </button>
+                    </div>
+                </section>
+            </article>
+        </section>
 
         <p class="text-black font-bold text-2xl border-b-2">
             Datos obtenidos
@@ -193,6 +221,7 @@
         {% endif %}
 
         <form action="" method="post" class="form-action-session hidden">
+            <input type="hidden" name="action" class="action-option">
             {% csrf_token %}
         </form>
     </article>
@@ -201,4 +230,5 @@
 
 {% block extra_js %}
 <script src="{% static 'js/details-session.js' %}"></script>
+<script src="{% static 'js/showHiddenElement.js' %}"></script>
 {% endblock %}

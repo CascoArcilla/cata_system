@@ -1,8 +1,3 @@
-from django.http import HttpRequest
-from django.shortcuts import redirect, render
-from django.urls import reverse
-from ...controllers import SesionController, PosicionController, CalificacionController, ParticipacionController, PalabrasController, EscalaController, DatoController
-
 '''
  **** Esta vista para sesion con tecnica convencional de escalas, al entrar debe:
  **** ****
@@ -59,6 +54,10 @@ from ...controllers import SesionController, PosicionController, CalificacionCon
             - Cata longitud debe poser una marca y solo estas seran las unicas posibles respuestas
             - Cata segmento en el que se divide debe tener la etiqueda correspondiente por debajo
 '''
+from django.http import HttpRequest
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from ...controllers import SesionController, PosicionController, CalificacionController, ParticipacionController, PalabrasController, EscalaController, DatoController
 
 
 def convencionalScales(req: HttpRequest):
@@ -82,7 +81,7 @@ def convencionalScales(req: HttpRequest):
 
         next_position = CalificacionController.checkProducsWithoutRating(
             positions=sorted_positions,
-            user_cata=req.session["cata_username"],
+            user_cata=req.user.username,
             id_technique=req.session["id_techniqe"],
             repetition=session.tecnica.repeticion,
             technique=technique,
@@ -112,11 +111,13 @@ def convencionalScales(req: HttpRequest):
         elif not ratings_product:
             context["words"] = words
         else:
-            recoreded_data = DatoController.getRerecordedData(ratings=ratings_product)
+            recoreded_data = DatoController.getRerecordedData(
+                ratings=ratings_product)
             if not recoreded_data:
                 context["words"] = words
             else:
-                words_to_use = PalabrasController.getWordsWithoutData(recoreded_data=recoreded_data, words=words)
+                words_to_use = PalabrasController.getWordsWithoutData(
+                    recoreded_data=recoreded_data, words=words)
                 context["words"] = words_to_use
 
         scale = EscalaController.getScaleByTechnique(technique=technique)

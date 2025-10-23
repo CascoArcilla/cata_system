@@ -4,23 +4,17 @@ const notificationError = document.querySelector(".ct-notification-error");
 if (notificationError) {
   setTimeout(function () {
     notificationError.classList.add("hidden");
-  }, 2000);
+  }, 3000);
 }
 
 function startRepetition() {
-  const inputAction = document.createElement("input");
-  inputAction.type = "hidden";
-  inputAction.name = "action";
-  inputAction.value = "start_session";
+  const input = actionForm.querySelector(".action-option")
+  input.value = "start_session";
+  actionForm.submit();
+}
 
-  const inputUser = document.createElement("input");
-  inputUser.type = "hidden";
-  inputUser.name = "username";
-  inputUser.value = "aguBido";
-
-  actionForm.appendChild(inputAction);
-  actionForm.appendChild(inputUser);
-
-  actionForm.classList.remove("hidden");
+function deleteSession() {
+  const input = actionForm.querySelector(".action-option")
+  input.value = "delete_session";
   actionForm.submit();
 }

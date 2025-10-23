@@ -49,7 +49,7 @@ class SesionController():
         try:
             creator = Presentador.objects.get(user__username=user_name)
         except Presentador.DoesNotExist:
-            return controller_error("presentador invalido")
+            return controller_error("Presentador invalido")
 
         queryset = (
             SesionSensorial.objects
@@ -75,10 +75,14 @@ class SesionController():
             sessions_in_page = paginator.page(page)
         except PageNotAnInteger:
             return controller_error("índice inválido")
-        except EmptyPage:
-            return controller_error("sin registros de sesiones")
 
-        return (sessions_in_page, not sessions_in_page.number < paginator.num_pages)
+        if not sessions_in_page.object_list:
+            return controller_error("Sin registros de sesiones")
+
+        current_page = sessions_in_page.number
+        is_last_page = not current_page < paginator.num_pages
+
+        return (sessions_in_page, is_last_page, current_page)
 
     @staticmethod
     def getSessionByCodePanelTester(code: str):
