@@ -212,8 +212,7 @@
         {% if existen_calificaciones %}
         <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
             {% for repeticion, catadores in calificaciones.items %}
-            {% include "../components/table-convencional.html" with repeticion=repeticion catadores=catadores
-            palabras=palabras %}
+            {% include "../components/table-convencional.html" with repeticion=repeticion catadores=catadores palabras=palabras %}
             {% endfor %}
         </article>
         {% else %}

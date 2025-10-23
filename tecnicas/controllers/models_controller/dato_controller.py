@@ -89,7 +89,7 @@ class DatoController():
                 producto_code=F(
                     "id_dato__id_calificacion__id_producto__codigoProducto"),
                 usuarioCatador=F(
-                    "id_dato__id_calificacion__id_catador__usuarioCatador"),
+                    "id_dato__id_calificacion__id_catador__user__username"),
                 dato_valor=F("valor")
             )
         )
