@@ -1,4 +1,5 @@
 {% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
 
 {% block title %}Panel Principal Tester{% endblock %}
 
@@ -11,7 +12,8 @@
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                         <h2 class="card-title text-2xl font-semibold">Información del Usuario</h2>
 
-                        <button class="cts-btn-general-compress px-4 py-2 cts-btn-error btn-push">
+                        <button class="cts-btn-general-compress px-4 py-2 cts-btn-error btn-push"
+                            onclick="exit_sesion('cts-action-form')">
                             Salir del Sistema
                         </button>
                     </div>
@@ -55,7 +57,8 @@
                                 ➕ Nueva sesión
                             </button>
                         </a>
-                        <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}" class="w-fit max-sm:w-full grow">
+                        <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}"
+                            class="w-fit max-sm:w-full grow">
                             <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
                                 🔍 Ver sesiones
                             </button>
@@ -63,6 +66,15 @@
                     </article>
                 </div>
             </div>
+
+            <form action="" method="post" class="hidden cts-action-form">
+                <input type="hidden" name="action" class="action-input">
+                {% csrf_token %}
+            </form>
     </article>
 </article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/actions-form.js' %}"></script>
 {% endblock %}

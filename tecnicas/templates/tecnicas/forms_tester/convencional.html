@@ -45,7 +45,7 @@
         </header>
 
         <article class="hidden">
-            <form action="{% url 'cata_system:catador_main' %}" method="post" class="form-actions">
+            <form action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post" class="form-actions">
                 {% csrf_token %}
                 <input type="hidden" name="action" class="action-input">
             </form>

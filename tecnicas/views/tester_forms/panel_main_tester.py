@@ -1,5 +1,6 @@
+from django.contrib.auth import logout
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 
 def mainPanelTester(req: HttpRequest):
@@ -13,5 +14,11 @@ def mainPanelTester(req: HttpRequest):
             "birthday": req.user.user_catador.nacimiento
         }
         return render(req, "tecnicas/forms_tester/main_panel_tester.html", view_context)
+    elif req.method == "POST":
+        if req.POST["action"] == "exit_session":
+            logout(req)
+            return redirect("cata_system:catador_login")
+        else:
+            return JsonResponse({"message": "Acción no definida"})
     else:
         return JsonResponse({"message": "Método no permitido"})

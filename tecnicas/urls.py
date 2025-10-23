@@ -94,7 +94,7 @@ urlpatterns = [
          views.initTesterForm,
          name="catador_init_session"),
 
-    path("testers/en-session/convencional",
+    path("testers/init-session/<str:code_sesion>/convencional",
          views.convencionalScales,
          name="session_convencional"),
 

@@ -91,10 +91,10 @@
                     <ul class="divide-y divide-gray-400 max-sm:w-full text-black">
                         {% for parti in participations %}
                         <li class="grid grid-cols-4 text-center bg-surface-card py-2 [&_>*]:px-2">
-                            <p class="border-r border-gray-400">{{ parti.catador.usuarioCatador }}</p>
+                            <p class="border-r border-gray-400">{{ parti.catador.user.username }}</p>
                             <p class="border-r border-gray-400">
-                                {{ parti.catador.nombre }}
-                                {{ parti.catador.apellido}}
+                                {{ parti.catador.user.first_name }}
+                                {{ parti.catador.user.last_name}}
                             </p>
 
                             {% if parti.activo %}

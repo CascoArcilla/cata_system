@@ -26,7 +26,8 @@ def sessionDetails(req: HttpRequest, session_code: str):
 
             return redirect(reverse("cata_system:monitor_sesion", kwargs=parameters))
         elif req.POST.get("action") == "delete_session":
-            pass
+            controller_view.deleteSesorialSession()
+            return redirect(reverse("cata_system:panel_sesiones", kwargs={"page": 1}))
         else:
             context["error"] = "no se reconoce la accion a realizar"
             return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)

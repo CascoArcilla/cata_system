@@ -68,7 +68,7 @@ class ListSessionsTesterController():
             return controller_error("índice inválido")
 
         if not sessions_in_page.object_list:
-            return controller_error("Sin registros de Catadores")
+            return controller_error("Sin registros de Participaciones")
 
         current_page = sessions_in_page.number
         is_last_page = not current_page < paginator.num_pages

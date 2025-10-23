@@ -33,15 +33,7 @@ def loginSessionTester(req: HttpRequest):
         params = {
             "code_sesion": session_code
         }
-        
+
         return redirect(reverse("cata_system:catador_init_session", kwargs=params))
     else:
         return JsonResponse({"message": "Método no valido"})
-
-# req.session["cata_username"] = tester_user
-# req.session["id_cata"] = tester.id
-# req.session["code_session"] = session_code
-# req.session["id_techniqe"] = session.tecnica.id
-# req.session["id_participation"] = taster_participation.id
-
-# response.set_cookie('id_participacion', taster_participation.id, max_age=60*60*24)

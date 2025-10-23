@@ -20,6 +20,8 @@ class MainTesterFormController():
         with transaction.atomic():
             orders_without_tester = list(Orden.objects.select_for_update().filter(
                 id_tecnica=self.session.tecnica, id_catador=None))
+            
+            print(orders_without_tester)
 
             if not orders_without_tester:
                 return controller_error("Las ordenes se han acabado")
@@ -33,20 +35,17 @@ class MainTesterFormController():
             return self.order_to_assign
 
     def checkAssignOrder(self):
-        if not self.tester or not self.session:
-            return controller_error("Atributos no establecidos")
-
         try:
-            res_order = Orden.objects.get(
+            self.order = Orden.objects.get(
                 id_tecnica=self.session.tecnica, id_catador=self.tester)
-            self.order = res_order
             return self.order
         except Orden.DoesNotExist:
             return controller_error("Catador sin orden")
 
-    def isEndedSession(self, id_participation: int, repetition: int):
+    def isEndedSession(self, repetition: int):
         try:
-            participation = Participacion.objects.get(id=id_participation)
+            participation = Participacion.objects.get(
+                catador=self.tester, tecnica=self.session.tecnica)
 
             # ////////////////////////////////////////////////////////////// #
             #
@@ -76,7 +75,7 @@ class MainTesterFormController():
 
                 expected_ratings_repetition = num_products * num_words
 
-                return  num_ratings_now >= expected_ratings_repetition
+                return num_ratings_now >= expected_ratings_repetition
             else:
                 return participation.finalizado
         except Participacion.DoesNotExist:

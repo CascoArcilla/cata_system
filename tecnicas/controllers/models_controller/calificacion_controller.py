@@ -84,7 +84,7 @@ class CalificacionController():
         elif id_tester is not None:
             filters["id_catador__id"] = id_tester
         elif user_tester is not None:
-            filters["id_catador__usuarioCatador"] = user_tester
+            filters["id_catador__user__username"] = user_tester
 
         ratings = list(Calificacion.objects.filter(**filters).select_related(
             "id_producto",

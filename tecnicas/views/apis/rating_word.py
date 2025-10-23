@@ -44,9 +44,9 @@ def reatingWord(req:  HttpRequest):
 
         view_controller = ApiRatingController(
             rating_controller=CalificacionController(
-                technique=req.session["id_techniqe"],
+                technique=req.session["id_technique"],
                 product=received_id_product,
-                tester=req.session["id_cata"]
+                tester=req.user.user_catador
             ),
             data_controller=DatoController(
                 word=received_id_word,
