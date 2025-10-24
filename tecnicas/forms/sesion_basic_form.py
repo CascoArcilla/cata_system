@@ -8,8 +8,6 @@ class SesionBasicForm(forms.Form):
     sizes_structure = [5, 7, 9]
     sizes_continue = [9, 13, 15]
 
-    id_tecnica = forms.IntegerField(widget=forms.HiddenInput())
-
     nombre_sesion = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
         "class": "bg-surface-ligt border-b-1 text-center w-full p-1",
         "name": "nombre_sesion",
@@ -36,7 +34,7 @@ class SesionBasicForm(forms.Form):
         "placeholder": "Este campo es opcional"
     }), required=False)
 
-    def __init__(self, *args, id_tecnica_new=0, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.fields['estilo_palabras'] = forms.ModelChoiceField(queryset=EstiloPalabra.objects.all(), widget=forms.RadioSelect(attrs={
@@ -49,11 +47,7 @@ class SesionBasicForm(forms.Form):
 
         self.fields['tamano_escala'] = forms.IntegerField(widget=forms.HiddenInput(attrs={
             "class": "cts-size-input",
-        }), required=True, min_value=5)
-
-        if id_tecnica_new != 0:
-            self.fields['id_tecnica'] = forms.IntegerField(
-                initial=id_tecnica_new, widget=forms.HiddenInput())
+        }), required=True)
 
     def clean(self):
         data_clean = super().clean()
@@ -73,10 +67,3 @@ class SesionBasicForm(forms.Form):
             self.add_error("tamano_escala", "El tamaño de la escala no aplica")
         elif escala.nombre_escala == "continua" and not self.sizes_continue.__contains__(tamano_escala):
             self.add_error("tamano_escala", "El tamaño de la escala no aplica")
-
-        id_tecnica = data_clean.get("id_tecnica")
-
-        try:
-            tecnica = TipoTecnica.objects.get(pk=id_tecnica)
-        except (ValueError, TipoTecnica.DoesNotExist):
-            return data_clean

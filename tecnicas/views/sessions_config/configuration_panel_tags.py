@@ -1,46 +1,26 @@
-from django.http import HttpRequest
-from django.shortcuts import redirect, render
+from django.http import HttpRequest, JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse
-from tecnicas.forms import SesionTagsForm, EtiquetaForm
-from tecnicas.models import TipoEscala
+from tecnicas.controllers import PanelTagsController
 
 
 def configurationPanelTags(req: HttpRequest):
-    basic_data = req.session.get("form_basic", {})
-
+    basic_data = req.session.get("form_basic")
     if not basic_data:
         return redirect(reverse('cata_system:panel_configuracion_basic'))
 
-    type_scale = TipoEscala.objects.get(pk=basic_data["tipo_escala"])
-    tamano_escala = basic_data["tamano_escala"]
-    form_new_etiqueta = EtiquetaForm()
-
     if req.method == "GET":
-        form_etiqutas = SesionTagsForm(
-            longitud=tamano_escala, tipo_escala=type_scale.nombre_escala)
-
-        context_tags = {
-            "form_tags": form_etiqutas,
-            "form_new_tag": form_new_etiqueta
-        }
-
-        return render(req, "tecnicas/create_sesion/configuracion-panel-tags.html", context_tags)
-    elif req.method == "POST":
-        values = {}
-        form = SesionTagsForm(req.POST, longitud=tamano_escala,
-                              tipo_escala=type_scale.nombre_escala)
-
-        context_tags = {
-            "form_tags": form,
-            "form_new_tag": form_new_etiqueta
-        }
-
-        if form.is_valid():
-            for name, value in form.cleaned_data.items():
-                values[name] = value.id
-
-            req.session["form_tags"] = values
-            return redirect(reverse("cata_system:panel_configuracion_codes"))
+        if basic_data["name_tecnica"] == "escalas":
+            response = PanelTagsController.controllGetConvencional(
+                request=req, data=basic_data)
         else:
-            context_tags["error"] = "ha ocurrido un error"
-            return render(req, "tecnicas/create_sesion/configuracion-panel-tags.html", context_tags)
+            response = redirect(
+                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
+
+        return response
+    elif req.method == "POST":
+        response = PanelTagsController.controllPostConvencional(
+            request=req, data=basic_data)
+        return response
+    else:
+        return JsonResponse({"message": "Método no permitido"})
