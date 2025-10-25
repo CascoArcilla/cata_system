@@ -9,14 +9,14 @@ class PanelBasicController():
         pass
 
     @staticmethod
-    def controllGetConvencional(request: HttpRequest):
+    def controllGetEscalas(request: HttpRequest):
         form_sesion = SesionBasicForm()
         response = render(
             request, "tecnicas/create_sesion/configuracion-panel-basic.html", {"form_sesion": form_sesion})
         return response
 
     @staticmethod
-    def controllPostConvencional(request: HttpRequest, name_tecnica: str):
+    def controllPostEscalas(request: HttpRequest, name_tecnica: str):
         try:
             form = SesionBasicForm(request.POST)
 

@@ -30,7 +30,7 @@ class TecnicaController():
             self.technique.save()
             return self.technique
         except DatabaseError:
-            return controller_error("No se ha podido guardar la tecnica")
+            return controller_error("No se ha podido guardar la técnica")
 
     def deleteTechnique(self):
         self.technique.delete()

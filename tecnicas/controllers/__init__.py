@@ -23,3 +23,5 @@ from .views_controller.list_sessions_tester_controller import ListSessionsTester
 from .views_controller.create_session.panel_basic_controller import PanelBasicController
 from .views_controller.create_session.panel_tags_controller import PanelTagsController
 from .views_controller.create_session.panel_codes_controller import PanelCodesController
+from .views_controller.create_session.panel_words_controller import PanelWordsController
+from .views_controller.create_session.panel_create_controller import PanelCreateController

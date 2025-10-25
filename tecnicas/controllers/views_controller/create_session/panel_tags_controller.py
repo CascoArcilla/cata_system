@@ -10,7 +10,7 @@ class PanelTagsController():
         pass
 
     @staticmethod
-    def controllGetConvencional(request: HttpRequest, data):
+    def controllGetEscalas(request: HttpRequest, data):
         (
             type_scale,
             tamano_escala,
@@ -28,7 +28,7 @@ class PanelTagsController():
         return render(request, "tecnicas/create_sesion/configuracion-panel-tags.html", context_tags)
 
     @staticmethod
-    def controllPostConvencional(request: HttpRequest, data):
+    def controllPostEscalas(request: HttpRequest, data):
         (
             type_scale,
             tamano_escala,

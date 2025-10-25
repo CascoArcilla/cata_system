@@ -25,13 +25,13 @@ class OrdenesController():
 
     def saveOrders(self):
         if not self.orders:
-            return controller_error("no se han establecido las ordenes para guardar")
+            return controller_error("No se han establecido las órdenes para guardar")
         try:
             for order in self.orders:
                 order.save()
             return self.orders
         except DatabaseError as error:
-            return controller_error("error al guardar las ordenes")
+            return controller_error("Error al guardar las ordenes")
 
     def setPositions(self):
         codes_ids_products = {}
@@ -40,21 +40,21 @@ class OrdenesController():
         codes_expect = list(codes_ids_products.keys())
 
         if len(self.orders) != len(self.raw_list_orders):
-            return controller_error("el numero de ordenes guardados no coinciden con los recibidos")
+            return controller_error("El número de ordenes guardados no coinciden con los recibidos")
 
         self.positions = []
         for index, order in enumerate(self.raw_list_orders):
             received_codes_order = list(order.keys())
 
             if set(received_codes_order) != set(codes_expect):
-                return controller_error("las ordenes mandadas no contienen los productos esperados")
+                return controller_error("Las ordenes mandadas no contienen los productos esperados")
 
             for name, position_index in order.items():
                 list_product_use = [product for product in self.products
                                     if product.codigoProducto == name]
 
                 if len(list_product_use) != 1:
-                    return controller_error("no pueden existir dos productos que ocupen la misma posicion de un orden")
+                    return controller_error("No pueden existir dos productos que ocupen la misma posición de un orden")
 
                 product_use = list_product_use[0]
                 new_position = Posicion(
@@ -67,13 +67,13 @@ class OrdenesController():
 
     def savePositions(self):
         if not self.positions:
-            return controller_error("no se han establecido posiciones para guargar")
+            return controller_error("No se han establecido posiciones para guarguar")
         try:
             for position in self.positions:
                 position.save()
             return self.positions
         except DatabaseError as error:
-            return controller_error("error al guardar las posiciones")
+            return controller_error("Error al guardar las posiciones")
 
     @staticmethod
     def getOrderById(id: int):

@@ -11,7 +11,7 @@ class PanelCodesController():
         pass
 
     @staticmethod
-    def controllGetConvencional(request: HttpRequest, data):
+    def controllGetEscalas(request: HttpRequest, data):
         (
             num_products,
             num_tester
@@ -29,7 +29,7 @@ class PanelCodesController():
         return render(request, "tecnicas/create_sesion/configuracion-panel-codes.html", context_codes_form)
 
     @staticmethod
-    def controllPostConvencional(request: HttpRequest, data):
+    def controllPostEscalas(request: HttpRequest, data):
         (
             num_products,
             num_tester
