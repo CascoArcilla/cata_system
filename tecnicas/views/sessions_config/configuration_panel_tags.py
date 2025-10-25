@@ -10,11 +10,11 @@ def configurationPanelTags(req: HttpRequest):
         deleteDataSession(req)
         return redirect(reverse('cata_system:panel_configuracion_basic') +
                         "?error=datos requeridos no encontrados")
-    
+
     basic_data = req.session.get("form_basic")
 
     if req.method == "GET":
-        if basic_data["name_tecnica"] == "escalas":
+        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
             response = PanelTagsController.controllGetEscalas(
                 request=req, data=basic_data)
         else:
@@ -23,7 +23,7 @@ def configurationPanelTags(req: HttpRequest):
 
         return response
     elif req.method == "POST":
-        if basic_data["name_tecnica"] == "escalas":
+        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
             response = PanelTagsController.controllPostEscalas(
                 request=req, data=basic_data)
         else:

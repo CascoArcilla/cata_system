@@ -7,12 +7,14 @@ from tecnicas.utils import deleteDataSession
 
 def configurationPanelBasic(req: HttpRequest):
     deleteDataSession(req)
-    
+
     if req.method == "GET":
         name_tecnica = req.GET["name_tecnica"]
 
         if name_tecnica == "escalas":
             response = PanelBasicController.controllGetEscalas(request=req)
+        elif name_tecnica == "rata":
+            response = PanelBasicController.controllGetRATA(request=req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida o sin implementar")
@@ -23,6 +25,9 @@ def configurationPanelBasic(req: HttpRequest):
 
         if name_tecnica == "escalas":
             response = PanelBasicController.controllPostEscalas(
+                request=req, name_tecnica=name_tecnica)
+        elif name_tecnica == "rata":
+            response = PanelBasicController.controllPostRATA(
                 request=req, name_tecnica=name_tecnica)
         else:
             response = redirect(

@@ -34,8 +34,11 @@ class SesionBasicForm(forms.Form):
         "placeholder": "Este campo es opcional"
     }), required=False)
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, initial_conf: dict = None, **kwargs):
         super().__init__(*args, **kwargs)
+
+        if initial_conf is None:
+            initial_conf = {}
 
         self.fields['estilo_palabras'] = forms.ModelChoiceField(queryset=EstiloPalabra.objects.all(), widget=forms.RadioSelect(attrs={
             "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
@@ -48,6 +51,12 @@ class SesionBasicForm(forms.Form):
         self.fields['tamano_escala'] = forms.IntegerField(widget=forms.HiddenInput(attrs={
             "class": "cts-size-input",
         }), required=True)
+
+        if "numero_catadores" in initial_conf:
+            self.fields["numero_catadores"].initial = initial_conf["numero_catadores"]
+
+        if "numero_repeticiones" in initial_conf:
+            self.fields["numero_repeticiones"].initial = initial_conf["numero_repeticiones"]
 
     def clean(self):
         data_clean = super().clean()

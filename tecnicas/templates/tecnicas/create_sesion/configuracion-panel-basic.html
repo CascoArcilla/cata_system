@@ -26,20 +26,45 @@
                         {{ form_sesion.nombre_sesion }}
                     </label>
                 </section>
-                <section
-                    class="flex flex-row flex-wrap justify-center gap-4 [&>label]:text-lg [&>label]:flex [&>label]:flex-col [&>label]:items-center [&>label]:px-2 [&>label]:font-medium [&>label]:tracking-wide [&>label]:[&>p]:tracking-normal [&>label]:[&>p]:text-base [&>label]:[&>p]:font-bold">
-                    <label for="{{ form_sesion.numero_productos.id_for_label }}">
-                        <p>Número de Productos:</p>
+                <section class="flex flex-row flex-wrap justify-center gap-4">
+                    <label for="{{ form_sesion.numero_productos.id_for_label }}"
+                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide">
+                        <p class="tracking-normal text-base font-bold">
+                            Número de Productos:
+                        </p>
                         {{ form_sesion.numero_productos }}
                     </label>
-                    <label for="{{ form_sesion.numero_catadores.id_for_label }}">
-                        <p>Número de Catadores:</p>
+                    {% if use_technique == 'escalas' %}
+                    <label for="{{ form_sesion.numero_catadores.id_for_label }}"
+                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide">
+                        <p class="tracking-normal text-base font-bold">
+                            Número de Catadores:
+                        </p>
                         {{ form_sesion.numero_catadores }}
                     </label>
-                    <label for="{{ form_sesion.numero_repeticiones.id_for_label }}">
-                        <p>Número de Repeticiones:</p>
+                    <label for="{{ form_sesion.numero_repeticiones.id_for_label }}"
+                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide">
+                    <p class="tracking-normal text-base font-bold">
+                        Número de Repeticiones:
+                    </p>
+                    {{ form_sesion.numero_repeticiones }}
+                    </label>
+                    {% else %}
+                    <label for="{{ form_sesion.numero_catadores.id_for_label }}"
+                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide hidden">
+                        <p class="tracking-normal text-base font-bold">
+                            Número de Catadores:
+                        </p>
+                        {{ form_sesion.numero_catadores }}
+                    </label>
+                    <label for="{{ form_sesion.numero_repeticiones.id_for_label }}"
+                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide hidden">
+                        <p class="tracking-normal text-base font-bold">
+                            Número de Repeticiones:
+                        </p>
                         {{ form_sesion.numero_repeticiones }}
                     </label>
+                    {% endif %}
                 </section>
                 <section class="flex justify-center items-center mt-2">
                     <label for="{{form_sesion.instrucciones.id_for_label}}"
@@ -95,15 +120,18 @@
                     </label>
                     <div class="flex justify-around max-sm:flex-col gap-8 cts-options-size-scale">
                         <label class="flex flex-col items-center cursor-pointer">
-                            <input type="radio" name="option_size_scale" value="5" class="radio radio-lg checked:bg-pink-500" />
+                            <input type="radio" name="option_size_scale" value="5"
+                                class="radio radio-lg checked:bg-pink-500" />
                             <span class="mt-2 text-xl text-gray-700 font-medium">5</span>
                         </label>
                         <label class="flex flex-col items-center cursor-pointer">
-                            <input type="radio" name="option_size_scale" value="7" class="radio radio-lg checked:bg-pink-500" />
+                            <input type="radio" name="option_size_scale" value="7"
+                                class="radio radio-lg checked:bg-pink-500" />
                             <span class="mt-2 text-xl text-gray-700 font-medium">7</span>
                         </label>
                         <label class="flex flex-col items-center cursor-pointer">
-                            <input type="radio" name="option_size_scale" value="9" class="radio radio-lg checked:bg-pink-500" />
+                            <input type="radio" name="option_size_scale" value="9"
+                                class="radio radio-lg checked:bg-pink-500" />
                             <span class="mt-2 text-xl text-gray-700 font-medium">9</span>
                         </label>
                     </div>
