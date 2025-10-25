@@ -23,7 +23,8 @@ class PanelCodesController():
 
         context_codes_form = {
             "form_codes": form_codes,
-            "num_tester": num_tester
+            "num_tester": num_tester,
+            "use_technique": "escalas"
         }
 
         return render(request, "tecnicas/create_sesion/configuracion-panel-codes.html", context_codes_form)
@@ -48,6 +49,7 @@ class PanelCodesController():
         context_codes_form = {
             "form_codes": form_codes,
             "num_tester": num_tester,
+            "use_technique": "escalas"
         }
 
         if form_codes.is_valid():
@@ -58,6 +60,44 @@ class PanelCodesController():
 
             codes_sort["sort_codes"] = sorts_code
             request.session["form_codes"] = codes_sort
+            return redirect(reverse("cata_system:panel_configuracion_words"))
+        else:
+            context_codes_form["error"] = "error en los datos recibidos"
+
+        return render(request, "tecnicas/create_sesion/configuracion-panel-codes.html", context_codes_form)
+
+    @staticmethod
+    def controllGetRATA(request: HttpRequest, data):
+        num_products = data["numero_productos"]
+        codes_products = generarCodigos(num_products)
+        form_codes = CodesForm(codes=codes_products)
+
+        context_codes_form = {
+            "form_codes": form_codes,
+            "num_tester": 0,
+            "use_technique": "rata"
+        }
+
+        return render(request, "tecnicas/create_sesion/configuracion-panel-codes.html", context_codes_form)
+
+    @staticmethod
+    def controllPostRATA(request: HttpRequest):
+        codes = []
+        context_codes_form = {}
+
+        for name, value in request.POST.items():
+            if name.__contains__("producto_"):
+                codes.append(value)
+
+        form_codes = CodesForm(request.POST, codes=codes)
+
+        context_codes_form = {
+            "form_codes": form_codes,
+            "use_technique": "rata"
+        }
+
+        if form_codes.is_valid():
+            request.session["form_codes"] = codes
             return redirect(reverse("cata_system:panel_configuracion_words"))
         else:
             context_codes_form["error"] = "error en los datos recibidos"

@@ -14,11 +14,9 @@ class PalabrasController():
         self.ids_words = new_ids
 
     def setWords(self):
-        self.words = []
-        searched_words = list(Palabra.objects.filter(id__in=self.ids_words))
-        if not len(searched_words):
+        self.words = list(Palabra.objects.filter(id__in=self.ids_words))
+        if not len(self.words):
             return controller_error("No se han encontrado registros")
-        self.words = searched_words
         return self.words
 
     @staticmethod

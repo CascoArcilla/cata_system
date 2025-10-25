@@ -6,9 +6,9 @@ from tecnicas.utils import controller_error
 class TecnicaController():
     def setTechnique(self, **kwargs):
         self.technique = Tecnica(
-            tipo_tecnica=kwargs["tipo_tecnica"],
-            id_estilo=kwargs["estilo_palabras"],
-            repeticiones_max=kwargs["numero_repeticiones"] or 0,
+            tipo_tecnica=TipoTecnica.objects.get(nombre_tecnica=kwargs["name_tecnica"]),
+            id_estilo=EstiloPalabra.objects.get(id=kwargs["estilo_palabras"]),
+            repeticiones_max=kwargs["numero_repeticiones"] or 1,
             limite_catadores=kwargs["numero_catadores"],
             instrucciones=kwargs["instrucciones"],
         )
@@ -17,7 +17,7 @@ class TecnicaController():
         self.technique = Tecnica(
             tipo_tecnica=TipoTecnica.objects.get(nombre_tecnica=basic["name_tecnica"]),
             id_estilo=EstiloPalabra.objects.get(id=basic["estilo_palabras"]),
-            repeticiones_max=basic["numero_repeticiones"] or 0,
+            repeticiones_max=basic["numero_repeticiones"] or 1,
             limite_catadores=basic["numero_catadores"],
             instrucciones=basic["instrucciones"] or "Espere instrucciones del Presentador",
         )
