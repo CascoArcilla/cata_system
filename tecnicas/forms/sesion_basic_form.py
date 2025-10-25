@@ -5,7 +5,8 @@ from ..models import EstiloPalabra
 
 
 class SesionBasicForm(forms.Form):
-    id_tecnica = forms.IntegerField(widget=forms.HiddenInput())
+    sizes_structure = [5, 7, 9]
+    sizes_continue = [9, 13, 15]
 
     nombre_sesion = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
         "class": "bg-surface-ligt border-b-1 text-center w-full p-1",
@@ -28,36 +29,28 @@ class SesionBasicForm(forms.Form):
         "placeholder": "Solo números"
     }), required=True)
 
-    tamano_escala = forms.IntegerField(widget=forms.NumberInput(attrs={
-        "class": "bg-surface-ligt p-1 border-b-1 text-center w-full",
-    }), required=True, min_value=5)
-
     instrucciones = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
         "class": "bg-surface-ligt border-b-1 text-center w-full p-1",
         "placeholder": "Este campo es opcional"
     }), required=False)
 
-    def __init__(self, *args, id_tecnica_new=0, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self.fields['estilo_palabras'] = forms.ModelChoiceField(queryset=EstiloPalabra.objects.all(), widget=forms.RadioSelect(attrs={
-        "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
+            "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
         }), required=True, initial=EstiloPalabra.objects.first())
 
         self.fields['tipo_escala'] = forms.ModelChoiceField(queryset=TipoEscala.objects.all(), widget=forms.RadioSelect(attrs={
             "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
         }), required=True, initial=TipoEscala.objects.first())
 
-        if id_tecnica_new != 0:
-            self.fields['id_tecnica'] = forms.IntegerField(
-                initial=id_tecnica_new, widget=forms.HiddenInput())
+        self.fields['tamano_escala'] = forms.IntegerField(widget=forms.HiddenInput(attrs={
+            "class": "cts-size-input",
+        }), required=True)
 
     def clean(self):
         data_clean = super().clean()
-
-        sizes_estruturada = [5, 7, 9]
-        sizes_continua = [9, 12, 15]
-
         escala = data_clean.get("tipo_escala")
 
         if escala and not isinstance(escala, TipoEscala):
@@ -70,14 +63,7 @@ class SesionBasicForm(forms.Form):
 
         tamano_escala = data_clean.get("tamano_escala")
 
-        if escala.nombre_escala == "estructurada" and not sizes_estruturada.__contains__(tamano_escala):
+        if escala.nombre_escala == "estructurada" and not self.sizes_structure.__contains__(tamano_escala):
             self.add_error("tamano_escala", "El tamaño de la escala no aplica")
-        elif escala.nombre_escala == "continua" and not sizes_continua.__contains__(tamano_escala):
+        elif escala.nombre_escala == "continua" and not self.sizes_continue.__contains__(tamano_escala):
             self.add_error("tamano_escala", "El tamaño de la escala no aplica")
-
-        id_tecnica = data_clean.get("id_tecnica")
-
-        try:
-            tecnica = TipoTecnica.objects.get(pk=id_tecnica)
-        except (ValueError, TipoTecnica.DoesNotExist):
-            return data_clean

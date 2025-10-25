@@ -15,7 +15,7 @@ class TecnicaController():
 
     def setTechniqueFromBasicData(self, basic):
         self.technique = Tecnica(
-            tipo_tecnica=TipoTecnica.objects.get(id=basic["id_tecnica"]),
+            tipo_tecnica=TipoTecnica.objects.get(nombre_tecnica=basic["name_tecnica"]),
             id_estilo=EstiloPalabra.objects.get(id=basic["estilo_palabras"]),
             repeticiones_max=basic["numero_repeticiones"] or 0,
             limite_catadores=basic["numero_catadores"],
@@ -30,7 +30,7 @@ class TecnicaController():
             self.technique.save()
             return self.technique
         except DatabaseError:
-            return controller_error("No se ha podido guardar la tecnica")
+            return controller_error("No se ha podido guardar la técnica")
 
     def deleteTechnique(self):
         self.technique.delete()

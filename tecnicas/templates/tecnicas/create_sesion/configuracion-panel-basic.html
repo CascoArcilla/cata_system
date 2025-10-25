@@ -13,8 +13,8 @@
         <hr>
         <form method="post" action="" class="[&>article]:not-last:mb-4 [&>article]:not-first:pt-4 [&>article]:px-6">
             {% csrf_token %}
-            <label for="form_sesion.id_tecnica.id_for_label" class="hidden">
-                {{ form_sesion.id_tecnica }}
+            <label for="form_sesion.name_tecnica.id_for_label" class="hidden">
+                {{ form_sesion.name_tecnica }}
             </label>
 
             <article>
@@ -93,6 +93,20 @@
                         <p>Establece número de segmentos:</p>
                         {{ form_sesion.tamano_escala }}
                     </label>
+                    <div class="flex justify-around max-sm:flex-col gap-8 cts-options-size-scale">
+                        <label class="flex flex-col items-center cursor-pointer">
+                            <input type="radio" name="option_size_scale" value="5" class="radio radio-lg checked:bg-pink-500" />
+                            <span class="mt-2 text-xl text-gray-700 font-medium">5</span>
+                        </label>
+                        <label class="flex flex-col items-center cursor-pointer">
+                            <input type="radio" name="option_size_scale" value="7" class="radio radio-lg checked:bg-pink-500" />
+                            <span class="mt-2 text-xl text-gray-700 font-medium">7</span>
+                        </label>
+                        <label class="flex flex-col items-center cursor-pointer">
+                            <input type="radio" name="option_size_scale" value="9" class="radio radio-lg checked:bg-pink-500" />
+                            <span class="mt-2 text-xl text-gray-700 font-medium">9</span>
+                        </label>
+                    </div>
                     {% if form_sesion.tamano_escala.errors %}
                     <article
                         class="w-fit rounded px-2 py-0.5 text-center text-white text-sm font-medium tracking-wide bg-red-500">

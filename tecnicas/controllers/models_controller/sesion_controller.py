@@ -18,9 +18,9 @@ class SesionController():
 
     def setSession(self):
         if not self.presenter:
-            return controller_error("se requiere presentador para crear sesion")
+            return controller_error("Se requiere presentador para crear sesión")
         elif not self.technique:
-            return controller_error("se requiere tecnica para crear sesion")
+            return controller_error("Se requiere técnica para crear sesión")
 
         self.sensorial_session = SesionSensorial(
             tecnica=self.technique,
@@ -34,13 +34,13 @@ class SesionController():
 
     def saveSession(self):
         if not self.sensorial_session:
-            return controller_error("no se ha definido la sesion a guardar")
+            return controller_error("No se ha definido la sesión a guardar")
 
         try:
             self.sensorial_session.save()
             return self.sensorial_session
         except DatabaseError as error:
-            return controller_error("Error al crear la session sensorial")
+            return controller_error("Error al crear la sesión sensorial")
 
     @staticmethod
     def getSessionsSavesByCretor(user_name: str, page: int):
@@ -122,7 +122,7 @@ class SesionController():
 
             return number_sessions/9
         except Presentador.DoesNotExist:
-            return controller_error("presentador invalido")
+            return controller_error("Presentador invalido")
 
     @staticmethod
     def finishRepetion(session: SesionSensorial | str):

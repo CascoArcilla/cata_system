@@ -1,52 +1,33 @@
-from django.shortcuts import render, redirect
-from django.http import HttpRequest
+from django.shortcuts import redirect
+from django.http import HttpRequest, JsonResponse
 from django.urls import reverse
-from ...forms import SesionBasicForm
-from ...models import TipoTecnica
+from tecnicas.controllers import PanelBasicController
+from tecnicas.utils import deleteDataSession
 
 
 def configurationPanelBasic(req: HttpRequest):
-    keys_forms = [
-        "form_basic",
-        "form_tags",
-        "form_codes",
-        "form_words"
-    ]
+    deleteDataSession(req)
+    
+    if req.method == "GET":
+        name_tecnica = req.GET["name_tecnica"]
 
-    for key in keys_forms:
-        if key in req.session:
-            del req.session[key]
-
-    if req.method == "POST":
-        try:
-            form = SesionBasicForm(req.POST)
-
-            if form.is_valid():
-                values = {}
-
-                for name, value in form.cleaned_data.items():
-                    if name == "estilo_palabras" or name == "tipo_escala":
-                        values[name] = value.id
-                    else:
-                        values[name] = value
-
-                req.session['form_basic'] = values
-                return redirect(reverse("cata_system:panel_configuracion_tags"))
-        except KeyError:
-            return redirect(reverse("cata_system:seleccion_tecnica") + "?error=error en datos de configuracion")
-
-        return render(req, "tecnicas/create_sesion/configuracion-panel-basic.html", {"form_sesion": form, "error": "Ha ocurrido un error al continuar al siguiente paso."})
-    elif req.method == "GET":
-        try:
-            id_tecnica = req.GET["id_tecnica"]
-            tecnica = TipoTecnica.objects.get(pk=id_tecnica)
-        except KeyError:
-            return redirect(reverse("cata_system:seleccion_tecnica") + "?error=tecnica_no_establecida")
-        except (ValueError, TipoTecnica.DoesNotExist):
-            return redirect(reverse("cata_system:seleccion_tecnica") + "?error=tecnica_no_establecida")
-
-        if tecnica:
-            form_sesion = SesionBasicForm(id_tecnica_new=id_tecnica)
-            return render(req, "tecnicas/create_sesion/configuracion-panel-basic.html", {"form_sesion": form_sesion})
+        if name_tecnica == "escalas":
+            response = PanelBasicController.controllGetEscalas(request=req)
         else:
-            return redirect(reverse("cata_system:seleccion_tecnica") + "?error=la_tecnica_no_existe")
+            response = redirect(
+                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida o sin implementar")
+
+        return response
+    elif req.method == "POST":
+        name_tecnica = req.GET["name_tecnica"]
+
+        if name_tecnica == "escalas":
+            response = PanelBasicController.controllPostEscalas(
+                request=req, name_tecnica=name_tecnica)
+        else:
+            response = redirect(
+                reverse("cata_system:seleccion_tecnica") + "?error=¡Oh, vaya! Cambio de técnica repentino, vuelve a elegir otra vez")
+
+        return response
+    else:
+        return JsonResponse({"message": "Método no permitido"})

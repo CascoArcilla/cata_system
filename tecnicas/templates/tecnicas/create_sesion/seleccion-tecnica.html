@@ -33,7 +33,7 @@
                 <section
                     class="modal-list-{{ cate }} flex flex-col text-lg bg-surface-ligt p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden w-full">
                     {% for tecnica in tecnicas %}
-                    <a href="{% url 'cata_system:panel_configuracion_basic'%}?id_tecnica={{tecnica.id}}">
+                    <a href="{% url 'cata_system:panel_configuracion_basic'%}?name_tecnica={{ tecnica }}">
                         <button
                             class="cts-btn-secondary btn-push rounded-lg border-b-0 border-l-4 border-gray-700 px-3 py-2 w-full text-left font-bold uppercase">
                             {{ tecnica.nombre_tecnica }}
