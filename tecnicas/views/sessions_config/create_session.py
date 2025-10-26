@@ -14,9 +14,8 @@ def createSession(req: HttpRequest):
     basic_data = req.session["form_basic"]
 
     if req.method == "GET":
-        if basic_data["name_tecnica"] == "escalas":
-            response = render(
-                req, 'tecnicas/create_sesion/creando_sesion.html')
+        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
+            response = PanelCreateController.controllGetEscalas(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
@@ -25,6 +24,8 @@ def createSession(req: HttpRequest):
     if req.method == "POST":
         if basic_data["name_tecnica"] == "escalas":
             response = PanelCreateController.controllPostEscalas(req)
+        elif basic_data["name_tecnica"] == "rata":
+            response = PanelCreateController.controllPostRATA(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")

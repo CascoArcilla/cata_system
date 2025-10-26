@@ -27,12 +27,15 @@
                     </label>
                     {% endfor %}
                 </article>
+                {% if use_technique == 'escalas' %}
                 <button type="button" class="cts-btn-general cts-btn-secondary btn-push uppercase"
                     onclick="setPermutations()">
                     regenerar ordenes
                 </button>
+                {% endif %}
             </article>
 
+            {% if use_technique == 'escalas' %}
             <h2 class="text-2xl mb-2 font-bold">Ordenes</h2>
             <hr>
             <article class="w-full">
@@ -42,6 +45,7 @@
                     </article>
                 </section>
             </article>
+            {% endif %}
 
             <hr>
             <article class="flex flex-col items-center gap-4">
@@ -62,11 +66,16 @@
                 </a>
             </article>
         </form>
+
+        {% if use_technique == 'escalas' %}
         <input type="number" value="{{ num_tester }}" class="ct-num-cata hidden" disabled>
+        {% endif %}
     </article>
 </article>
 {% endblock %}
 
 {% block extra_js %}
+{% if use_technique == 'escalas' %}
 <script src="{% static 'js/panel-codes.js' %}"></script>
+{% endif %}
 {% endblock %}

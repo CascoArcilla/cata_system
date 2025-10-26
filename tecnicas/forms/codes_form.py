@@ -1,7 +1,8 @@
 from django import forms
 
+
 class CodesForm(forms.Form):
-    def __init__(self, *args, codes = [], **kwargs):
+    def __init__(self, *args, codes=[], **kwargs):
         super().__init__(*args, **kwargs)
 
         for index, code in enumerate(codes):

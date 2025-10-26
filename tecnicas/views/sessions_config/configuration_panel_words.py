@@ -14,7 +14,7 @@ def configurationPanelWords(req: HttpRequest):
     basic_data = req.session["form_basic"]
 
     if req.method == "GET":
-        if basic_data["name_tecnica"] == "escalas":
+        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
             response = PanelWordsController.controllGetEscalas(req)
         else:
             response = redirect(
@@ -22,12 +22,12 @@ def configurationPanelWords(req: HttpRequest):
 
         return response
     elif req.method == "POST":
-        if basic_data["name_tecnica"] == "escalas":
+        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
             response = PanelWordsController.controllPostEscalas(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
-            
+
         return response
     else:
         return JsonResponse({"message": "Método no permitido"})

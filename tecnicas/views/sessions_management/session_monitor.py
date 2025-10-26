@@ -7,38 +7,57 @@ Para finalizar la sesion se debe realizar lo siguiente
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.controllers import MonitorSesionController
-from tecnicas.utils import general_error
+from tecnicas.models import SesionSensorial
+from tecnicas.controllers import MonitorEscalasController
+from tecnicas.utils import noValidTechnique
 
 
 def sessionMonitor(req: HttpRequest, session_code: str):
-    controll_view = MonitorSesionController(session_code)
-    context = controll_view.monitorView()
-
     if req.method == "GET":
-        if "error" in context:
-            return render(req, "tecnicas/manage_sesions/monitor-sesion.html", context)
+        sensorial_session = SesionSensorial.objects.get(
+            codigo_sesion=session_code)
+        use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
-        context["code_session"] = session_code
-        return render(req, "tecnicas/manage_sesions/monitor-sesion.html", context)
-    elif req.method == "POST":
-        action = req.POST["action"]
-        if action == "finish_session":
-            return actionFinishSession(context=context, session_code=session_code, controll_view=controll_view, req=req)
+        if use_techinique == "escalas" or use_techinique == "rata":
+            controll_view = MonitorEscalasController(sensorial_session)
+            response = controll_view.controlGetResponse(request=req)
         else:
-            return general_error("No se ha especificado la acción")
+            response = noValidTechnique(
+                params={
+                    "session_code": session_code,
+                },
+                query_params={
+                    "message": "Aun no se puede monitorear sesiones con esta técnica"
+                },
+                name_view="cata_system:detalles_sesion"
+            )
+
+        return response
+    elif req.method == "POST":
+        sensorial_session = SesionSensorial.objects.get(
+            codigo_sesion=session_code)
+        use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
+
+        if use_techinique == "escalas":
+            controll_view = MonitorEscalasController(sensorial_session)
+            action = req.POST["action"]
+            if action == "finish_session":
+                response = controll_view.controlPostResponseFinishSession(
+                    request=req)
+            else:
+                response = controll_view.controlGetResponse(
+                    request=req, error="No se ha definido la acción a realizar")
+        else:
+            response = noValidTechnique(
+                params={
+                    "session_code": session_code,
+                },
+                query_params={
+                    "message": "La técnica usada en la sesión aun no se implementa para esta función"
+                },
+                name_view="cata_system:detalles_sesion"
+            )
+
+        return response
     else:
         return JsonResponse({"error": "Método no permitido"})
-
-
-def actionFinishSession(context: dict, session_code: str, controll_view: MonitorSesionController, req: HttpRequest):
-    context["code_session"] = session_code
-    (is_all_end, message) = controll_view.checkAllParticipantsEnded()
-    context["message"] = message
-    if not is_all_end:
-        return render(req, "tecnicas/manage_sesions/monitor-sesion.html", context)
-    response = controll_view.finishSession()
-    if isinstance(response, dict):
-        context["message"] = response["error"]
-        return render(req, "tecnicas/manage_sesions/monitor-sesion.html", context)
-    return redirect(reverse("cata_system:detalles_sesion", kwargs={"session_code": session_code}))

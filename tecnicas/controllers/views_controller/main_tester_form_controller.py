@@ -20,7 +20,7 @@ class MainTesterFormController():
         with transaction.atomic():
             orders_without_tester = list(Orden.objects.select_for_update().filter(
                 id_tecnica=self.session.tecnica, id_catador=None))
-            
+
             print(orders_without_tester)
 
             if not orders_without_tester:
@@ -34,13 +34,15 @@ class MainTesterFormController():
 
             return self.order_to_assign
 
-    def checkAssignOrder(self):
+    def checkAndAssignOrder(self):
         try:
-            self.order = Orden.objects.get(
+            self.order_to_assign = Orden.objects.get(
                 id_tecnica=self.session.tecnica, id_catador=self.tester)
-            return self.order
         except Orden.DoesNotExist:
-            return controller_error("Catador sin orden")
+            create = self.assignOrder()
+            if isinstance(create, dict):
+                return create
+        return self.order_to_assign
 
     def isEndedSession(self, repetition: int):
         try:
