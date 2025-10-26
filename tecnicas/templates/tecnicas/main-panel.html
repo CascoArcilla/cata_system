@@ -33,6 +33,10 @@
             </section>
         </header>
 
+        {% if error %}
+        {% include "./components/error-message.html" with message=error %}
+        {% endif %}
+
         <article class="w-full flex flex-col gap-7 items-center min-sm:mt-7 mt-4 bg-surface-card rounded-lg shadow-lg">
             <article
                 class="w-5xl max-lg:w-3xl max-md:w-auto p-8 flex flex-col justify-around items-center gap-4 flex-wrap text-3xl max-sm:text-2xl">

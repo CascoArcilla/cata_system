@@ -5,7 +5,7 @@
 
 {% block content %}
 <article class="cts-container-main">
-    <article class="cts-wrap-content relative">
+    <article class="cts-wrap-content relative max-w-4xl">
         <header class="text-center flex-row max-sm:flex-col w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
                 Detalles de la sesión
@@ -17,28 +17,20 @@
             </a>
         </header>
 
-        {% if error %}
-        <article class=" bg-red-600 p-4 text-white rounded-xl ct-notification-error">
-            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
-                {{ error }}
-            </p>
-        </article>
-        {% endif %}
-
         {% if message %}
-        <article class="bg-green-600 p-4 text-white rounded-xl ct-notification-error">
-            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
-                {{ message }}
-            </p>
-        </article>
+        {% include "../components/error-message.html" with message=message %}
+        {% endif %}
+        {% if error %}
+        {% include "../components/error-message.html" with message=error %}
         {% endif %}
 
         <p class="text-black font-bold text-2xl border-b-2">
             Información general
         </p>
         <article
-            class="text-black rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 max-sm:gap-1 *:bg-surface-card *:flex *:flex-wrap *:items-center *:justify-center *:max-sm:justify-normal *:gap-x-2 *:p-4 *:rounded-2xl text-xl max-sm:text-base">
-            <section class="col-span-2 max-sm:col-span-1">
+            class="text-black rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 max-sm:gap-1  text-xl max-sm:text-base">
+            <section
+                class="col-span-2 max-sm:col-span-1 bg-surface-ligt flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Código:
                 </p>
@@ -47,7 +39,8 @@
                 </p>
             </section>
 
-            <section class="col-span-2 max-sm:col-span-1">
+            <section
+                class="col-span-2 max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Nombre:
                 </p>
@@ -60,7 +53,8 @@
                 </p>
             </section>
 
-            <section>
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Fecha creación:
                 </p>
@@ -69,7 +63,8 @@
                 </p>
             </section>
 
-            <section>
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Estado:
                 </p>
@@ -82,7 +77,8 @@
                 </p>
             </section>
 
-            <section>
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Estilo palabras:
                 </p>
@@ -91,7 +87,18 @@
                 </p>
             </section>
 
-            <section>
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Tipo Escala:
+                </p>
+                <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
+                    {{ sesion.tecnica.escala_tecnica }}
+                </p>
+            </section>
+
+            <section
+                class="bg-surface-ligt flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Técnica:
                 </p>
@@ -100,7 +107,18 @@
                 </p>
             </section>
 
-            <section>
+            {% if use_technique == "escalas" %}
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Catadores Max:
+                </p>
+                <p class="font-sans text-lg max-sm:text-base font-normal">
+                    {{ sesion.tecnica.limite_catadores }}
+                </p>
+            </section>
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Rep. Hechas:
                 </p>
@@ -108,8 +126,8 @@
                     {{ sesion.tecnica.repeticion }}
                 </p>
             </section>
-
-            <section>
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Rep. Max:
                 </p>
@@ -117,8 +135,23 @@
                     {{ sesion.tecnica.repeticiones_max }}
                 </p>
             </section>
+            {% else %}
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-sans">
+                    Pueden ingresar tantos catadores como se desee
+                </p>
+            </section>
+            <section
+                class="col-span-2 max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-sans">
+                    La técnica usada solo puede realizarse una vez, hay una única repetición
+                </p>
+            </section>
+            {% endif %}
 
-            <section class="col-span-2 max-sm:col-span-1">
+            <section
+                class="col-span-2 max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Instrucciones:
                 </p>
@@ -192,8 +225,7 @@
                         ¿Estás seguro de continuar?
                     </p>
                     <div class="flex max-sm:flex-col gap-4 justify-center">
-                        <button class="cts-btn-general cts-btn-error btn-push"
-                        onclick="deleteSession()">
+                        <button class="cts-btn-general cts-btn-error btn-push" onclick="deleteSession()">
                             Estoy seguro
                         </button>
                         <button class="cts-btn-general cts-btn-primary btn-push"
