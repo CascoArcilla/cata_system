@@ -29,9 +29,11 @@
         </div>
 
         <div class="card-actions justify-end mt-3">
-            <button class="btn bg-btn-primary border-0 block w-full btn-push">
-                Ver detalles
-            </button>
+            <a href="{% url 'cata_system:buscar_catador' %}?user={{ tester.user.username }}" class="w-full">
+                <button class="btn bg-btn-primary border-0 block w-full btn-push">
+                    Actualizar datos
+                </button>
+            </a>
         </div>
     </div>
 </div>

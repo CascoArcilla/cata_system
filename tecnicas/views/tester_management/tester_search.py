@@ -1,25 +1,32 @@
 from django.http import HttpRequest
 from django.shortcuts import render, get_object_or_404
-from django.db import Error
-from django.core.exceptions import ObjectDoesNotExist
-from ...forms import CatadorForm
-from ...models import Catador
+from django.forms import ValidationError
+from django.db import transaction, DatabaseError
+from django.contrib.auth.models import User
+from tecnicas.forms import CatadorForm
+from tecnicas.models import Catador
 
-def testerSearch(req : HttpRequest):
+
+def testerSearch(req: HttpRequest):
     if req.method == "GET":
         context = {}
 
-        try:
-            user = req.GET["user"]
-        except:
-            user = False
-
-        if not user:
+        if "user" in req.GET:
+            username = req.GET["user"]
+        else:
             return render(req, "tecnicas/manage_tester/catador-buscar.html")
-        
+
         try:
-            tester = Catador.objects.get(usuarioCatador=user)
-            context["form_catador"] = CatadorForm(instance=tester)
+            tester = Catador.objects.get(user__username=username)
+            context["form_cata"] = CatadorForm({
+                'nombre_usuario': tester.user.username,
+                'nombre': tester.user.first_name,
+                'apellido': tester.user.last_name,
+                'telefono': tester.telefono,
+                'correo': tester.user.email,
+                'fecha_nacimiento': tester.nacimiento,
+                'genero': tester.genero,
+            })
         except Catador.DoesNotExist:
             context["error"] = "usuario no encontrado"
 
@@ -27,30 +34,39 @@ def testerSearch(req : HttpRequest):
     elif req.method == "POST":
         context = {}
 
-        try:
-            infoTester = req.POST
-        except:
-            infoTester = False
+        username = req.GET["user"]
+        new_values = {}
 
-        nameUser = req.POST["usuarioCatador"]
+        for key, value in req.POST.items():
+            new_values[key] = value
 
-        if not infoTester:
-            context["error"] = "ha ocurrido un error en recueperar los datos"
-            return render(req, "tecnicas/manage_tester/catador-buscar.html", context)
-        
-        user = get_object_or_404(Catador, usuarioCatador=nameUser)
-        
-        modelForm = CatadorForm(infoTester, instance=user)
+        new_values["is_update"] = True
 
-        try:
-            if not modelForm.is_valid():
-                context["error"] = "ha ocurrido un error en guardar los datos"
-                return render(req, "tecnicas/manage_tester/catador-buscar.html", context)
-            modelForm.save()
-            context["form_catador"] = modelForm
-            context["message"] = "usuario actualizado"
-        except:
-            context["form_catador"] = modelForm
-            context["error"] = "ha ocurrido un error en guardar los datos"
+        tester = get_object_or_404(Catador, user__username=username)
+        form_tester = CatadorForm(new_values)
 
-        return render(req, "tecnicas/manage_tester/catador-buscar.html", context)
+        if form_tester.is_valid():
+            with transaction.atomic():
+                try:
+                    user = User.objects.get(username=username)
+                    user.username = form_tester.cleaned_data.get(
+                        "nombre_usuario")
+                    user.first_name = form_tester.cleaned_data.get("nombre")
+                    user.last_name = form_tester.cleaned_data.get("apellido")
+                    user.email = form_tester.cleaned_data.get("correo")
+                    user.save()
+
+                    tester.nacimiento = form_tester.cleaned_data.get(
+                        "fecha_nacimiento")
+                    tester.genero = form_tester.cleaned_data.get("genero")
+                    tester.telefono = form_tester.cleaned_data.get("telefono")
+                    tester.save()
+                except (ValidationError, DatabaseError):
+                    context["error"] = "nombre de usuario en uso"
+                    return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+            context["message"] = "Datos actualizados, consúltelo en Listar Catadores"
+            context["form_cata"] = form_tester
+            return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+        else:
+            context["error"] = "Datos no validos"
+            return render(req, "tecnicas/manage_tester/catador-crear.html", context)
