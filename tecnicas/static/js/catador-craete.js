@@ -7,7 +7,6 @@ for (let index = 0; index < inputs.length; index++) {
 
 function hiddenErrorAndMessages(e) {
   for (let index = 0; index < notifiactions.length; index++) {
-    console.log("Oculto");
     notifiactions.item(index).classList.add("hidden");
   }
 }

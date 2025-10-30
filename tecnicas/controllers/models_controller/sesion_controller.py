@@ -18,9 +18,9 @@ class SesionController():
 
     def setSession(self):
         if not self.presenter:
-            return controller_error("se requiere presentador para crear sesion")
+            return controller_error("Se requiere presentador para crear sesión")
         elif not self.technique:
-            return controller_error("se requiere tecnica para crear sesion")
+            return controller_error("Se requiere técnica para crear sesión")
 
         self.sensorial_session = SesionSensorial(
             tecnica=self.technique,
@@ -34,22 +34,22 @@ class SesionController():
 
     def saveSession(self):
         if not self.sensorial_session:
-            return controller_error("no se ha definido la sesion a guardar")
+            return controller_error("No se ha definido la sesión a guardar")
 
         try:
             self.sensorial_session.save()
             return self.sensorial_session
         except DatabaseError as error:
-            return controller_error("Error al crear la session sensorial")
+            return controller_error("Error al crear la sesión sensorial")
 
     @staticmethod
     def getSessionsSavesByCretor(user_name: str, page: int):
         elements_by_page = 6
 
         try:
-            creator = Presentador.objects.get(nombre_usuario=user_name)
+            creator = Presentador.objects.get(user__username=user_name)
         except Presentador.DoesNotExist:
-            return controller_error("presentador invalido")
+            return controller_error("Presentador invalido")
 
         queryset = (
             SesionSensorial.objects
@@ -75,10 +75,14 @@ class SesionController():
             sessions_in_page = paginator.page(page)
         except PageNotAnInteger:
             return controller_error("índice inválido")
-        except EmptyPage:
-            return controller_error("sin registros de sesiones")
 
-        return (sessions_in_page, not sessions_in_page.number < paginator.num_pages)
+        if not sessions_in_page.object_list:
+            return controller_error("Sin registros de sesiones")
+
+        current_page = sessions_in_page.number
+        is_last_page = not current_page < paginator.num_pages
+
+        return (sessions_in_page, is_last_page, current_page)
 
     @staticmethod
     def getSessionByCodePanelTester(code: str):
@@ -111,14 +115,14 @@ class SesionController():
     @staticmethod
     def getNumberSessionsByCreator(user_name: str):
         try:
-            creator = Presentador.objects.get(nombre_usuario=user_name)
+            creator = Presentador.objects.get(user__username=user_name)
 
             number_sessions = SesionSensorial.objects.filter(
                 creadoPor=creator).count()
 
             return number_sessions/9
         except Presentador.DoesNotExist:
-            return controller_error("presentador invalido")
+            return controller_error("Presentador invalido")
 
     @staticmethod
     def finishRepetion(session: SesionSensorial | str):

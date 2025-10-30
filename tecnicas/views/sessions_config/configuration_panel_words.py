@@ -1,44 +1,33 @@
-from django.http import HttpRequest
-from django.shortcuts import render, redirect
+from django.http import HttpRequest, JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse
-from ...models.palabra import Palabra
-from ...forms import WordForm
-
-import json
+from tecnicas.controllers import PanelWordsController
+from tecnicas.utils import deleteDataSession
 
 
 def configurationPanelWords(req: HttpRequest):
-    if not req.session.get("form_basic") or not req.session.get("form_tags") or not req.session.get("form_codes"):
-        req.session.flush()
+    if not req.session.get("form_basic"):
+        deleteDataSession(req)
         return redirect(reverse("cata_system:seleccion_tecnica") +
-                        "?error=datos del formulario requerido no encontrados")
+                        "?error=datos requeridos no encontrados")
 
-    form = WordForm()
-    context = {
-        "form_word": form
-    }
+    basic_data = req.session["form_basic"]
 
     if req.method == "GET":
-        return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)
+        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
+            response = PanelWordsController.controllGetEscalas(req)
+        else:
+            response = redirect(
+                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
+
+        return response
     elif req.method == "POST":
-        if not req.POST.get("words"):
-            return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)
+        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
+            response = PanelWordsController.controllPostEscalas(req)
+        else:
+            response = redirect(
+                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
 
-        words = json.loads(req.POST.get("words"))
-        context["words"] = words
-
-        ids_words = [word["id"] for word in words]
-
-        if len(ids_words) != len(set(ids_words)):
-            context["error"] = "existen palabras duplicadas"
-            return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)
-
-        exist_words = Palabra.objects.filter(
-            id__in=ids_words).count() == len(ids_words)
-
-        if not exist_words:
-            context["error"] = "algunas palabras no existen"
-            return render(req, "tecnicas/create_sesion/configuracion-panel-words.html", context)
-
-        req.session["form_words"] = ids_words
-        return redirect(reverse("cata_system:creando_sesion"))
+        return response
+    else:
+        return JsonResponse({"message": "Método no permitido"})

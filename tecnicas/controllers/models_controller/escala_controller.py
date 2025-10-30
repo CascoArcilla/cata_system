@@ -26,7 +26,7 @@ class EscalaController():
             self.scale.save()
             return self.scale
         except DatabaseError as error:
-            return controller_error("error al guardar la escala")
+            return controller_error("Error al guardar la escala")
 
     def deleteScale(self):
         self.scale.delete()
@@ -67,7 +67,7 @@ class EscalaController():
             return self.tags_relation
         except DatabaseError as error:
             self.deleteRelationshipsWithLabels()
-            return controller_error("error guardar relacion etiqueta escala")
+            return controller_error("Error en guardar la relación etiqueta escala")
 
     @staticmethod
     def getScaleByTechnique(technique: Tecnica = None, id_technique: int = None):

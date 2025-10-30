@@ -99,7 +99,8 @@
 
         <article class="flex flex-wrap gap-10">
             {% if has_ended %}
-            <div class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none">
+            <div
+                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none">
                 <p class=" text-black">Finalizaste la repetición</p>
             </div>
             {% else %}
@@ -112,14 +113,15 @@
                 </figure>
             </button>
             {% endif %}
-            <button
-                class="flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
-                onclick="closeSession()">
-                Salir se la sesión
-                <figure class="w-10">
-                    <img src="{% static 'img/exit.svg' %}" alt="bote de basura" class="invert">
-                </figure>
-            </button>
+            <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}">
+                <button
+                    class="flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2">
+                    Regresar a la lista
+                    <figure class="w-10">
+                        <img src="{% static 'img/exit.svg' %}" alt="bote de basura" class="invert">
+                    </figure>
+                </button>
+            </a>
         </article>
 
         <form action="" method="post" class="hidden ct-action-form">

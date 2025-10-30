@@ -1,12 +1,13 @@
-from ...models import Participacion, Tecnica, SesionSensorial
+from ...models import Participacion, Tecnica, SesionSensorial, Catador
 from ...utils import controller_error
 
 
 class ParticipacionController():
     @staticmethod
-    def enterSession(id_participation: int):
+    def enterSession(tester: Catador, session: SesionSensorial):
         try:
-            participation = Participacion.objects.get(id=id_participation)
+            participation = Participacion.objects.get(
+                catador=tester, tecnica=session.tecnica)
             participation.finalizado = False
             participation.activo = True
             participation.save()
@@ -26,9 +27,10 @@ class ParticipacionController():
             return controller_error("No se ha encontrado la participación")
 
     @staticmethod
-    def outSession(id_participation: int):
+    def outSession(tester: Catador, session: SesionSensorial):
         try:
-            participation = Participacion.objects.get(id=id_participation)
+            participation = Participacion.objects.get(
+                catador=tester, tecnica=session.tecnica)
             participation.activo = False
             participation.save()
             return participation

@@ -10,7 +10,7 @@ class MainTesterFormController():
 
     def __init__(self, code_session: str, user_tester: str):
         try:
-            self.tester = Catador.objects.get(usuarioCatador=user_tester)
+            self.tester = Catador.objects.get(user__username=user_tester)
             self.session = SesionSensorial.objects.get(
                 codigo_sesion=code_session)
         except (Catador.DoesNotExist, SesionSensorial.DoesNotExist):
@@ -20,6 +20,8 @@ class MainTesterFormController():
         with transaction.atomic():
             orders_without_tester = list(Orden.objects.select_for_update().filter(
                 id_tecnica=self.session.tecnica, id_catador=None))
+
+            print(orders_without_tester)
 
             if not orders_without_tester:
                 return controller_error("Las ordenes se han acabado")
@@ -32,21 +34,20 @@ class MainTesterFormController():
 
             return self.order_to_assign
 
-    def checkAssignOrder(self):
-        if not self.tester or not self.session:
-            return controller_error("Atributos no establecidos")
-
+    def checkAndAssignOrder(self):
         try:
-            res_order = Orden.objects.get(
+            self.order_to_assign = Orden.objects.get(
                 id_tecnica=self.session.tecnica, id_catador=self.tester)
-            self.order = res_order
-            return self.order
         except Orden.DoesNotExist:
-            return controller_error("Catador sin orden")
+            create = self.assignOrder()
+            if isinstance(create, dict):
+                return create
+        return self.order_to_assign
 
-    def isEndedSession(self, id_participation: int, repetition: int):
+    def isEndedSession(self, repetition: int):
         try:
-            participation = Participacion.objects.get(id=id_participation)
+            participation = Participacion.objects.get(
+                catador=self.tester, tecnica=self.session.tecnica)
 
             # ////////////////////////////////////////////////////////////// #
             #
@@ -76,7 +77,7 @@ class MainTesterFormController():
 
                 expected_ratings_repetition = num_products * num_words
 
-                return  num_ratings_now >= expected_ratings_repetition
+                return num_ratings_now >= expected_ratings_repetition
             else:
                 return participation.finalizado
         except Participacion.DoesNotExist:

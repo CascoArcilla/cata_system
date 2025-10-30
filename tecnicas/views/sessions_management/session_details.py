@@ -1,29 +1,58 @@
-from django.http import HttpRequest
-from django.shortcuts import render, redirect
+from django.http import HttpRequest, JsonResponse
+from django.shortcuts import redirect
 from django.urls import reverse
-from ...controllers import DetallesSesionController
+from tecnicas.models import SesionSensorial
+from tecnicas.utils import noValidTechnique
+from ...controllers import DetallesEscalasController
 
 
 def sessionDetails(req: HttpRequest, session_code: str):
-    controller_view = DetallesSesionController(session_code)
-    context = controller_view.getContextForView()
-
     if req.method == "GET":
-        context = controller_view.getContextWithData()
-        return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
-    elif req.method == "POST":
-        if req.POST["action"] == "start_session":
-            response = DetallesSesionController.startRepetition(
-                session_code=session_code, username=req.POST["username"])
-            if isinstance(response, dict):
-                context = controller_view.getContextWithData()
-                context["error"] = response["error"]
-                return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
-            return redirect(reverse("cata_system:monitor_sesion"))
-        elif req.POST.get("action") == "delete_session":
-            pass
-        elif req.POST.get("action") == "monitor_session":
-            pass
+        if "message" in req.GET:
+            message = req.GET.get("message")
         else:
-            context["error"] = "no se reconoce la accion a realizar"
-            return render(req, "tecnicas/manage_sesions/detalles-sesion.html", context)
+            message = ""
+
+        sensorial_session = SesionSensorial.objects.get(
+            codigo_sesion=session_code)
+        use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
+
+        if use_techinique == "escalas" or use_techinique == "rata":
+            controller_view = DetallesEscalasController(
+                session=sensorial_session)
+            response = controller_view.getResponse(
+                request=req, message=message)
+        else:
+            response = noValidTechnique(
+                params={"page": 1},
+                query_params={
+                    "message": "Al parecer la sesión usa una técnica que aun no se ha implementado para ver detalles"
+                },
+                name_view="cata_system:panel_sesiones"
+            )
+
+        return response
+    elif req.method == "POST":
+        sensorial_session = SesionSensorial.objects.get(
+            codigo_sesion=session_code)
+        use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
+
+        if use_techinique == "escalas" or use_techinique == "rata":
+            controller_view = DetallesEscalasController(sensorial_session)
+
+            if req.POST["action"] == "start_session":
+                response = controller_view.startRepetition(
+                    presenter=req.user.user_presentador)
+            elif req.POST.get("action") == "delete_session":
+                controller_view.deleteSesorialSession()
+                response = redirect(
+                    reverse("cata_system:panel_sesiones", kwargs={"page": 1}))
+            else:
+                response = controller_view.getResponse(
+                    error="No se reconoce la acción a realizar")
+        else:
+            response = noValidTechnique()
+
+        return response
+    else:
+        return JsonResponse({"error": "Método no permitido"})

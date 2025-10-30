@@ -11,24 +11,12 @@ urlpatterns = [
          name="autenticacion"),
 
     path("catador-login",
-         views.testerLogin,
+         views.loginTester,
          name="catador_login"),
+
 
     # Pantalla principal Presetador
     path("presenter/", views.mainPanel, name="index"),
-
-    # Gestion de catadores
-    path("presenter/panel-catadores",
-         views.testerMenu,
-         name="panel_catadores"),
-
-    path("presenter/crear-catador",
-         views.testerCreate,
-         name="crear_catador"),
-
-    path("presenter/buscar-catador",
-         views.testerSearch,
-         name="buscar_catador"),
 
 
     # Creacion de sessiones sensoriales
@@ -57,6 +45,24 @@ urlpatterns = [
          name="creando_sesion"),
 
 
+    # Gestion de catadores
+    path("presenter/panel-catadores",
+         views.testerMenu,
+         name="panel_catadores"),
+
+    path("presenter/crear-catador",
+         views.testerCreate,
+         name="crear_catador"),
+
+    path("presenter/buscar-catador",
+         views.testerSearch,
+         name="buscar_catador"),
+
+    path("presenter/listar-catador/<int:num_page>",
+         views.testerList,
+         name="listar_catador"),
+
+
     # Gestion de sesiones sensoriales
     path("presenter/panel-sesiones/<int:page>",
          views.sesionsPanel,
@@ -73,12 +79,25 @@ urlpatterns = [
 
     # Vistas para catadores
     path("testers/catador-main",
-         views.mainTesterForm,
+         views.mainPanelTester,
          name="catador_main"),
 
-    path("testers/en-session/convencional",
+    path("testers/catador-list-sessions/<int:num_page>",
+         views.sessionsListTester,
+         name="catador_list_sessions"),
+
+    path("testers/log-in-session",
+         views.loginSessionTester,
+         name="catador_in_session"),
+
+    path("testers/init-session/<str:code_sesion>",
+         views.initTesterForm,
+         name="catador_init_session"),
+
+    path("testers/init-session/<str:code_sesion>/convencional",
          views.convencionalScales,
          name="session_convencional"),
+
 
     # APIs
     path("api/nueva-etiqueta",

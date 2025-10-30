@@ -23,7 +23,6 @@
                         {% with match=None %}
                         {% for valor in valores %}
                         {% if valor.nombre_palabra == palabra %}
-                        {{ palabra }} <br>
                         {{ valor.dato_valor }}
                         {% with match=True %}{% endwith %}
                         {% endif %}

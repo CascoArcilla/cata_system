@@ -1,10 +1,10 @@
 from django.http import HttpRequest, JsonResponse
-from django.db import IntegrityError
-from ...models import Palabra
-from ...utils import general_error
-from ...forms.word_form import WordForm
+from tecnicas.decorators import required_presenter
+from tecnicas.models import Palabra
+from tecnicas.utils import general_error
+from tecnicas.forms.word_form import WordForm
 
-
+@required_presenter
 def words(req: HttpRequest):
     if req.method == "GET":
         try:

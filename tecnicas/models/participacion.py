@@ -12,4 +12,4 @@ class Participacion(models.Model):
     finalizado = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.catador.usuarioCatador} {'activo' if self.activo else 'no activo'}"
+        return f"{self.catador.user.username} {'activo' if self.activo else 'no activo'}"

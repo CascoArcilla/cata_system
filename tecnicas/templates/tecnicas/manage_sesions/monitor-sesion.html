@@ -10,14 +10,6 @@
             <h1 class="text-3xl font-bold text-black">Sesión sensorial en curso</h1>
         </header>
 
-        {% if error %}
-        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
-            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
-                {{ error }}
-            </p>
-        </article>
-        {% endif %}
-
         <section class="flex flex-col sm:flex-row justify-between items-center gap-10">
             <p class="text-xl text-center bg-surface-card p-4 text-black rounded-lg shadow-lg">
                 Código de sesión:<br>
@@ -28,10 +20,11 @@
                     onclick="finishSession()">
                     Finalizar sesión
                 </button>
-                <button class="uppercase cts-btn-general-compress cts-btn-error py-2 px-6 btn-push"
-                    onclick="window.history.back()">
-                    Regresar
-                </button>
+                <a href="{% url 'cata_system:detalles_sesion' session_code=code_session %}" class="w-full">
+                    <button class="uppercase cts-btn-general-compress cts-btn-error py-2 px-6 btn-push w-full">
+                        Regresar
+                    </button>
+                </a>
             </div>
         </section>
 
@@ -39,6 +32,10 @@
             <input type="hidden" name="action">
             {% csrf_token %}
         </form>
+
+        {% if error %}
+        {% include "../components/error-message.html" with message=error %}
+        {% endif %}
 
         {% if message %}
         {% include "../components/error-message.html" with message=message %}
@@ -62,12 +59,20 @@
                     <h2 class="text-xl font-semibold">Participantes</h2>
                 </div>
                 <section class="flex flex-wrap justify-around items-center">
+                    {% if use_technique == "escalas" %}
                     <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
                         <span class="font-semibold">Máximo:</span>
                         <span>{{ max_testers }}</span>
                     </div>
+                    {% endif %}
                     <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                        <span class="font-semibold">Actuales:</span>
+                        <span class="font-semibold">
+                            {% if use_technique == "escalas" %}
+                            Actuales:
+                            {% else %}
+                            Total:
+                            {% endif %}
+                        </span>
                         <span>{{ current_testers }}</span>
                     </div>
                     <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
@@ -90,10 +95,10 @@
                     <ul class="divide-y divide-gray-400 max-sm:w-full text-black">
                         {% for parti in participations %}
                         <li class="grid grid-cols-4 text-center bg-surface-card py-2 [&_>*]:px-2">
-                            <p class="border-r border-gray-400">{{ parti.catador.usuarioCatador }}</p>
+                            <p class="border-r border-gray-400">{{ parti.catador.user.username }}</p>
                             <p class="border-r border-gray-400">
-                                {{ parti.catador.nombre }}
-                                {{ parti.catador.apellido}}
+                                {{ parti.catador.user.first_name }}
+                                {{ parti.catador.user.last_name}}
                             </p>
 
                             {% if parti.activo %}

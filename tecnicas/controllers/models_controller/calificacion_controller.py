@@ -1,8 +1,7 @@
 from django.core.exceptions import ValidationError
-from django.db import DatabaseError
 from collections import defaultdict
-from ...models import Calificacion, Tecnica, Posicion, Producto, Catador
-from ...utils import controller_error, getId
+from tecnicas.models import Calificacion, Tecnica, Posicion, Producto, Catador
+from tecnicas.utils import controller_error, getId
 
 
 class CalificacionController():
@@ -46,7 +45,7 @@ class CalificacionController():
         repetition = technique.repeticion
 
         if not repetition:
-            return {"error": "sin datos calficados aun"}
+            return controller_error("Sin datos calificados aún")
 
         ratings = list(Calificacion.objects.filter(id_tecnica=technique))
 
@@ -84,7 +83,7 @@ class CalificacionController():
         elif id_tester is not None:
             filters["id_catador__id"] = id_tester
         elif user_tester is not None:
-            filters["id_catador__usuarioCatador"] = user_tester
+            filters["id_catador__user__username"] = user_tester
 
         ratings = list(Calificacion.objects.filter(**filters).select_related(
             "id_producto",

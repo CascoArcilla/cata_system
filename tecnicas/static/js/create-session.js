@@ -90,7 +90,7 @@ function renderElementsResponse({
   ];
 
   const aIndex = document.createElement("a");
-  aIndex.href = "/cata";
+  aIndex.href = "/cata/presenter/";
   aIndex.textContent = "Volver al inicio";
 
   aIndex.classList.add(
@@ -99,7 +99,7 @@ function renderElementsResponse({
   );
 
   const aDetails = document.createElement("a");
-  aDetails.href = `/cata/detalles-sesion/${sessionId}`;
+  aDetails.href = `/cata/presenter/detalles-sesion/${sessionId}`;
   aDetails.textContent = "Ver detalles la sesion";
 
   aDetails.classList.add(
