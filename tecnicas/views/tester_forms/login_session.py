@@ -25,15 +25,19 @@ def loginSessionTester(req: HttpRequest):
         tester = existCredentials[0]
         session = existCredentials[1]
 
-        taster_participation = login_controller.validateEntry()
-        if isinstance(taster_participation, dict):
-            context = {"error": taster_participation["error"]}
-            return render(req, "tecnicas/forms_tester/login_session.html", context)
+        type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
 
-        params = {
-            "code_sesion": session_code
-        }
+        if type_technique == "escalas":
+            response = login_controller.validateEntryEscalas()
+        elif type_technique == "rata":
+            response = login_controller.validateEntryRATA()
+        else:
+            context = {
+                "error": "La técnica usada en esta sesión o ha sido implementada para ingresar a ella"
+            }
+            response = render(
+                req, "tecnicas/forms_tester/login_session.html", context)
 
-        return redirect(reverse("cata_system:catador_init_session", kwargs=params))
+        return response
     else:
         return JsonResponse({"message": "Método no valido"})

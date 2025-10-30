@@ -22,7 +22,7 @@
         {% if error %}
         {% include "../components/error-message.html" with message=error %}
         {% else %}
-        <div class="flex justify-center md:grid md:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="grid  gap-4 md:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
             {% for tester in testers %}
             {% include "../components/item-tester.html" with tester=tester %}
             {% endfor %}

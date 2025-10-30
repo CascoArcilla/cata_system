@@ -5,7 +5,7 @@
 
 {% block content %}
 <article class="cts-container-main">
-    <article class="cts-wrap-content">
+    <article class="cts-wrap-content max-w-4xl">
         <header class="flex-1 flex flex-col gap-7">
             <div class="bg-surface-card p-8 text-black text-2xl font-bold rounded-2xl text-center capitalize">
                 <h1>buscando catatador</h1>
@@ -52,50 +52,86 @@
         </p>
         {% endif %}
 
-        {% if form_catador %}
+        {% if form_cata %}
         <form action="" method="post" class="text-black">
             {% csrf_token %}
             <section class="grid grid-cols-2 max-sm:grid-cols-1 [&>label]:px-6 max-sm:[&>label]:px-2">
-                <label for="{{ form_catador.usuarioCatador.id_for_label }}"
+                <label for="{{ form_cata.nombre_usuario.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
                     <p class="capitalize font-bold">Nombre de usuario:</p>
-                    {{ form_catador.usuarioCatador }}
-                    {% if form_catador.usuarioCatador.errors %}
-                    <small class="capitalize bg-red-400 px-5 tracking-wider rounded">
-                        el nombre de usuario ya esta en uso
+                    {{ form_cata.nombre_usuario }}
+                    {% if form_cata.nombre_usuario.errors %}
+                    <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
+                        {{ form_cata.nombre_usuario.errors}}
                     </small>
                     {% endif %}
                 </label>
-                <label for="{{ form_catador.nombre.id_for_label }}"
+                <label for="{{ form_cata.nombre.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
                     <p class="capitalize font-bold">nombre del catador:</p>
-                    {{ form_catador.nombre }}
-                </label>
-                <label for="{{ form_catador.apellido.id_for_label }}"
-                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">apellido del catador:</p>
-                    {{ form_catador.apellido }}
-                </label>
-                <label for="{{ form_catador.telefono.id_for_label }}"
-                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">telefono:</p>
-                    {{ form_catador.telefono }}
-                    {% if form_catador.telefono.errors %}
-                    <small class="ct-notificacion capitalize bg-red-400 px-5 tracking-wider rounded">
-                        {{ form_catador.telefono.errors}}
+                    {{ form_cata.nombre }}
+                    {% if form_cata.nombre.errors %}
+                    <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
+                        {{ form_cata.nombre.errors}}
                     </small>
                     {% endif %}
                 </label>
-                <label for="{{ form_catador.correo.id_for_label }}"
+                <label for="{{ form_cata.apellido.id_for_label }}"
+                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">apellido del catador:</p>
+                    {{ form_cata.apellido }}
+                    {% if form_cata.apellido.errors %}
+                    <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
+                        {{ form_cata.apellido.errors}}
+                    </small>
+                    {% endif %}
+                </label>
+                <label for="{{ form_cata.telefono.id_for_label }}"
+                    class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">telefono:</p>
+                    {{ form_cata.telefono }}
+                    {% if form_cata.telefono.errors %}
+                    <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
+                        {{ form_cata.telefono.errors}}
+                    </small>
+                    {% endif %}
+                </label>
+                <label for="{{ form_cata.correo.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
                     <p class="capitalize font-bold">correo:</p>
-                    {{ form_catador.correo }}
+                    {{ form_cata.correo }}
+                    {% if form_cata.correo.errors %}
+                    <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
+                        {{ form_cata.correo.errors}}
+                    </small>
+                    {% endif %}
                 </label>
-                <label for="{{ form_catador.fechaNacimiento.id_for_label }}"
+                <label for="{{ form_cata.fecha_nacimiento.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
                     <p class="capitalize font-bold">fecha de nacimiento:</p>
-                    {{ form_catador.fechaNacimiento }}
+                    {{ form_cata.fecha_nacimiento }}
+                    {% if form_cata.fecha_nacimiento.errors %}
+                    <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
+                        {{ form_cata.fecha_nacimiento.errors}}
+                    </small>
+                    {% endif %}
                 </label>
+                <div class="text-lg flex flex-col px-6 w-full font-medium tracking-wide mb-4">
+                    <p class="capitalize font-bold">Género:</p>
+                    <div class="flex items-center space-x-4">
+                        {% for choice in form_cata.genero %}
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            {{ choice.tag }}
+                            <span class="capitalize font-semibold">{{ choice.choice_label }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>
+                    {% if form_cata.genero.errors %}
+                    <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
+                        {{ form_cata.genero.errors}}
+                    </small>
+                    {% endif %}
+                </div>
             </section>
             <section class="cs-escalas-radio flex justify-center items-center gap-4">
                 <button type="button"
