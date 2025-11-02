@@ -6,7 +6,7 @@ from tecnicas.models import Catador, SesionSensorial, Participacion
 from tecnicas.utils import controller_error
 
 
-class LoginTesterController():
+class LoginSessionTesterController():
     tester: Catador
     session: SesionSensorial
     taster_participation: Participacion

@@ -19,30 +19,15 @@
         </article>
 
         {% if error %}
-        <hr>
-
-        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
-            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
-                {{ error }}
-            </p>
-        </article>
+        {% include "../components/error-message.html" with message=error %}
         {% endif %}
-
         {% if message %}
-        <hr>
-
-        <article class="bg-surface-alter-card p-4 rounded-xl max-w-2xl">
-            <p class="block text-xl antialiased font-bold text-center">
-                {{ message }}
-            </p>
-        </article>
+        {% include "../components/error-message.html" with message=message %}
         {% endif %}
-
         <hr>
 
         <article
             class="rounded-xl grid grid-cols-1 gap-3 text-center *:bg-surface-card *:flex *:flex-wrap *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
-            {% if session %}
             <section>
                 <p class="text-xl font-bold">
                     Código:
@@ -68,16 +53,22 @@
                 </p>
             </section>
 
+            {% if type_technique == "escalas" or type_technique == "rata" or type_technique == "cata" %}
             <section>
                 <p class="text-xl font-medium">
                     Esta sesión usa el estilo de palabras
                     “<span class="uppercase">{{ session.tecnica.id_estilo }}</span>”
                 </p>
             </section>
+            {% endif %}
 
             <section>
                 <p class="text-xl font-medium">
+                    {% if type_technique == "escalas" %}
                     Repetición número {{ session.tecnica.repeticion }}
+                    {% else %}
+                    Única repetición
+                    {% endif %}
                 </p>
             </section>
 
@@ -86,13 +77,6 @@
                     {{ session.tecnica.instrucciones }}
                 </p>
             </section>
-            {% else %}
-            <section>
-                <p class="text-xl font-medium">
-                    Ha ocurrido un error en renderizar esta vista
-                </p>
-            </section>
-            {% endif %}
         </article>
 
         <hr>
