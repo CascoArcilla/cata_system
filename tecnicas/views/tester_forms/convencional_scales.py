@@ -57,7 +57,9 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from ...controllers import SesionController, PosicionController, CalificacionController, ParticipacionController, PalabrasController, EscalaController, DatoController
+from urllib.parse import urlencode
+from tecnicas.models import Participacion
+from tecnicas.controllers import SesionController, PosicionController, CalificacionController, ParticipacionController, PalabrasController, EscalaController, DatoController
 
 
 def convencionalScales(req: HttpRequest, code_sesion: str):
@@ -66,6 +68,8 @@ def convencionalScales(req: HttpRequest, code_sesion: str):
 
     session = SesionController.getSessionByCode(code_sesion)
     technique = session.tecnica
+    participation = Participacion.objects.get(
+        tecnica=technique, catador=req.user.user_catador)
 
     context = {
         "session": session
@@ -92,8 +96,11 @@ def convencionalScales(req: HttpRequest, code_sesion: str):
 
         if isinstance(next_position, dict):
             updated_participation = ParticipacionController.finishSession(
-                req.session["id_participation"])
-            return redirect(reverse("cata_system:catador_main"))
+                participation)
+            params = {
+                "code_sesion": code_sesion
+            }
+            return redirect(reverse('cata_system:catador_init_session', kwargs=params))
 
         if isinstance(next_position, list):
             next_position = next_position[0]

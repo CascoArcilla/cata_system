@@ -89,5 +89,5 @@ class MonitorEscalasController(MonitorController):
         response = SesionController.finishRepetion(self.sensorial_session)
         if isinstance(response, dict):
             return controller_error(response["error"])
-        self.updataSession()
+        self.sensorial_session.refresh_from_db()
         return self.sensorial_session

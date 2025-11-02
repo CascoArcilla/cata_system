@@ -54,7 +54,7 @@ class InitSessionTesterController():
             if is_end:
                 context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
                 return render(request, self.current_direction, context)
-            
+
             update_participation = ParticipacionController.enterSession(
                 tester=request.user.user_catador, session=self.session)
             if isinstance(update_participation, dict):
@@ -137,10 +137,10 @@ class InitSessionTesterController():
 
                 num_words: int
 
-                if style_words.nombre_estilo == "atributos":
+                if style_words == "atributos":
                     num_words = EsAtributo.objects.get(
                         id_tecnica=self.session.tecnica).palabras.count()
-                elif style_words.nombre_estilo == "vocabulario":
+                elif style_words == "vocabulario":
                     num_words = EsVocabulario.objects.get(
                         id_tecnica=self.session.tecnica).id_vocabulario.palabras.count()
 

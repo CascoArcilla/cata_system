@@ -131,14 +131,6 @@ class SesionController():
         else:
             use_session = session
 
-        (is_update_participations,
-         message) = ParticipacionController.outAllInSession(use_session)
-
-        if not is_update_participations:
-            return controller_error(message)
-
         use_session.activo = False
-
         use_session.save()
-
         return session

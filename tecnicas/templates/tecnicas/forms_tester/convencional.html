@@ -37,7 +37,8 @@
     <article class="cts-wrap-content text-black">
         <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
             <h1 class="rounded font-bold text-2xl bg-surface-ligt p-4 flex-1">
-                Sesión usando <br>técnica Convencional
+                Sesión usando <br>técnica
+                <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
             </h1>
             <button class="cts-btn-general cts-btn-error btn-push" onclick="exit_sesion('form-actions')">
                 Salir de la sesión
@@ -45,7 +46,8 @@
         </header>
 
         <article class="hidden">
-            <form action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post" class="form-actions">
+            <form action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post"
+                class="form-actions">
                 {% csrf_token %}
                 <input type="hidden" name="action" class="action-input">
             </form>
@@ -96,130 +98,13 @@
         <article
             class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3 justify-center items-center">
             {% if type_scale == "continua" %}
-            {% for word in words %}
-            <form action="" method="post" class="form-rating-{{word}} w-full">
-                {% csrf_token %}
-                <article class="overflow-x-scroll w-full">
-                    <article class="bg-surface-card p-6 rounded-lg mb-3 w-fit">
-                        <label for="id-range-word-{{word}}"
-                            class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
-
-                        <span class="hidden id-word">{{ word.id }}</span>
-
-                        <section class="block">
-                            <div class="relative mx-6">
-                                <input type="range" type="range" min="0" max="1000" value="500" name="rating-word"
-                                    class="range range-md text-blue-400 [--range-bg:orange] [--range-thumb:blue] [--range-fill:0]"
-                                    style="width: {{scale.longitud}}cm;">
-
-                                <div
-                                    class="absolute top-0 left-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
-                                </div>
-
-                                <div
-                                    class="absolute top-1/5 left-1/2 w-0.5 transform -translate-x-1/2 h-4/5 bg-red-500 z-10">
-                                </div>
-
-                                <div
-                                    class="absolute top-0 right-0 w-0.5 transform -translate-x-1/2 h-full bg-red-500 z-10">
-                                </div>
-                            </div>
-
-                            <div class="flex justify-between mt-4">
-                                <div class="flex flex-col items-start text-left w-[100px]">
-                                    <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
-                                        {{ tags.0.id_etiqueta }}
-                                    </span>
-                                </div>
-                                <div class="flex flex-col items-start text-center w-[100px]">
-                                    <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
-                                        {{ tags.1.id_etiqueta }}
-                                    </span>
-                                </div>
-                                <div class="flex flex-col items-start text-right w-[100px]">
-                                    <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
-                                        {{ tags.2.id_etiqueta }}
-                                    </span>
-                                </div>
-                            </div>
-                        </section>
-                    </article>
-                </article>
-                <article class="flex flex-col justify-center gap-2 items-end actions-{{word}}">
-                    <section class="flex justify-end items-center gap-2 btns-container">
-                        <button type="button" onclick="checkSendRating('{{word}}')"
-                            class="ct-btn-check-{{word}} cts-btn-general-compress py-2 px-4 cts-btn-secondary btn-push">
-                            ¿Guardar calificación?
-                        </button>
-                        <button type="button" onclick="sendRating('{{word}}')"
-                            class="ct-btn-submit-{{word}} cts-btn-general-compress py-2 px-4 cts-btn-primary btn-push hidden">
-                            Estoy seguro
-                        </button>
-                        <button type="button" onclick="cancelSendRating('{{word}}')"
-                            class="ct-btn-cancel-{{word}} cts-btn-general-compress py-2 px-4 cts-btn-error btn-push hidden">
-                            Cancelar
-                        </button>
-                    </section>
-                </article>
-            </form>
-            {% endfor %}
+                {% for word in words %}
+                    {% include "../components/form-scale-continue.html" with word=word tags=tags scale=scale %}
+                {% endfor %}
             {% elif type_scale == "estructurada" %}
-            {% for word in words %}
-            <form action="" method="post" class="form-rating-{{ word }} w-full">
-                {% csrf_token %}
-                <article class="overflow-x-scroll w-full">
-                    <article class="bg-surface-card p-6 rounded-lg mb-3 w-fit">
-                        <label for="id-scale-word-{{ word }}"
-                            class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
-                        <span class="hidden id-word">{{ word.id }}</span>
-
-                        <section>
-                            <div class="w-full min-w-xs">
-                                <div class="relative mx-6">
-                                    <input type="range" min="1" max="{{scale.longitud}}" step="1" name="rating-word"
-                                        class="w-full range range-md text-blue-400 [--range-bg:orange] [--range-thumb:blue] [--range-fill:0] z-5">
-                                    <div
-                                        class="absolute top-0 left-0 w-full h-full z-10 flex justify-between pointer-events-none">
-                                        {% for tag in tags %}
-                                        <div class="w-0.5 transform -translate-x-1/2 h-full bg-red-500">
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-
-                                <div class="flex justify-between mt-4 text-xs gap-1">
-                                    {% for tag in tags %}
-                                    <div class="flex items-center justify-center text-center w-[70px]">
-                                        <span
-                                            class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
-                                            {{ tag.id_etiqueta }}
-                                        </span>
-                                    </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </section>
-                    </article>
-                </article>
-
-                <article class="flex flex-col justify-center gap-2 items-end actions-{{ word }}">
-                    <section class="flex justify-end items-center gap-2 btns-container">
-                        <button type="button" onclick="checkSendRating('{{ word }}')"
-                            class="ct-btn-check-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-secondary btn-push">
-                            ¿Guardar calificación?
-                        </button>
-                        <button type="button" onclick="sendRating('{{ word }}')"
-                            class="ct-btn-submit-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-primary btn-push hidden">
-                            Estoy seguro
-                        </button>
-                        <button type="button" onclick="cancelSendRating('{{ word }}')"
-                            class="ct-btn-cancel-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-error btn-push hidden">
-                            Cancelar
-                        </button>
-                    </section>
-                </article>
-            </form>
-            {% endfor %}
+                {% for word in words %}
+                    {% include "../components/form-scale-structure.html" with word=word tags=tags scale=scale %}
+                {% endfor %}
             {% endif %}
         </article>
     </article>

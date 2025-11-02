@@ -181,6 +181,14 @@
         </p>
         <article class="flex flex-wrap gap-10 max-sm:gap-2">
             {% if not sesion.activo %}
+            {% if fin_repeticiones %}
+            <div
+                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none text-center">
+                <p class=" text-black">
+                    Máximo número de repeticiones alcanzado
+                </p>
+            </div>
+            {% else %}
             <button
                 class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
                 onclick="startRepetition()">
@@ -189,6 +197,7 @@
                     <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
                 </figure>
             </button>
+            {% endif %}
             {% else %}
             <a href="{% url 'cata_system:monitor_sesion' session_code=sesion.codigo_sesion %}" class="flex-1 w-fit">
                 <button
@@ -243,9 +252,11 @@
 
         {% if existen_calificaciones %}
         <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
+            {% with url_component="../components/table-convencional.html" %}
             {% for repeticion, catadores in calificaciones.items %}
-            {% include "../components/table-convencional.html" with repeticion=repeticion catadores=catadores palabras=palabras %}
+            {% include url_component with repeticion=repeticion catadores=catadores palabras=palabras %}
             {% endfor %}
+            {% endwith %}
         </article>
         {% else %}
         {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}
