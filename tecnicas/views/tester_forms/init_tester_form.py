@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.controllers import MainTesterFormController, ParticipacionController
+from tecnicas.controllers import InitSessionTesterController, ParticipacionController
 from tecnicas.models import SesionSensorial
 
 
@@ -12,50 +12,35 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
         "session": session
     }
 
-    view_controller = MainTesterFormController(
-        code_sesion, req.user.username)
-
+    type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
     template_url = "tecnicas/forms_tester/init_session.html"
 
+    view_controller = InitSessionTesterController(
+        sensorial_session=session, user_tester=req.user.user_catador)
+
     if req.method == "GET":
-        order = view_controller.checkAndAssignOrder()
-
-        if isinstance(order, dict):
-            context["error"] = order["error"]
-            return render(req, template_url, context)
-
-        is_end = view_controller.isEndedSession(
-            repetition=session.tecnica.repeticion)
-
-        req.session["id_order"] = order.id
-        context["has_ended"] = is_end
-
-        if is_end:
-            context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
-
-        return render(req, template_url, context)
-    elif req.method == "POST":
-        if req.POST["action"] == "start_posting":
-            parameters = {
-                "code_sesion": code_sesion
-            }
-
-            update_participation = ParticipacionController.enterSession(
-                tester=req.user.user_catador, session=session)
-            if isinstance(update_participation, dict):
-                context["error"] = update_participation["error"]
-                return render(req, template_url, context)
-
-            req.session["id_participation"] = update_participation.id
-            return redirect(reverse("cata_system:session_convencional", kwargs=parameters))
-        elif req.POST["action"] == "exit_session":
-            response = ParticipacionController.outSession(
-                tester=req.user.user_catador, session=session)
-            if isinstance(response, dict):
-                context["error"] = response["error"]
-            return render(req, template_url, context)
+        if type_technique == "escalas":
+            response = view_controller.controllGetEscalas(request=req)
+        elif type_technique == "rata":
+            response = view_controller.controllGetRATA(request=req)
         else:
-            context["error"] = "Acción sin especificar"
-            return render(req, template_url, context)
+            context = {
+                "error": "La técnica usada en esta sesión o ha sido implementada para ingresar a ella"
+            }
+            response = render(
+                req, template_url, context)
+
+        return response
+    elif req.method == "POST":
+        if type_technique == "escalas" or type_technique == "rata":
+            response = view_controller.controllPostEscalas(request=req)
+        else:
+            context = {
+                "error": "Esta opción aun no esta disponible para la técnica usada por la sesión"
+            }
+            response = render(
+                req, template_url, context)
+
+        return response
     else:
         return JsonResponse({"error": "metodo no permitido"})
