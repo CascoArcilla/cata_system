@@ -40,7 +40,7 @@ class ApiRatingController():
         if isinstance(value, dict):
             return controller_error(value["error"])
 
-    def logicView(self) -> dict:
+    def controllPostScales(self) -> dict:
         validate = self.rating_controller.validateRating()
         if isinstance(validate, dict):
             return controller_error(validate["error"])

@@ -37,6 +37,9 @@ class InitSessionTesterController():
         if is_end:
             context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
 
+        if "error" in request.GET:
+            context["error"] = request.GET["error"]
+
         return render(request, self.current_direction, context)
 
     def controllPostEscalas(self, request: HttpRequest):

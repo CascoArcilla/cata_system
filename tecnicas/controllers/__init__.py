@@ -26,6 +26,7 @@ from .views_controller.session_management.monitor_escalas_controller import Moni
 
 from .views_controller.sessions_tester.login_session_tester_controller import LoginSessionTesterController
 from .views_controller.sessions_tester.init_session_tester_controller import InitSessionTesterController
+from .views_controller.sessions_tester.convencional_scales_controller import ConvencionalScalesController
 
 from .views_controller.api_rating_controller import ApiRatingController
 from .views_controller.tester_list_controller import TesterListController

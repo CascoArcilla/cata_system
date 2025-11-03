@@ -17,7 +17,7 @@ def getId(value: object | int) -> int | None:
 def noValidTechnique(params: dict, query_params: dict, name_view: str):
     if query_params:
         query_string = urlencode(query_params)
-        url_redireccion = f"{reverse({name_view}, kwargs=params)}?{query_string}"
+        url_redireccion = f"{reverse(name_view, kwargs=params)}?{query_string}"
     else:
-        url_redireccion = f"{reverse({name_view}, kwargs=params)}"
+        url_redireccion = f"{reverse(name_view, kwargs=params)}"
     return redirect(url_redireccion)
