@@ -14,8 +14,8 @@ Encabezados de como deben de aparecer los datos juntos
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.models import SesionSensorial, Presentador, Participacion
-from tecnicas.controllers import DatoController, CalificacionController, PalabrasController, ParticipacionController
+from tecnicas.models import SesionSensorial, Presentador, Participacion, Calificacion
+from tecnicas.controllers import DatoController, PalabrasController, ParticipacionController
 from .details_controller import DetallesController
 from tecnicas.utils import defaultdict_to_dict, controller_error
 from collections import defaultdict
@@ -52,10 +52,10 @@ class DetallesEscalasController(DetallesController):
         # Se recuperan las calificaciones
         ratings_for_repetition = []
 
-        ratings = CalificacionController.getRatingsByTechnique(
-            technique=self.session.tecnica)
+        ratings = list(Calificacion.objects.filter(
+            id_tecnica=self.session.tecnica))
 
-        if isinstance(ratings, dict) or not ratings:
+        if not ratings:
             self.context["calificaciones"] = ratings_for_repetition
             self.context["existen_calificaciones"] = False
             return self.context
@@ -67,7 +67,7 @@ class DetallesEscalasController(DetallesController):
             lambda: defaultdict(lambda: defaultdict(list)))
 
         for item in data:
-            user = item["usuarioCatador"]
+            user = item["usuario_catador"]
             rep = item["repeticion"]
             prod = item["producto_code"]
 
@@ -95,12 +95,13 @@ class DetallesEscalasController(DetallesController):
             return self.getResponse(error="La sesión ya está activada", request=request)
         elif technique.repeticion >= technique.repeticiones_max:
             return self.getResponse(error="Se ha alcanzado el número de repeticiones máxima", request=request)
-        
-        there_participacions = Participacion.objects.filter(tecnica=technique).exists()
+
+        there_participacions = Participacion.objects.filter(
+            tecnica=technique).exists()
 
         if there_participacions:
             (is_update_participations,
-            message) = ParticipacionController.outAllInSession(self.session)
+             message) = ParticipacionController.outAllInSession(self.session)
             if not is_update_participations:
                 return self.getResponse(error=message, request=request)
 

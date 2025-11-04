@@ -6,49 +6,22 @@ from tecnicas.utils import controller_error, getId
 
 class CalificacionController():
     def __init__(self, product: Producto | int, technique: Tecnica | int, tester: Catador | int):
+        technique = Tecnica.objects.only(
+            "repeticion").get(id=getId(technique))
+
         atributes = {
-            "num_repeticion": 0,
-            "id_tecnica_id": getId(technique),
+            "num_repeticion": technique.repeticion,
+            "id_tecnica": technique,
             "id_producto_id": getId(product),
             "id_catador_id": getId(tester),
         }
 
-        self.rating = Calificacion(**atributes)
-
-    def validateRating(self):
-        try:
-            self.rating.clean()
-            return self.rating
-        except ValidationError as e:
-            return controller_error("No es posible validar la calificación")
-
-    def setRepetition(self, repetition: int = None) -> int | dict:
-        try:
-            if repetition is not None:
-                self.rating.num_repeticion = repetition
-            else:
-                self.rating.num_repeticion = self.rating.id_tecnica.repeticion
-
-            return self.rating.num_repeticion
-        except ValidationError as e:
-            return controller_error(e)
-
-    def saveRating(self):
-        try:
-            self.rating.save()
-            return self.rating
-        except ValidationError as e:
-            return controller_error(e)
+        (self.rating, created) = Calificacion.objects.get_or_create(**atributes)
 
     @staticmethod
     def getRatingsByTechnique(technique: Tecnica):
         repetition = technique.repeticion
-
-        if not repetition:
-            return controller_error("Sin datos calificados aún")
-
         ratings = list(Calificacion.objects.filter(id_tecnica=technique))
-
         return ratings
 
     @staticmethod
@@ -94,39 +67,53 @@ class CalificacionController():
         return ratings
 
     @staticmethod
-    def checkProducsWithoutRating(
+    def checkPositionWithoutRating(
             positions: list[Posicion] = None,
-            user_cata: str = None,
+            user_cata: Catador | str = None,
             repetition: int = None,
-            technique: Tecnica = None,
-            id_technique: int = None,
+            technique: Tecnica | int = None,
             num_words: int = None):
-        check_products = [position.id_producto for position in positions]
+        end_rating = False
+
+        # Obtener lista con codigos de productos
+        check_products = [
+            position.id_producto.codigoProducto for position in positions]
 
         filters = {
-            "user_tester": user_cata,
-            "repetition": repetition
+            "num_repeticion": repetition,
+            "id_tecnica": getId(technique)
         }
 
-        if technique is not None:
-            filters["technique"] = technique
-        elif id_technique is not None:
-            filters["id_technique"] = id_technique
+        if isinstance(user_cata, Catador):
+            filters["id_catador"] = user_cata
+        else:
+            filters["id_catador"] = Catador.objects.get(
+                user__username=user_cata)
 
-        ratings = CalificacionController.getRatings(**filters)
+        ratings = list(Calificacion.objects.filter(**filters).select_related(
+            "id_producto",
+            "id_tecnica",
+            "id_catador",
+        ))
 
+        # Si no hay calificaciones regresar las posiciones
         if len(ratings) == 0:
-            return positions
+            return (positions, end_rating)
 
-        ratings_dict = defaultdict(list)
+        rating_products = [
+            rating.id_producto.codigoProducto for rating in ratings]
 
-        for rat in ratings:
-            ratings_dict[rat.id_producto.id].append(rat)
+        for index, rating in enumerate(ratings):
+            data_rating = rating.dato_calificacion.all()
 
-        for index, product in enumerate(check_products):
-            ratings_of_product = ratings_dict.get(product.id, [])
+            if len(data_rating) < num_words or len(data_rating) == 0:
+                return (positions[index], end_rating)
 
-            if len(ratings_of_product) < num_words or len(ratings_of_product) == 0:
-                return positions[index]
-
-        return controller_error("Sin productos por calificar")
+        next_product = list(set(check_products) - set(rating_products))
+        if len(next_product) != 0:
+            next_position = [
+                position for position in positions if position.id_producto.codigoProducto == next_product[0]][0]
+            return (next_position, end_rating)
+        else:
+            end_rating = True
+            return (positions[-1], end_rating)
