@@ -12,7 +12,11 @@ class DatoController():
         }
 
         self.data = Dato(**atributes)
-        self.value_data = ValorDecimal(valor=value_rating)
+
+        if isinstance(value_rating, bool):
+            self.value_data = ValorBooleano(valor=value_rating)
+        else:
+            self.value_data = ValorDecimal(valor=value_rating)
 
     def setRating(self, new_rating: Calificacion):
         try:
@@ -35,19 +39,14 @@ class DatoController():
         except ValidationError as e:
             return controller_error(e.message)
 
-    def setInstanceValue(self):
-        technique = self.data.id_calificacion.id_tecnica
-
-        if technique.tipo_tecnica == "cata":
-            self.value_data = ValorBooleano(
-                id_dato=self.data,
-                valor=self.value_data.valor
-            )
+    def setValue(self, new_value=None):
+        if new_value:
+            if isinstance(new_value, bool):
+                self.value_data = ValorBooleano(valor=new_value)
+            else:
+                self.value_data = ValorDecimal(valor=new_value)
         else:
-            self.value_data = ValorDecimal(
-                id_dato=self.data,
-                valor=self.value_data.valor
-            )
+            self.value_data.id_dato = self.data
 
         return self.value_data
 
@@ -88,7 +87,7 @@ class DatoController():
                 repeticion=F("id_dato__id_calificacion__num_repeticion"),
                 producto_code=F(
                     "id_dato__id_calificacion__id_producto__codigoProducto"),
-                usuarioCatador=F(
+                usuario_catador=F(
                     "id_dato__id_calificacion__id_catador__user__username"),
                 dato_valor=F("valor")
             )

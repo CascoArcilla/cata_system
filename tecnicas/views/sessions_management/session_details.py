@@ -42,7 +42,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
 
             if req.POST["action"] == "start_session":
                 response = controller_view.startRepetition(
-                    presenter=req.user.user_presentador)
+                    presenter=req.user.user_presentador, request=req)
             elif req.POST.get("action") == "delete_session":
                 controller_view.deleteSesorialSession()
                 response = redirect(

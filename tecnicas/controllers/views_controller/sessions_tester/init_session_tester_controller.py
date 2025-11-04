@@ -2,7 +2,7 @@ from django.db import transaction
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, Calificacion, EsVocabulario
+from tecnicas.models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, Calificacion, EsVocabulario, Dato
 from tecnicas.controllers import ParticipacionController
 from tecnicas.utils import controller_error, shuffleArray
 
@@ -37,6 +37,9 @@ class InitSessionTesterController():
         if is_end:
             context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
 
+        if "error" in request.GET:
+            context["error"] = request.GET["error"]
+
         return render(request, self.current_direction, context)
 
     def controllPostEscalas(self, request: HttpRequest):
@@ -54,7 +57,7 @@ class InitSessionTesterController():
             if is_end:
                 context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
                 return render(request, self.current_direction, context)
-            
+
             update_participation = ParticipacionController.enterSession(
                 tester=request.user.user_catador, session=self.session)
             if isinstance(update_participation, dict):
@@ -122,8 +125,8 @@ class InitSessionTesterController():
 
             # ////////////////////////////////////////////////////////////// #
             #
-            # numero_calificaciones_esperadas = num_productos * num_palabras
-            # Si numero_calificaciones_esperadas ss igual a numero_calificaciones_actuales en la repetcion R
+            # numero_datos_esperadas = num_productos * num_palabras
+            # Si numero_datos_esperadas es igual a numero_datos_actuales en la repetcion R
             # Ha terminado la repeticion
             #
             # ////////////////////////////////////////////////////////////// #
@@ -137,17 +140,20 @@ class InitSessionTesterController():
 
                 num_words: int
 
-                if style_words.nombre_estilo == "atributos":
+                if style_words == "atributos":
                     num_words = EsAtributo.objects.get(
                         id_tecnica=self.session.tecnica).palabras.count()
-                elif style_words.nombre_estilo == "vocabulario":
+                elif style_words == "vocabulario":
                     num_words = EsVocabulario.objects.get(
                         id_tecnica=self.session.tecnica).id_vocabulario.palabras.count()
 
                 expected_ratings_repetition = num_products * num_words
 
-                num_ratings_now = Calificacion.objects.filter(
-                    id_tecnica=technique, id_catador=self.tester, num_repeticion=technique.repeticion).count()
+                num_ratings_now = Dato.objects.filter(
+                    id_calificacion__id_catador=self.tester,
+                    id_calificacion__id_tecnica=technique,
+                    id_calificacion__num_repeticion=technique.repeticion
+                ).count()
 
                 is_end = num_ratings_now >= expected_ratings_repetition
 

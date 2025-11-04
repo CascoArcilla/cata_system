@@ -16,15 +16,12 @@ class ParticipacionController():
             return controller_error("No se ha encontrado la participación")
 
     @staticmethod
-    def finishSession(id_participation: int):
-        try:
-            participation = Participacion.objects.get(id=id_participation)
-            participation.finalizado = True
-            participation.activo = False
-            participation.save()
-            return participation
-        except Participacion.DoesNotExist:
-            return controller_error("No se ha encontrado la participación")
+    def finishSession(participation: Participacion):
+        participation.refresh_from_db()
+        participation.finalizado = True
+        participation.activo = False
+        participation.save()
+        return participation
 
     @staticmethod
     def outSession(tester: Catador, session: SesionSensorial):

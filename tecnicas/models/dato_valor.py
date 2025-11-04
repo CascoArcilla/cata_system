@@ -9,7 +9,7 @@ class ValorDecimal(models.Model):
     valor = models.FloatField()
 
     def __str__(self):
-        return f"{self.id} - {self.id_dato.id_palabra}: {self.valor} - {self.id_dato.id_calificacion.id_catador.usuarioCatador}"
+        return f"{self.id} - {self.id_dato.id_palabra}: {self.valor} - {self.id_dato.id_calificacion.id_catador.user.username}"
 
 
 class ValorBooleano(models.Model):
@@ -18,4 +18,4 @@ class ValorBooleano(models.Model):
     valor = models.BooleanField()
 
     def __str__(self):
-        return f"{self.id} - {self.id_dato.id_palabra}: {self.valor} - {self.id_dato.id_calificacion.id_catador.usuarioCatador}"
+        return f"{self.id} - {self.id_dato.id_palabra}: {self.valor} - {self.id_dato.id_calificacion.id_catador.user.username}"

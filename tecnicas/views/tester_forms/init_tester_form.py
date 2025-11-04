@@ -7,11 +7,6 @@ from tecnicas.models import SesionSensorial
 
 def initTesterForm(req: HttpRequest, code_sesion: str):
     session = SesionSensorial.objects.get(codigo_sesion=code_sesion)
-
-    context = {
-        "session": session
-    }
-
     type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
     template_url = "tecnicas/forms_tester/init_session.html"
 
@@ -25,6 +20,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
             response = view_controller.controllGetRATA(request=req)
         else:
             context = {
+                "session": session,
                 "error": "La técnica usada en esta sesión o ha sido implementada para ingresar a ella"
             }
             response = render(
@@ -36,6 +32,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
             response = view_controller.controllPostEscalas(request=req)
         else:
             context = {
+                "session": session,
                 "error": "Esta opción aun no esta disponible para la técnica usada por la sesión"
             }
             response = render(
