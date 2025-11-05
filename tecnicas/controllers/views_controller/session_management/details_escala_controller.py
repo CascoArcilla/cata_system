@@ -14,7 +14,7 @@ Encabezados de como deben de aparecer los datos juntos
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.models import SesionSensorial, Presentador, Participacion, Calificacion
+from tecnicas.models import SesionSensorial, Presentador, Participacion, Calificacion, Escala
 from tecnicas.controllers import DatoController, PalabrasController, ParticipacionController
 from .details_controller import DetallesController
 from tecnicas.utils import defaultdict_to_dict, controller_error
@@ -44,16 +44,26 @@ class DetallesEscalasController(DetallesController):
         }
         self.context["sesion"] = self.session
 
+        technique = self.session.tecnica
+
+        # Datos de la escala usada
+        scale: Escala = technique.escala_tecnica
+
+        self.context["scale"] = {
+            "type": scale.id_tipo_escala.nombre_escala,
+            "size": scale.longitud
+        }
+
         # Recuperar la palabras de la tecnica
         self.words = PalabrasController.getWordsInTechnique(
-            self.session.tecnica)
+            technique)
         self.context["palabras"] = [word.nombre_palabra for word in self.words]
 
         # Se recuperan las calificaciones
         ratings_for_repetition = []
 
         ratings = list(Calificacion.objects.filter(
-            id_tecnica=self.session.tecnica))
+            id_tecnica=technique))
 
         if not ratings:
             self.context["calificaciones"] = ratings_for_repetition
@@ -61,7 +71,7 @@ class DetallesEscalasController(DetallesController):
             return self.context
 
         data = DatoController.getWordValuesForConvecional(
-            ratings=ratings, technique=self.session.tecnica)
+            ratings=ratings, technique=technique)
 
         ratings_for_repetition = defaultdict(
             lambda: defaultdict(lambda: defaultdict(list)))
@@ -81,7 +91,7 @@ class DetallesEscalasController(DetallesController):
         self.context["existen_calificaciones"] = True
 
         # Se comprueba que ya no se pueda iniciar la repeticion
-        self.context["fin_repeticiones"] = self.session.tecnica.repeticion >= self.session.tecnica.repeticiones_max
+        self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max
 
         return self.context
 
