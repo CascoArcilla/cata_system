@@ -252,11 +252,15 @@
 
         {% if existen_calificaciones %}
         <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
-            {% with url_component="../components/table-convencional.html" %}
-            {% for repeticion, catadores in calificaciones.items %}
-            {% include url_component with repeticion=repeticion catadores=catadores palabras=palabras %}
-            {% endfor %}
-            {% endwith %}
+            <section class="text-xl space-y-4 space-x-4 mb-4">
+                <p class="inline italic underline font-semibold">
+                    Tipo de escala: <span class="font-bold uppercase">{{ scale.type }}</span>
+                </p>
+                <p class="inline italic underline font-semibold">
+                    Máximo valor por dato: <span class="font-bold">{{ scale.size }}</span>
+                </p>
+            </section>
+            {% include "../components/table-convencional.html" with calificaciones=calificaciones palabras=palabras %}
         </article>
         {% else %}
         {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}

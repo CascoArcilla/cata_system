@@ -1,10 +1,9 @@
 <section>
-    <h2 class="text-lg font-bold mb-3">Repetición {{ repeticion }}</h2>
-
     <div class="overflow-x-auto rounded-lg border border-surface-general">
         <table class="min-w-max w-full text-sm text-center border-collapse">
             <thead class="bg-surface-sweet text-black font-semibold">
                 <tr>
+                    <th class="py-2 px-3 border border-surface-general">Repetición</th>
                     <th class="py-2 px-3 border border-surface-general">Usuario</th>
                     <th class="py-2 px-3 border border-surface-general">Producto</th>
                     {% for palabra in palabras %}
@@ -13,26 +12,29 @@
                 </tr>
             </thead>
             <tbody class="bg-surface-ligt divide-y divide-gray-200">
-                {% for usuario, productos in catadores.items %}
-                {% for codigo, valores in productos.items %}
-                <tr>
-                    <td class="py-2 px-3 border border-surface-general">{{ usuario }}</td>
-                    <td class="py-2 px-3 border border-surface-general">{{ codigo }}</td>
-                    {% for palabra in palabras %}
-                    <td class="py-2 px-3 border border-surface-general">
-                        {% with match=None %}
-                        {% for valor in valores %}
-                        {% if valor.nombre_palabra == palabra %}
-                        {{ valor.dato_valor }}
-                        {% with match=True %}{% endwith %}
-                        {% endif %}
+                {% for repeticion, catadores in calificaciones.items %}
+                    {% for usuario, productos in catadores.items %}
+                        {% for codigo, valores in productos.items %}
+                        <tr>
+                            <td class="py-2 px-3 border border-surface-general">{{ repeticion }}</td>
+                            <td class="py-2 px-3 border border-surface-general">{{ usuario }}</td>
+                            <td class="py-2 px-3 border border-surface-general">{{ codigo }}</td>
+                            {% for palabra in palabras %}
+                            <td class="py-2 px-3 border border-surface-general">
+                                {% with match=False %}
+                                {% for valor in valores %}
+                                    {% if valor.nombre_palabra == palabra %}
+                                        {{ valor.dato_valor }}
+                                        {% with match=True %}{% endwith %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if match %}0{% endif %}
+                                {% endwith %}
+                            </td>
+                            {% endfor %}
+                        </tr>
                         {% endfor %}
-                        {% if not match %}0{% endif %}
-                        {% endwith %}
-                    </td>
                     {% endfor %}
-                </tr>
-                {% endfor %}
                 {% endfor %}
             </tbody>
         </table>
