@@ -260,7 +260,7 @@
                     Máximo valor por dato: <span class="font-bold">{{ scale.size }}</span>
                 </p>
             </section>
-            {% include "../components/table-convencional.html" with calificaciones=calificaciones palabras=palabras %}
+            {% include "../components/table-convencional.html" with calificaciones=calificaciones palabras=palabras sesion=sesion %}
         </article>
         {% else %}
         {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}
