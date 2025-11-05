@@ -8,7 +8,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import MonitorEscalasController
+from tecnicas.controllers import MonitorEscalasController, MonitorRATAController
 from tecnicas.utils import noValidTechnique
 
 
@@ -41,8 +41,19 @@ def sessionMonitor(req: HttpRequest, session_code: str):
         if use_techinique == "escalas":
             controll_view = MonitorEscalasController(sensorial_session)
             action = req.POST["action"]
+
             if action == "finish_session":
-                response = controll_view.controlPostResponseFinishSession(
+                response = controll_view.controllPostFinishSession(
+                    request=req)
+            else:
+                response = controll_view.controlGetResponse(
+                    request=req, error="No se ha definido la acción a realizar")
+        elif use_techinique == "rata":
+            controll_view = MonitorRATAController(sensorial_session)
+            action = req.POST["action"]
+
+            if action == "finish_session":
+                response = controll_view.controllPostFinishSession(
                     request=req)
             else:
                 response = controll_view.controlGetResponse(

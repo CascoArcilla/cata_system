@@ -6,7 +6,7 @@ from tecnicas.controllers import SesionController
 from .monitor_controller import MonitorController
 
 
-class MonitorEscalasController(MonitorController):
+class MonitorRATAController(MonitorController):
     def __init__(self, session: SesionController):
         super().__init__(session)
         self.url_view = "tecnicas/manage_sesions/monitor-sesion.html"
@@ -32,9 +32,6 @@ class MonitorEscalasController(MonitorController):
 
         all_participations = list(
             Participacion.objects.filter(tecnica=technique))
-
-        if len(all_participations) < technique.limite_catadores:
-            return (False, "No se ha alcanzado el número máximo de Catadores")
 
         for particiapation in all_participations:
             num_ratings_now = Dato.objects.filter(
