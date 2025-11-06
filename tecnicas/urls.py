@@ -44,6 +44,10 @@ urlpatterns = [
          views.createSession,
          name="creando_sesion"),
 
+     # Gestion de Vocabularios
+    path("presenter/panel-vocabulario",
+         views.vocabularyMenu,
+         name="panel_vocabulario"), 
 
     # Gestion de catadores
     path("presenter/panel-catadores",
