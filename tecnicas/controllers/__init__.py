@@ -29,6 +29,8 @@ from .views_controller.sessions_tester.login_session_tester_controller import Lo
 from .views_controller.sessions_tester.init_session_tester_controller import InitSessionTesterController
 from .views_controller.sessions_tester.convencional_scales_controller import ConvencionalScalesController
 
+from .views_controller.vocabulary_manage.create_vocabulary_controller import CreateVocabularyController
+
 from .views_controller.api_rating_controller import ApiRatingController
 from .views_controller.tester_list_controller import TesterListController
 from .views_controller.list_sessions_tester_controller import ListSessionsTesterController

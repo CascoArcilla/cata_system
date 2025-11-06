@@ -44,10 +44,14 @@ urlpatterns = [
          views.createSession,
          name="creando_sesion"),
 
-     # Gestion de Vocabularios
+    # Gestion de Vocabularios
     path("presenter/panel-vocabulario",
          views.vocabularyMenu,
-         name="panel_vocabulario"), 
+         name="panel_vocabulario"),
+
+    path("presenter/crear-vocabulario",
+         views.createVocabulary,
+         name="crear_vocabulario"),
 
     # Gestion de catadores
     path("presenter/panel-catadores",
@@ -104,11 +108,11 @@ urlpatterns = [
 
 
     # APIs
-    path("api/nueva-etiqueta",
+    path("presenter/api/nueva-etiqueta",
          views.newTag,
          name="nueva_etiqueta"),
 
-    path("api/palabras",
+    path("presenter/api/palabras",
          views.words,
          name="api_palabras"),
 

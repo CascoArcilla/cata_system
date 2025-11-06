@@ -18,7 +18,8 @@ from .tester_management.tester_create import testerCreate
 from .tester_management.tester_search import testerSearch
 from .tester_management.tester_list import testerList
 
-from .vocabulry_management.vocabulry_menu import vocabularyMenu
+from .vocabulary_management.vocabulry_menu import vocabularyMenu
+from .vocabulary_management.create_vocabulary import createVocabulary
 
 from .apis.api_tag import newTag
 from .apis.api_words import words

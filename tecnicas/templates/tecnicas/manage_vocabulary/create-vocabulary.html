@@ -1,0 +1,132 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Crear vocabulario{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article
+        class="ct-notification-red absolute max-md:fixed bottom-0 mb-4 left-1/2 -translate-x-1/2 bg-red-400 text-white p-2 px-4 rounded-lg text-center font-bold hidden uppercase traking-wide">
+    </article>
+    <article
+        class="ct-notification-green absolute max-md:fixed bottom-0 mb-4 left-1/2 -translate-x-1/2 bg-green-600 text-white p-2 px-4 rounded-lg text-center font-medium hidden uppercase">
+    </article>
+
+    <article class="cts-wrap-content text-black lg:w-4xl space-y-4">
+        <h1 class="w-full text-center font-bold text-4xl bg-surface-card py-8 rounded-lg">Crear vocabulario</h1>
+
+        {% if error %}
+        {% include "../components/error-message.html" with message=error %}
+        {% endif %}
+        {% if message %}
+        {% include "../components/error-message.html" with message=message %}
+        {% endif %}
+
+        <article class="rounded-lg space-y-4 w-full">
+            <form action="" method="post" class="cts-craed-vocabulary bg-surface-card p-4 rounded-lg">
+                {% csrf_token %}
+                <label for="nombre_vocabulario" class="font-bold text-2xl mb-2 block">Nombre del vocabulario</label>
+                {% if name_vacabulary %}
+                <input id="nombre_vocabulario" name="nombre_vocabulario" type="text" required
+                    class="cts-name-voca p-2 px-4 bg-surface-ligt rounded-lg w-full text-lg font-medium"
+                    placeholder="Ingrese un nombre" value="{{ name_vacabulary }}">
+                {% else %}
+                <input id="nombre_vocabulario" name="nombre_vocabulario" type="text" required
+                    class="cts-name-voca p-2 px-4 bg-surface-ligt rounded-lg w-full text-lg font-medium"
+                    placeholder="Ingrese un nombre">
+                {% endif %}
+                <p class="text-lg mt-2 font-semibold">Debajo puede buscar y seleccionar palabras para asignarlas a
+                    este vocabulario.</p>
+            </form>
+
+            <article class="flex flex-col md:flex-row gap-5 justify-between">
+                <section class="flex-3/5 flex flex-col gap-4 min-h-96 max-h-96">
+                    <form action="" method="get" class="ct-serach-words bg-surface-card p-4 rounded-lg">
+                        {% csrf_token %}
+                        <p class="text-lg font-semibold mb-2">
+                            Dejar en blaco para buscar las primeras 10 palabras
+                        </p>
+                        <section class="flex flex-row gap-2">
+                            <label for="search" class="w-full">
+                                <input type="text" name="search" id="search" placeholder="Buscar palabra"
+                                    class="p-2 px-4 bg-surface-ligt rounded-lg w-full text-lg font-medium">
+                            </label>
+                            <button type="submit"
+                                class="font-bold rounded-lg text-xl px-3 text-center cts-btn-tertiary btn-push">
+                                Buscar
+                            </button>
+                        </section>
+                    </form>
+                    <p class="ct-error-words hidden capitalize bg-red-600 text-center text-2xl p-1.5 rounded">
+                        error</p>
+                    <ul class="ct-palabras-encontradas gap-2 grid-cols-2 overflow-y-auto">
+                        <div class="flex justify-center items-center">
+                            <img src="{% static 'img/lupa.svg' %}" alt="lupa de busqueda" style="width: 50%;">
+                        </div>
+                    </ul>
+                </section>
+
+                <section
+                    class="flex-1/3 bg-surface-card p-4 rounded-lg text-center min-h-96 max-h-96 flex flex-col overflow-hidden">
+                    <div>
+                        <p class="text-xl font-bold pb-3">Lista de palabras</p>
+                        <hr class="mb-3">
+                    </div>
+                    <ul class="ct-palabras-usadas flex flex-col gap-3 overflow-y-auto max-h-full">
+                        {% if not words %}
+                        <img src="{% static 'img/list.svg' %}" alt="lista de palabras" class="ct-img-list">
+                        {% endif %}
+                        {% for word in words %}
+                        <li
+                            class="bg-gray-400 text-black rounded font-bold text-lg px-4 py-3 flex flex-wrap flex-row flex-1 min-w-fit justify-center items-center gap-3">
+                            <p class="ct-word-received" id="{{ word.id }}">{{ word.nombre_palabra }}</p>
+                            <button
+                                class="px-4 border-b-2 active:border-b-0 active:border-t-2 transition-all rounded-xl font-black w-fit capitalize active:border-red-500 border-red-800 bg-red-500">➖</button>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </article>
+
+            <form method="post" action="" class="ct-form-new-word p-4 bg-surface-card rounded-lg">
+                {% csrf_token %}
+                <p class="mb-2 font-bold text-2xl">¿No encuentras una palabra?</p>
+                <section class="flex gap-4 flex-wrap justify-center">
+                    <label for="{{ form_word.nombre_palabra.id_for_label }}"
+                        class="font-medium w-fit text-xl flex-1 *:w-full *:h-full">
+                        {{ form_word.nombre_palabra }}
+                    </label>
+                    <button class="cts-btn-general-compress cts-btn-primary btn-push p-2 flex-1" type="submit">
+                        Crear y agregar a la lista
+                    </button>
+                </section>
+                <p class="ct-error-word mb-4 font-bold bg-red-500 text-md capitalize text-center rounded hidden">
+                    error
+                </p>
+            </form>
+
+            <article class="flex justify-center gap-4 mt-4">
+                <button type="button" name="start" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full"
+                    onclick="submitSelectWords('cts-craed-vocabulary')">
+                    {% if name_vacabulary %}
+                    Actualizar vocabulario
+                    {% else %}
+                    Crear vocabulario
+                    {% endif %}
+                </button>
+                <a href="{% url 'cata_system:panel_vocabulario' %}" class="flex-1 w-full">
+                    <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
+                        Cancelar
+                    </button>
+                </a>
+            </article>
+        </article>
+
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/panel-words.js' %}"></script>
+<script src="{% static 'js/created-vocabulary.js' %}"></script>
+{% endblock %}
