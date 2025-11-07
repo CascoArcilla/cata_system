@@ -1,8 +1,9 @@
 from django.http import HttpRequest, JsonResponse
 from tecnicas.decorators import required_presenter
-from tecnicas.models import Palabra
+from tecnicas.models import Palabra, Vocabulario
 from tecnicas.utils import general_error
 from tecnicas.forms.word_form import WordForm
+
 
 @required_presenter
 def words(req: HttpRequest):
@@ -48,3 +49,21 @@ def words(req: HttpRequest):
         else:
             errors = form.errors.get("nombre_palabra")
             return general_error(errors[0])
+
+
+@required_presenter
+def wordsVocabulary(req: HttpRequest, vocab_id: int):
+    if req.method == "GET":
+        vocabulary = Vocabulario.objects.filter(id=vocab_id).first()
+        if not vocabulary:
+            return JsonResponse([])
+        palabras = vocabulary.palabras.all().values("id", "nombre_palabra")
+        response_json = {
+            "ok": True,
+            "data": {
+                "words": list(palabras)
+            }
+        }
+        return JsonResponse(response_json)
+    else:
+        return JsonResponse({"error": "Este método no es permitido"})

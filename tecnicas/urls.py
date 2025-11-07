@@ -120,6 +120,10 @@ urlpatterns = [
          views.words,
          name="api_palabras"),
 
+    path("presenter/api/vocabulario/<int:vocab_id>/palabras",
+         views.wordsVocabulary,
+         name="api_palabras_vocabulary"),
+
     path("testers/api/ratingword",
          views.reatingWord,
          name="api_rating_word"),
