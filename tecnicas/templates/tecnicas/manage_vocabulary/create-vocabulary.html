@@ -105,15 +105,22 @@
                 </p>
             </form>
 
+            {% if name_vacabulary %}
+            <p class="hidden cts-original-name">{{ name_vacabulary }}</p>
+            {% endif %}
+
             <article class="flex justify-center gap-4 mt-4">
+                {% if name_vacabulary %}
+                <button type="button" name="start" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full"
+                    onclick="submitSelectWords('cts-craed-vocabulary', true)">
+                    Actualizar vocabulario
+                </button>
+                {% else %}
                 <button type="button" name="start" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full"
                     onclick="submitSelectWords('cts-craed-vocabulary')">
-                    {% if name_vacabulary %}
-                    Actualizar vocabulario
-                    {% else %}
                     Crear vocabulario
-                    {% endif %}
                 </button>
+                {% endif %}
                 <a href="{% url 'cata_system:panel_vocabulario' %}" class="flex-1 w-full">
                     <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
                         Cancelar
