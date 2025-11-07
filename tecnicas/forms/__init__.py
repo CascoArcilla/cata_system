@@ -4,3 +4,4 @@ from .etiqueta_form import EtiquetaForm
 from .codes_form import CodesForm
 from .catador_form import CatadorForm
 from .word_form import WordForm
+from .vocabulary_select import VocabularioSelectForm

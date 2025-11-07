@@ -6,7 +6,7 @@ from .models import Catador, Presentador
 
 from .models import Tecnica, SesionSensorial
 
-from .models import EsAtributo, Palabra
+from .models import EsAtributo, Palabra, Vocabulario
 
 from .models import Etiqueta, Escala, EtiquetasEscala
 
@@ -31,6 +31,7 @@ admin.site.register(SesionSensorial)
 
 admin.site.register(EsAtributo)
 admin.site.register(Palabra)
+admin.site.register(Vocabulario)
 
 admin.site.register(Escala)
 admin.site.register(EtiquetasEscala)
