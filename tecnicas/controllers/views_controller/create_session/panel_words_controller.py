@@ -74,5 +74,5 @@ class PanelWordsController():
             context["error"] = "Erro al validar el vocabulario"
             return render(request, PanelWordsController.current_url_escalas_vocabulary, context)
 
-        request.session["vocabulary"] = vocabulary.nombre_vocabulario
+        request.session["form_words"] = vocabulary.nombre_vocabulario
         return redirect(reverse("cata_system:creando_sesion"))
