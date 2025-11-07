@@ -53,6 +53,10 @@ urlpatterns = [
          views.createVocabulary,
          name="crear_vocabulario"),
 
+    path("presenter/lista-vocabulario/<int:num_page>",
+         views.listVocabulary,
+         name="lista_vocabulario"),
+
     # Gestion de catadores
     path("presenter/panel-catadores",
          views.testerMenu,

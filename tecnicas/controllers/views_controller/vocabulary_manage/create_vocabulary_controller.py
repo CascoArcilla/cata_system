@@ -20,11 +20,11 @@ class CreateVocabularyController():
             "words": self.context["words"],
         }
 
-        if "name_vaca" in request.GET:
-            current = Vocabulario.objects.get(nomre_vocabulario=request.GET["name_vaca"])
+        if "name_voca" in request.GET:
+            current = Vocabulario.objects.get(nombre_vocabulario=request.GET["name_voca"])
 
             self.context = {
-                "name_vacabulary": current.nomre_vocabulario,
+                "name_vacabulary": current.nombre_vocabulario,
                 "words": current.palabras.all()
             }
 
