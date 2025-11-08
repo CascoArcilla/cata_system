@@ -1,7 +1,5 @@
 from django import forms
-from ..models import TipoEscala
-from ..models import TipoTecnica
-from ..models import EstiloPalabra
+from tecnicas.models import TipoEscala, EstiloPalabra
 
 
 class SesionBasicForm(forms.Form):

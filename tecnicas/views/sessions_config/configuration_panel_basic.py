@@ -15,6 +15,8 @@ def configurationPanelBasic(req: HttpRequest):
             response = PanelBasicController.controllGetEscalas(request=req)
         elif name_tecnica == "rata":
             response = PanelBasicController.controllGetRATA(request=req)
+        elif name_tecnica == "cata":
+            response = PanelBasicController.controllGetCATA(request=req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida o sin implementar")

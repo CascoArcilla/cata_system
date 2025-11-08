@@ -1,4 +1,4 @@
-from tecnicas.forms import SesionBasicForm
+from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -9,6 +9,14 @@ class PanelBasicController():
         "numero_catadores": 0,
         "numero_repeticiones": 1
     }
+
+    url_panel_basic = "tecnicas/create_sesion/configuracion-panel-basic.html"
+    url_panel_basic_cata = "tecnicas/create_sesion/panel-basic-cata.html"
+
+    url_next_panel_scales = "cata_system:panel_configuracion_tags"
+    url_next_panel_cata = "cata_system:panel_configuracion_tags"
+
+    url_select_technique = "cata_system:seleccion_tecnica"
 
     def __init__(self):
         pass
@@ -23,7 +31,7 @@ class PanelBasicController():
         }
 
         response = render(
-            request, "tecnicas/create_sesion/configuracion-panel-basic.html", view_context)
+            request, PanelBasicController.url_panel_basic, view_context)
         return response
 
     @staticmethod
@@ -44,11 +52,11 @@ class PanelBasicController():
                 response = redirect(
                     reverse("cata_system:panel_configuracion_tags"))
             else:
-                response = render(request, "tecnicas/create_sesion/configuracion-panel-basic.html", {
+                response = render(request, PanelBasicController.url_panel_basic, {
                     "form_sesion": form, "error": "Información no valida"})
         except KeyError:
             response = redirect(reverse(
-                "cata_system:seleccion_tecnica") + "?error=error en datos de configuracion")
+                PanelBasicController.url_select_technique) + "?error=error en datos de configuracion")
 
         return response
 
@@ -63,7 +71,7 @@ class PanelBasicController():
         }
 
         response = render(
-            request, "tecnicas/create_sesion/configuracion-panel-basic.html", view_context)
+            request, PanelBasicController.url_panel_basic, view_context)
         return response
 
     @staticmethod
@@ -88,7 +96,7 @@ class PanelBasicController():
                             key, f"Valor inválido para '{key}': se esperaba {expected}, se recibió {actual}")
 
                 if form.errors:
-                    response = render(request, "tecnicas/create_sesion/configuracion-panel-basic.html", {
+                    response = render(request, PanelBasicController.url_panel_basic, {
                         "form_sesion": form, "error": "No puedes modificar el número de catadores o repeticiones"})
                 else:
                     values["name_tecnica"] = name_tecnica
@@ -96,10 +104,44 @@ class PanelBasicController():
                     response = redirect(
                         reverse("cata_system:panel_configuracion_tags"))
             else:
-                response = render(request, "tecnicas/create_sesion/configuracion-panel-basic.html", {
+                response = render(request, PanelBasicController.url_panel_basic, {
                     "form_sesion": form, "error": "Información no valida"})
         except KeyError:
             response = redirect(reverse(
-                "cata_system:seleccion_tecnica") + "?error=error en datos de configuracion")
+                PanelBasicController.url_select_technique) + "?error=error en datos de configuracion")
+
+        return response
+
+    @staticmethod
+    def controllGetCATA(request: HttpRequest):
+        form_sesion = SesionBasicCATAForm()
+
+        view_context = {
+            "form_sesion": form_sesion,
+            "use_technique": "cata"
+        }
+
+        return render(
+            request, PanelBasicController.url_panel_basic_cata, view_context)
+
+    @staticmethod
+    def controllPostRATA(request: HttpRequest, name_tecnica: str):
+        form = SesionBasicCATAForm(request.POST)
+
+        if form.is_valid():
+            values = {}
+            for name, value in form.cleaned_data.items():
+                if name == "estilo_palabras":
+                    values[name] = value.id
+                else:
+                    values[name] = value
+
+            values["name_tecnica"] = name_tecnica
+            request.session['form_basic'] = values
+            response = redirect(
+                reverse(PanelBasicController.url_next_panel_cata))
+        else:
+            response = render(request, PanelBasicController.url_panel_basic, {
+                "form_sesion": form, "error": "Información no valida"})
 
         return response
