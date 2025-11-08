@@ -7,15 +7,16 @@ import json
 
 
 class PanelCodesController():
+    url_current_panel = "tecnicas/create_sesion/configuracion-panel-codes.html"
+    url_next_panel = "cata_system:panel_configuracion_words"
+
     def __init__(self):
         pass
 
     @staticmethod
     def controllGetEscalas(request: HttpRequest, data):
-        (
-            num_products,
-            num_tester
-        ) = PanelCodesController.defineInfoConvencional(data)
+        num_products = data["numero_productos"]
+        num_tester = data["numero_catadores"]
 
         codes_products = generarCodigos(num_products)
 
@@ -27,14 +28,11 @@ class PanelCodesController():
             "use_technique": "escalas"
         }
 
-        return render(request, "tecnicas/create_sesion/configuracion-panel-codes.html", context_codes_form)
+        return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
     def controllPostEscalas(request: HttpRequest, data):
-        (
-            num_products,
-            num_tester
-        ) = PanelCodesController.defineInfoConvencional(data)
+        num_tester = data["numero_catadores"]
 
         sorts_code = json.loads(request.POST.get("sort_codes"))
         codes = []
@@ -60,11 +58,11 @@ class PanelCodesController():
 
             codes_sort["sort_codes"] = sorts_code
             request.session["form_codes"] = codes_sort
-            return redirect(reverse("cata_system:panel_configuracion_words"))
+            return redirect(reverse(PanelCodesController.url_next_panel))
         else:
             context_codes_form["error"] = "error en los datos recibidos"
 
-        return render(request, "tecnicas/create_sesion/configuracion-panel-codes.html", context_codes_form)
+        return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
     def controllGetRATA(request: HttpRequest, data):
@@ -78,10 +76,10 @@ class PanelCodesController():
             "use_technique": "rata"
         }
 
-        return render(request, "tecnicas/create_sesion/configuracion-panel-codes.html", context_codes_form)
+        return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllPostRATA(request: HttpRequest):
+    def controllPostRATA(request: HttpRequest, is_rata: True):
         codes = []
         context_codes_form = {}
 
@@ -93,22 +91,26 @@ class PanelCodesController():
 
         context_codes_form = {
             "form_codes": form_codes,
-            "use_technique": "rata"
+            "use_technique": "rata" if is_rata else "cata"
         }
 
         if form_codes.is_valid():
             request.session["form_codes"] = codes
-            return redirect(reverse("cata_system:panel_configuracion_words"))
+            return redirect(reverse(PanelCodesController.url_next_panel))
         else:
             context_codes_form["error"] = "error en los datos recibidos"
 
-        return render(request, "tecnicas/create_sesion/configuracion-panel-codes.html", context_codes_form)
+        return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def defineInfoConvencional(data):
+    def controllGetCATA(request: HttpRequest, data):
         num_products = data["numero_productos"]
-        num_tester = data["numero_catadores"]
-        return (
-            num_products,
-            num_tester
-        )
+        codes_products = generarCodigos(num_products)
+        form_codes = CodesForm(codes=codes_products)
+
+        context_codes_form = {
+            "form_codes": form_codes,
+            "use_technique": "cata"
+        }
+
+        return render(request, PanelCodesController.url_current_panel, context_codes_form)

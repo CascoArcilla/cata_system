@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from tecnicas.utils import general_error
-from tecnicas.controllers import LoginTesterController
+from tecnicas.controllers import LoginSessionTesterController
 
 
 def loginSessionTester(req: HttpRequest):
@@ -14,7 +14,7 @@ def loginSessionTester(req: HttpRequest):
         if not tester_user or not session_code:
             return general_error("Se esperan credenciales")
 
-        login_controller = LoginTesterController()
+        login_controller = LoginSessionTesterController()
 
         existCredentials = login_controller.existCredential(
             tester_user, session_code)
@@ -28,12 +28,12 @@ def loginSessionTester(req: HttpRequest):
         type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
 
         if type_technique == "escalas":
-            response = login_controller.validateEntryEscalas()
+            response = login_controller.validateEntryEscalas(request=req)
         elif type_technique == "rata":
-            response = login_controller.validateEntryRATA()
+            response = login_controller.validateEntryRATA(request=req)
         else:
             context = {
-                "error": "La técnica usada en esta sesión o ha sido implementada para ingresar a ella"
+                "error": "La técnica usada en esta sesión es invalida o no ha sido implementada para ingresar a ella"
             }
             response = render(
                 req, "tecnicas/forms_tester/login_session.html", context)

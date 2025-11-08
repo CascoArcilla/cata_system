@@ -1,0 +1,42 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Gestionar Catadores{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
+        <header class="flex gap-4">
+            <div class="bg-surface-card p-8 text-2xl text-black font-bold rounded-lg text-center block">
+                <h1>Panel de vocabularios</h1>
+            </div>
+            <a href="{% url 'cata_system:index' %}" class="block flex-1">
+                <button
+                    class="w-full h-full text-black cts-btn-general cts-btn-error btn-push">
+                    Ir al Panel principal
+                </button>
+            </a>
+        </header>
+        <section class="flex flex-col gap-7">
+                <div class="w-full h-40 rounded-lg max-sm:hidden">
+                    <img src="{% static 'img/letters.webp' %}" alt="varias personas en fila"
+                        class="w-full h-full object-cover rounded-xl">
+                </div>
+                <a href="{% url 'cata_system:crear_vocabulario' %}" class="flex-1">
+                    <button class="w-full h-full cts-btn-general cts-btn-primary btn-push">
+                        ➕ Crear Vocabulario
+                    </button>
+                </a>
+                <a href="{% url 'cata_system:lista_vocabulario' num_page=1 %}" class="flex-1">
+                    <button class="w-full h-full cts-btn-general cts-btn-tertiary btn-push">
+                        📋 Ver vocabularios
+                    </button>
+                </a>
+                <div class="w-full h-40 rounded-lg min-sm:hidden">
+                    <img src="{% static 'img/letters.webp' %}" alt="varias personas en fila"
+                        class="w-full h-full object-cover rounded-xl">
+                </div>
+            </section>
+    </article>
+</article>
+{% endblock %}

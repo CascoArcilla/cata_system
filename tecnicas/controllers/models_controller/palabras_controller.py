@@ -22,17 +22,16 @@ class PalabrasController():
     @staticmethod
     def getWordsInTechnique(technique: Tecnica):
         if technique.id_estilo.nombre_estilo == "atributos":
-            es_atribute = EsAtributo.objects.get(id_tecnica=technique)
-            words = list(es_atribute.palabras.all())
+            words = list(technique.tecnica_esatributo.palabras.all())
+            if not words:
+                return controller_error("Técnica sin palabras")
             return words
         elif technique.id_estilo.nombre_estilo == "vocabulario":
-            try:
-                palabras = Palabra.objects.filter(
-                    vocabulario__esvocabulario__id_tecnica=technique
-                )
-                return list(palabras.distinct()) if palabras.exists() else controller_error("Técnica sin palabras con vocabulario")
-            except Exception as e:
+            words = list(
+                technique.tecnica_esvacabulario.id_vocabulario.palabras.all())
+            if not words:
                 return controller_error("Técnica sin palabras con vocabulario")
+            return words
 
     @staticmethod
     def getWordsWithoutData(recoreded_data: list[Dato], words: list[Palabra]):

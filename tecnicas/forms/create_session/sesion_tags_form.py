@@ -1,5 +1,5 @@
 from django import forms
-from ..models import Etiqueta
+from tecnicas.models import Etiqueta
 
 
 class SesionTagsForm(forms.Form):

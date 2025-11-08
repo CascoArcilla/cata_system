@@ -55,78 +55,26 @@
             - Cata segmento en el que se divide debe tener la etiqueda correspondiente por debajo
 '''
 from django.http import HttpRequest
-from django.shortcuts import redirect, render
-from django.urls import reverse
-from ...controllers import SesionController, PosicionController, CalificacionController, ParticipacionController, PalabrasController, EscalaController, DatoController
+from tecnicas.controllers import SesionController, ConvencionalScalesController
+from tecnicas.utils import noValidTechnique
 
 
 def convencionalScales(req: HttpRequest, code_sesion: str):
-    if not "id_order" in req.session:
-        return redirect(reverse("cata_system:catador_main"))
-
     session = SesionController.getSessionByCode(code_sesion)
-    technique = session.tecnica
-
-    context = {
-        "session": session
-    }
-
-    req.session["id_technique"] = session.tecnica.id
+    type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
 
     if req.method == "GET":
-        positions = PosicionController.getPostionsInOrder(
-            id_order=req.session["id_order"])
-
-        sorted_positions = sorted(positions, key=lambda posi: posi.posicion)
-
-        words = PalabrasController.getWordsInTechnique(technique=technique)
-
-        next_position = CalificacionController.checkProducsWithoutRating(
-            positions=sorted_positions,
-            user_cata=req.user.username,
-            id_technique=session.tecnica.id,
-            repetition=session.tecnica.repeticion,
-            technique=technique,
-            num_words=len(words)
-        )
-
-        if isinstance(next_position, dict):
-            updated_participation = ParticipacionController.finishSession(
-                req.session["id_participation"])
-            return redirect(reverse("cata_system:catador_main"))
-
-        if isinstance(next_position, list):
-            next_position = next_position[0]
-
-        context["product"] = next_position.id_producto
-
-        ratings_product = CalificacionController.getRatings(
-            technique=technique,
-            product=next_position.id_producto,
-            repetition=technique.repeticion,
-            user_tester=req.user.username
-        )
-
-        if isinstance(ratings_product, dict):
-            context["error"] = ratings_product["error"]
-            return render(req, "tecnicas/forms_tester/convencional.html", context)
-        elif not ratings_product:
-            context["words"] = words
+        view_controller = ConvencionalScalesController(
+            sensorial_session=session, user_tester=req.user.user_catador)
+        if type_technique == "escalas":
+            respose = view_controller.controllGetEscalas(request=req)
+        elif type_technique == "rata":
+            respose = view_controller.controllGetRATA(request=req)
         else:
-            recoreded_data = DatoController.getRerecordedData(
-                ratings=ratings_product)
-            if not recoreded_data:
-                context["words"] = words
-            else:
-                words_to_use = PalabrasController.getWordsWithoutData(
-                    recoreded_data=recoreded_data, words=words)
-                context["words"] = words_to_use
+            respose = noValidTechnique(
+                name_view='cata_system:catador_init_session',
+                params={"code_sesion": session.codigo_sesion},
+                query_params={"error": "No es posible poder usar esta técnica"}
+            )
 
-        scale = EscalaController.getScaleByTechnique(technique=technique)
-        context["scale"] = scale
-        context["type_scale"] = scale.id_tipo_escala.nombre_escala
-
-        use_tags = EscalaController.getRelatedTagsInScale(scale=scale)
-        context["tags"] = use_tags
-
-        return render(req, "tecnicas/forms_tester/convencional.html", context)
+        return respose

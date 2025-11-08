@@ -44,6 +44,18 @@ urlpatterns = [
          views.createSession,
          name="creando_sesion"),
 
+    # Gestion de Vocabularios
+    path("presenter/panel-vocabulario",
+         views.vocabularyMenu,
+         name="panel_vocabulario"),
+
+    path("presenter/crear-vocabulario",
+         views.createVocabulary,
+         name="crear_vocabulario"),
+
+    path("presenter/lista-vocabulario/<int:num_page>",
+         views.listVocabulary,
+         name="lista_vocabulario"),
 
     # Gestion de catadores
     path("presenter/panel-catadores",
@@ -100,13 +112,17 @@ urlpatterns = [
 
 
     # APIs
-    path("api/nueva-etiqueta",
+    path("presenter/api/nueva-etiqueta",
          views.newTag,
          name="nueva_etiqueta"),
 
-    path("api/palabras",
+    path("presenter/api/palabras",
          views.words,
          name="api_palabras"),
+
+    path("presenter/api/vocabulario/<int:vocab_id>/palabras",
+         views.wordsVocabulary,
+         name="api_palabras_vocabulary"),
 
     path("testers/api/ratingword",
          views.reatingWord,

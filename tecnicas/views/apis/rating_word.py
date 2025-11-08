@@ -28,8 +28,8 @@
  * Calquier otro metodo que se maneje mandar un error
 '''
 from django.http import HttpRequest, JsonResponse
-from ...controllers import ApiRatingController, CalificacionController, DatoController
-from ...utils import general_error
+from tecnicas.controllers import ApiRatingController, CalificacionController, DatoController
+from tecnicas.utils import general_error
 import json
 
 
@@ -41,10 +41,11 @@ def reatingWord(req:  HttpRequest):
         received_rating = json.loads(req.POST.get("rating-word"))
         received_id_word = json.loads(req.POST.get("id-word"))
         received_id_product = json.loads(req.POST.get("id-product"))
+        id_technique = json.loads(req.POST.get("id-technique"))
 
         view_controller = ApiRatingController(
             rating_controller=CalificacionController(
-                technique=req.session["id_technique"],
+                technique=id_technique,
                 product=received_id_product,
                 tester=req.user.user_catador
             ),
@@ -55,7 +56,7 @@ def reatingWord(req:  HttpRequest):
             )
         )
 
-        response_data = view_controller.logicView()
+        response_data = view_controller.controllPostScales()
 
         return JsonResponse(response_data)
     else:
