@@ -7,13 +7,18 @@
 <article class="cts-container-main">
     <article class="cts-wrap-content text-black">
         <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
+
         {% if error %}
-        <p class="text-2xl">{{ error }}</p>
+        {% include "./components/error-message.html" with message=error %}
         {% endif %}
+        {% if message %}
+        {% include "./components/error-message.html" with message=message %}
+        {% endif %}
+
         <form method="post" action="" class="ct-codes-form flex flex-col gap-5">
             {% csrf_token %}
             <h2 class="text-2xl mb-2 font-bold">Codificar productos</h2>
-            <hr>
+
             <article class="w-full flex flex-col justify-center items-center gap-5">
                 <p class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl">
                     Puede dejar los campos como están para usar los códigos predefinidos.
@@ -47,7 +52,6 @@
             </article>
             {% endif %}
 
-            <hr>
             <article class="flex flex-col items-center gap-4">
                 <section class="flex w-full max-sm:flex-col flex-wrap gap-4 max-w-2xl">
                     <button type="submit" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full">

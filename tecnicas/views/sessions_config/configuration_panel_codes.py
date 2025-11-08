@@ -12,13 +12,17 @@ def configurationPanelCodes(req: HttpRequest):
                         "?error=datos del formulario requerido no encontrados")
 
     data_basic = req.session["form_basic"]
+    name_technique = data_basic["name_tecnica"]
 
     if req.method == "GET":
-        if data_basic["name_tecnica"] == "escalas":
+        if name_technique == "escalas":
             response = PanelCodesController.controllGetEscalas(
                 req, data_basic)
-        elif data_basic["name_tecnica"] == "rata":
+        elif name_technique == "rata":
             response = PanelCodesController.controllGetRATA(
+                req, data_basic)
+        elif name_technique == "cata":
+            response = PanelCodesController.controllGetCATA(
                 req, data_basic)
         else:
             response = redirect(
@@ -26,11 +30,14 @@ def configurationPanelCodes(req: HttpRequest):
 
         return response
     elif req.method == "POST":
-        if data_basic["name_tecnica"] == "escalas":
+        if name_technique == "escalas":
             response = PanelCodesController.controllPostEscalas(
                 req, data_basic)
-        elif data_basic["name_tecnica"] == "rata":
+        elif name_technique == "rata":
             response = PanelCodesController.controllPostRATA(request=req)
+        elif name_technique == "cata":
+            response = PanelCodesController.controllPostRATA(
+                request=req, is_rata=False)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
