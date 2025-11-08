@@ -1,0 +1,7 @@
+services: # Definicion de servicios. Se convertiran en contendores [Requerido]
+  app-django-cata-system: # Nombre del servicio para control de Docker Compose [Requerido]
+    hostname: django-cata-system # Nombre del host, [No requerido]
+    container_name: django-cata-system # Nombre del contenedor para Docker [No requerido]
+    build: .
+    ports: # Mapeo de puertos -> sintaxis= puerto del host físico (no debe estar ocupado al momento de crear el contenedor):puerto del contendor [No requerido, depende de si necesita conectividad al exterior]
+      - "9495:7860" # -"[host:]container[/protocol]"
