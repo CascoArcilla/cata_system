@@ -416,9 +416,9 @@ class PanelCreateController():
                     #
                     # //////////////////////////////////////////////////////// #
                     session = SesionSensorial.objects.create(
-                        name_session=data_basic["nombre_sesion"] if data_basic["nombre_sesion"] != "" else None,
-                        technique=technique,
-                        creator=request.user.user_presentador
+                        nombre_sesion=data_basic["nombre_sesion"] if data_basic["nombre_sesion"] != "" else None,
+                        tecnica=technique,
+                        creadoPor=request.user.user_presentador
                     )
 
                     if not session:
