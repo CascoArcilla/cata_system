@@ -14,7 +14,7 @@ class PanelBasicController():
     url_panel_basic_cata = "tecnicas/create_sesion/panel-basic-cata.html"
 
     url_next_panel_scales = "cata_system:panel_configuracion_tags"
-    url_next_panel_cata = "cata_system:panel_configuracion_tags"
+    url_next_panel_cata = "cata_system:panel_configuracion_codes"
 
     url_select_technique = "cata_system:seleccion_tecnica"
 
@@ -125,7 +125,7 @@ class PanelBasicController():
             request, PanelBasicController.url_panel_basic_cata, view_context)
 
     @staticmethod
-    def controllPostRATA(request: HttpRequest, name_tecnica: str):
+    def controllPostCATA(request: HttpRequest, name_tecnica: str):
         form = SesionBasicCATAForm(request.POST)
 
         if form.is_valid():

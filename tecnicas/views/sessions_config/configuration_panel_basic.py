@@ -31,6 +31,9 @@ def configurationPanelBasic(req: HttpRequest):
         elif name_tecnica == "rata":
             response = PanelBasicController.controllPostRATA(
                 request=req, name_tecnica=name_tecnica)
+        elif name_tecnica == "cata":
+            response = PanelBasicController.controllPostCATA(
+                request=req, name_tecnica=name_tecnica)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=¡Oh, vaya! Cambio de técnica repentino, vuelve a elegir otra vez")

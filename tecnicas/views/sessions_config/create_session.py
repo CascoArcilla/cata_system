@@ -26,6 +26,8 @@ def createSession(req: HttpRequest):
             response = PanelCreateController.controllPostEscalas(req)
         elif basic_data["name_tecnica"] == "rata":
             response = PanelCreateController.controllPostRATA(req)
+        elif basic_data["name_tecnica"] == "cata":
+            response = PanelCreateController.controllPostCATA(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
