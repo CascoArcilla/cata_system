@@ -1,5 +1,6 @@
 from django.http import HttpRequest
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.urls import reverse
 from tecnicas.models import SesionSensorial, Producto, EsAtributo, EsVocabulario
 from tecnicas.controllers import ParticipacionController, SesionController
 from tecnicas.utils import controller_error
@@ -11,6 +12,18 @@ class MonitorController():
 
     def __init__(self, session: SesionSensorial):
         self.sensorial_session = session
+
+    def controllPostFinishSession(self, request: HttpRequest):
+        self.setContext()
+        (is_all_end, message) = self.checkAllFinish()
+        if not is_all_end:
+            self.context["error"] = message
+            return render(request, self.url_view, self.context)
+        self.finishSession()
+        return redirect(reverse(self.previus_view, kwargs={"session_code": self.sensorial_session.codigo_sesion}))
+
+    def checkAllFinish(self):
+        return (False, "Función sin implementar")
 
     def setContext(self):
         self.participations = ParticipacionController.getParticipationsInTechinique(
@@ -26,7 +39,7 @@ class MonitorController():
             "use_technique": self.sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
         }
 
-    def controlGetResponse(self, request: HttpRequest,  error: str = "", message: str = ""):
+    def controllGetResponse(self, request: HttpRequest,  error: str = "", message: str = ""):
         self.setContext()
 
         if error != "" or error:
@@ -36,7 +49,7 @@ class MonitorController():
 
         return render(request, self.url_view, self.context)
 
-    def getExpectedRatingsEscalasRapida(self):
+    def getExpectedRatings(self):
         num_products = Producto.objects.filter(
             id_tecnica=self.sensorial_session.tecnica).count()
         style_words = self.sensorial_session.tecnica.id_estilo
@@ -52,8 +65,6 @@ class MonitorController():
         return num_products * num_words
 
     def finishSession(self):
-        response = SesionController.finishRepetion(self.sensorial_session)
-        if isinstance(response, dict):
-            return controller_error(response["error"])
-        self.sensorial_session.refresh_from_db()
+        self.sensorial_session.activo = False
+        self.sensorial_session.save()
         return self.sensorial_session

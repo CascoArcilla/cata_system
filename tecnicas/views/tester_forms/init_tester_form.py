@@ -16,7 +16,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
     if req.method == "GET":
         if type_technique == "escalas":
             response = view_controller.controllGetEscalas(request=req)
-        elif type_technique == "rata":
+        elif type_technique == "rata" or type_technique == "cata":
             response = view_controller.controllGetRATA(request=req)
         else:
             context = {
