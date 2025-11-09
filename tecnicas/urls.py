@@ -110,6 +110,10 @@ urlpatterns = [
          views.convencionalScales,
          name="session_convencional"),
 
+    path("testers/init-session/<str:code_sesion>/cata",
+         views.cataTest,
+         name="session_cata"),
+
 
     # APIs
     path("presenter/api/nueva-etiqueta",
