@@ -28,8 +28,9 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
 
         return response
     elif req.method == "POST":
-        if type_technique == "escalas" or type_technique == "rata":
+        if type_technique == "escalas" or type_technique == "rata" or type_technique == "cata":
             response = view_controller.controllPostEscalas(request=req)
+
         else:
             context = {
                 "session": session,

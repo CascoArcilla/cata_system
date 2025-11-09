@@ -13,6 +13,7 @@ class InitSessionTesterController():
     order: Orden | dict
     current_direction = "tecnicas/forms_tester/init_session.html"
     escalas_direction = "cata_system:session_convencional"
+    cata_cirection = "cata_system:session_cata"
 
     def __init__(self, sensorial_session: SesionSensorial, user_tester: Catador):
         self.tester = user_tester
@@ -65,13 +66,19 @@ class InitSessionTesterController():
                 return render(request, self.current_direction, context)
 
             request.session["id_participation"] = update_participation.id
+
+            if self.session.tecnica.tipo_tecnica.nombre_tecnica == "cata":
+                return redirect(reverse(self.cata_cirection, kwargs=parameters))
+            
             return redirect(reverse(self.escalas_direction, kwargs=parameters))
+
         elif request.POST["action"] == "exit_session":
             response = ParticipacionController.outSession(
                 tester=request.user.user_catador, session=self.session)
             if isinstance(response, dict):
                 context["error"] = response["error"]
             return render(request, self.current_direction, context)
+
         else:
             context["error"] = "Acción sin especificar"
             return render(request, self.current_direction, context)
