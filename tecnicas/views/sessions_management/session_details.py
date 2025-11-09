@@ -42,7 +42,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
             codigo_sesion=session_code)
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
-        if use_techinique == "escalas" or use_techinique == "rata":
+        if use_techinique == "escalas" or use_techinique == "rata" or use_techinique == "cata":
             controller_view = DetallesEscalasController(sensorial_session)
 
             if req.POST["action"] == "start_session":
