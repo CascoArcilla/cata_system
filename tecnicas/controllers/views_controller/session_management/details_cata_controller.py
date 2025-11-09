@@ -1,30 +1,16 @@
-'''
-
-Para Tecnicas Convencionales, CATA, RATA, Escala Hedonica
-Encabezados de como deben de aparecer los datos por repeticion
-
-| Repeticion: R
-| Codigo Producto | Catador | P1 | P2 | P3 | Pn |
-
-Encabezados de como deben de aparecer los datos juntos
-
-| Repeticion | Codigo Producto | Catador | P1 | P2 | P3 | Pn |
-
-'''
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from tecnicas.models import SesionSensorial, Presentador, Participacion, Calificacion, Escala
-from tecnicas.controllers import DatoController, PalabrasController, ParticipacionController
+from tecnicas.models import SesionSensorial
+from tecnicas.controllers import PalabrasController, DatoController, CalificacionController
+from tecnicas.utils import defaultdict_to_dict
 from .details_controller import DetallesController
-from tecnicas.utils import defaultdict_to_dict, controller_error
 from collections import defaultdict
 
 
-class DetallesEscalasController(DetallesController):
+class DetallesCATAController(DetallesController):
     def __init__(self, session: SesionSensorial):
         super().__init__(session)
-        self.url_template = "tecnicas/manage_sesions/detalles-sesion.html"
+        self.url_template = "tecnicas/manage_sesions/detalles-sesion-cata.html"
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):
@@ -35,26 +21,18 @@ class DetallesEscalasController(DetallesController):
             "use_technique": technique
         }
 
-        # Datos de la escala usada
-        scale: Escala = technique.escala_tecnica
-
-        self.context["scale"] = {
-            "type": scale.id_tipo_escala.nombre_escala,
-            "size": scale.longitud
-        }
-
-        # Recuperar la palabras de la tecnica
+        # Recuperar palabras
         self.words = PalabrasController.getWordsInTechnique(
-            technique)
+            self.session.tecnica)
         self.context["palabras"] = [word.nombre_palabra for word in self.words]
 
-        # Se recuperan las calificaciones
+        # Intentar recuperar las calificaciones
         ratings_for_repetition = []
 
-        ratings = list(Calificacion.objects.filter(
-            id_tecnica=technique))
+        ratings = CalificacionController.getRatingsByTechnique(
+            technique=technique)
 
-        if not ratings:
+        if isinstance(ratings, dict) or not ratings:
             self.context["calificaciones"] = ratings_for_repetition
             self.context["existen_calificaciones"] = False
             return self.context
@@ -81,5 +59,4 @@ class DetallesEscalasController(DetallesController):
 
         # Se comprueba que ya no se pueda iniciar la repeticion
         self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max
-
         return self.context

@@ -35,24 +35,14 @@ class ParticipacionController():
             return controller_error("No se ha encontrado la participación")
 
     @staticmethod
-    def outAllInSession(session: SesionSensorial | str):
+    def outAllInSession(session: SesionSensorial):
         try:
-            if isinstance(session, str):
-                use_session = SesionSensorial.objects.get(
-                    codigo_sesion=session)
-            else:
-                use_session = session
-
             participations = Participacion.objects.filter(
-                tecnica=use_session.tecnica)
-
-            if not participations.exists():
-                message = "No se encontraron participaciones en la sesión"
-                return (False, message)
+                tecnica=session.tecnica)
 
             participations.update(finalizado=False)
 
-            message = "Participaciones actualizadas a finalizadas"
+            message = "Participaciones actualizadas a finalizadas como falso"
             return (True, message)
         except Exception as e:
             print(f"Error al actualizar las participaciones: {str(e)}")

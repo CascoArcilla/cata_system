@@ -1,0 +1,238 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Detalles Sesion{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-wrap-content relative max-w-4xl">
+        <header class="text-center flex-row max-sm:flex-col w-full flex justify-around items-center flex-wrap gap-10">
+            <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
+                Detalles de la sesión
+            </h1>
+            <a href="{% url 'cata_system:panel_sesiones' page=1 %}">
+                <button class="cts-btn-general cts-btn-error btn-push">
+                    Volver a las Sesiones
+                </button>
+            </a>
+        </header>
+
+        {% if message %}
+        {% include "../components/error-message.html" with message=message %}
+        {% endif %}
+        {% if error %}
+        {% include "../components/error-message.html" with message=error %}
+        {% endif %}
+
+        <p class="text-black font-bold text-2xl border-b-2">
+            Información general
+        </p>
+        <article
+            class="text-black rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 max-sm:gap-1  text-xl max-sm:text-base">
+            <section
+                class="col-span-2 max-sm:col-span-1 bg-surface-ligt flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Código:
+                </p>
+                <p class="font-sans">
+                    {{ sesion.codigo_sesion }}
+                </p>
+            </section>
+
+            <section
+                class="col-span-2 max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Nombre:
+                </p>
+                <p class="antialiased">
+                    {% if sesion.nombre_sesion %}
+                    {{ sesion.nombre_sesion }}
+                    {% else %}
+                    Sin nombre
+                    {% endif %}
+                </p>
+            </section>
+
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Fecha creación:
+                </p>
+                <p class="font-sans font-normal uppercase">
+                    {{ sesion.fechaCreacion }}
+                </p>
+            </section>
+
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Estado:
+                </p>
+                <p class="font-sans text-lg max-sm:text-base font-normal">
+                    {% if sesion.activo %}
+                    En proceso
+                    {% else %}
+                    Listo para iniciar repetición
+                    {% endif %}
+                </p>
+            </section>
+
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Estilo palabras:
+                </p>
+                <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
+                    {{ sesion.tecnica.id_estilo }}
+                </p>
+            </section>
+
+            <section
+                class="bg-surface-ligt flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Técnica:
+                </p>
+                <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
+                    {{ sesion.tecnica.tipo_tecnica }}
+                </p>
+            </section>
+
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-sans">
+                    Pueden ingresar tantos catadores como se desee
+                </p>
+            </section>
+
+            <section
+                class="max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-sans">
+                    La técnica usada solo puede realizarse una vez, hay una única repetición
+                </p>
+            </section>
+
+            <section
+                class="col-span-2 max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-bold">
+                    Instrucciones:
+                </p>
+                <p class="font-sans text-xl max-sm:text-base font-normal">
+                    {{ sesion.tecnica.instrucciones }}
+                </p>
+            </section>
+        </article>
+
+        <p class="text-black font-bold text-2xl border-b-2">
+            Palabras usadas para calificar
+        </p>
+        <article
+            class="text-white rounded-xl grid grid-cols-4 max-sm:grid-cols-1 gap-3 *:bg-surface-ligt *:flex *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
+            {% for palabra in palabras %}
+            <section>
+                <p class="block text-black text-xl antialiased font-medium">
+                    {{ palabra }}
+                </p>
+            </section>
+            {% endfor %}
+        </article>
+
+
+        <p class="text-black font-bold text-2xl border-b-2">
+            Acciones disponibles
+        </p>
+        <article class="flex flex-wrap gap-10 max-sm:gap-2">
+            {% if not sesion.activo %}
+            {% if fin_repeticiones %}
+            <div
+                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none text-center">
+                <p class=" text-black">
+                    Máximo número de repeticiones alcanzado
+                </p>
+            </div>
+            {% else %}
+            <button
+                class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
+                onclick="startRepetition()">
+                Iniciar repetición
+                <figure class="w-10">
+                    <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
+                </figure>
+            </button>
+            {% endif %}
+            {% else %}
+            <a href="{% url 'cata_system:monitor_sesion' session_code=sesion.codigo_sesion %}" class="flex-1 w-fit">
+                <button
+                    class="ct-btn-start-repition w-full uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                    Monitorear repetición
+                    <figure class="w-10">
+                        <img src="{% static 'img/monitor.svg' %}" alt="flechas girando" class="invert">
+                    </figure>
+                </button>
+            </a>
+            {% endif %}
+            <button
+                class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
+                onclick="showWarningDialog('cts-warnig-dialog')">
+                borrar
+                <figure class="w-10">
+                    <img src="{% static 'img/basura.svg' %}" alt="bote de basura" class="invert">
+                </figure>
+            </button>
+        </article>
+
+        <section
+            class="absolute w-full h-full flex justify-center items-center bg-surface-alter-card/70 top-0 left-0 p-6 rounded-xl cts-warnig-dialog hidden">
+            <article class="bg-surface-card p-4 space-y-6 rounded-xl">
+                <h2 class="text-4xl text-black text-center">
+                    ¡¡¡Cuidado!!!
+                </h2>
+                <p class="text-2xl text-black text-center">
+                    Esta acción no es reversible, si la continua también borrara todos los datos recopilados
+                    relacionados a esta sesión y no podrá volver a recuperarlos
+                </p>
+                <section class="text-black font-bold text-xl space-y-4">
+                    <p class="text-center">
+                        ¿Estás seguro de continuar?
+                    </p>
+                    <div class="flex max-sm:flex-col gap-4 justify-center">
+                        <button class="cts-btn-general cts-btn-error btn-push" onclick="deleteSession()">
+                            Estoy seguro
+                        </button>
+                        <button class="cts-btn-general cts-btn-primary btn-push"
+                            onclick="hiddenWarningDialog('cts-warnig-dialog')">
+                            No, cancelar
+                        </button>
+                    </div>
+                </section>
+            </article>
+        </section>
+
+        <p class="text-black font-bold text-2xl border-b-2">
+            Datos obtenidos
+        </p>
+
+        <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
+            <section class="text-xl space-y-4 space-x-4 mb-4">
+                <p class="inline italic underline font-semibold">
+                    Los valores para este tipo de técnica son booleanos, pueden ser 1 o pueden ser 0
+                </p>
+            </section>
+            {% if existen_calificaciones %}
+                {% include "../components/table-convencional.html" with calificaciones=calificaciones palabras=palabras sesion=sesion %}
+            {% else %}
+                {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}
+            {% endif %}
+        </article>
+
+        <form action="" method="post" class="form-action-session hidden">
+            <input type="hidden" name="action" class="action-option">
+            {% csrf_token %}
+        </form>
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/details-session.js' %}"></script>
+<script src="{% static 'js/showHiddenElement.js' %}"></script>
+{% endblock %}

@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
 from tecnicas.utils import noValidTechnique
-from ...controllers import DetallesEscalasController
+from tecnicas.controllers import DetallesEscalasController, DetallesCATAController
 
 
 def sessionDetails(req: HttpRequest, session_code: str):
@@ -20,7 +20,12 @@ def sessionDetails(req: HttpRequest, session_code: str):
         if use_techinique == "escalas" or use_techinique == "rata":
             controller_view = DetallesEscalasController(
                 session=sensorial_session)
-            response = controller_view.getResponse(
+            response = controller_view.controllGetResponse(
+                request=req, message=message)
+        elif use_techinique == "cata":
+            controller_view = DetallesCATAController(
+                session=sensorial_session)
+            response = controller_view.controllGetResponse(
                 request=req, message=message)
         else:
             response = noValidTechnique(
