@@ -29,7 +29,7 @@ def loginSessionTester(req: HttpRequest):
 
         if type_technique == "escalas":
             response = login_controller.validateEntryEscalas(request=req)
-        elif type_technique == "rata":
+        elif type_technique == "rata" or type_technique == "cata":
             response = login_controller.validateEntryRATA(request=req)
         else:
             context = {

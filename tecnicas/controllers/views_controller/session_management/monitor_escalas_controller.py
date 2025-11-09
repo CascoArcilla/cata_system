@@ -12,23 +12,10 @@ class MonitorEscalasController(MonitorController):
         self.url_view = "tecnicas/manage_sesions/monitor-sesion.html"
         self.previus_view = "cata_system:detalles_sesion"
 
-    def controllPostFinishSession(self, request: HttpRequest):
-        self.setContext()
-        (is_all_end, message) = self.checkAllFinish()
-        if not is_all_end:
-            self.context["error"] = message
-            return render(request, self.url_view, self.context)
-        response = self.finishSession()
-        if isinstance(response, dict):
-            self.context["error"] = response["error"]
-            return render(request, self.url_view, self.context)
-        self.context["message"] = message
-        return redirect(reverse(self.previus_view, kwargs={"session_code": self.sensorial_session.codigo_sesion}))
-
     def checkAllFinish(self):
         technique = self.sensorial_session.tecnica
 
-        expected_ratings_repetition = self.getExpectedRatingsEscalasRapida()
+        expected_ratings_repetition = self.getExpectedRatings()
 
         all_participations = list(
             Participacion.objects.filter(tecnica=technique))

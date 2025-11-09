@@ -18,9 +18,9 @@ def sessionMonitor(req: HttpRequest, session_code: str):
             codigo_sesion=session_code)
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
-        if use_techinique == "escalas" or use_techinique == "rata":
+        if use_techinique == "escalas" or use_techinique == "rata" or use_techinique == "cata":
             controll_view = MonitorEscalasController(sensorial_session)
-            response = controll_view.controlGetResponse(request=req)
+            response = controll_view.controllGetResponse(request=req)
         else:
             response = noValidTechnique(
                 params={
@@ -31,7 +31,6 @@ def sessionMonitor(req: HttpRequest, session_code: str):
                 },
                 name_view="cata_system:detalles_sesion"
             )
-
         return response
     elif req.method == "POST":
         sensorial_session = SesionSensorial.objects.get(
