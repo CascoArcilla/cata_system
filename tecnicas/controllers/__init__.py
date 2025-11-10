@@ -36,5 +36,5 @@ from .views_controller.sessions_tester.test_cata_controller import TestCataContr
 from .views_controller.vocabulary_manage.create_vocabulary_controller import CreateVocabularyController
 from .views_controller.vocabulary_manage.list_vocabulary_controller import ListVocabularyController
 
-from .views_controller.api_rating_controller import ApiRatingController
+from .api_controller.rating_sacales_controller import RatingScalesController
 from .views_controller.tester_list_controller import TesterListController

@@ -28,12 +28,12 @@
  * Calquier otro metodo que se maneje mandar un error
 '''
 from django.http import HttpRequest, JsonResponse
-from tecnicas.controllers import ApiRatingController, CalificacionController, DatoController
+from tecnicas.controllers import RatingScalesController, CalificacionController, DatoController
 from tecnicas.utils import general_error
 import json
 
 
-def reatingWord(req:  HttpRequest):
+def ratingWordScales(req:  HttpRequest):
     if req.method == "POST":
         if not req.POST["rating-word"] or not req.POST["id-word"] or not req.POST["id-product"]:
             return JsonResponse({"error": "No se mandó información necesaria para la calificación"})
@@ -43,7 +43,7 @@ def reatingWord(req:  HttpRequest):
         received_id_product = json.loads(req.POST.get("id-product"))
         id_technique = json.loads(req.POST.get("id-technique"))
 
-        view_controller = ApiRatingController(
+        view_controller = RatingScalesController(
             rating_controller=CalificacionController(
                 technique=id_technique,
                 product=received_id_product,

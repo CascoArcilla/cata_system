@@ -128,7 +128,11 @@ urlpatterns = [
          views.wordsVocabulary,
          name="api_palabras_vocabulary"),
 
-    path("testers/api/ratingword",
-         views.reatingWord,
-         name="api_rating_word"),
+    path("testers/api/ratingword/escalas",
+         views.ratingWordScales,
+         name="api_rating_word_scalas"),
+
+    path("testers/api/ratingword/cata",
+         views.ratingWordCata,
+         name="api_rating_word_cata"),
 ]
