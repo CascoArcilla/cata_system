@@ -57,7 +57,7 @@ if DEBUG:
     INSTALLED_APPS += ['django_browser_reload']
 
 TAILWIND_APP_NAME = 'theme'
-NPM_BIN_PATH = 'C:/Program Files/nodejs/pnpm.cmd'
+NPM_BIN_PATH = 'pnpm'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
