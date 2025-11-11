@@ -218,7 +218,7 @@
                 </p>
             </section>
             {% if existen_calificaciones %}
-                {% include "../components/table-convencional.html" with calificaciones=calificaciones palabras=palabras sesion=sesion %}
+                {% include "../components/table_cata.html" with calificaciones=calificaciones palabras=palabras sesion=sesion %}
             {% else %}
                 {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}
             {% endif %}

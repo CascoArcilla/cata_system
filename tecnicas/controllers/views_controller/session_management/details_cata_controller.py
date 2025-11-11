@@ -1,7 +1,8 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
-from tecnicas.models import SesionSensorial
-from tecnicas.controllers import PalabrasController, DatoController, CalificacionController
+from django.db.models import F
+from tecnicas.models import SesionSensorial, Calificacion, ValorBooleano
+from tecnicas.controllers import PalabrasController, DatoController
 from tecnicas.utils import defaultdict_to_dict
 from .details_controller import DetallesController
 from collections import defaultdict
@@ -29,16 +30,27 @@ class DetallesCATAController(DetallesController):
         # Intentar recuperar las calificaciones
         ratings_for_repetition = []
 
-        ratings = CalificacionController.getRatingsByTechnique(
-            technique=technique)
+        ratings = list(Calificacion.objects.filter(
+            id_tecnica=technique))
 
-        if isinstance(ratings, dict) or not ratings:
+        if not ratings:
             self.context["calificaciones"] = ratings_for_repetition
             self.context["existen_calificaciones"] = False
             return self.context
 
-        data = DatoController.getWordValuesForConvecional(
-            ratings=ratings, technique=technique)
+        data = (
+            ValorBooleano.objects
+            .filter(id_dato__id_calificacion__in=ratings)
+            .values(
+                nombre_palabra=F("id_dato__id_palabra__nombre_palabra"),
+                repeticion=F("id_dato__id_calificacion__num_repeticion"),
+                producto_code=F(
+                    "id_dato__id_calificacion__id_producto__codigoProducto"),
+                usuario_catador=F(
+                    "id_dato__id_calificacion__id_catador__user__username"),
+                dato_valor=F("valor")
+            )
+        )
 
         ratings_for_repetition = defaultdict(
             lambda: defaultdict(lambda: defaultdict(list)))
