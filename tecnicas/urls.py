@@ -110,6 +110,10 @@ urlpatterns = [
          views.convencionalScales,
          name="session_convencional"),
 
+    path("testers/init-session/<str:code_sesion>/cata",
+         views.cataTest,
+         name="session_cata"),
+
 
     # APIs
     path("presenter/api/nueva-etiqueta",
@@ -124,7 +128,11 @@ urlpatterns = [
          views.wordsVocabulary,
          name="api_palabras_vocabulary"),
 
-    path("testers/api/ratingword",
-         views.reatingWord,
-         name="api_rating_word"),
+    path("testers/api/ratingword/escalas",
+         views.ratingWordScales,
+         name="api_rating_word_scalas"),
+
+    path("testers/api/ratingword/cata",
+         views.ratingWordCata,
+         name="api_rating_word_cata"),
 ]

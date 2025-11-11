@@ -1,8 +1,8 @@
-from ...controllers import CalificacionController, DatoController
+from .. import CalificacionController, DatoController
 from ...utils import controller_error
 
 
-class ApiRatingController():
+class RatingScalesController():
     def __init__(self, rating_controller: CalificacionController, data_controller: DatoController):
         self.rating_controller = rating_controller
         self.data_controller = data_controller

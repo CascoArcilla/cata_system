@@ -4,7 +4,6 @@
         <table id="convencional-table" class="min-w-max w-full text-sm text-center border-collapse">
             <thead class="bg-surface-sweet text-black font-semibold">
                 <tr>
-                    <th class="py-2 px-3 border border-surface-general">Repetición</th>
                     <th class="py-2 px-3 border border-surface-general">Usuario</th>
                     <th class="py-2 px-3 border border-surface-general">Producto</th>
                     {% for palabra in palabras %}
@@ -14,28 +13,27 @@
             </thead>
             <tbody class="bg-surface-ligt divide-y divide-gray-200">
                 {% for repeticion, catadores in calificaciones.items %}
-                    {% for usuario, productos in catadores.items %}
-                        {% for codigo, valores in productos.items %}
-                        <tr>
-                            <td class="py-2 px-3 border border-surface-general">{{ repeticion }}</td>
-                            <td class="py-2 px-3 border border-surface-general">{{ usuario }}</td>
-                            <td class="py-2 px-3 border border-surface-general">{{ codigo }}</td>
-                            {% for palabra in palabras %}
-                            <td class="py-2 px-3 border border-surface-general">
-                                {% with match=False %}
-                                {% for valor in valores %}
-                                    {% if valor.nombre_palabra == palabra %}
-                                        {{ valor.dato_valor }}
-                                        {% with match=True %}{% endwith %}
-                                    {% endif %}
-                                {% endfor %}
-                                {% if match %}0{% endif %}
-                                {% endwith %}
-                            </td>
-                            {% endfor %}
-                        </tr>
+                {% for usuario, productos in catadores.items %}
+                {% for codigo, valores in productos.items %}
+                <tr>
+                    <td class="py-2 px-3 border border-surface-general">{{ usuario }}</td>
+                    <td class="py-2 px-3 border border-surface-general">{{ codigo }}</td>
+                    {% for palabra in palabras %}
+                    <td class="py-2 px-3 border border-surface-general">
+                        {% for valor in valores %}
+                            {% if valor.nombre_palabra == palabra %}
+                                {% if valor.dato_valor %}
+                                1
+                                {% else %}
+                                0
+                                {% endif %}
+                            {% endif %}
                         {% endfor %}
+                    </td>
                     {% endfor %}
+                </tr>
+                {% endfor %}
+                {% endfor %}
                 {% endfor %}
             </tbody>
         </table>

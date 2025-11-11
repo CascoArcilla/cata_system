@@ -35,8 +35,8 @@ def sessionDetails(req: HttpRequest, session_code: str):
                 },
                 name_view="cata_system:panel_sesiones"
             )
-
         return response
+    
     elif req.method == "POST":
         sensorial_session = SesionSensorial.objects.get(
             codigo_sesion=session_code)
