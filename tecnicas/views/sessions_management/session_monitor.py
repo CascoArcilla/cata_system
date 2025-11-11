@@ -47,7 +47,7 @@ def sessionMonitor(req: HttpRequest, session_code: str):
             else:
                 response = controll_view.controlGetResponse(
                     request=req, error="No se ha definido la acción a realizar")
-        elif use_techinique == "rata":
+        elif use_techinique == "rata" or use_techinique == "cata":
             controll_view = MonitorRATAController(sensorial_session)
             action = req.POST["action"]
 
