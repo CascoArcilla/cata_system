@@ -12,10 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const URL = "/cata/testers/api/ratingword/cata";
 
-  let wordsData = [];
-
   const checkboxes = form.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach((cb) => (cb.checked = false));
+
+  let wordsData = [];
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -76,6 +76,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   confirmBtn.addEventListener("click", async () => {
     modal.classList.add("hidden");
+    const dataProduct = {
+      id: parseInt(document.querySelector(".id-product").textContent),
+      code: document.querySelector(".code-product").textContent,
+    };
 
     try {
       const response = await fetch(URL, {
@@ -85,13 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
           "X-CSRFToken": csrfToken,
           "X-Requested-With": "XMLHttpRequest",
         },
-        body: JSON.stringify({ words: wordsData }),
+        body: JSON.stringify({ words: wordsData, product: dataProduct }),
       });
 
       if (!response.ok) {
         message.textContent = "Error en la respuesta del servidor";
         message.classList.remove("hidden");
-        throw new Error("Error en la respuesta del servidor");
       }
 
       const result = await response.json();
@@ -111,14 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 <p class="text-sm italic">
                     ${result.message}
                 </p>
-                <button type="button" class="cts-btn-general cts-btn-primary btn-push">
+                <button type="button" class="cts-btn-general cts-btn-primary btn-push" onclick="window.location.reload();">
                     Siguiente Producto
                 </button>
             </section>
       `;
     } catch (err) {
       console.error(err);
-      alert("Ocurrió un error al enviar los datos ❌");
+      message.textContent = "Error en la respuesta del servidor";
+      message.classList.remove("hidden");
     }
   });
 });

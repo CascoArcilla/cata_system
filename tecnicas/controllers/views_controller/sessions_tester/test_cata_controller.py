@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from tecnicas.models import Producto, Participacion, Palabra, Calificacion
-from tecnicas.controllers import PalabrasController
+from tecnicas.controllers import PalabrasController, ParticipacionController
 from .general_test_controller import GenetalTestController
 
 
