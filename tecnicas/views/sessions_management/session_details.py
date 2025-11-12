@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
 from tecnicas.utils import noValidTechnique
-from tecnicas.controllers import DetallesEscalasController, DetallesCATAController
+from tecnicas.controllers import DetallesEscalasController, DetallesCATAController, DetallesPFController
 
 
 def sessionDetails(req: HttpRequest, session_code: str):
@@ -22,11 +22,18 @@ def sessionDetails(req: HttpRequest, session_code: str):
                 session=sensorial_session)
             response = controller_view.controllGetResponse(
                 request=req, message=message)
+
         elif use_techinique == "cata":
             controller_view = DetallesCATAController(
                 session=sensorial_session)
             response = controller_view.controllGetResponse(
                 request=req, message=message)
+
+        elif use_techinique == "perfil flash":
+            controller_view = DetallesPFController(session=sensorial_session)
+            response = controller_view.controllGetResponse(
+                request=req, message=message)
+
         else:
             response = noValidTechnique(
                 params={"page": 1},
@@ -36,7 +43,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
                 name_view="cata_system:panel_sesiones"
             )
         return response
-    
+
     elif req.method == "POST":
         sensorial_session = SesionSensorial.objects.get(
             codigo_sesion=session_code)
@@ -55,6 +62,9 @@ def sessionDetails(req: HttpRequest, session_code: str):
             else:
                 response = controller_view.getResponse(
                     error="No se reconoce la acción a realizar")
+        elif use_techinique == "perfil flash":
+            response = JsonResponse(
+                {"message": "Estoy trabajando en la funcionalidad que eligio"})
         else:
             response = noValidTechnique()
 
