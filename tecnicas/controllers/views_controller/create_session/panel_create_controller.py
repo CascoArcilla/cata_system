@@ -444,3 +444,104 @@ class PanelCreateController():
                 return general_error(f"Error: {e}")
         else:
             return general_error("No se ha establecido acción")
+
+    @staticmethod
+    def controllPostPF(request: HttpRequest):
+        if request.POST.get('action') == 'create_session':
+            if not request.session.get("form_codes") or not request.session.get("form_tags"):
+                deleteDataSession(request)
+                return general_error("No se ha especificado información necesaria para la creación de la sesión, por favor, vuelve a intentarlo")
+            try:
+                with transaction.atomic():
+                    # ////////////////////////////////////////////////////// #
+                    #
+                    # First step: Create technique and scale with their tags #
+                    #
+                    # ////////////////////////////////////////////////////// #
+                    data_basic = request.session["form_basic"]
+                    data_basic["numero_repeticiones"] = 0
+
+                    technique = Tecnica.objects.create(
+                        tipo_tecnica=TipoTecnica.objects.get(
+                            nombre_tecnica=data_basic["name_tecnica"]),
+                        id_estilo=EstiloPalabra.objects.get(
+                            nombre_estilo="vocabulario"),
+                        repeticiones_max=data_basic["numero_repeticiones"],
+                        limite_catadores=data_basic["numero_catadores"],
+                        instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Presentador",
+                    )
+
+                    if not technique:
+                        raise ValueError("Error al guardar la técnica")
+
+                    data_scale = {
+                        "id_scale": data_basic["tipo_escala"],
+                        "size": data_basic["tamano_escala"],
+                        "technique": technique
+                    }
+
+                    controllerScale = EscalaController(data=data_scale)
+
+                    scale = controllerScale.saveScale()
+                    if isinstance(scale, dict):
+                        raise ValueError(scale["error"])
+
+                    dict_tags = request.session["form_tags"]
+                    saved_related_tags = controllerScale.realteTags(dict_tags)
+                    if "error" in saved_related_tags:
+                        raise ValueError(saved_related_tags["error"])
+
+                    # ////////////////////////////////////////////// #
+                    #
+                    # Second step: Create productos with their codes #
+                    #
+                    # ////////////////////////////////////////////// #
+                    codes = request.session["form_codes"]
+
+                    if not codes:
+                        raise ValueError("No hay códigos de productos")
+
+                    products_without_save = []
+                    for code in codes:
+                        product = Producto(
+                            codigoProducto=code,
+                            id_tecnica=technique
+                        )
+                        products_without_save.append(product)
+
+                    Producto.objects.bulk_create(products_without_save)
+
+                    # /////////////////////////////////////////////////////// #
+                    #
+                    # Third step: Create session and relat with the technique #
+                    #
+                    # /////////////////////////////////////////////////////// #
+                    session = SesionSensorial.objects.create(
+                        nombre_sesion=data_basic["nombre_sesion"] if data_basic["nombre_sesion"] != "" else None,
+                        tecnica=technique,
+                        creadoPor=request.user.user_presentador
+                    )
+
+                    if not session:
+                        raise ValueError("Error al crear sesion sensorial")
+
+                    context = {
+                        "message": "sesión creada",
+                        "data": {
+                            "codigo_sesion": session.codigo_sesion,
+                            "nombre_sesion": session.nombre_sesion
+                        }
+                    }
+
+                    # ////////////////////////////////// #
+                    #
+                    # Final step: Delete date en session #
+                    #
+                    # ////////////////////////////////// #
+                    deleteDataSession(request)
+                    return JsonResponse(context)
+
+            except ValueError as e:
+                return general_error(f"Error: {e}")
+        else:
+            return general_error("No se ha establecido acción")

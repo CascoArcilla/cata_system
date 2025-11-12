@@ -35,6 +35,9 @@ def configurationPanelCodes(req: HttpRequest):
         elif name_technique == "cata":
             response = PanelCodesController.controllPostRATA(
                 request=req, is_rata=False)
+        elif name_technique == "perfil flash":
+            response = PanelCodesController.controllPostPF(
+                request=req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
