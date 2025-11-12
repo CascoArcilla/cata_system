@@ -65,7 +65,7 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllGetRATA(request: HttpRequest, data):
+    def controllGetRATA(request: HttpRequest, data, name_technique: str):
         num_products = data["numero_productos"]
         codes_products = generarCodigos(num_products)
         form_codes = CodesForm(codes=codes_products)
@@ -73,7 +73,7 @@ class PanelCodesController():
         context_codes_form = {
             "form_codes": form_codes,
             "num_tester": 0,
-            "use_technique": "rata"
+            "use_technique": name_technique
         }
 
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
