@@ -1,0 +1,126 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Monitoreo{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-wrap-content">
+        <header class="text-center">
+            <h1 class="text-3xl font-bold text-black">Sesión sensorial en curso</h1>
+        </header>
+
+        <section class="flex flex-col sm:flex-row justify-between items-center gap-10">
+            <p class="text-xl text-center bg-surface-card p-4 text-black rounded-lg shadow-lg">
+                Código de sesión:<br>
+                <span class="font-mono text-2xl font-bold">{{ code_session }}</span>
+            </p>
+            <div class="flex flex-col gap-2">
+                <button class="uppercase cts-btn-general-compress cts-btn-secondary py-2 px-6 btn-push"
+                    onclick="finishSession()">
+                    Finalizar sesión
+                </button>
+                <a href="{% url 'cata_system:detalles_sesion' session_code=code_session %}" class="w-full">
+                    <button class="uppercase cts-btn-general-compress cts-btn-error py-2 px-6 btn-push w-full">
+                        Regresar
+                    </button>
+                </a>
+            </div>
+        </section>
+
+        <form action="" method="post" class="hidden action-form">
+            <input type="hidden" name="action">
+            {% csrf_token %}
+        </form>
+
+        {% if error %}
+        {% include "../components/error-message.html" with message=error %}
+        {% endif %}
+
+        {% if message %}
+        {% include "../components/error-message.html" with message=message %}
+        {% endif %}
+
+        <section aria-labelledby="catadores-titulo">
+            <article
+                class="flex max-sm:flex-col justify-around bg-surface-card border border-gray-300 rounded-md p-3 mb-4 items-center shadow-lg">
+                <button class="uppercase cts-btn-general-compress cts-btn-tertiary py-2 px-6 btn-push"
+                    onclick="reloadPage()">
+                    Actualizar lista
+                </button>
+                <h2 id="catadores-titulo" class="text-2xl text-center font-bold rounded-lg text-gray-700 py-2 px-3">
+                    Catadores activos
+                </h2>
+            </article>
+
+            <article
+                class="flex flex-col justify-center gap-3 bg-surface-card border border-gray-300 rounded-md p-3 mb-4 text-lg max-sm:text-sm text-gray-700 shadow-lg">
+                <div class="flex justify-center items-center">
+                    <h2 class="text-xl font-semibold">Participantes</h2>
+                </div>
+                <section class="flex flex-wrap justify-around items-center">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <span class="font-semibold">Máximo:</span>
+                        <span>{{ max_testers }}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <span class="font-semibold">
+                            Actuales:
+                        </span>
+                        <span>{{ current_testers }}</span>
+                    </div>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+                        <span class="font-semibold">Activos:</span>
+                        <span class="text-green-600 font-semibold">{{ active_testers }}</span>
+                    </div>
+                </section>
+            </article>
+
+            <article class="max-sm:overflow-x-auto shadow-lg">
+                <div class="min-w-[400px] sm:min-w-0">
+                    <div
+                        class="grid grid-cols-4 bg-surface-sweet text-center font-semibold text-black text-sm rounded-t-lg max-sm:w-full [&_>*]:px-2">
+                        <div class="py-2 border-r border-gray-400">Usuario</div>
+                        <div class="py-2 border-r border-gray-400">Nombre</div>
+                        <div class="py-2 border-r border-gray-400">Estado</div>
+                        <div class="py-2">Finalizado</div>
+                    </div>
+
+                    <ul class="divide-y divide-gray-400 max-sm:w-full text-black">
+                        {% for parti in participations %}
+                        <li class="grid grid-cols-4 text-center bg-surface-card py-2 [&_>*]:px-2">
+                            <p class="border-r border-gray-400">{{ parti.catador.user.username }}</p>
+                            <p class="border-r border-gray-400">
+                                {{ parti.catador.user.first_name }}
+                                {{ parti.catador.user.last_name}}
+                            </p>
+
+                            {% if parti.activo %}
+                            <p class="border-r border-gray-400 text-green-600 font-semibold">Activo</p>
+                            {% else %}
+                            <p class="border-r border-gray-400 text-red-500 font-semibold">No activo</p>
+                            {% endif %}
+
+                            {% if parti.finalizado %}
+                            <p class="text-green-600 font-semibold">Si</p>
+                            {% else %}
+                            <p class="text-red-500 font-semibold">No</p>
+                            {% endif %}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function reloadPage () {
+        location.reload()
+    }
+</script>
+<script src="{% static 'js/finish-session.js' %}"></script>
+{% endblock %}
