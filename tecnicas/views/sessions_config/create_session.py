@@ -15,7 +15,7 @@ def createSession(req: HttpRequest):
     name_technique = basic_data["name_tecnica"]
 
     if req.method == "GET":
-        if name_technique == "escalas" or name_technique == "rata" or name_technique == "cata":
+        if name_technique == "escalas" or name_technique == "rata" or name_technique == "cata" or name_technique == "perfil flash":
             response = PanelCreateController.controllGetEscalas(req)
         else:
             response = redirect(
@@ -29,6 +29,8 @@ def createSession(req: HttpRequest):
             response = PanelCreateController.controllPostRATA(req)
         elif name_technique == "cata":
             response = PanelCreateController.controllPostCATA(req)
+        elif name_technique == "perfil flash":
+            response = PanelCreateController.controllPostPF(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")

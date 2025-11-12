@@ -12,9 +12,10 @@ def configurationPanelTags(req: HttpRequest):
                         "?error=datos requeridos no encontrados")
 
     basic_data = req.session.get("form_basic")
+    name_technique = basic_data["name_tecnica"]
 
     if req.method == "GET":
-        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
+        if name_technique == "escalas" or name_technique == "rata" or name_technique == "perfil flash":
             response = PanelTagsController.controllGetEscalas(
                 request=req, data=basic_data)
         else:
@@ -23,7 +24,7 @@ def configurationPanelTags(req: HttpRequest):
 
         return response
     elif req.method == "POST":
-        if basic_data["name_tecnica"] == "escalas" or basic_data["name_tecnica"] == "rata":
+        if name_technique == "escalas" or name_technique == "rata" or name_technique == "perfil flash":
             response = PanelTagsController.controllPostEscalas(
                 request=req, data=basic_data)
         else:

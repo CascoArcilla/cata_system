@@ -18,12 +18,9 @@ def configurationPanelCodes(req: HttpRequest):
         if name_technique == "escalas":
             response = PanelCodesController.controllGetEscalas(
                 req, data_basic)
-        elif name_technique == "rata":
+        elif name_technique == "rata" or name_technique == "cata" or "perfil flash":
             response = PanelCodesController.controllGetRATA(
-                req, data_basic)
-        elif name_technique == "cata":
-            response = PanelCodesController.controllGetCATA(
-                req, data_basic)
+                request=req, data=data_basic, name_technique=name_technique)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
@@ -38,6 +35,9 @@ def configurationPanelCodes(req: HttpRequest):
         elif name_technique == "cata":
             response = PanelCodesController.controllPostRATA(
                 request=req, is_rata=False)
+        elif name_technique == "perfil flash":
+            response = PanelCodesController.controllPostPF(
+                request=req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
