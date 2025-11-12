@@ -1,8 +1,6 @@
-from django.http import HttpRequest
-from django.shortcuts import render, redirect
 from django.db.models import F
 from tecnicas.models import SesionSensorial, Calificacion, ValorBooleano
-from tecnicas.controllers import PalabrasController, DatoController
+from tecnicas.controllers import PalabrasController
 from tecnicas.utils import defaultdict_to_dict
 from .details_controller import DetallesController
 from collections import defaultdict
