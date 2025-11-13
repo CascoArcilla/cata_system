@@ -1,7 +1,6 @@
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from tecnicas.controllers import InitSessionTesterController, ParticipacionController
+from django.shortcuts import render
+from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController
 from tecnicas.models import SesionSensorial
 
 
@@ -10,14 +9,22 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
     type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
     template_url = "tecnicas/forms_tester/init_session.html"
 
-    view_controller = InitSessionTesterController(
-        sensorial_session=session, user_tester=req.user.user_catador)
-
     if req.method == "GET":
         if type_technique == "escalas":
-            response = view_controller.controllGetEscalas(request=req)
+            view_controller = InitSessionEscalasController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllGet(request=req)
+
         elif type_technique == "rata" or type_technique == "cata":
-            response = view_controller.controllGetRATA(request=req)
+            view_controller = InitSessionRATAController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllGet(request=req)
+
+        elif type_technique == "perfil flash":
+            view_controller = InitSessionPFController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllGet(request=req)
+
         else:
             context = {
                 "session": session,
@@ -27,10 +34,18 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
                 req, template_url, context)
 
         return response
+
     elif req.method == "POST":
         if type_technique == "escalas" or type_technique == "rata" or type_technique == "cata":
-            response = view_controller.controllPostEscalas(request=req)
+            view_controller = InitSessionEscalasController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllPost(request=req)
 
+        elif type_technique == "perfil flash":
+            # view_controller = InitSessionPFController(
+            #     sensorial_session=session, user_tester=req.user.user_catador)
+            # response = view_controller.controllPost(request=req)
+            response = JsonResponse({"message": "Aun estamos probando esta funcion"})
         else:
             context = {
                 "session": session,

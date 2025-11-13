@@ -1,4 +1,4 @@
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db import transaction
@@ -97,3 +97,6 @@ class LoginSessionTesterController():
         else:
             context["error"] = "Imposible acceder a esta sesión"
             return render(request, self.current_direcction, context)
+
+    def validateEntryPF(self, request=HttpRequest):
+        return self.validateEntryEscalas(request=request)
