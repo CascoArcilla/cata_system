@@ -2,6 +2,7 @@ const FORM_DESCRIBE = document.querySelector(".cts-form-pf-word");
 const BOX_WORDS = document.querySelector(".cts-box-words");
 const IMG_LIST = document.querySelector(".cts-img-list");
 const ERROR_INPUT_WORD = document.querySelector(".error-input-word");
+const FORM_ACTION = document.querySelector(".form-actions");
 
 const WORDS = [];
 const STYLES_LI = [
@@ -116,7 +117,7 @@ function setupDescribeFormToAddWord() {
     if (!value) return;
 
     if (WORDS.includes(value)) {
-      notifactionError("Esa palabra ya está en la lista");
+      spanNotifaction("Esa palabra ya está en la lista");
       return;
     }
 
@@ -128,14 +129,82 @@ function setupDescribeFormToAddWord() {
   });
 }
 
-function notifactionError(messageError) {
-  ERROR_INPUT_WORD.textContent = messageError;
-  ERROR_INPUT_WORD.classList.remove("hidden");
+function spanNotifaction(messageError, isError = true) {
+  const span = document.createElement("span");
+  span.textContent = messageError;
+
+  const div = document.createElement("div");
+  div.classList.add("alert", isError ? "alert-error" : "alert-success");
+  div.appendChild(span);
+
+  ERROR_INPUT_WORD.append(div);
+
   setTimeout(() => {
-    ERROR_INPUT_WORD.textContent = "";
-    ERROR_INPUT_WORD.classList.add("hidden");
+    ERROR_INPUT_WORD.removeChild(div);
   }, 3000);
 }
+
+async function sendWordsToSave() {
+  if (!WORDS.length) {
+    spanNotifaction("Debe existir al menos una palabra en la lista");
+    return;
+  }
+
+  const currentPhase = parseInt(
+    document.querySelector(".cts-phase-pf").dataset.phase
+  );
+
+  const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
+
+  const requestData = {
+    phase: currentPhase,
+    words: WORDS,
+  };
+
+  const URL = "/cata/testers/api/ratingword/pf/list";
+
+  try {
+    const response = await fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: JSON.stringify(requestData),
+    });
+
+    if (!response.ok) {
+      spanNotifaction("Fallo con la respuesta recibida");
+      return;
+    }
+
+    const result = await response.json();
+
+    const messError = result.error;
+
+    if (messError) {
+      spanNotifaction(messError);
+      return;
+    }
+
+    spanNotifaction(result.message, false);
+    const addedWords = result.words;
+    WORDS.length = 0;
+    addedWords.forEach((word) => WORDS.push(word));
+    renderWords();
+  } catch (err) {
+    console.error(err);
+    spanNotifaction("Error en la respuesta del servidor");
+  }
+}
+
+// function setUpFormAction() {
+//   const input = FORM_ACTION.querySelector(".input-action");
+//   input.action = "";
+//   input.value = "finish_session";
+//   FORM_ACTION.submit();
+// }
 
 window.addEventListener("DOMContentLoaded", () => {
   initWordsFromBox();

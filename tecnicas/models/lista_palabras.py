@@ -12,4 +12,4 @@ class ListaPalabras(models.Model):
         Palabra, related_name="lista_palabras")
 
     def __str__(self):
-        return f"{self.tecnica.codigo_sesion} - {self.catador.user.username}"
+        return f"{self.tecnica.sesion_tecnica.codigo_sesion} - {self.catador.user.username}"

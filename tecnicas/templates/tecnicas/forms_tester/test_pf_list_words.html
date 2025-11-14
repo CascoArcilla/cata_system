@@ -7,7 +7,7 @@
 {% block content %}
 <article class="cts-container-main">
     <article class="cts-wrap-content text-black max-w-4xl">
-        <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
+        <header class="text-center flex-row max-sm:flex-col w-full items-stretch flex justify-around flex-wrap gap-2">
             <h1 class="rounded font-bold text-2xl bg-surface-ligt p-4 flex-1">
                 Sesión usando <br>técnica
                 <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
@@ -30,12 +30,7 @@
         </section>
 
         {% if error %}
-        <hr>
-        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
-            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
-                {{ error }}
-            </p>
-        </article>
+        {% include "../components/error-message.html" with message=error %}
         {% endif %}
 
         <article class="rounded flex flex-col gap-4">
@@ -47,14 +42,14 @@
             <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
                 {% if initial_phase %}
                 <p class="text-xl font-bold text-center">
-                    Fase 1:
+                    Fase <span class="cts-phase-pf" data-phase="1">1</span>:
                 </p>
                 <p class="text-xl font-bold text-center">
                     Lista inicial
                 </p>
                 {% else %}
                 <p class="text-xl font-bold text-center">
-                    Fase 2:
+                    Fase <span class="cts-phase-pf" data-phase="2">2</span>:
                 </p>
                 <p class="text-xl font-bold text-center">
                     Lista Final
@@ -63,7 +58,9 @@
             </section>
         </article>
 
-        <article class="cts-list-words">
+        <div class="error-input-word toast toast-bottom toast-center"></div>
+
+        <section class="cts-list-words space-y-4">
             <article class="flex gap-4 flex-wrap">
                 <section class="bg-surface-card p-4 rounded-lg text-center space-y-4 sm:w-[300px] w-full flex-shrink-0">
                     <h3 class="text-xl font-bold border-b-1">Describe el producto</h3>
@@ -82,13 +79,11 @@
                         <button type="submit" class="cts-btn-general-compress cts-btn-primary btn-push w-full py-2">
                             Agregar
                         </button>
-                        <p class="error-input-word p-2 bg-red-500 rounded-lg hidden text-white font-semibold">
-                        </p>
                     </form>
                 </section>
 
                 <section
-                    class="bg-surface-card p-4 rounded-lg text-center w-[400px] max-w-[400px] h-[400px] min-h-[400px] max-h-[600px] flex-shrink-0 overflow-y-auto">
+                    class="bg-surface-card p-4 rounded-lg text-center flex-1 h-[400px] min-h-[400px] max-h-[600px] flex-shrink-0 overflow-y-auto">
                     <div>
                         <p class="text-xl font-bold pb-3">Lista de palabras</p>
                         <hr>
@@ -117,8 +112,30 @@
                     </ul>
                 </section>
             </article>
+        </section>
 
+        <article class="flex max-sm:flex-col gap-4">
+            <button type="button" class="cts-btn-general-compress cts-btn-primary btn-push py-2 px-4 flex-1"
+                onclick="sendWordsToSave()">
+                Guardar y comprobar palabras actuales
+            </button>
+
+            <button type="button" class="cts-btn-general-compress cts-btn-secondary btn-push py-2 px-4 flex-1">
+                Finalizar la sesión
+            </button>
         </article>
+
+        <div role="alert" class="alert alert-warning">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <span class="text-lg">
+                Asegúrese de guardas las palabras si va salir de la sesión con el botón “Salir de la sesión”, de lo
+                contrario las palabras no se guardaran
+            </span>
+        </div>
     </article>
 </article>
 {% endblock %}

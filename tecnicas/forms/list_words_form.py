@@ -7,7 +7,6 @@ class ListWordsForm(forms.Form):
 
     def __init__(self, *args, new_words=None, **kwargs):
         super().__init__(*args, **kwargs)
-        new_words = new_words or []
 
         if not new_words:
             self.fields['nombre_palabra'] = forms.CharField(
@@ -22,7 +21,7 @@ class ListWordsForm(forms.Form):
             )
         else:
             for index, name in enumerate(new_words, start=1):
-                self.fields[f'nombre_palabra_{index}'] = forms.CharField(
+                self.fields[f'palabra_{index}'] = forms.CharField(
                     label=f'Palabra {index}',
                     max_length=255,
                     initial=name,

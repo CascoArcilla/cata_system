@@ -46,4 +46,5 @@ from .views_controller.vocabulary_manage.list_vocabulary_controller import ListV
 
 from .api_controller.rating_sacales_controller import RatingScalesController
 from .api_controller.rating_cata_controller import RatingCataController
+from .api_controller.rating_pf_list_controller import RatingPFListController
 from .views_controller.tester_list_controller import TesterListController

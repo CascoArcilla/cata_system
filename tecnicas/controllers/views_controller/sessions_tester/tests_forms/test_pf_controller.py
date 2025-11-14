@@ -42,6 +42,17 @@ class TestPFController(GenetalTestController):
         self.context["form"] = ListWordsForm()
         self.context["initial_phase"] = True
 
+        try:
+            tester_list = ListaPalabras.objects.get(
+                tecnica=self.session.tecnica,
+                catador=request.user.user_catador,
+                es_final=False
+            )
+            list_words = list(tester_list.palabras.all())
+            self.context["words"] = list_words
+        except ListaPalabras.DoesNotExist:
+            self.context["words"] = []
+
         return render(request, self.current_directory, self.context)
 
     def getSecondPhase(self, request: HttpRequest):
@@ -53,13 +64,20 @@ class TestPFController(GenetalTestController):
             }
             return redirect(reverse(self.previus_directory, kwargs=params))
 
-        list_words = list(
-            ListaPalabras.objects.get(
+        try:
+            tester_list = ListaPalabras.objects.get(
+                tecnica=self.session.tecnica,
+                catador=request.user.user_catador,
+                es_final=True
+            )
+        except ListaPalabras.DoesNotExist:
+            tester_list = ListaPalabras.objects.get(
                 tecnica=self.session.tecnica,
                 catador=request.user.user_catador,
                 es_final=False
-            ).palabras.all()
-        )
+            )
+
+        list_words = list(tester_list.palabras.all())
 
         self.context["form"] = ListWordsForm()
         self.context["initial_phase"] = False
