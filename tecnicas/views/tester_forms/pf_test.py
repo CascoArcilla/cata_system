@@ -1,11 +1,11 @@
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import TestCataController
+from tecnicas.controllers import TestPFController
 
 
-def cataTest(req: HttpRequest, code_sesion: str):
+def pfTest(req: HttpRequest, code_sesion: str):
     if req.method == "GET":
         session = SesionSensorial.objects.get(codigo_sesion=code_sesion)
-        controll_view = TestCataController(
+        controll_view = TestPFController(
             sensorial_session=session, user_tester=req.user.user_catador)
         return controll_view.controllGet(request=req)

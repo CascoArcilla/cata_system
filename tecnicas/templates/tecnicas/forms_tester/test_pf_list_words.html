@@ -1,0 +1,129 @@
+{% extends 'tecnicas/layouts/base.html' %}
+
+{% load static %}
+
+{% block title %}Convencional{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-wrap-content text-black max-w-4xl">
+        <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
+            <h1 class="rounded font-bold text-2xl bg-surface-ligt p-4 flex-1">
+                Sesión usando <br>técnica
+                <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+            </h1>
+            <button class="cts-btn-general cts-btn-error btn-push" onclick="exit_sesion('form-actions')">
+                Salir de la sesión
+            </button>
+        </header>
+
+        <article class="hidden">
+            <form action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post"
+                class="form-actions">
+                {% csrf_token %}
+                <input type="hidden" name="action" class="action-input">
+            </form>
+        </article>
+
+        <section class="hidden">
+            <input type="hidden" value="{{ session.tecnica.id }}" name="id-tecnica" class="ct-input-id-tech">
+        </section>
+
+        {% if error %}
+        <hr>
+        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
+            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
+                {{ error }}
+            </p>
+        </article>
+        {% endif %}
+
+        <article class="rounded flex flex-col gap-4">
+            <section class="flex items-center justify-center bg-surface-ligt p-2 rounded-lg">
+                <p class="text-lg font-medium text-center">
+                    {{ session.tecnica.instrucciones }}
+                </p>
+            </section>
+            <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
+                {% if initial_phase %}
+                <p class="text-xl font-bold text-center">
+                    Fase 1:
+                </p>
+                <p class="text-xl font-bold text-center">
+                    Lista inicial
+                </p>
+                {% else %}
+                <p class="text-xl font-bold text-center">
+                    Fase 2:
+                </p>
+                <p class="text-xl font-bold text-center">
+                    Lista Final
+                </p>
+                {% endif %}
+            </section>
+        </article>
+
+        <article class="cts-list-words">
+            <article class="flex gap-4 flex-wrap">
+                <section class="bg-surface-card p-4 rounded-lg text-center space-y-4 sm:w-[300px] w-full flex-shrink-0">
+                    <h3 class="text-xl font-bold border-b-1">Describe el producto</h3>
+
+                    <form action="" method="get" class="cts-form-pf-word flex gap-4 flex-col">
+                        <label for="{{ form.nombre_palabra.id_for_label }}" class="text-left">
+                            <p class="text-lg font-semibold">
+                                {{ form.nombre_palabra.label }}:
+                            </p>
+                            {{ form.nombre_palabra }}
+                            <small>
+                                Solo letras minúsculas y la letra ñ, no poner acentos. No se permiten mayúsculas ni
+                                caracteres especiales. Mínimo 3 letras
+                            </small>
+                        </label>
+                        <button type="submit" class="cts-btn-general-compress cts-btn-primary btn-push w-full py-2">
+                            Agregar
+                        </button>
+                        <p class="error-input-word p-2 bg-red-500 rounded-lg hidden text-white font-semibold">
+                        </p>
+                    </form>
+                </section>
+
+                <section
+                    class="bg-surface-card p-4 rounded-lg text-center w-[400px] max-w-[400px] h-[400px] min-h-[400px] max-h-[600px] flex-shrink-0 overflow-y-auto">
+                    <div>
+                        <p class="text-xl font-bold pb-3">Lista de palabras</p>
+                        <hr>
+                    </div>
+
+                    <ul class="cts-box-words flex flex-col gap-3 overflow-y-auto mt-4">
+                        {% if not words %}
+                        <img src="{% static 'img/list.svg' %}" alt="lista de palabras" class="cts-img-list h-[300px]">
+                        {% endif %}
+
+                        {% for word in words %}
+                        <img src="{% static 'img/list.svg' %}" alt="lista de palabras"
+                            class="cts-img-list h-[300px] hidden">
+
+                        <li class="cts-item-words bg-gray-400 text-black rounded font-bold text-lg 
+                       px-4 py-3 flex flex-wrap flex-row min-w-fit justify-center items-center gap-3">
+                            <p class="ct-word-received">{{ word.nombre_palabra }}</p>
+
+                            <button class="px-4 border-b-2 active:border-b-0 active:border-t-2 
+                           transition-all rounded-xl font-black capitalize 
+                           active:border-red-500 border-red-800 bg-red-500">
+                                ➖
+                            </button>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </article>
+
+        </article>
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/pf-make-list.js' %}"></script>
+<script src="{% static 'js/actions-form.js' %}"></script>
+{% endblock %}

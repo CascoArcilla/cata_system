@@ -4,18 +4,13 @@ from django.urls import reverse
 from tecnicas.models import Participacion, Producto, Dato, ListaPalabras
 from tecnicas.controllers import ParticipacionController
 from .init_session_controller import InitSessionController
-from tecnicas.utils import controller_error
 
 
 class InitSessionPFController(InitSessionController):
-    pf_ph1_direcction = "cata_system:session_pf_ph1"
-    pf_ph2_direcction = "cata_system:session_pf_ph2"
-    pf_rep_direcction = "cata_system:session_pf_rep"
-
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
         self.current_direction = "tecnicas/forms_tester/init_session_pf.html"
-        self.pf_direction = "cata_system:session_convencional"
+        self.pf_direction = "cata_system:session_pf"
 
     def controllGet(self, request: HttpRequest):
         context = {
@@ -61,17 +56,14 @@ class InitSessionPFController(InitSessionController):
 
             request.session["id_participation"] = update_participation.id
 
-            if self.session.tecnica.tipo_tecnica.nombre_tecnica == "cata":
-                return redirect(reverse(self.cata_direction, kwargs=parameters))
-
-            return redirect(reverse(self.escalas_direction, kwargs=parameters))
+            return redirect(reverse(self.pf_direction, kwargs=parameters))
 
         elif request.POST["action"] == "exit_session":
             response = ParticipacionController.outSession(
                 tester=request.user.user_catador, session=self.session)
             if isinstance(response, dict):
                 context["error"] = response["error"]
-            return render(request, self.current_direction, context)
+            return self.controllGet(request)
 
         else:
             context["error"] = "Acción sin especificar"

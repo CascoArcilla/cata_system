@@ -42,10 +42,9 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
             response = view_controller.controllPost(request=req)
 
         elif type_technique == "perfil flash":
-            # view_controller = InitSessionPFController(
-            #     sensorial_session=session, user_tester=req.user.user_catador)
-            # response = view_controller.controllPost(request=req)
-            response = JsonResponse({"message": "Aun estamos probando esta funcion"})
+            view_controller = InitSessionPFController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllPost(request=req)
         else:
             context = {
                 "session": session,
