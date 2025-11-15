@@ -120,7 +120,8 @@
                 Guardar y comprobar palabras actuales
             </button>
 
-            <button type="button" class="cts-btn-general-compress cts-btn-secondary btn-push py-2 px-4 flex-1">
+            <button type="button" class="cts-btn-general-compress cts-btn-secondary btn-push py-2 px-4 flex-1"
+                onclick="setUpFormAction()">
                 Finalizar la sesión
             </button>
         </article>
@@ -131,11 +132,18 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
-            <span class="text-lg">
-                Asegúrese de guardas las palabras si va salir de la sesión con el botón “Salir de la sesión”, de lo
-                contrario las palabras no se guardaran
-            </span>
+            <div class="flex-col">
+                <span class="text-lg block">
+                    Si usas el botón <b>“Salir de la sesión”</b> asegúrese de guardar las palabras de lo contrario las
+                    palabras no se guardaran pero podrás ingresar otra vez
+                </span>
+                <span class="text-lg block">
+                    Con el botón <b>“Finalizar la sesión”</b>, se guardan las palabras, sales de la sesión y no podrás
+                    ingresar otra vez
+                </span>
+            </div>
         </div>
+
     </article>
 </article>
 {% endblock %}

@@ -11,7 +11,7 @@ def apiListWordsPF(req:  HttpRequest):
             raw_words = data.get("words", [])
             phase = data.get("phase", [])
 
-            response = RatingPFListController.firstSaveList(
+            response = RatingPFListController.saveList(
                 request=req, current_phase=phase, words=raw_words)
             return response
         except Exception as e:

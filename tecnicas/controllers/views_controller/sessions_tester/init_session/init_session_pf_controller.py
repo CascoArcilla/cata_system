@@ -18,17 +18,14 @@ class InitSessionPFController(InitSessionController):
             "type_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
         }
 
-        (is_end, message) = self.isEndedSession()
+        (is_end, message, rep_show) = self.isEndedSession()
 
-        if is_end:
-            context["message"] = message
+        context["has_ended"] = is_end
+        context["activity"] = message
+        context["repetition"] = rep_show
 
         if "error" in request.GET:
             context["error"] = request.GET["error"]
-
-        (current_activity, reptition) = self.getCurrentActicity()
-        context["activity"] = current_activity
-        context["repetition"] = reptition
 
         return render(request, self.current_direction, context)
 
@@ -38,15 +35,16 @@ class InitSessionPFController(InitSessionController):
             "type_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
         }
 
-        if request.POST["action"] == "start_posting":
+        action = request.POST["action"]
+
+        if action == "start_posting":
             parameters = {
                 "code_sesion": self.session.codigo_sesion
             }
 
-            (is_end, message) = self.isEndedSession()
+            (is_end, message, rep_show) = self.isEndedSession()
             if is_end:
-                context["message"] = message
-                return render(request, self.current_direction, context)
+                return self.controllGet(request)
 
             update_participation = ParticipacionController.enterSession(
                 tester=request.user.user_catador, session=self.session)
@@ -58,7 +56,7 @@ class InitSessionPFController(InitSessionController):
 
             return redirect(reverse(self.pf_direction, kwargs=parameters))
 
-        elif request.POST["action"] == "exit_session":
+        elif action == "exit_session":
             response = ParticipacionController.outSession(
                 tester=request.user.user_catador, session=self.session)
             if isinstance(response, dict):
@@ -69,19 +67,29 @@ class InitSessionPFController(InitSessionController):
             context["error"] = "Acción sin especificar"
             return render(request, self.current_direction, context)
 
-    def isEndedSession(self) -> tuple[bool, str]:
+    def isEndedSession(self) -> tuple[bool, str, int]:
         rep = self.session.tecnica.repeticion
 
         is_end = False
         message = ""
-        if rep >= 3:
+        repetitiom_show = 0
+
+        if rep == 1:
             is_end = self.endedSessionMakeList()
-            message = "Ya has creado la Lista de palabras de la fase" if is_end else "Debes crear tu lista de palabras"
-        else:
+            message = "Ya has creado la Lista de palabras inicial" if is_end else "Debes crear tu lista de palabras inicial"
+            repetitiom_show = 0
+        elif rep == 2:
+            is_end = self.endedSessionMakeList()
+            message = "Ya has creado la Lista de palabras final" if is_end else "Debes crear tu lista de palabras final"
+            repetitiom_show = 0
+        elif rep >= 3:
             is_end = self.endedSessionRepetition()
             message = "Has finalizado con el proceso de calificación" if is_end else "Debe hacer tu proceso de calificación"
+            repetitiom_show = rep - 2
+        else:
+            message = "Parece que la repetición es cero, no es posible hacer algo ahora mismo"
 
-        return (is_end, message)
+        return (is_end, message, repetitiom_show)
 
     def endedSessionMakeList(self):
         try:
@@ -134,14 +142,3 @@ class InitSessionPFController(InitSessionController):
         except Participacion.DoesNotExist:
             print("No se ha encontrado la participación")
             return False
-
-    def getCurrentActicity(self) -> tuple[str, int]:
-        rep = self.session.tecnica.repeticion
-        if rep == 1:
-            return ("Debes realizar tu lista de palabras inicial", 0)
-        elif rep == 2:
-            return ("Debes realizar tu lista de palabras final", 0)
-        elif rep >= 3:
-            return ("Debes realizar el proceso de calificación con tu lista de palabras", rep - 2)
-        else:
-            return ("Ha ocurrido algún error", 0)

@@ -11,10 +11,13 @@ class TestPFController(GenetalTestController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
 
-    def controllGet(self, request: HttpRequest):
+    def controllGet(self, request: HttpRequest, error=""):
         self.participation = Participacion.objects.get(
             tecnica=self.session.tecnica, catador=request.user.user_catador)
         self.context["session"] = self.session
+
+        if error:
+            self.context["error"] = error
 
         rep = self.session.tecnica.repeticion
 
@@ -29,6 +32,19 @@ class TestPFController(GenetalTestController):
             response = self.getErrorRepetition(request)
 
         return response
+
+    def controllPost(self, request: HttpRequest):
+        action = request.POST["action"]
+
+        if action == "finish_session":
+            self.participation = Participacion.objects.get(
+                tecnica=self.session.tecnica, catador=request.user.user_catador)
+            ParticipacionController.finishSession(self.participation)
+            params = {"code_sesion": self.session.codigo_sesion}
+            return redirect(reverse(self.previus_directory, kwargs=params))
+
+        else:
+            return self.controllGet(request, error="Acción no permitida")
 
     def getFirstPhase(self, request: HttpRequest):
         self.participation.refresh_from_db()

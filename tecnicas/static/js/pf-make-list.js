@@ -147,7 +147,7 @@ function spanNotifaction(messageError, isError = true) {
 async function sendWordsToSave() {
   if (!WORDS.length) {
     spanNotifaction("Debe existir al menos una palabra en la lista");
-    return;
+    return false;
   }
 
   const currentPhase = parseInt(
@@ -176,7 +176,7 @@ async function sendWordsToSave() {
 
     if (!response.ok) {
       spanNotifaction("Fallo con la respuesta recibida");
-      return;
+      return false;
     }
 
     const result = await response.json();
@@ -185,7 +185,7 @@ async function sendWordsToSave() {
 
     if (messError) {
       spanNotifaction(messError);
-      return;
+      return false;
     }
 
     spanNotifaction(result.message, false);
@@ -193,18 +193,25 @@ async function sendWordsToSave() {
     WORDS.length = 0;
     addedWords.forEach((word) => WORDS.push(word));
     renderWords();
+    return true;
   } catch (err) {
     console.error(err);
     spanNotifaction("Error en la respuesta del servidor");
+    return false;
   }
 }
 
-// function setUpFormAction() {
-//   const input = FORM_ACTION.querySelector(".input-action");
-//   input.action = "";
-//   input.value = "finish_session";
-//   FORM_ACTION.submit();
-// }
+async function setUpFormAction() {
+  const saveWords = await sendWordsToSave();
+  if (!saveWords) {
+    return false;
+  }
+
+  const input = FORM_ACTION.querySelector(".action-input");
+  FORM_ACTION.action = "";
+  input.value = "finish_session";
+  FORM_ACTION.submit();
+}
 
 window.addEventListener("DOMContentLoaded", () => {
   initWordsFromBox();

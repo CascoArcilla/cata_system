@@ -9,7 +9,7 @@ class RatingPFListController():
         pass
 
     @staticmethod
-    def firstSaveList(request: HttpRequest, words: list, current_phase: int):
+    def saveList(request: HttpRequest, words: list, current_phase: int):
         dic_words = {}
         for index, word in enumerate(words, start=1):
             dic_words[f"palabra_{index}"] = word
@@ -63,9 +63,13 @@ def addWordsToListWordsTester(list_words: list[str], list_tester: ListaPalabras)
     names_words_exist = set(
         all_words.values_list('nombre_palabra', flat=True))
 
+    # Ejecutar el query para no sumar palabras repetidas
+    all_words = list(all_words)
+
     # Determinar faltantes
     missing_words = [
         nombre for nombre in clean_words if nombre not in names_words_exist]
+    print("No save words", missing_words)
 
     created_words = []
 
@@ -82,7 +86,7 @@ def addWordsToListWordsTester(list_words: list[str], list_tester: ListaPalabras)
             created_words.append(palabra)
 
     # Combinar todas (all_words + created_words)
-    all_new_words = list(all_words) + created_words
+    all_new_words = all_words + created_words
 
     list_tester.palabras.set(all_new_words)
 
