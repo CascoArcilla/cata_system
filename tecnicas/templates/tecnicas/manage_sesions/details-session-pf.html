@@ -166,21 +166,65 @@
             Datos obtenidos
         </p>
 
-        <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
-            <section class="text-xl space-y-4 space-x-4 mb-4">
-                <p class="inline italic underline font-semibold">
-                    Se usa una escala <b>{{ tipo_escala }}</b> para calificar
-                </p>
-                <p class="inline italic underline font-semibold">
-                    El valor máximo por calificación es <b>{{ valor_max }}</b>
-                </p>
+        <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded space-y-4">
+            <section class="">
+                <header class="text-center">
+                    <h3 class="text-xl font-bold">Prmera fase</h3>
+                    <p class="text-lg">Listas iniciales de Catadores</p>
+                </header>
+
+                {% if fisrt_phase %}
+                <article class="flex gap-4 overflow-x-auto py-2">
+                    {% for list_tester in fisrt_phase %}
+                    {% include "../components/item-list-words.html" with list_tester=list_tester %}
+                    {% endfor %}
+                </article>
+                {% else %}
+                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+                {% endif %}
             </section>
-            {% if existen_calificaciones %}
-            {% include "../components/table_cata.html" with calificaciones=calificaciones palabras=palabras
-            sesion=sesion %}
-            {% else %}
-            {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}
-            {% endif %}
+
+
+            <section class="">
+                <header class="text-center">
+                    <h3 class="text-xl font-bold">Segunda fase</h3>
+                    <p class="text-lg">Listas finales de Catadores</p>
+                </header>
+
+                {% if second_phase %}
+                <article class="flex gap-4 overflow-x-auto py-2">
+                    {% for list_tester in second_phase %}
+                    {% include "../components/item-list-words.html" with list_tester=list_tester %}
+                    {% endfor %}
+                </article>
+                {% else %}
+                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+                {% endif %}
+            </section>
+
+            <section class="">
+                <header class="text-center">
+                    <h3 class="text-xl font-bold">Tercera fase</h3>
+                    <p class="text-lg">Listas finales de Catadores</p>
+                </header>
+
+                <article class="text-xl space-y-4 space-x-4 mb-4">
+                    <p class="inline italic underline font-semibold">
+                        Se usa una escala <b>{{ tipo_escala }}</b> para calificar
+                    </p>
+                    <p class="inline italic underline font-semibold">
+                        El valor máximo por calificación es <b>{{ valor_max }}</b>
+                    </p>
+                </article>
+
+                {% if data_ratings %}
+                <article class="flex gap-4 overflow-x-auto py-2">
+                    {% include "../components/error-message.html" with message='Muchos datos, ahhhhhhhhhhhhh' %}
+                </article>
+                {% else %}
+                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+                {% endif %}
+            </section>
         </article>
 
         <form action="" method="post" class="form-action-session hidden">

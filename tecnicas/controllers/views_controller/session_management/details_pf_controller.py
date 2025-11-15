@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
-from tecnicas.models import SesionSensorial, Presentador, Participacion
+from tecnicas.models import SesionSensorial, Presentador, Participacion, ListaPalabras
 from tecnicas.controllers import ParticipacionController
 from .details_controller import DetallesController
 
@@ -27,8 +27,9 @@ class DetallesPFController(DetallesController):
         # Definir el estado de la sesion
         rep = technique.repeticion
         activate = self.session.activo
-
         self.context["estado"] = self.getStatus(rep, activate)
+
+        self.getDataPhases()
 
         return self.context
 
@@ -61,6 +62,82 @@ class DetallesPFController(DetallesController):
         }
         return redirect(
             reverse(self.url_next, kwargs=parameters))
+
+    def getDataPhases(self):
+        curren_repetition = self.session.tecnica.repeticion
+
+        if curren_repetition == 1:
+            self.context["fisrt_phase"] = self.getDataFirstPhase()
+        elif curren_repetition == 2:
+            self.context["fisrt_phase"] = self.getDataFirstPhase()
+            self.context["second_phase"] = self.getDataSecondPhase()
+        elif curren_repetition >= 3:
+            self.context["fisrt_phase"] = self.getDataFirstPhase()
+            self.context["second_phase"] = self.getDataSecondPhase()
+            self.context["data_ratings"] = self.getDataRatings()
+
+        return self.context
+
+    def getDataFirstPhase(self):
+        lists_testers = ListaPalabras.objects.filter(
+            tecnica=self.session.tecnica,
+            es_final=False
+        )
+
+        result = []
+        for list in lists_testers:
+            try:
+                username = list.catador.user.username
+            except Exception:
+                username = None
+
+            words_qs = list.palabras.all()
+            words = []
+            for p in words_qs:
+                nombre = getattr(p, 'nombre_palabra', None)
+                words.append({
+                    'id': getattr(p, 'id', None),
+                    'nombre_palabra': nombre
+                })
+
+            result.append({
+                'username': username,
+                'words': words
+            })
+
+        return result
+
+    def getDataSecondPhase(self):
+        lists_testers = ListaPalabras.objects.filter(
+            tecnica=self.session.tecnica,
+            es_final=True
+        )
+
+        result = []
+        for list in lists_testers:
+            try:
+                username = list.catador.user.username
+            except Exception:
+                username = None
+
+            words_qs = list.palabras.all()
+            words = []
+            for p in words_qs:
+                nombre = getattr(p, 'nombre_palabra', None)
+                words.append({
+                    'id': getattr(p, 'id', None),
+                    'nombre_palabra': nombre
+                })
+
+            result.append({
+                'username': username,
+                'words': words
+            })
+
+        return result
+
+    def getDataRatings(self):
+        return []
 
     def getStatus(self, rep: int, activate: bool):
         status = ""
