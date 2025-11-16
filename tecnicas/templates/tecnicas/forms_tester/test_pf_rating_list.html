@@ -110,7 +110,7 @@
             {% with path_con="../components/form-scale-continue.html" path_str="../components/form-scale-structure.html" %}
                 {% if type_scale == "continua" %}
                     {% for word in words %}
-                        {% include path_con with word=word tags=tags scale=scale %}
+                        {% include path_con with word=word tags=tags scale=scale size_scale=size_scale %}
                     {% endfor %}
                 {% elif type_scale == "estructurada" %}
                     {% for word in words %}

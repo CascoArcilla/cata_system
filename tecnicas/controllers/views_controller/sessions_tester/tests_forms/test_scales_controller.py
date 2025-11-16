@@ -78,5 +78,10 @@ class TestScalesController(GenetalTestController):
         ctx["scale"] = scale
         ctx["type_scale"] = scale.id_tipo_escala.nombre_escala
         ctx["tags"] = EscalaController.getRelatedTagsInScale(scale=scale)
+        if ctx["type_scale"] == "continua":
+            ctx["size_scale"] = {
+                "max_size": scale.longitud * 100,
+                "middle_size": (scale.longitud * 100)/2
+            }
 
         return render(request, self.current_directory, ctx)
