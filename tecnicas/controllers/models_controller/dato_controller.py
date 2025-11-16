@@ -1,5 +1,5 @@
-from ...models import Calificacion, Dato, Palabra, ValorDecimal, ValorBooleano, Tecnica
-from ...utils import controller_error, getId
+from tecnicas.models import Calificacion, Dato, Palabra, ValorDecimal, ValorBooleano, Tecnica, Catador
+from tecnicas.utils import controller_error, getId
 from django.core.exceptions import ValidationError
 from django.db.models import F
 
@@ -89,6 +89,24 @@ class DatoController():
                     "id_dato__id_calificacion__id_producto__codigoProducto"),
                 usuario_catador=F(
                     "id_dato__id_calificacion__id_catador__user__username"),
+                dato_valor=F("valor")
+            )
+        )
+
+        return list(result)
+
+    @staticmethod
+    def getWordValuesPF(technique: Tecnica, ratings: list[Calificacion], tester: Catador):
+        ids_ratings = [rat.id for rat in ratings]
+
+        result = (
+            ValorDecimal.objects
+            .filter(id_dato__id_calificacion_id__in=ids_ratings, id_dato__id_calificacion__id_catador=tester)
+            .values(
+                nombre_palabra=F("id_dato__id_palabra__nombre_palabra"),
+                repeticion=F("id_dato__id_calificacion__num_repeticion"),
+                producto_code=F(
+                    "id_dato__id_calificacion__id_producto__codigoProducto"),
                 dato_valor=F("valor")
             )
         )

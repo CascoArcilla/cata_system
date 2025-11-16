@@ -218,8 +218,10 @@
                 </article>
 
                 {% if data_ratings %}
-                <article class="flex gap-4 overflow-x-auto py-2">
-                    {% include "../components/error-message.html" with message='Muchos datos, ahhhhhhhhhhhhh' %}
+                <article class="overflow-x-auto py-2">
+                    {% for data_tester in data_ratings %}
+                        {% include "../components/table_pf.html" with data=data_tester %}
+                    {% endfor %}
                 </article>
                 {% else %}
                 {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}

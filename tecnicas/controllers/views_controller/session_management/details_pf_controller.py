@@ -1,9 +1,11 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
-from tecnicas.models import SesionSensorial, Presentador, Participacion, ListaPalabras
-from tecnicas.controllers import ParticipacionController
+from tecnicas.models import SesionSensorial, Presentador, Participacion, ListaPalabras, Calificacion, Catador
+from tecnicas.controllers import ParticipacionController, DatoController
+from tecnicas.utils import defaultdict_to_dict
 from .details_controller import DetallesController
+from collections import defaultdict
 
 
 class DetallesPFController(DetallesController):
@@ -137,7 +139,47 @@ class DetallesPFController(DetallesController):
         return result
 
     def getDataRatings(self):
-        return []
+        lists_words_testers = self.context["second_phase"]
+        technique = self.session.tecnica
+
+        ratings_for_tester = []
+
+        for list_tester in lists_words_testers:
+            tester_username = list_tester["username"]
+            # Se recuperan las calificaciones
+            ratings_for_repetition = []
+
+            ratings = list(Calificacion.objects.filter(
+                id_tecnica=technique, id_catador__user__username=tester_username))
+
+            if not ratings:
+                continue
+
+            data = DatoController.getWordValuesPF(
+                ratings=ratings, technique=technique, tester=Catador.objects.get(user__username=tester_username))
+
+            ratings_for_repetition = defaultdict(lambda: defaultdict(list))
+
+            for item in data:
+                rep = item["repeticion"]
+                prod = item["producto_code"]
+
+                ratings_for_repetition[rep-2][prod].append({
+                    "nombre_palabra": item["nombre_palabra"],
+                    "dato_valor": item["dato_valor"]
+                })
+
+            ratings_for_tester.append(
+                {
+                    "tester": tester_username,
+                    "ratings": defaultdict_to_dict(
+                        ratings_for_repetition),
+                    "words": list_tester["words"]
+                }
+            )
+            self.context["existen_calificaciones"] = True
+
+        return ratings_for_tester
 
     def getStatus(self, rep: int, activate: bool):
         status = ""
