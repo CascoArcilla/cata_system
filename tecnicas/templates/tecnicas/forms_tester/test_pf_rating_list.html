@@ -1,0 +1,129 @@
+{% extends 'tecnicas/layouts/base.html' %}
+
+{% load static %}
+
+{% block title %}Convencional{% endblock %}
+
+{% block extra_css %}
+<style>
+    input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: var(--color-blue-500);
+        cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #3b82f6;
+        cursor: pointer;
+    }
+
+    @media (width < 40rem) {
+        .container-forms {
+            width: inherit;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-wrap-content text-black">
+        <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
+            <h1 class="rounded font-bold text-2xl bg-surface-ligt p-4 flex-1">
+                Sesión usando <br>técnica
+                <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+            </h1>
+            <button class="cts-btn-general cts-btn-error btn-push" onclick="exit_sesion('form-actions')">
+                Salir de la sesión
+            </button>
+        </header>
+
+        <article class="hidden">
+            <form action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post"
+                class="form-actions">
+                {% csrf_token %}
+                <input type="hidden" name="action" class="action-input">
+            </form>
+        </article>
+
+        <section class="hidden">
+            <input type="hidden" value="{{ session.tecnica.id }}" name="id-tecnica" class="ct-input-id-tech">
+        </section>
+
+        {% if error %}
+        {% include "../components/error-message.html" with message=error %}
+        {% endif %}
+
+        <article class="rounded flex flex-col gap-4">
+            <section class="flex items-center justify-center bg-surface-ligt p-2 rounded-lg">
+                <p class="text-lg font-medium text-center">
+                    {{ session.tecnica.instrucciones }}
+                </p>
+            </section>
+
+            <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
+                <p class="text-xl font-bold text-center">
+                    Fase <span class="cts-phase-pf" data-phase="3">3</span>:
+                </p>
+                <p class="text-xl font-bold text-center">
+                    Calificación de listas
+                </p>
+            </section>
+
+            <section class="flex items-center justify-center flex-wrap gap-4">
+                <div class="bg-surface-ligt p-2 rounded-lg flex-1">
+                    <p class="text-lg font-bold text-center">
+                        Producto:
+                    </p>
+                    <p class="text-2xl font-bold text-center ct-product-rating">
+                        <span class="code-product">{{ product }}</span>
+                        <span class="hidden id-product">{{ product.id }}</span>
+                    </p>
+                </div>
+                <div class="bg-surface-ligt p-2 rounded-lg flex-1">
+                    <p class="text-lg font-bold text-center">
+                        Repetición:
+                    </p>
+                    <p class="text-2xl font-bold text-center">
+                        {{ repetition }}
+                    </p>
+                </div>
+            </section>
+
+            <section class="flex flex-col bg-red-200 py-2 px-4 rounded-lg min-sm:hidden">
+                <p>
+                    El largo de estas escalas puede afectar la vista en dispositivos móviles. Para ver el resto de la
+                    escala puede deslizar con el dedo a la derecha o la izquierda sin tocar la escala.
+                </p>
+            </section>
+        </article>
+
+        <article
+            class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3 justify-center items-center">
+            {% with path_con="../components/form-scale-continue.html" path_str="../components/form-scale-structure.html" %}
+                {% if type_scale == "continua" %}
+                    {% for word in words %}
+                        {% include path_con with word=word tags=tags scale=scale %}
+                    {% endfor %}
+                {% elif type_scale == "estructurada" %}
+                    {% for word in words %}
+                        {% include path_str with word=word tags=tags scale=scale %}
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </article>
+    </article>
+</article>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'js/created-scale.js' %}"></script>
+<script src="{% static 'js/actions-form.js' %}"></script>
+{% endblock %}

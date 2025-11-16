@@ -118,7 +118,7 @@ class InitSessionPFController(InitSessionController):
                     id_tecnica=self.session.tecnica).count()
 
                 num_words = ListaPalabras.objects.get(
-                    tecnica=self.sensorial_session.tecnica,
+                    tecnica=self.session.tecnica,
                     catador=self.tester,
                     es_final=True
                 ).palabras.all().count()

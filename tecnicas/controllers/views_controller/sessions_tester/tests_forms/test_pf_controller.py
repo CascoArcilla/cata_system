@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from tecnicas.models import Producto, Participacion, Palabra, Calificacion, ListaPalabras
-from tecnicas.controllers import ParticipacionController, PalabrasController
+from tecnicas.controllers import ParticipacionController, PalabrasController, EscalaController
 from tecnicas.forms import ListWordsForm
 from .general_test_controller import GenetalTestController
 
@@ -28,6 +28,7 @@ class TestPFController(GenetalTestController):
             self.current_directory = "tecnicas/forms_tester/test_pf_list_words.html"
             response = self.getSecondPhase(request)
         elif rep >= 3:
+            self.current_directory = "tecnicas/forms_tester/test_pf_rating_list.html"
             response = self.getRepetitionPhase(request)
         else:
             response = self.getErrorRepetition(request)
@@ -160,8 +161,17 @@ class TestPFController(GenetalTestController):
             }
             return redirect(reverse(self.previus_directory, kwargs=params))
 
+        scale = EscalaController.getScaleByTechnique(technique=technique)
+        use_tags = EscalaController.getRelatedTagsInScale(scale=scale)
+
         self.context["product"] = use_product
         self.context["words"] = use_words
+        
+        self.context["scale"] = scale
+        self.context["type_scale"] = scale.id_tipo_escala.nombre_escala
+        self.context["tags"] = use_tags
+
+        self.context["repetition"] = technique.repeticion - 2
 
         return render(request, self.current_directory, self.context)
 
