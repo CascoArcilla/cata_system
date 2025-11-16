@@ -32,7 +32,7 @@ class MonitorPFController(MonitorController):
 
         unfinished_participations = Participacion.objects.filter(
             tecnica=self.sensorial_session.tecnica, finalizado=False).count()
-        if not unfinished_participations or len(unfinished_participations) > 0:
+        if unfinished_participations:
             return (False, "No todos los catadores han finalizado su evaluación")
 
         return (True, "Puedes finalizar la sesión")
