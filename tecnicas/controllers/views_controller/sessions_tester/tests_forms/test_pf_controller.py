@@ -25,6 +25,7 @@ class TestPFController(GenetalTestController):
             self.current_directory = "tecnicas/forms_tester/test_pf_list_words.html"
             response = self.getFirstPhase(request)
         elif rep == 2:
+            self.current_directory = "tecnicas/forms_tester/test_pf_list_words.html"
             response = self.getSecondPhase(request)
         elif rep >= 3:
             response = self.getRepetitionPhase(request)

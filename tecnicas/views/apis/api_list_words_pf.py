@@ -5,7 +5,9 @@ import json
 
 
 def apiListWordsPF(req:  HttpRequest):
-    if req.method == "POST":
+    if req.method == "GET":
+        return RatingPFListController.getListWords(request=req)
+    elif req.method == "POST":
         try:
             data = json.loads(req.body.decode("utf-8"))
             raw_words = data.get("words", [])

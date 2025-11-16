@@ -32,6 +32,19 @@
         {% if error %}
         {% include "../components/error-message.html" with message=error %}
         {% endif %}
+        {% if not initial_phase %}
+        <div role="alert" class="alert alert-info">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                class="h-6 w-6 shrink-0 stroke-current">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <span class="text-lg">
+                Para poder compartir tu nueva lista de palabras con los demás Catadores, debes usar el botón de
+                <b>“Guardar y comprobar palabras actuales”</b>
+            </span>
+        </div>
+        {% endif %}
 
         <article class="rounded flex flex-col gap-4">
             <section class="flex items-center justify-center bg-surface-ligt p-2 rounded-lg">
@@ -120,7 +133,7 @@
                 Guardar y comprobar palabras actuales
             </button>
 
-            <button type="button" class="cts-btn-general-compress cts-btn-secondary btn-push py-2 px-4 flex-1"
+            <button type="button" class="cts-btn-general cts-btn-secondary btn-push py-2 px-4 flex-1"
                 onclick="setUpFormAction()">
                 Finalizar la sesión
             </button>
@@ -144,6 +157,22 @@
             </div>
         </div>
 
+        {% if not initial_phase %}
+        <section class="space-y-4">
+            <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
+                <h3 class="text-xl font-bold text-center">
+                    Listas de los demás participantes
+                </h3>
+            </section>
+            <article class="cts-content-list-words bg-surface-card flex gap-4 overflow-x-auto p-2"></article>
+            <article class="flex justify-center">
+                <button class="cts-btn-general cts-btn-primary btn-push" onclick="getListWordsTesters()">
+                    Actualizar las listas
+                </button>
+            </article>
+        </section>
+        <script src="{% static 'js/lists-words-testers.js' %}"></script>
+        {% endif %}
     </article>
 </article>
 {% endblock %}

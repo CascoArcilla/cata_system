@@ -213,7 +213,15 @@ async function setUpFormAction() {
   FORM_ACTION.submit();
 }
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   initWordsFromBox();
   setupDescribeFormToAddWord();
+
+  const currentPhase = parseInt(
+    document.querySelector(".cts-phase-pf").dataset.phase
+  );
+
+  if (currentPhase == 2) await sendWordsToSave();
+  if (document.querySelector(".cts-content-list-words"))
+    await getListWordsTesters();
 });
