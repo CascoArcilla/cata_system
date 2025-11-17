@@ -218,11 +218,16 @@
                 </article>
 
                 {% if data_ratings %}
-                <article class="overflow-x-auto py-2">
+                <article class="overflow-x-auto py-2 space-y-4">
                     {% for data_tester in data_ratings %}
-                        {% include "../components/table_pf.html" with data=data_tester %}
+                    {% include "../components/table_pf.html" with data=data_tester session_name=sesion.nombre_sesion session_code=sesion.codigo_sesion %}
                     {% endfor %}
                 </article>
+                <div class="flex justify-end mt-3">
+                    <button id="download-csv-btn" class="cts-btn-general cts-btn-primary btn-push">
+                        Descargar datos como CSV en zip
+                    </button>
+                </div>
                 {% else %}
                 {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
                 {% endif %}
@@ -238,6 +243,9 @@
 {% endblock %}
 
 {% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/download-table-zip.js' %}"></script>
 <script src="{% static 'js/details-session.js' %}"></script>
 <script src="{% static 'js/showHiddenElement.js' %}"></script>
 {% endblock %}
