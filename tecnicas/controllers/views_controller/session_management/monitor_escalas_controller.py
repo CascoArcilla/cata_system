@@ -1,6 +1,3 @@
-from django.http import HttpRequest
-from django.shortcuts import render, redirect
-from django.urls import reverse
 from tecnicas.models import Dato, Participacion
 from tecnicas.controllers import SesionController
 from .monitor_controller import MonitorController

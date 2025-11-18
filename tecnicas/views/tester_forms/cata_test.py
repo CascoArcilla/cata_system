@@ -1,7 +1,6 @@
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
 from tecnicas.controllers import TestCataController
-from tecnicas.utils import noValidTechnique
 
 
 def cataTest(req: HttpRequest, code_sesion: str):

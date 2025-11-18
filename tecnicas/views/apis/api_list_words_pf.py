@@ -1,18 +1,20 @@
 from django.http import HttpRequest, JsonResponse
 from tecnicas.utils import general_error
-from tecnicas.controllers import RatingCataController
+from tecnicas.controllers import RatingPFListController
 import json
 
 
-def ratingWordCata(req:  HttpRequest):
-    if req.method == "POST":
+def apiListWordsPF(req:  HttpRequest):
+    if req.method == "GET":
+        return RatingPFListController.getListWords(request=req)
+    elif req.method == "POST":
         try:
             data = json.loads(req.body.decode("utf-8"))
             raw_words = data.get("words", [])
-            raw_product = data.get("product", [])
+            phase = data.get("phase", [])
 
-            response = RatingCataController.saveRatingWords(
-                request=req, data_words=raw_words, data_prodct=raw_product)
+            response = RatingPFListController.saveList(
+                request=req, current_phase=phase, words=raw_words)
             return response
         except Exception as e:
             print("Error:", e)

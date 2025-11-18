@@ -28,3 +28,5 @@ from .orden import Orden
 from .orden import Posicion
 
 from .participacion import Participacion
+
+from .lista_palabras import ListaPalabras

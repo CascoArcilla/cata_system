@@ -58,12 +58,7 @@
         </section>
 
         {% if error %}
-        <hr>
-        <article class="bg-red-600 p-4 text-white rounded-xl ct-notification-error">
-            <p class="block font-sans text-white text-xl antialiased font-bold uppercase tracking-wider text-center">
-                {{ error }}
-            </p>
-        </article>
+        {% include "../components/error-message.html" with message=error %}
         {% endif %}
 
         <article class="rounded flex flex-col gap-4">
@@ -72,6 +67,16 @@
                     {{ session.tecnica.instrucciones }}
                 </p>
             </section>
+
+            <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
+                <p class="text-xl font-bold text-center">
+                    Fase <span class="cts-phase-pf" data-phase="3">3</span>:
+                </p>
+                <p class="text-xl font-bold text-center">
+                    Calificación de listas
+                </p>
+            </section>
+
             <section class="flex items-center justify-center flex-wrap gap-4">
                 <div class="bg-surface-ligt p-2 rounded-lg flex-1">
                     <p class="text-lg font-bold text-center">
@@ -87,10 +92,11 @@
                         Repetición:
                     </p>
                     <p class="text-2xl font-bold text-center">
-                        {{ session.tecnica.repeticion }}
+                        {{ repetition }}
                     </p>
                 </div>
             </section>
+
             <section class="flex flex-col bg-red-200 py-2 px-4 rounded-lg min-sm:hidden">
                 <p>
                     El largo de estas escalas puede afectar la vista en dispositivos móviles. Para ver el resto de la

@@ -25,6 +25,7 @@ from .vocabulary_management.list_vocabulary import listVocabulary
 from .apis.api_tag import newTag
 from .apis.api_words import words
 from .apis.api_words import wordsVocabulary
+from .apis.api_list_words_pf import apiListWordsPF
 from .apis.rating_word_scales import ratingWordScales
 from .apis.rating_word_cata import ratingWordCata
 
@@ -34,3 +35,4 @@ from .tester_forms.login_session import loginSessionTester
 from .tester_forms.sessions_list_tester import sessionsListTester
 from .tester_forms.convencional_scales import convencionalScales
 from .tester_forms.cata_test import cataTest
+from .tester_forms.pf_test import pfTest

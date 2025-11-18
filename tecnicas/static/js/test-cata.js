@@ -100,8 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
       const result = await response.json();
       const messError = result.error;
 
-      console.log(messError);
-
       if (messError) {
         message.textContent = messError;
         return;

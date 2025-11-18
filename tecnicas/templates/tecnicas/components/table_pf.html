@@ -1,0 +1,39 @@
+{% load static %}
+
+<section data-tester="{{ data.tester }}" {% if session_name %} data-session-name="{{ session_name }}" {% endif %}
+    data-session-code="{{ session_code }}">
+    <h3 class="text-xl font-bold">Datos de usuario {{ data.tester }}</h3>
+
+    <div class="overflow-x-auto rounded-lg border border-surface-general">
+        <table class="convencional-table min-w-max w-full text-sm text-center border-collapse">
+            <thead class="bg-surface-sweet text-black font-semibold">
+                <tr>
+                    <th class="py-2 px-3 border border-surface-general">Repetición</th>
+                    <th class="py-2 px-3 border border-surface-general">Producto</th>
+                    {% for word in data.words %}
+                    <th class="py-2 px-3 border border-surface-general uppercase">{{ word.nombre_palabra }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody class="bg-surface-ligt divide-y divide-gray-200">
+                {% for repeticion, data_product in data.ratings.items %}
+                {% for codigo, valores in data_product.items %}
+                <tr>
+                    <td class="py-2 px-3 border border-surface-general">{{ repeticion }}</td>
+                    <td class="py-2 px-3 border border-surface-general">{{ codigo }}</td>
+                    {% for word in data.words %}
+                    <td class="py-2 px-3 border border-surface-general">
+                        {% for valor in valores %}
+                        {% if valor.nombre_palabra == word.nombre_palabra %}
+                        {{ valor.dato_valor }}
+                        {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>

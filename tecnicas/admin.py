@@ -14,7 +14,7 @@ from .models import Producto, Participacion
 
 from .models import Orden, Posicion
 
-from .models import Dato, ValorDecimal, ValorBooleano, Calificacion
+from .models import Dato, ValorDecimal, ValorBooleano, Calificacion, ListaPalabras
 
 # Register your models here.
 admin.site.register(CategoriaTecnica)
@@ -46,3 +46,4 @@ admin.site.register(Dato)
 admin.site.register(ValorDecimal)
 admin.site.register(ValorBooleano)
 admin.site.register(Calificacion)
+admin.site.register(ListaPalabras)

@@ -114,6 +114,10 @@ urlpatterns = [
          views.cataTest,
          name="session_cata"),
 
+    path("testers/init-session/<str:code_sesion>/perfil-flash",
+         views.pfTest,
+         name="session_pf"),
+
 
     # APIs
     path("presenter/api/nueva-etiqueta",
@@ -135,4 +139,8 @@ urlpatterns = [
     path("testers/api/ratingword/cata",
          views.ratingWordCata,
          name="api_rating_word_cata"),
+
+    path("testers/api/ratingword/pf/list",
+         views.apiListWordsPF,
+         name="api_rating_word_pf_list"),
 ]
