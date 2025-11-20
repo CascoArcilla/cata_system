@@ -80,7 +80,7 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllPostRATA(request: HttpRequest, is_rata: True):
+    def controllPostRATA(request: HttpRequest, is_rata=True):
         codes = []
         context_codes_form = {}
 

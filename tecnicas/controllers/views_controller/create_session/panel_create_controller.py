@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.db import transaction
 from django.shortcuts import render
 from tecnicas.utils import general_error
-from tecnicas.models import EsAtributo, EsVocabulario, Vocabulario, Tecnica, TipoTecnica, EstiloPalabra, Producto, Palabra, SesionSensorial
+from tecnicas.models import EsAtributo, EsVocabulario, Vocabulario, Tecnica, TipoTecnica, EstiloPalabra, Producto, Palabra, SesionSensorial, Escala, TipoEscala, EtiquetasEscala
 from tecnicas.controllers import TecnicaController, EscalaController, ProductosController, OrdenesController, EstiloPalabrasController, PalabrasController, SesionController
 from tecnicas.utils import deleteDataSession
 
@@ -289,9 +289,9 @@ class PanelCreateController():
                     #
                     # //////////////////////////////////////////////////////// #
                     session = SesionSensorial.objects.create(
-                        name_session=data_basic["nombre_sesion"] if data_basic["nombre_sesion"] != "" else None,
-                        technique=technique,
-                        creator=request.user.user_presentador
+                        nombre_sesion=data_basic["nombre_sesion"] if data_basic["nombre_sesion"] != "" else "",
+                        tecnica=technique,
+                        creadoPor=request.user.user_presentador
                     )
 
                     if not session:
@@ -448,48 +448,41 @@ class PanelCreateController():
     @staticmethod
     def controllPostPF(request: HttpRequest):
         if request.POST.get('action') == 'create_session':
-            if not request.session.get("form_codes") or not request.session.get("form_tags"):
+            if not request.session.get("form_codes"):
                 deleteDataSession(request)
                 return general_error("No se ha especificado información necesaria para la creación de la sesión, por favor, vuelve a intentarlo")
             try:
                 with transaction.atomic():
-                    # ////////////////////////////////////////////////////// #
+                    # ////////////////////////////////////// #
                     #
-                    # First step: Create technique and scale with their tags #
+                    # First step: Create technique and scale #
                     #
-                    # ////////////////////////////////////////////////////// #
+                    # ////////////////////////////////////// #
                     data_basic = request.session["form_basic"]
-                    data_basic["numero_repeticiones"] = 0
+                    phases_before_reptition = 2
 
                     technique = Tecnica.objects.create(
                         tipo_tecnica=TipoTecnica.objects.get(
                             nombre_tecnica=data_basic["name_tecnica"]),
                         id_estilo=EstiloPalabra.objects.get(
                             nombre_estilo="vocabulario"),
-                        repeticiones_max=data_basic["numero_repeticiones"],
+                        repeticiones_max=data_basic["numero_repeticiones"] + phases_before_reptition,
                         limite_catadores=data_basic["numero_catadores"],
-                        instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Presentador",
+                        instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Analista",
                     )
 
                     if not technique:
                         raise ValueError("Error al guardar la técnica")
 
-                    data_scale = {
-                        "id_scale": data_basic["tipo_escala"],
-                        "size": data_basic["tamano_escala"],
-                        "technique": technique
-                    }
-
-                    controllerScale = EscalaController(data=data_scale)
-
-                    scale = controllerScale.saveScale()
-                    if isinstance(scale, dict):
-                        raise ValueError(scale["error"])
-
-                    dict_tags = request.session["form_tags"]
-                    saved_related_tags = controllerScale.realteTags(dict_tags)
-                    if "error" in saved_related_tags:
-                        raise ValueError(saved_related_tags["error"])
+                    created_scale = Escala.objects.create(
+                        id_tipo_escala=TipoEscala.objects.get(
+                            nombre_escala="estructurada"),
+                        longitud=data_basic["numero_productos"],
+                        tecnica=technique
+                    )
+                    
+                    if not created_scale:
+                        raise ValueError("No se ha podido crear la escala")
 
                     # ////////////////////////////////////////////// #
                     #

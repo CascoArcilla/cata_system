@@ -1,13 +1,15 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from tecnicas.models import Producto, Participacion, Palabra, Calificacion, ListaPalabras
+from tecnicas.models import Producto, Participacion, Palabra, Calificacion, ListaPalabras, Dato
 from tecnicas.controllers import ParticipacionController, PalabrasController, EscalaController
 from tecnicas.forms import ListWordsForm
 from .general_test_controller import GenetalTestController
 
 
 class TestPFController(GenetalTestController):
+    skip_phases = 2
+
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
 
@@ -104,80 +106,64 @@ class TestPFController(GenetalTestController):
         return render(request, self.current_directory, self.context)
 
     def getRepetitionPhase(self, request: HttpRequest):
+        '''
+        - Obtener todos los productos que se evaluan en la tecnica
+        - Obtener todas las palabras de la lista de palabras del catador
+        - Para cada palabra, comprobar que el numero de Dato sea igual al numero de Productos
+        - Si no hay datos mandar esa palabra por contexto con todos los productos
+        - De las palabras que falten tomar la primera y mandarla en el contexto
+        - Mandar todos los productos por el contexto
+        Nota: Para esta fase no hay necesidad de mandar una escala, la escala se creara en el cliente
+        '''
+        self.participation.refresh_from_db()
+
+        if self.participation.finalizado:
+            params = {"code_sesion": self.session.codigo_sesion}
+            return redirect(reverse(self.previus_directory, kwargs=params))
+
         technique = self.session.tecnica
 
+        # Obtener todos los productos que se evaluan en la técnica
         products_in_technique = Producto.objects.filter(id_tecnica=technique)
 
-        words = list(
-            ListaPalabras.objects.get(
+        # Obtener todas las palabras de la lista del catador (preferir lista final)
+        try:
+            words = list(ListaPalabras.objects.get(
                 tecnica=self.session.tecnica,
                 catador=request.user.user_catador,
                 es_final=True
-            ).palabras.all()
-        )
+            ).palabras.all())
+        except ListaPalabras.DoesNotExist:
+            words = []
 
-        use_product: Producto = None
-        use_words: list[Palabra] = None
+        use_word: Palabra = None
 
-        # Revisamos el producto que le falten calificaciones
-        for current_product in products_in_technique:
-            try:
-                rating = Calificacion.objects.get(
-                    num_repeticion=technique.repeticion,
-                    id_producto=current_product,
-                    id_tecnica=technique,
-                    id_catador=self.tester
-                )
-            except Calificacion.DoesNotExist:
-                # Si no hay calificacion mandamos el producto actual y todas la palabras
-                use_product = current_product
-                use_words = words
+        # Revisar que palabra no ha sido calificada en todos los productos
+        for word in words:
+            current_num_data = Dato.objects.filter(
+                id_calificacion__num_repeticion=technique.repeticion,
+                id_calificacion__id_tecnica=technique,
+                id_calificacion__id_catador=request.user.user_catador,
+                id_palabra=word
+            ).count()
+
+            if not current_num_data:
+                use_word = word
                 break
+            elif current_num_data < len(products_in_technique):
+                self.context["error"] = "Se ha detectado una inconsistencia en los datos que se deben calificar, algunos productos no han sido calificados"
+                return render(request, self.current_directory, self.context)
 
-            # Obtener los datos asociados para la calificacion para ver que palabras quedan por calificar
-            recoreded_data = rating.dato_calificacion.all()
-
-            if not recoreded_data:
-                # Si no hay datos entonces devolver el producto con todas las palabras
-                use_product = current_product
-                use_words = words
-                break
-            else:
-                words_to_use = PalabrasController.getWordsWithoutData(
-                    recoreded_data=recoreded_data, words=words)
-
-                # Si quedan palabras por calificar mandar las palabras con el producto
-                if not isinstance(words_to_use, dict) and words_to_use:
-                    use_product = current_product
-                    use_words = words_to_use
-                    break
-
-        # Si no hay producto que falta por calificar finalizar sesion para el Catador
-        if not use_product:
-            updated_participation = ParticipacionController.finishSession(
-                self.participation)
-            params = {
-                "code_sesion": self.session.codigo_sesion
-            }
+        if not use_word:
+            self.participation = Participacion.objects.get(
+                tecnica=self.session.tecnica, catador=request.user.user_catador)
+            ParticipacionController.finishSession(self.participation)
+            params = {"code_sesion": self.session.codigo_sesion}
             return redirect(reverse(self.previus_directory, kwargs=params))
 
-        scale = EscalaController.getScaleByTechnique(technique=technique)
-        use_tags = EscalaController.getRelatedTagsInScale(scale=scale)
-
-        self.context["product"] = use_product
-        self.context["words"] = use_words
-        
-        self.context["scale"] = scale
-        self.context["type_scale"] = scale.id_tipo_escala.nombre_escala
-        self.context["tags"] = use_tags
-
-        self.context["repetition"] = technique.repeticion - 2
-
-        if self.context["type_scale"] == "continua":
-            self.context["size_scale"] = {
-                "max_size": scale.longitud * 100,
-                "middle_size": (scale.longitud * 100)/2
-            }
+        self.context["word"] = use_word
+        self.context["products"] = products_in_technique
+        self.context["repetition"] = technique.repeticion - self.skip_phases
 
         return render(request, self.current_directory, self.context)
 

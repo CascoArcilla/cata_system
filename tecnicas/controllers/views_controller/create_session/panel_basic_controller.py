@@ -167,15 +167,12 @@ class PanelBasicController():
             print(form.cleaned_data)
             values = {}
             for name, value in form.cleaned_data.items():
-                if name == "tipo_escala":
-                    values[name] = value.id
-                else:
-                    values[name] = value
+                values[name] = value
 
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values
             response = redirect(
-                reverse(PanelBasicController.url_next_panel_tags))
+                reverse(PanelBasicController.url_next_panel_codes))
         else:
             response = render(request, PanelBasicController.url_panel_basic_pf, {
                 "form_sesion": form, "error": "Información no valida"})

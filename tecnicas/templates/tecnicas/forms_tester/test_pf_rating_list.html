@@ -73,20 +73,11 @@
                     Fase <span class="cts-phase-pf" data-phase="3">3</span>:
                 </p>
                 <p class="text-xl font-bold text-center">
-                    Calificación de listas
+                    Evaluación de Atributos
                 </p>
             </section>
 
             <section class="flex items-center justify-center flex-wrap gap-4">
-                <div class="bg-surface-ligt p-2 rounded-lg flex-1">
-                    <p class="text-lg font-bold text-center">
-                        Producto:
-                    </p>
-                    <p class="text-2xl font-bold text-center ct-product-rating">
-                        <span class="code-product">{{ product }}</span>
-                        <span class="hidden id-product">{{ product.id }}</span>
-                    </p>
-                </div>
                 <div class="bg-surface-ligt p-2 rounded-lg flex-1">
                     <p class="text-lg font-bold text-center">
                         Repetición:
@@ -105,25 +96,21 @@
             </section>
         </article>
 
-        <article
-            class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3 justify-center items-center">
-            {% with path_con="../components/form-scale-continue.html" path_str="../components/form-scale-structure.html" %}
-                {% if type_scale == "continua" %}
-                    {% for word in words %}
-                        {% include path_con with word=word tags=tags scale=scale size_scale=size_scale %}
+        <article class="rounded flex flex-col gap-4">
+            <p>Palabra a evaluar: {{ word }}</p>
+            <div>
+                <p>Productos a ordenar:</p>
+                <ul>
+                    {% for product in products %}
+                    <li>{{ product }}</li>
                     {% endfor %}
-                {% elif type_scale == "estructurada" %}
-                    {% for word in words %}
-                        {% include path_str with word=word tags=tags scale=scale %}
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
+                </ul>
+            </div>
         </article>
     </article>
 </article>
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'js/created-scale.js' %}"></script>
 <script src="{% static 'js/actions-form.js' %}"></script>
 {% endblock %}

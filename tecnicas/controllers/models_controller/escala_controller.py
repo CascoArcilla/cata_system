@@ -7,19 +7,25 @@ class EscalaController():
     scale: Escala
     tags_relation: dict[str, EtiquetasEscala]
 
-    def __init__(self, data):
-        self.scale = Escala(
-            id_tipo_escala=TipoEscala.objects.get(id=data["id_scale"]),
-            longitud=data["size"],
-            tecnica=data["technique"]
-        )
+    def __init__(self, data, use_scale: Escala = None):
+        if use_scale:
+            self.scale = use_scale
+        else:
+            self.scale = Escala(
+                id_tipo_escala=TipoEscala.objects.get(id=data["id_scale"]),
+                longitud=data["size"],
+                tecnica=data["technique"]
+            )
 
-    def setScale(self, newData):
-        self.scale = Escala(
-            id_tipo_escala=TipoEscala.objects.get(id=newData["id_scale"]),
-            longitud=newData["size"],
-            tecnica=newData["technique"]
-        )
+    def setScale(self, newData, use_scale: Escala):
+        if use_scale:
+            self.scale = use_scale
+        else:
+            self.scale = Escala(
+                id_tipo_escala=TipoEscala.objects.get(id=data["id_scale"]),
+                longitud=data["size"],
+                tecnica=data["technique"]
+            )
 
     def saveScale(self):
         try:

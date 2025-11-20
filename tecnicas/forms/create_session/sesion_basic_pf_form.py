@@ -19,18 +19,12 @@ class SesionBasicPFForm(forms.Form):
         "placeholder": "Solo números"
     }), required=True)
 
+    numero_repeticiones = forms.IntegerField(widget=forms.NumberInput(attrs={
+        "class": "bg-surface-ligt p-1 border-b-1 text-center w-full",
+        "placeholder": "Solo números"
+    }), required=True)
+
     instrucciones = forms.CharField(max_length=255, widget=forms.TextInput(attrs={
         "class": "bg-surface-ligt border-b-1 text-center w-full p-1",
         "placeholder": "Este campo es opcional"
     }), required=False)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
-        self.fields['tipo_escala'] = forms.ModelChoiceField(queryset=TipoEscala.objects.all(), widget=forms.RadioSelect(attrs={
-            "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
-        }), required=True, initial=TipoEscala.objects.first())
-
-        self.fields['tamano_escala'] = forms.IntegerField(widget=forms.HiddenInput(attrs={
-            "class": "cts-size-input",
-        }), required=True)
