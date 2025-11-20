@@ -35,11 +35,11 @@ class DetallesController():
         technique = self.session.tecnica
 
         if creator.user.username != self.session.creadoPor.user.username:
-            return self.getResponse(error="Solo el presentador que crea la sesión puede iniciar la repetición", request=request)
+            return self.controllGetResponse(error="Solo el presentador que crea la sesión puede iniciar la repetición", request=request)
         elif self.session.activo:
-            return self.getResponse(error="La sesión ya está activada", request=request)
+            return self.controllGetResponse(error="La sesión ya está activada", request=request)
         elif technique.repeticion >= technique.repeticiones_max:
-            return self.getResponse(error="Se ha alcanzado el número de repeticiones máxima", request=request)
+            return self.controllGetResponse(error="Se ha alcanzado el número de repeticiones máxima", request=request)
 
         there_participacions = Participacion.objects.filter(
             tecnica=technique).exists()
@@ -48,7 +48,7 @@ class DetallesController():
             (is_update_participations,
              message) = ParticipacionController.outAllInSession(self.session)
             if not is_update_participations:
-                return self.getResponse(error=message, request=request)
+                return self.controllGetResponse(error=message, request=request)
 
         self.session.activo = True
         technique.repeticion = technique.repeticion + 1
