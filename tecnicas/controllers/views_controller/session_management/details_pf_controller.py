@@ -20,7 +20,6 @@ class DetallesPFController(DetallesController):
         self.context = {
             "sesion": self.session,
             "use_technique": technique,
-            "calificaciones": [],
             "existen_calificaciones": False,
             "tipo_escala": technique.escala_tecnica.id_tipo_escala.nombre_escala,
             "valor_max": technique.escala_tecnica.longitud,
@@ -41,13 +40,18 @@ class DetallesPFController(DetallesController):
 
         if curren_repetition == 1:
             self.context["fisrt_phase"] = self.getDataFirstPhase()
+            self.context["repeticion"] = 0
+
         elif curren_repetition == 2:
             self.context["fisrt_phase"] = self.getDataFirstPhase()
             self.context["second_phase"] = self.getDataSecondPhase()
+            self.context["repeticion"] = 0
+
         elif curren_repetition >= 3:
             self.context["fisrt_phase"] = self.getDataFirstPhase()
             self.context["second_phase"] = self.getDataSecondPhase()
             self.context["data_ratings"] = self.getDataRatings()
+            self.context["repeticion"] = self.session.tecnica.repeticion - 2
 
         return self.context
 
@@ -106,51 +110,17 @@ class DetallesPFController(DetallesController):
                 'username': username,
                 'words': words
             })
-
+            
         return result
 
     def getDataRatings(self):
-        lists_words_testers = self.context["second_phase"]
         technique = self.session.tecnica
 
-        ratings_for_tester = []
+        if technique.repeticion > 3:
+            return self.getDataRatingsFinal()
 
-        for list_tester in lists_words_testers:
-            tester_username = list_tester["username"]
-            # Se recuperan las calificaciones
-            ratings_for_repetition = []
-
-            ratings = list(Calificacion.objects.filter(
-                id_tecnica=technique, id_catador__user__username=tester_username))
-
-            if not ratings:
-                continue
-
-            data = DatoController.getWordValuesPF(
-                ratings=ratings, technique=technique, tester=Catador.objects.get(user__username=tester_username))
-
-            ratings_for_repetition = defaultdict(lambda: defaultdict(list))
-
-            for item in data:
-                rep = item["repeticion"]
-                prod = item["producto_code"]
-
-                ratings_for_repetition[rep-2][prod].append({
-                    "nombre_palabra": item["nombre_palabra"],
-                    "dato_valor": item["dato_valor"]
-                })
-
-            ratings_for_tester.append(
-                {
-                    "tester": tester_username,
-                    "ratings": defaultdict_to_dict(
-                        ratings_for_repetition),
-                    "words": list_tester["words"]
-                }
-            )
-            self.context["existen_calificaciones"] = True
-
-        return ratings_for_tester
+        elif technique.repeticion == 3:
+            return self.getDataRatingsInitial()
 
     def getStatus(self, rep: int, activate: bool):
         status = ""
@@ -174,3 +144,68 @@ class DetallesPFController(DetallesController):
             status = "Catadores calificando"
 
         return status
+
+    def getDataRatingsInitial(self):
+        ratings = list(Calificacion.objects.filter(id_tecnica=self.session.tecnica, num_repeticion=3))
+            
+        if ratings:
+            raw_data = DatoController.getWordValuesForConvecional(
+                technique=self.session.tecnica,
+                ratings=ratings
+            )
+            
+            structured_data = defaultdict(lambda: defaultdict(list))
+            
+            for item in raw_data:
+                prod_code = item["producto_code"]
+                username = item["usuario_catador"]
+                
+                structured_data[prod_code][username].append({
+                    "palabra": item["nombre_palabra"],
+                    "valor": item["dato_valor"]
+                })
+
+        return defaultdict_to_dict(structured_data)
+
+    def getDataRatingsFinal(self):
+        lists_words_testers = self.context["second_phase"]
+        technique = self.session.tecnica
+
+        ratings_for_tester = []
+
+        for list_tester in lists_words_testers:
+            tester_username = list_tester["username"]
+            # Se recuperan las calificaciones
+            ratings_for_repetition = []
+
+            ratings = list(Calificacion.objects.filter(
+                id_tecnica=technique, id_catador__user__username=tester_username))
+
+            if not ratings:
+                continue
+
+            data = DatoController.getWordValuesPF(
+                ratings=ratings, technique=technique, tester=Catador.objects.get(user__username=tester_username))
+
+            ratings_for_repetition = defaultdict(lambda: defaultdict(list))
+
+            # Estructurar los datos
+            for item in data:
+                rep = item["repeticion"]
+                prod = item["producto_code"]
+
+                ratings_for_repetition[rep-2][prod].append({
+                    "nombre_palabra": item["nombre_palabra"],
+                    "dato_valor": item["dato_valor"]
+            })
+
+            ratings_for_tester.append(
+                {
+                    "tester": tester_username,
+                    "ratings": defaultdict_to_dict(
+                        ratings_for_repetition),
+                    "words": list_tester["words"]
+                }
+            )
+
+        return ratings_for_tester

@@ -1,0 +1,51 @@
+{% load custom_filters %}
+<section>
+    <div class="overflow-x-auto rounded-lg border border-surface-general">
+        <table class="min-w-max w-full text-sm text-center border-collapse">
+            <thead class="bg-surface-sweet text-black font-semibold">
+                <tr>
+                    <th rowspan="2" class="py-2 px-3 border border-surface-general">Producto</th>
+                    {% for user_data in second_phase %}
+                    <th colspan="{{ user_data.words|length }}" class="py-2 px-3 border border-surface-general">
+                        {{ user_data.username }}
+                    </th>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for user_data in second_phase %}
+                        {% for word in user_data.words %}
+                        <th class="py-2 px-3 border border-surface-general text-xs">
+                            {{ word.nombre_palabra }}
+                        </th>
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody class="bg-surface-ligt divide-y divide-gray-200">
+                {% for product_code, users_ratings in data_ratings.items %}
+                <tr>
+                    <td class="py-2 px-3 border border-surface-general font-medium">{{ product_code }}</td>
+                    
+                    {% for user_data in second_phase %}
+                        {% with user_ratings=users_ratings|get_item:user_data.username %}
+                            {% for word in user_data.words %}
+                                <td class="py-2 px-3 border border-surface-general">
+                                    {% if user_ratings %}
+                                        {% for rating in user_ratings %}
+                                            {% if rating.palabra == word.nombre_palabra %}
+                                                {{ rating.valor }}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        {% endwith %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
