@@ -10,11 +10,18 @@ def apiListWordsPF(req:  HttpRequest):
     elif req.method == "POST":
         try:
             data = json.loads(req.body.decode("utf-8"))
-            raw_words = data.get("words", [])
             phase = data.get("phase", [])
+            if phase == 1 or phase == 2:
+                raw_words = data.get("words", [])
+                response = RatingPFListController.saveList(
+                    request=req, current_phase=phase, words=raw_words)
 
-            response = RatingPFListController.saveList(
-                request=req, current_phase=phase, words=raw_words)
+            elif phase >= 3:
+                word = data.get("word", [])
+                raw_data = data.get("data", [])
+                response = RatingPFListController.saveRatings(
+                    request=req, word_rating=word, data=raw_data)
+
             return response
         except Exception as e:
             print("Error:", e)

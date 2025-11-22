@@ -91,6 +91,13 @@
             </section>
 
             <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-sans">
+                    <b>Repeticiones Max.</b> {{ repeticiones_max }}
+                </p>
+            </section>
+
+            <section
                 class="col-span-2 max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Instrucciones:
@@ -243,8 +250,10 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
 <script src="{% static 'js/download-table-zip.js' %}"></script>
 <script src="{% static 'js/details-session.js' %}"></script>
 <script src="{% static 'js/showHiddenElement.js' %}"></script>

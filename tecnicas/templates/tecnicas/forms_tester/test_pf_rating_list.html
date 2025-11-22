@@ -6,7 +6,7 @@
 
 {% block content %}
 <article class="cts-container-main">
-    <article class="cts-wrap-content text-black">
+    <article class="cts-wrap-content text-black max-w-4xl">
         <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
             <h1 class="rounded font-bold text-2xl bg-surface-ligt p-4 flex-1">
                 Sesión usando <br>técnica
@@ -61,12 +61,12 @@
             </section>
 
             <section class="flex items-center justify-center flex-wrap gap-4">
-                <div class="bg-surface-ligt p-2 rounded-lg flex-1">
+                <div class="bg-surface-card p-2 rounded-lg flex-1">
                     <p class="text-lg font-bold text-center">
                         El atributo que se está evaluando:
                     </p>
-                    <p class="word-rating text-2xl font-bold text-center" data-name-word="{{ word }}">
-                        {{ word }}
+                    <p class="cts-word-rating text-2xl font-bold text-center" data-name-word="{{ word }}">
+                        "{{ word }}"
                     </p>
                 </div>
             </section>
@@ -78,7 +78,7 @@
             <div id="items" class="flex gap-4 flex-wrap justify-center">
                 {% for product in products %}
                 <div class="draggable bg-surface-sweet text-black font-bold px-4 py-2 rounded cursor-grab"
-                    draggable="true" data-code="{{ product.codigoProducto }}">{{ product.codigoProducto }}</div>
+                    draggable="true" data-id-product="{{ product.id }}" data-code="{{ product.codigoProducto }}">{{ product.codigoProducto }}</div>
                 {% endfor %}
             </div>
 

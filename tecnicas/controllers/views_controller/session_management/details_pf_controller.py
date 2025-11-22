@@ -23,7 +23,8 @@ class DetallesPFController(DetallesController):
             "calificaciones": [],
             "existen_calificaciones": False,
             "tipo_escala": technique.escala_tecnica.id_tipo_escala.nombre_escala,
-            "valor_max": technique.escala_tecnica.longitud
+            "valor_max": technique.escala_tecnica.longitud,
+            "repeticiones_max": technique.repeticiones_max - 2
         }
 
         # Definir el estado de la sesion

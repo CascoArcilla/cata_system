@@ -45,8 +45,11 @@ document.getElementById("save-data").addEventListener("click", async () => {
 
     children.forEach((el) => {
       currentDataRatend.push({
-        name: el.dataset.code,
-        container: index,
+        product: {
+          id: el.dataset.idProduct,
+          code: el.dataset.code,
+        },
+        value: index,
       });
     });
   });
@@ -71,40 +74,38 @@ async function saveData(dataToSend = []) {
 
   const requestData = {
     phase: parseInt(document.querySelector(".cts-phase-pf").dataset.phase),
-    word: document.querySelector(".cts-phase-pf").dataset.nameWord,
+    word: document.querySelector(".cts-word-rating").dataset.nameWord,
     data: dataToSend,
   };
 
-  console.log(requestData);
-
   try {
-    // const response = await fetch(URL, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     "X-CSRFToken": csrfToken,
-    //     "X-Requested-With": "XMLHttpRequest",
-    //   },
-    //   body: JSON.stringify(requestData),
-    // });
+    const response = await fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRFToken": csrfToken,
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      body: JSON.stringify(requestData),
+    });
 
-    // if (!response.ok) {
-    //   spanNotifaction("Fallo con la respuesta recibida");
-    //   cancelLoading();
-    //   return false;
-    // }
+    if (!response.ok) {
+      spanNotifaction("Fallo con la respuesta recibida");
+      cancelLoading();
+      return false;
+    }
 
-    // const result = await response.json();
+    const result = await response.json();
 
-    // const messError = result.error;
+    const messError = result.error;
 
-    // if (messError) {
-    //   spanNotifaction(messError);
-    //   cancelLoading();
-    //   return false;
-    // }
+    if (messError) {
+      spanNotifaction(messError);
+      cancelLoading();
+      return false;
+    }
 
-    // spanNotifaction(result.message, false);
+    spanNotifaction(result.message, false);
     const containerRatings = document.querySelector(".container-rating-word");
     containerRatings.innerHTML = "";
     containerRatings.innerHTML = nextProduct;
