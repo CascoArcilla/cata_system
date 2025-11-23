@@ -19,6 +19,9 @@ def configurationPanelBasic(req: HttpRequest):
             response = PanelBasicController.controllGetCATA(request=req)
         elif name_tecnica == "perfil flash":
             response = PanelBasicController.controllGetPF(request=req)
+        elif name_tecnica == "sort":
+            response = JsonResponse(
+                {"message": "Trabajando en la implementación"})
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida o sin implementar")

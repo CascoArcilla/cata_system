@@ -7,7 +7,7 @@ import json
 
 
 class PanelCodesController():
-    url_current_panel = "tecnicas/create_sesion/configuracion-panel-codes.html"
+    url_current_panel = "tecnicas/create_sesion/conf-panel-codes.html"
     url_words = "cata_system:panel_configuracion_words"
     url_create_session = "cata_system:creando_sesion"
 

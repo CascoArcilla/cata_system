@@ -8,6 +8,6 @@ def testerList(req: HttpRequest, num_page: int):
     if req.method == "GET":
         view_controller = TesterListController(page=num_page)
         view_context = view_controller.getContext()
-        return render(req, "tecnicas/manage_tester/catador-lista.html", view_context)
+        return render(req, "tecnicas/manage_tester/tester-list.html", view_context)
     else:
         return general_error("Método no permitido")

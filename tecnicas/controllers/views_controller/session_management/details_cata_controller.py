@@ -9,7 +9,7 @@ from collections import defaultdict
 class DetallesCATAController(DetallesController):
     def __init__(self, session: SesionSensorial):
         super().__init__(session)
-        self.url_template = "tecnicas/manage_sesions/detalles-sesion-cata.html"
+        self.url_template = "tecnicas/manage_sesions/details-session-cata.html"
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):

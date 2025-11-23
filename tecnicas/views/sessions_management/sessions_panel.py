@@ -12,7 +12,7 @@ def sesionsPanel(req: HttpRequest, page: int):
 
         if isinstance(response, dict):
             context["error"] = response["error"]
-            return render(req, "tecnicas/manage_sesions/sesiones-panel.html", context=context)
+            return render(req, "tecnicas/manage_sesions/sessions-panel.html", context=context)
 
         (sessions_in_page, is_last_page, current_page) = response
 
@@ -22,6 +22,6 @@ def sesionsPanel(req: HttpRequest, page: int):
         if "message" in req.GET:
             context["message"] = req.GET.get("message")
 
-        return render(req, "tecnicas/manage_sesions/sesiones-panel.html", context=context)
+        return render(req, "tecnicas/manage_sesions/sessions-panel.html", context=context)
     else:
         return JsonResponse({"message": "Método no permitido"})

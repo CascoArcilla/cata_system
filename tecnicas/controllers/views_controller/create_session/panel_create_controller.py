@@ -14,7 +14,7 @@ class PanelCreateController():
     @staticmethod
     def controllGetEscalas(request: HttpRequest):
         return render(
-            request, 'tecnicas/create_sesion/creando_sesion.html')
+            request, 'tecnicas/create_sesion/creating_session.html')
 
     @staticmethod
     def controllPostEscalas(request: HttpRequest):

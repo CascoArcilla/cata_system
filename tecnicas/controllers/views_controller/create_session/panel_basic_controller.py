@@ -10,7 +10,7 @@ class PanelBasicController():
         "numero_repeticiones": 1
     }
 
-    url_panel_basic = "tecnicas/create_sesion/configuracion-panel-basic.html"
+    url_panel_basic = "tecnicas/create_sesion/conf-panel-basic.html"
     url_panel_basic_cata = "tecnicas/create_sesion/panel-basic-cata.html"
     url_panel_basic_pf = "tecnicas/create_sesion/panel-basic-pf.html"
 
@@ -178,3 +178,15 @@ class PanelBasicController():
                 "form_sesion": form, "error": "Información no valida"})
 
         return response
+
+    @staticmethod
+    def controllGetSort(request: HttpRequest):
+        form_sesion = SesionBasicSortForm()
+
+        view_context = {
+            "form_sesion": form_sesion,
+            "use_technique": "sort"
+        }
+
+        return render(
+            request, PanelBasicController.url_panel_basic_pf, view_context)
