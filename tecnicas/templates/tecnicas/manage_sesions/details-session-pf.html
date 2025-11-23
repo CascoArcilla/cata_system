@@ -244,11 +244,16 @@
                                 {% include "../components/table_pf.html" with data=data_tester session_name=sesion.nombre_sesion session_code=sesion.codigo_sesion %}
                             {% endfor %}
                         </article>
-                        <div class="flex justify-end mt-3">
+                        <div class="flex justify-end mt-3 gap-4 flex-wrap">
                             <button id="download-csv-btn" class="cts-btn-general cts-btn-primary btn-push">
-                                Descargar datos como CSV en zip
+                                Descargar datos CSV en zip
+                            </button>
+                            <button id="download-xls-btn" class="cts-btn-general cts-btn-primary btn-push">
+                                Descargar datos en XLSX
                             </button>
                         </div>
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+                        <script src="{% static 'js/download-table-xlsx.js' %}"></script>
                     {% else %}
                         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
                     {% endif %}
