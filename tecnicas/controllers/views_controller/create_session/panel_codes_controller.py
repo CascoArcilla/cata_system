@@ -139,3 +139,27 @@ class PanelCodesController():
             context_codes_form["error"] = "error en los datos recibidos"
 
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
+
+    @staticmethod
+    def controllPostSort(request: HttpRequest):
+        codes = []
+        context_codes_form = {}
+
+        for name, value in request.POST.items():
+            if name.__contains__("producto_"):
+                codes.append(value)
+
+        form_codes = CodesForm(request.POST, codes=codes)
+
+        context_codes_form = {
+            "form_codes": form_codes,
+            "use_technique": "sort"
+        }
+
+        if form_codes.is_valid():
+            request.session["form_codes"] = codes
+            return redirect(reverse(PanelCodesController.url_create_session))
+        else:
+            context_codes_form["error"] = "error en los datos recibidos"
+
+        return render(request, PanelCodesController.url_current_panel, context_codes_form)

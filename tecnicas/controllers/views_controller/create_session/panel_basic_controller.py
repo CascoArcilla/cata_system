@@ -1,4 +1,4 @@
-from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm
+from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -13,6 +13,7 @@ class PanelBasicController():
     url_panel_basic = "tecnicas/create_sesion/conf-panel-basic.html"
     url_panel_basic_cata = "tecnicas/create_sesion/panel-basic-cata.html"
     url_panel_basic_pf = "tecnicas/create_sesion/panel-basic-pf.html"
+    url_panel_basic_sort = "tecnicas/create_sesion/panel-basic-sort.html"
 
     url_next_panel_tags = "cata_system:panel_configuracion_tags"
     url_next_panel_codes = "cata_system:panel_configuracion_codes"
@@ -164,7 +165,6 @@ class PanelBasicController():
         form = SesionBasicPFForm(request.POST)
 
         if form.is_valid():
-            print(form.cleaned_data)
             values = {}
             for name, value in form.cleaned_data.items():
                 values[name] = value
@@ -189,4 +189,23 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic_pf, view_context)
+            request, PanelBasicController.url_panel_basic_sort, view_context)
+
+    @staticmethod
+    def controllPostSort(request: HttpRequest, name_tecnica: str):
+        form = SesionBasicSortForm(request.POST)
+
+        if form.is_valid():
+            values = {}
+            for name, value in form.cleaned_data.items():
+                values[name] = value
+
+            values["name_tecnica"] = name_tecnica
+            request.session['form_basic'] = values
+            response = redirect(
+                reverse(PanelBasicController.url_next_panel_codes))
+        else:
+            response = render(request, PanelBasicController.url_panel_basic_sort, {
+                "form_sesion": form, "error": "Información no valida"})
+
+        return response

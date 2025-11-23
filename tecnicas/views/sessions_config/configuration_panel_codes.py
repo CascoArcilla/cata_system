@@ -18,7 +18,7 @@ def configurationPanelCodes(req: HttpRequest):
         if name_technique == "escalas":
             response = PanelCodesController.controllGetEscalas(
                 req, data_basic)
-        elif name_technique == "rata" or name_technique == "cata" or "perfil flash":
+        elif name_technique == "rata" or name_technique == "cata" or name_technique == "perfil flash" or name_technique == "sort":
             response = PanelCodesController.controllGetRATA(
                 request=req, data=data_basic, name_technique=name_technique)
         else:
@@ -37,6 +37,9 @@ def configurationPanelCodes(req: HttpRequest):
                 request=req, is_rata=False)
         elif name_technique == "perfil flash":
             response = PanelCodesController.controllPostPF(
+                request=req)
+        elif name_technique == "sort":
+            response = PanelCodesController.controllPostSort(
                 request=req)
         else:
             response = redirect(
