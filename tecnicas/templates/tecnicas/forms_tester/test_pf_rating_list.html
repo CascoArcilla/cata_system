@@ -4,37 +4,9 @@
 
 {% block title %}Convencional{% endblock %}
 
-{% block extra_css %}
-<style>
-    input[type="range"]::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: var(--color-blue-500);
-        cursor: pointer;
-    }
-
-    input[type="range"]::-moz-range-thumb {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: #3b82f6;
-        cursor: pointer;
-    }
-
-    @media (width < 40rem) {
-        .container-forms {
-            width: inherit;
-        }
-    }
-</style>
-{% endblock %}
-
 {% block content %}
 <article class="cts-container-main">
-    <article class="cts-wrap-content text-black">
+    <article class="cts-wrap-content text-black max-w-4xl">
         <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
             <h1 class="rounded font-bold text-2xl bg-surface-ligt p-4 flex-1">
                 Sesión usando <br>técnica
@@ -88,29 +60,72 @@
                 </div>
             </section>
 
-            <section class="flex flex-col bg-red-200 py-2 px-4 rounded-lg min-sm:hidden">
-                <p>
-                    El largo de estas escalas puede afectar la vista en dispositivos móviles. Para ver el resto de la
-                    escala puede deslizar con el dedo a la derecha o la izquierda sin tocar la escala.
-                </p>
+            <section class="flex items-center justify-center flex-wrap gap-4">
+                <div class="bg-surface-card p-2 rounded-lg flex-1">
+                    <p class="text-lg font-bold text-center">
+                        El atributo que se está evaluando:
+                    </p>
+                    <p class="cts-word-rating text-2xl font-bold text-center" data-name-word="{{ word }}">
+                        "{{ word }}"
+                    </p>
+                </div>
             </section>
         </article>
 
-        <article class="rounded flex flex-col gap-4">
-            <p>Palabra a evaluar: {{ word }}</p>
-            <div>
-                <p>Productos a ordenar:</p>
-                <ul>
-                    {% for product in products %}
-                    <li>{{ product }}</li>
-                    {% endfor %}
-                </ul>
+        <article class="container-rating-word p-6 space-y-6 bg-surface-ligt rounded">
+            <!-- Definir toddos los productos para la escala -->
+            <h2 class="text-xl font-bold">Productos en la sesión</h2>
+            <div id="items" class="flex gap-4 flex-wrap justify-center">
+                {% for product in products %}
+                <div class="draggable bg-surface-sweet text-black font-bold px-4 py-2 rounded cursor-grab"
+                    draggable="true" data-id-product="{{ product.id }}" data-code="{{ product.codigoProducto }}">{{ product.codigoProducto }}</div>
+                {% endfor %}
             </div>
+
+            <section>
+                <!-- Definir toddos los espacion de escala ordinaria -->
+                <h2 class="text-xl font-bold mb-6">Escala ordinaria</h2>
+                <div id="containers" class="flex gap-6 flex-wrap justify-center">
+                    {% for product in products %}
+                    <section class="w-fit space-y-2">
+                        <div class="dropzone w-32 min-h-16 bg-surface-alter-card border-2 border-dashed border-gray-500 rounded p-2 space-y-2"
+                            data-index="{{ forloop.counter }}"></div>
+                        <p class="text-center text-2xl">{{ forloop.counter }}</p>
+                    </section>
+                    {% endfor %}
+                </div>
+
+                <!-- Linea de menor a mayor -->
+                <section>
+                    <div class="flex justify-center items-center gap-4">
+                        <span class="text-2xl">➖</span>
+                        <hr class="border-2 flex-1">
+                        <SPan class="text-2xl">➕</SPan>
+                    </div>
+                    <p class="text-center text-sm">Valores de menor a mayor</p>
+                </section>
+            </section>
+
+            <section class="flex justify-end gap-4">
+                <button id="question-save" class="cts-btn-general cts-btn-secondary btn-push">
+                    ¿Guardar datos actuales?
+                </button>
+                <button id="save-data" class="cts-btn-general cts-btn-primary btn-push hidden">
+                    Guardar
+                </button>
+                <button id="cancel-save" class="cts-btn-general cts-btn-error btn-push hidden">
+                    Cancelar
+                </button>
+                <span id="loading-data-save" class="loading loading-spinner loading-xl text-accent hidden"></span>
+            </section>
         </article>
+
+        {% include "../components/toast-container.html" %}
     </article>
 </article>
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/actions-form.js' %}"></script>
+<script src="{% static 'js/test_pf_rating_list.js' %}"></script>
 {% endblock %}

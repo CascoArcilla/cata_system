@@ -1,6 +1,6 @@
 from django.http import JsonResponse, HttpRequest
 from django.db import transaction, IntegrityError
-from tecnicas.models import Palabra, ListaPalabras, Participacion
+from tecnicas.models import Palabra, ListaPalabras, Participacion, Calificacion, Producto, Dato, ValorDecimal
 from tecnicas.forms import ListWordsForm
 
 
@@ -141,3 +141,81 @@ class RatingPFListController():
         list_tester.palabras.set(all_new_words)
 
         return all_new_words
+
+    @staticmethod
+    def saveRatings(request: HttpRequest, word_rating: str, data: list):
+        participation = Participacion.objects.get(
+            id=request.session["id_participation"])
+
+        technique = participation.tecnica
+        products = Producto.objects.filter(id_tecnica=technique)
+
+        # Crear o obtener las instancias Calificacion en la repeticion de todos los producutos
+        ratings = Calificacion.objects.filter(
+            num_repeticion=technique.repeticion,
+            id_tecnica=technique,
+            id_catador=participation.catador,
+            id_producto__in=products
+        )
+
+        existing_dict = {rating.id_producto_id: rating for rating in ratings}
+        to_create = []
+
+        for product in products:
+            if product.id not in existing_dict:
+                to_create.append(
+                    Calificacion(
+                        num_repeticion=technique.repeticion,
+                        id_producto=product,
+                        id_tecnica=technique,
+                        id_catador=participation.catador
+                    )
+                )
+        Calificacion.objects.bulk_create(to_create)
+
+        ratings = Calificacion.objects.filter(
+            num_repeticion=technique.repeticion,
+            id_tecnica=technique,
+            id_catador=participation.catador,
+            id_producto__in=products
+        )
+
+        # Guardar datos con ValorDecimal
+        word = Palabra.objects.get(nombre_palabra=word_rating)
+        try:
+            if (
+                len(data) != len(products) or 
+                len(data) != len(ratings) or 
+                len(products) != len(ratings)
+            ):
+                raise ValueError(
+                    "Al parecer los datos mandados no corresponden con el total de productos")
+
+            product_values = {info["product"]["code"]: info["value"] for info in data}
+
+            datos_to_create = []
+            values_to_create = []
+
+            with transaction.atomic():
+                for rating in ratings:
+                    datos_to_create.append(Dato(
+                        id_palabra=word,
+                        id_calificacion=rating
+                    ))
+
+                datos_save = Dato.objects.bulk_create(datos_to_create)
+                save_data = Dato.objects.filter(id_palabra=word, id_calificacion__in=ratings)
+
+                for data_save in save_data:
+                    values_to_create.append(ValorDecimal(
+                        id_dato=data_save,
+                        valor=product_values.get(data_save.id_calificacion.id_producto.codigoProducto)
+                    ))
+
+                ValorDecimal.objects.bulk_create(values_to_create)
+
+            return JsonResponse({"message": "Calificaciones guardadas con exito"})
+        except ValueError as e:
+            error_message = str(e)
+            print(f"Error de calificacion: {error_message}")
+            return JsonResponse({"error": error_message})
