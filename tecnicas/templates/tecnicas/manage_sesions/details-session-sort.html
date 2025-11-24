@@ -69,21 +69,7 @@
                     Estado:
                 </p>
                 <p class="font-sans text-lg max-sm:text-base font-normal">
-                    {% if sesion.activo %}
-                    En proceso
-                    {% else %}
-                    Listo para iniciar repetición
-                    {% endif %}
-                </p>
-            </section>
-
-            <section
-                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-bold">
-                    Estilo palabras:
-                </p>
-                <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
-                    {{ sesion.tecnica.id_estilo }}
+                    {{ status }}
                 </p>
             </section>
 
@@ -93,22 +79,26 @@
                     Técnica:
                 </p>
                 <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
-                    {{ sesion.tecnica.tipo_tecnica }}
+                    {{ technique.tipo_tecnica }}
                 </p>
             </section>
 
             <section
                 class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-sans">
-                    Pueden ingresar tantos catadores como se desee
+                    <b>Catadores Max.</b> {{ technique.limite_catadores }}
                 </p>
             </section>
 
             <section
-                class="max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-sans">
-                    La técnica usada solo puede realizarse una vez, hay una única repetición
+                    <b>Repetición:</b> Única
                 </p>
+            </section>
+
+            <section
+                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
             </section>
 
             <section
@@ -123,42 +113,26 @@
         </article>
 
         <p class="text-black font-bold text-2xl border-b-2">
-            Palabras usadas para calificar
-        </p>
-        <article
-            class="text-white rounded-xl grid grid-cols-4 max-sm:grid-cols-1 gap-3 *:bg-surface-ligt *:flex *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
-            {% for palabra in palabras %}
-            <section>
-                <p class="block text-black text-xl antialiased font-medium">
-                    {{ palabra }}
-                </p>
-            </section>
-            {% endfor %}
-        </article>
-
-
-        <p class="text-black font-bold text-2xl border-b-2">
             Acciones disponibles
         </p>
         <article class="flex flex-wrap gap-10 max-sm:gap-2">
             {% if not sesion.activo %}
-            {% if fin_repeticiones %}
+            <button
+                class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
+                onclick="startRepetition()">
+                Iniciar fase o repetición
+                <figure class="w-10">
+                    <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
+                </figure>
+            </button>
+            {% else %}
+            {% if finished %}
             <div
                 class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none text-center">
                 <p class=" text-black">
                     Sesión finalizada
                 </p>
             </div>
-            {% else %}
-            <button
-                class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
-                onclick="startRepetition()">
-                Iniciar repetición
-                <figure class="w-10">
-                    <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
-                </figure>
-            </button>
-            {% endif %}
             {% else %}
             <a href="{% url 'cata_system:monitor_sesion' session_code=sesion.codigo_sesion %}" class="flex-1 w-fit">
                 <button
@@ -169,6 +143,7 @@
                     </figure>
                 </button>
             </a>
+            {% endif %}
             {% endif %}
             <button
                 class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
@@ -211,19 +186,7 @@
             Datos obtenidos
         </p>
 
-        <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
-            <section class="text-xl space-y-4 space-x-4 mb-4">
-                <p class="inline italic underline font-semibold">
-                    Los valores para este tipo de técnica son booleanos, pueden ser 1 o pueden ser 0
-                </p>
-            </section>
-            {% if existen_calificaciones %}
-            {% include "../components/table_cata.html" with calificaciones=calificaciones palabras=palabras
-            sesion=sesion %}
-            {% else %}
-            {% include "../components/error-message.html" with message='Sin calificaciones que mostrar aún' %}
-            {% endif %}
-        </article>
+        {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
 
         <form action="" method="post" class="form-action-session hidden">
             <input type="hidden" name="action" class="action-option">

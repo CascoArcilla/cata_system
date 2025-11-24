@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
 from tecnicas.utils import noValidTechnique
-from tecnicas.controllers import DetallesEscalasController, DetallesCATAController, DetallesPFController
+from tecnicas.controllers import DetallesController, DetallesEscalasController, DetallesCATAController, DetallesPFController, DetallesSortController
 
 
 def sessionDetails(req: HttpRequest, session_code: str):
@@ -34,6 +34,11 @@ def sessionDetails(req: HttpRequest, session_code: str):
             response = controller_view.controllGetResponse(
                 request=req, message=message)
 
+        elif use_techinique == "sort":
+            controller_view = DetallesSortController(session=sensorial_session)
+            response = controller_view.controllGetResponse(
+                request=req, message=message)
+
         else:
             response = noValidTechnique(
                 params={"page": 1},
@@ -50,7 +55,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
         if use_techinique == "escalas" or use_techinique == "rata" or use_techinique == "cata":
-            controller_view = DetallesEscalasController(sensorial_session)
+            controller_view = DetallesController(sensorial_session)
 
             if req.POST["action"] == "start_session":
                 response = controller_view.startRepetition(

@@ -2,8 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial, Producto, EsAtributo, EsVocabulario
-from tecnicas.controllers import ParticipacionController, SesionController
-from tecnicas.utils import controller_error
+from tecnicas.controllers import ParticipacionController
 
 
 class MonitorController():

@@ -11,13 +11,10 @@ Encabezados de como deben de aparecer los datos juntos
 | Repeticion | Codigo Producto | Catador | P1 | P2 | P3 | Pn |
 
 '''
-from django.http import HttpRequest
-from django.shortcuts import render, redirect
-from django.urls import reverse
-from tecnicas.models import SesionSensorial, Presentador, Participacion, Calificacion, Escala
-from tecnicas.controllers import DatoController, PalabrasController, ParticipacionController
+from tecnicas.models import SesionSensorial, Calificacion, Escala
+from tecnicas.controllers import DatoController, PalabrasController
 from .details_controller import DetallesController
-from tecnicas.utils import defaultdict_to_dict, controller_error
+from tecnicas.utils import defaultdict_to_dict
 from collections import defaultdict
 
 
