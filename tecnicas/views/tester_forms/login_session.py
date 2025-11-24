@@ -35,6 +35,10 @@ def loginSessionTester(req: HttpRequest):
 
         elif type_technique == "perfil flash":
             response = login_controller.validateEntryRATA(request=req)
+
+        elif type_technique == "sort":
+            response = login_controller.validateEntrySort(request=req)
+
         else:
             context = {
                 "error": "La técnica usada en esta sesión es invalida o no ha sido implementada para ingresar a ella"

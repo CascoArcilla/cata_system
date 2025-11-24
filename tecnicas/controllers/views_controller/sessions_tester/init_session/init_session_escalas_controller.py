@@ -13,7 +13,7 @@ class InitSessionEscalasController(InitSessionController):
 
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_direction = "tecnicas/forms_tester/init_session.html"
+        self.current_direction = "tecnicas/forms_tester/init_scales_test.html"
         self.escalas_direction = "cata_system:session_convencional"
         self.cata_direction = "cata_system:session_cata"
 
