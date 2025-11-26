@@ -50,6 +50,12 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
             view_controller = InitSessionPFController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllPost(request=req)
+
+        elif type_technique == "sort":
+            view_controller = InitSessionSortController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllPost(request=req)
+        
         else:
             context = {
                 "session": session,

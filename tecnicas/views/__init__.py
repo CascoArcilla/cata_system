@@ -36,3 +36,4 @@ from .tester_forms.sessions_list_tester import sessionsListTester
 from .tester_forms.convencional_scales import convencionalScales
 from .tester_forms.cata_test import cataTest
 from .tester_forms.pf_test import pfTest
+from .tester_forms.sort_test import sortTest

@@ -118,6 +118,10 @@ urlpatterns = [
          views.pfTest,
          name="session_pf"),
 
+    path("testers/init-session/<str:code_sesion>/sort",
+         views.sortTest,
+         name="session_sort"),
+
 
     # APIs
     path("presenter/api/nueva-etiqueta",

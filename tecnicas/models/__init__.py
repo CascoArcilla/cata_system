@@ -30,3 +30,4 @@ from .orden import Posicion
 from .participacion import Participacion
 
 from .lista_palabras import ListaPalabras
+from .grupo_producto import GrupoProducto
