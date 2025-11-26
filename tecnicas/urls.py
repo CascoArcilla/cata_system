@@ -147,4 +147,8 @@ urlpatterns = [
     path("testers/api/ratingword/pf/list",
          views.apiListWordsPF,
          name="api_rating_word_pf_list"),
+
+    path("testers/api/rating-sort",
+         views.ratingSort,
+         name="api_rating_sort"),
 ]

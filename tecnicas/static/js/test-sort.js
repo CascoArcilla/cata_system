@@ -398,3 +398,111 @@ function getItemWord(wordName, code) {
 //////
 ////
 */
+
+async function saveData() {
+    const keysDataGrups = Object.keys(DATA_GRUPS);
+    const allCodesProducts = new Set()
+
+    products.forEach((productElement) => {
+        allCodesProducts.add(productElement.getAttribute("data-code"))
+    })
+
+    if (keysDataGrups.length === 0) {
+        spanNotifaction("No hay grupos para guardar")
+        return false;
+    }
+
+    const data = []
+    let thereError = false;
+    const codesProducts = []
+
+    keysDataGrups.forEach((key) => {
+        if (thereError) return
+
+        const dataGrup = DATA_GRUPS[key];
+        if (!dataGrup) {
+            spanNotifaction("No hay datos para guardar")
+            thereError = true;
+            return
+        }
+
+        if (dataGrup.products.length === 0) {
+            spanNotifaction("Los grupos deben tener por lo menos un producto para guardar")
+            thereError = true;
+            return
+        }
+
+        if (dataGrup.words.length === 0) {
+            spanNotifaction("Los grupos deben tener por lo menos una palabra para guardar")
+            thereError = true;
+            return
+        }
+
+        const words = dataGrup.words;
+        const products = dataGrup.products;
+
+        codesProducts.push(...products.map((product) => product.code))
+
+        data.push({
+            words,
+            products
+        })
+    })
+
+    if (thereError) return false;
+
+    const currentCodesProducts = new Set(codesProducts)
+    const difference = symmetricDifference(currentCodesProducts, allCodesProducts)
+
+    if (difference.size > 0) {
+        spanNotifaction("Falta un producto que debe ser ordenado")
+        return false
+    }
+
+    const URL = "/cata/testers/api/rating-sort"
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    try {
+        const response = await fetch(URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,
+            },
+            body: JSON.stringify(data),
+        })
+
+        if (!response.ok) {
+            spanNotifaction("Error en la respuesta del servidor")
+            return false;
+        }
+
+        const result = await response.json()
+
+        if (result.error) {
+            spanNotifaction(result.error)
+            return false
+        } else {
+            spanNotifaction(result.message, false)
+            return true
+        }
+    } catch (error) {
+        spanNotifaction("Error en proceso de guardar los datos")
+        return false
+    }
+}
+
+const buttonSaveData = document.getElementById("save-progress")
+buttonSaveData.addEventListener("click", saveData)
+
+function symmetricDifference(setA, setB) {
+    let _difference = new Set(setA);
+    for (let elem of setB) {
+        if (_difference.has(elem)) {
+            _difference.delete(elem);
+        } else {
+            _difference.add(elem);
+        }
+    }
+    return _difference;
+}
