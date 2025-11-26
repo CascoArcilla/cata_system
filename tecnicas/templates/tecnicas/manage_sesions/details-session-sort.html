@@ -186,7 +186,11 @@
             Datos obtenidos
         </p>
 
-        {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+        {% if there_data %}
+            {% include "../components/table-sort.html" with data_groups=data_groups %}
+        {% else %}
+            {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+        {% endif %}
 
         <form action="" method="post" class="form-action-session hidden">
             <input type="hidden" name="action" class="action-option">

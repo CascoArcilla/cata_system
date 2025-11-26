@@ -1,0 +1,34 @@
+{% load custom_filters %}
+<section>
+    <div class="overflow-x-auto rounded-lg border border-surface-general">
+        <table class="min-w-max w-full text-sm text-center border-collapse">
+            <thead class="bg-surface-sweet text-black font-semibold">
+                <tr>
+                    <th class="py-2 px-3 border border-surface-general">Producto</th>
+                    {% for tester in data_groups.testers %}
+                    <th class="py-2 px-3 border border-surface-general">
+                        Consumidor {{ forloop.counter }}: {{ tester }}
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody class="bg-surface-ligt divide-y divide-gray-200 text-black">
+                {% for data_words in data_groups.data %}
+                <tr>
+                    <td class="py-2 px-3 border border-surface-general font-medium">{{ data_words.codigo_producto }}</td>
+                    {% for tester in data_groups.testers %}
+                        <td class="py-2 px-3 border border-surface-general font-medium">
+                            {% for word in data_words.palabras|get_item:tester %}
+                                {{word}}
+                                {% if not forloop.last %}
+                                    ;
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
