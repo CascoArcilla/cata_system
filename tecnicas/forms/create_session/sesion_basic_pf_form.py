@@ -1,5 +1,4 @@
 from django import forms
-from tecnicas.models import TipoEscala
 
 
 class SesionBasicPFForm(forms.Form):

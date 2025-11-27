@@ -8,13 +8,14 @@ from tecnicas.models import Catador
 
 
 def testerSearch(req: HttpRequest):
+    url_template = "tecnicas/manage_tester/tester-search.html"
     if req.method == "GET":
         context = {}
 
         if "user" in req.GET:
             username = req.GET["user"]
         else:
-            return render(req, "tecnicas/manage_tester/catador-buscar.html")
+            return render(req, url_template)
 
         try:
             tester = Catador.objects.get(user__username=username)
@@ -30,7 +31,7 @@ def testerSearch(req: HttpRequest):
         except Catador.DoesNotExist:
             context["error"] = "usuario no encontrado"
 
-        return render(req, "tecnicas/manage_tester/catador-buscar.html", context)
+        return render(req, url_template, context)
     elif req.method == "POST":
         context = {}
 
@@ -63,10 +64,10 @@ def testerSearch(req: HttpRequest):
                     tester.save()
                 except (ValidationError, DatabaseError):
                     context["error"] = "nombre de usuario en uso"
-                    return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+                    return render(req, url_template, context)
             context["message"] = "Datos actualizados, consúltelo en Listar Catadores"
             context["form_cata"] = form_tester
-            return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+            return render(req, url_template, context)
         else:
             context["error"] = "Datos no validos"
-            return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+            return render(req, url_template, context)

@@ -7,7 +7,7 @@ import json
 
 
 class PanelWordsController():
-    current_url_escalas_atribute = "tecnicas/create_sesion/configuracion-panel-words.html"
+    current_url_escalas_atribute = "tecnicas/create_sesion/conf-panel-words.html"
     current_url_escalas_vocabulary = "tecnicas/create_sesion/conf-panel-vocabulary.html"
 
     def __init__(self):

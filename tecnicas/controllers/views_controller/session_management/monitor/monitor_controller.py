@@ -1,9 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.models import SesionSensorial, Producto, EsAtributo, EsVocabulario
-from tecnicas.controllers import ParticipacionController, SesionController
-from tecnicas.utils import controller_error
+from tecnicas.models import SesionSensorial, Producto, EsAtributo, EsVocabulario, Participacion
 
 
 class MonitorController():
@@ -14,20 +12,20 @@ class MonitorController():
         self.sensorial_session = session
 
     def controllPostFinishSession(self, request: HttpRequest):
-        self.setContext()
         (is_all_end, message) = self.checkAllFinish()
         if not is_all_end:
+            self.setContext()
             self.context["error"] = message
             return render(request, self.url_view, self.context)
         self.finishSession()
         return redirect(reverse(self.previus_view, kwargs={"session_code": self.sensorial_session.codigo_sesion}))
 
-    def checkAllFinish(self):
+    def checkAllFinish(self) -> (bool, str):
         return (False, "Función sin implementar")
 
     def setContext(self):
-        self.participations = ParticipacionController.getParticipationsInTechinique(
-            self.sensorial_session.tecnica)
+        self.participations = Participacion.objects.filter(
+            tecnica=self.sensorial_session.tecnica)
 
         self.context = {
             "code_session": self.sensorial_session.codigo_sesion,

@@ -7,7 +7,7 @@ from tecnicas.controllers import ParticipacionController
 
 class DetallesController():
     url_template: str
-    url_next: str
+    url_next = "cata_system:monitor_sesion"
 
     def __init__(self, session: SesionSensorial):
         self.session = session

@@ -1,4 +1,4 @@
-from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm
+from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -10,9 +10,11 @@ class PanelBasicController():
         "numero_repeticiones": 1
     }
 
-    url_panel_basic = "tecnicas/create_sesion/configuracion-panel-basic.html"
+    url_panel_basic = "tecnicas/create_sesion/conf-panel-basic.html"
     url_panel_basic_cata = "tecnicas/create_sesion/panel-basic-cata.html"
     url_panel_basic_pf = "tecnicas/create_sesion/panel-basic-pf.html"
+    url_panel_basic_sort = "tecnicas/create_sesion/panel-basic-sort.html"
+    url_panel_basic_napping = "tecnicas/create_sesion/panel-basic-napping.html"
 
     url_next_panel_tags = "cata_system:panel_configuracion_tags"
     url_next_panel_codes = "cata_system:panel_configuracion_codes"
@@ -43,7 +45,7 @@ class PanelBasicController():
             if form.is_valid():
                 values = {}
                 for name, value in form.cleaned_data.items():
-                    if name == "estilo_palabras" or name == "tipo_escala":
+                    if name == "tipo_escala":
                         values[name] = value.id
                     else:
                         values[name] = value
@@ -84,7 +86,7 @@ class PanelBasicController():
             if form.is_valid():
                 values = {}
                 for name, value in form.cleaned_data.items():
-                    if name == "estilo_palabras" or name == "tipo_escala":
+                    if name == "tipo_escala":
                         values[name] = value.id
                     else:
                         values[name] = value
@@ -132,10 +134,7 @@ class PanelBasicController():
         if form.is_valid():
             values = {}
             for name, value in form.cleaned_data.items():
-                if name == "estilo_palabras":
-                    values[name] = value.id
-                else:
-                    values[name] = value
+                values[name] = value
 
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values
@@ -164,7 +163,6 @@ class PanelBasicController():
         form = SesionBasicPFForm(request.POST)
 
         if form.is_valid():
-            print(form.cleaned_data)
             values = {}
             for name, value in form.cleaned_data.items():
                 values[name] = value
@@ -175,6 +173,68 @@ class PanelBasicController():
                 reverse(PanelBasicController.url_next_panel_codes))
         else:
             response = render(request, PanelBasicController.url_panel_basic_pf, {
+                "form_sesion": form, "error": "Información no valida"})
+
+        return response
+
+    @staticmethod
+    def controllGetSort(request: HttpRequest):
+        form_sesion = SesionBasicSortForm()
+
+        view_context = {
+            "form_sesion": form_sesion,
+            "use_technique": "sort"
+        }
+
+        return render(
+            request, PanelBasicController.url_panel_basic_sort, view_context)
+
+    @staticmethod
+    def controllPostSort(request: HttpRequest, name_tecnica: str):
+        form = SesionBasicSortForm(request.POST)
+
+        if form.is_valid():
+            values = {}
+            for name, value in form.cleaned_data.items():
+                values[name] = value
+
+            values["name_tecnica"] = name_tecnica
+            request.session['form_basic'] = values
+            response = redirect(
+                reverse(PanelBasicController.url_next_panel_codes))
+        else:
+            response = render(request, PanelBasicController.url_panel_basic_sort, {
+                "form_sesion": form, "error": "Información no valida"})
+
+        return response
+
+    @staticmethod
+    def controllGetNapping(request: HttpRequest):
+        form_sesion = SesionBasicNappingForm()
+
+        view_context = {
+            "form_sesion": form_sesion,
+            "use_technique": "napping"
+        }
+
+        return render(
+            request, PanelBasicController.url_panel_basic_napping, view_context)
+
+    @staticmethod
+    def controllPostNapping(request: HttpRequest, name_tecnica: str):
+        form = SesionBasicNappingForm(request.POST)
+
+        if form.is_valid():
+            values = {}
+            for name, value in form.cleaned_data.items():
+                values[name] = value
+
+            values["name_tecnica"] = name_tecnica
+            request.session['form_basic'] = values
+            response = redirect(
+                reverse(PanelBasicController.url_next_panel_codes))
+        else:
+            response = render(request, PanelBasicController.url_panel_basic_napping, {
                 "form_sesion": form, "error": "Información no valida"})
 
         return response

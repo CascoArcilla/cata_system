@@ -1,13 +1,13 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
-from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController
+from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController
 from tecnicas.models import SesionSensorial
 
 
 def initTesterForm(req: HttpRequest, code_sesion: str):
     session = SesionSensorial.objects.get(codigo_sesion=code_sesion)
     type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
-    template_url = "tecnicas/forms_tester/init_session.html"
+    template_url = "tecnicas/forms_tester/init_scales_test.html"
 
     if req.method == "GET":
         if type_technique == "escalas":
@@ -22,6 +22,11 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
 
         elif type_technique == "perfil flash":
             view_controller = InitSessionPFController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllGet(request=req)
+
+        elif type_technique == "sort":
+            view_controller = InitSessionSortController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllGet(request=req)
 
@@ -45,6 +50,12 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
             view_controller = InitSessionPFController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllPost(request=req)
+
+        elif type_technique == "sort":
+            view_controller = InitSessionSortController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllPost(request=req)
+        
         else:
             context = {
                 "session": session,

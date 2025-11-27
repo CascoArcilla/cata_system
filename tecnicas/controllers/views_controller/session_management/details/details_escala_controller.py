@@ -1,15 +1,27 @@
-from django.db.models import F
-from tecnicas.models import SesionSensorial, Calificacion, ValorBooleano
-from tecnicas.controllers import PalabrasController
-from tecnicas.utils import defaultdict_to_dict
+'''
+
+Para Tecnicas Convencionales, CATA, RATA, Escala Hedonica
+Encabezados de como deben de aparecer los datos por repeticion
+
+| Repeticion: R
+| Codigo Producto | Catador | P1 | P2 | P3 | Pn |
+
+Encabezados de como deben de aparecer los datos juntos
+
+| Repeticion | Codigo Producto | Catador | P1 | P2 | P3 | Pn |
+
+'''
+from tecnicas.models import SesionSensorial, Calificacion, Escala
+from tecnicas.controllers import DatoController, PalabrasController
 from .details_controller import DetallesController
+from tecnicas.utils import defaultdict_to_dict
 from collections import defaultdict
 
 
-class DetallesCATAController(DetallesController):
+class DetallesEscalasController(DetallesController):
     def __init__(self, session: SesionSensorial):
         super().__init__(session)
-        self.url_template = "tecnicas/manage_sesions/detalles-sesion-cata.html"
+        self.url_template = "tecnicas/manage_sesions/details-session.html"
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):
@@ -20,12 +32,20 @@ class DetallesCATAController(DetallesController):
             "use_technique": technique
         }
 
-        # Recuperar palabras
+        # Datos de la escala usada
+        scale: Escala = technique.escala_tecnica
+
+        self.context["scale"] = {
+            "type": scale.id_tipo_escala.nombre_escala,
+            "size": scale.longitud
+        }
+
+        # Recuperar la palabras de la tecnica
         self.words = PalabrasController.getWordsInTechnique(
-            self.session.tecnica)
+            technique)
         self.context["palabras"] = [word.nombre_palabra for word in self.words]
 
-        # Intentar recuperar las calificaciones
+        # Se recuperan las calificaciones
         ratings_for_repetition = []
 
         ratings = list(Calificacion.objects.filter(
@@ -36,19 +56,8 @@ class DetallesCATAController(DetallesController):
             self.context["existen_calificaciones"] = False
             return self.context
 
-        data = (
-            ValorBooleano.objects
-            .filter(id_dato__id_calificacion__in=ratings)
-            .values(
-                nombre_palabra=F("id_dato__id_palabra__nombre_palabra"),
-                repeticion=F("id_dato__id_calificacion__num_repeticion"),
-                producto_code=F(
-                    "id_dato__id_calificacion__id_producto__codigoProducto"),
-                usuario_catador=F(
-                    "id_dato__id_calificacion__id_catador__user__username"),
-                dato_valor=F("valor")
-            )
-        )
+        data = DatoController.getWordValuesForConvecional(
+            ratings=ratings, technique=technique)
 
         ratings_for_repetition = defaultdict(
             lambda: defaultdict(lambda: defaultdict(list)))
@@ -69,4 +78,5 @@ class DetallesCATAController(DetallesController):
 
         # Se comprueba que ya no se pueda iniciar la repeticion
         self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max
+
         return self.context

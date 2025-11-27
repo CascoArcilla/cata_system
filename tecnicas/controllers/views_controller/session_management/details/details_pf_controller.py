@@ -1,8 +1,5 @@
-from django.http import HttpRequest
-from django.shortcuts import redirect
-from django.urls import reverse
-from tecnicas.models import SesionSensorial, Presentador, Participacion, ListaPalabras, Calificacion, Catador
-from tecnicas.controllers import ParticipacionController, DatoController
+from tecnicas.models import SesionSensorial, ListaPalabras, Calificacion, Catador
+from tecnicas.controllers import DatoController
 from tecnicas.utils import defaultdict_to_dict
 from .details_controller import DetallesController
 from collections import defaultdict
@@ -20,9 +17,7 @@ class DetallesPFController(DetallesController):
         self.context = {
             "sesion": self.session,
             "use_technique": technique,
-            "existen_calificaciones": False,
             "tipo_escala": technique.escala_tecnica.id_tipo_escala.nombre_escala,
-            "valor_max": technique.escala_tecnica.longitud,
             "repeticiones_max": technique.repeticiones_max - 2
         }
 

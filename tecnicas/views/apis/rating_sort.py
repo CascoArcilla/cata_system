@@ -1,0 +1,16 @@
+from django.http import HttpRequest, JsonResponse
+from tecnicas.controllers import RatingSortController
+import json
+
+
+def ratingSort(req:  HttpRequest):
+    if req.method == "POST":
+        try:
+            data = json.loads(req.body.decode("utf-8"))
+            response = RatingSortController.saveRating(
+                request=req, data=data)
+            return response
+        except Exception as e:
+            return JsonResponse({"error": "Error al procesar datos"})
+    else:
+        return JsonResponse({"error": "Método no permitido"})

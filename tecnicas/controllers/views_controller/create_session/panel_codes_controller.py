@@ -7,7 +7,7 @@ import json
 
 
 class PanelCodesController():
-    url_current_panel = "tecnicas/create_sesion/configuracion-panel-codes.html"
+    url_current_panel = "tecnicas/create_sesion/conf-panel-codes.html"
     url_words = "cata_system:panel_configuracion_words"
     url_create_session = "cata_system:creando_sesion"
 
@@ -66,7 +66,7 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllGetRATA(request: HttpRequest, data, name_technique: str):
+    def controllGetWithoutOrders(request: HttpRequest, data, name_technique: str):
         num_products = data["numero_productos"]
         codes_products = generarCodigos(num_products)
         form_codes = CodesForm(codes=codes_products)
@@ -80,7 +80,7 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllPostRATA(request: HttpRequest, is_rata=True):
+    def controllPostWithWords(request: HttpRequest, name_technique: str):
         codes = []
         context_codes_form = {}
 
@@ -92,7 +92,7 @@ class PanelCodesController():
 
         context_codes_form = {
             "form_codes": form_codes,
-            "use_technique": "rata" if is_rata else "cata"
+            "use_technique": name_technique
         }
 
         if form_codes.is_valid():
@@ -117,7 +117,7 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllPostPF(request: HttpRequest):
+    def controllPostWithoutOrdersWords(request: HttpRequest, name_technique: str):
         codes = []
         context_codes_form = {}
 
@@ -129,7 +129,7 @@ class PanelCodesController():
 
         context_codes_form = {
             "form_codes": form_codes,
-            "use_technique": "perfil flash"
+            "use_technique": name_technique
         }
 
         if form_codes.is_valid():
