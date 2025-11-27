@@ -116,6 +116,14 @@
             Acciones disponibles
         </p>
         <article class="flex flex-wrap gap-10 max-sm:gap-2">
+            {% if finished %}
+            <div
+                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none text-center">
+                <p class=" text-black">
+                    Sesión finalizada
+                </p>
+            </div>
+            {% else %}
             {% if not sesion.activo %}
             <button
                 class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
@@ -125,14 +133,6 @@
                     <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
                 </figure>
             </button>
-            {% else %}
-            {% if finished %}
-            <div
-                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none text-center">
-                <p class=" text-black">
-                    Sesión finalizada
-                </p>
-            </div>
             {% else %}
             <a href="{% url 'cata_system:monitor_sesion' session_code=sesion.codigo_sesion %}" class="flex-1 w-fit">
                 <button
@@ -187,9 +187,9 @@
         </p>
 
         {% if there_data %}
-            {% include "../components/table-sort.html" with data_groups=data_groups %}
+        {% include "../components/table-sort.html" with data_groups=data_groups %}
         {% else %}
-            {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+        {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
 
         <form action="" method="post" class="form-action-session hidden">

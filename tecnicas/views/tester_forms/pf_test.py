@@ -12,8 +12,16 @@ def pfTest(req: HttpRequest, code_sesion: str):
             sensorial_session=session, user_tester=req.user.user_catador)
         return controll_view.controllGet(request=req)
 
-    if req.method == "POST":
+    elif req.method == "POST":
         session = SesionSensorial.objects.get(codigo_sesion=code_sesion)
         controll_view = TestPFController(
             sensorial_session=session, user_tester=req.user.user_catador)
         return controll_view.controllPost(request=req)
+
+    else:
+        return noValidTechnique(
+            name_view="cata_system:catador_init_session",
+            query_params={
+                "error": "Método no valido"
+            }
+        )

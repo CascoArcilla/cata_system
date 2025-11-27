@@ -18,14 +18,6 @@ const DATA_GRUPS = {};
 products.forEach(manageDragables);
 zonesDrop.forEach(manageDropZone);
 
-document
-    .getElementById("question-save")
-    .addEventListener("click", showOptionsSave);
-
-document
-    .getElementById("cancel-save")
-    .addEventListener("click", showQuestionSave);
-
 
 /*
 ////
@@ -205,6 +197,14 @@ function manageDropZone(zone) {
     // Add listeners to elements options and WordForm for the list words
     addListenersButtonQuestionGrup(zone.parentNode)
     manageFormWord(parentZone.querySelector("form"), parentZone.querySelector(".words-container"), idZone)
+
+    if (DATA_GRUPS[idZone].words.length) {
+        parentZone.querySelector(".words-container").innerHTML = "";
+        DATA_GRUPS[idZone].words.forEach((word) => {
+            const itemWord = getItemWord(word, idZone);
+            parentZone.querySelector(".words-container").appendChild(itemWord);
+        })
+    }
 }
 
 /*
@@ -293,72 +293,15 @@ function removeGrup(grup) {
 function removeWord(code, wordName) {
     const newWords = DATA_GRUPS[code].words.filter(word => word != wordName)
     DATA_GRUPS[code].words = newWords
+    if (!newWords.length) {
+        const containerWords = document.getElementById(code).parentNode.querySelector(".words-container")
+        containerWords.innerHTML = wordsPlaceHolder;
+    }
 }
 
 function removeProduct(codeProduct, codeZone) {
     const newProducts = DATA_GRUPS[codeZone].products.filter((product) => product.code != codeProduct)
     DATA_GRUPS[codeZone].products = newProducts
-}
-
-/**
- * 
- * @param {HTMLElement} grupContainer 
- */
-function addListenersButtonQuestionGrup(grupContainer) {
-    // Function hidden question
-    grupContainer.querySelector(".cts-question").addEventListener("click", (event) => {
-        hiddenQuestionRemove(grupContainer)
-    })
-
-    // Function cancel remove
-    grupContainer.querySelector(".cts-no-remove").addEventListener("click", (event) => {
-        hiddenQuestionRemove(grupContainer, false)
-    })
-
-    // Function remove grup
-    grupContainer.querySelector(".cts-remove").addEventListener("click", (event) => {
-        removeGrup(grupContainer)
-    })
-}
-
-/**
- * 
- * @param {HTMLDivElement} container 
- * @param {boolean} hiddenQuestion 
- */
-function hiddenQuestionRemove(container, hiddenQuestion = true) {
-    const question = container.querySelector(".cts-question")
-    const remove = container.querySelector(".cts-remove")
-    const noRemove = container.querySelector(".cts-no-remove")
-
-
-    if (hiddenQuestion) {
-        question.classList.add("hidden")
-        remove.classList.remove("hidden")
-        noRemove.classList.remove("hidden")
-    } else {
-        question.classList.remove("hidden")
-        remove.classList.add("hidden")
-        noRemove.classList.add("hidden")
-    }
-}
-
-function generateSimpleID() {
-    const first = Date.now().toString(35);
-    const second = Math.random().toString(36).slice(2);
-    return first + second;
-}
-
-function showOptionsSave() {
-    document.getElementById("question-save").classList.add("hidden");
-    document.getElementById("save-data").classList.remove("hidden");
-    document.getElementById("cancel-save").classList.remove("hidden");
-}
-
-function showQuestionSave() {
-    document.getElementById("question-save").classList.remove("hidden");
-    document.getElementById("save-data").classList.add("hidden");
-    document.getElementById("cancel-save").classList.add("hidden");
 }
 
 function getItemWord(wordName, code) {
@@ -390,6 +333,82 @@ function getItemWord(wordName, code) {
     return div;
 };
 
+/**
+ * 
+ * @param {HTMLElement} grupContainer 
+ */
+function addListenersButtonQuestionGrup(grupContainer) {
+    // Function hidden question
+    grupContainer.querySelector(".cts-question").addEventListener("click", (event) => {
+        hiddenQuestionRemoveGroup(grupContainer)
+    })
+
+    // Function cancel remove
+    grupContainer.querySelector(".cts-no-remove").addEventListener("click", (event) => {
+        hiddenQuestionRemoveGroup(grupContainer, false)
+    })
+
+    // Function remove grup
+    grupContainer.querySelector(".cts-remove").addEventListener("click", (event) => {
+        removeGrup(grupContainer)
+    })
+}
+
+/*
+////
+//////
+//////// Management Options Save and remove groups
+//////
+////
+*/
+
+/**
+ * 
+ * @param {HTMLDivElement} container 
+ * @param {boolean} hiddenQuestion 
+ */
+function hiddenQuestionRemoveGroup(container, hiddenQuestion = true) {
+    const question = container.querySelector(".cts-question")
+    const remove = container.querySelector(".cts-remove")
+    const noRemove = container.querySelector(".cts-no-remove")
+
+
+    if (hiddenQuestion) {
+        question.classList.add("hidden")
+        remove.classList.remove("hidden")
+        noRemove.classList.remove("hidden")
+    } else {
+        question.classList.remove("hidden")
+        remove.classList.add("hidden")
+        noRemove.classList.add("hidden")
+    }
+}
+
+function generateSimpleID() {
+    const first = Date.now().toString(35);
+    const second = Math.random().toString(36).slice(2);
+    return first + second;
+}
+
+function showOptionsSave() {
+    document.getElementById("question-save").classList.add("hidden");
+    document.getElementById("finish-session").classList.remove("hidden");
+    document.getElementById("cancel-save").classList.remove("hidden");
+}
+
+function showQuestionSave() {
+    document.getElementById("question-save").classList.remove("hidden");
+    document.getElementById("finish-session").classList.add("hidden");
+    document.getElementById("cancel-save").classList.add("hidden");
+}
+
+document
+    .getElementById("question-save")
+    .addEventListener("click", showOptionsSave);
+
+document
+    .getElementById("cancel-save")
+    .addEventListener("click", showQuestionSave);
 
 /*
 ////
@@ -505,4 +524,31 @@ function symmetricDifference(setA, setB) {
         }
     }
     return _difference;
+}
+
+/*
+////
+//////
+//////// Finish session
+//////
+////
+*/
+
+document
+    .getElementById("finish-session")
+    .addEventListener("click", finishSession);
+
+async function finishSession() {
+    const save = await saveData();
+    if (!save) {
+        spanNotifaction("Error al guardar los datos")
+        return
+    };
+
+    const FORM_ACTION = document.querySelector(".form-actions")
+
+    const inputAction = FORM_ACTION.querySelector(".action-input");
+    FORM_ACTION.action = "";
+    inputAction.value = "finish_session";
+    FORM_ACTION.submit();
 }

@@ -40,10 +40,11 @@ class TestSortController(GenetalTestController):
         self.context["products"] = products_in_technique
 
         grups_products = GrupoProducto.objects.filter(
-            tecnica=technique, catador=request.user.user_catador)
+            tecnica=technique, catador=request.user.user_catador).select_related("productos", "palabras")
 
         self.context["grups_products"] = grups_products if grups_products else []
 
         self.context["form_word"] = ListWordsForm()
 
         return render(request, self.current_directory, self.context)
+

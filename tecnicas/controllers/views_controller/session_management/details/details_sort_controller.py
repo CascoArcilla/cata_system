@@ -1,5 +1,6 @@
 from .details_controller import DetallesController
 from tecnicas.models import SesionSensorial, GrupoProducto, Producto, Participacion
+from collections import defaultdict
 
 
 class DetallesSortController(DetallesController):
@@ -42,9 +43,9 @@ class DetallesSortController(DetallesController):
 
         products = Producto.objects.filter(id_tecnica=technique)
 
-        groups = list(GrupoProducto.objects.filter(
+        groups = GrupoProducto.objects.select_related("catador").filter(
             tecnica=technique
-        ))
+        )
 
         if len(groups):
             self.context["there_data"] = True
@@ -55,23 +56,25 @@ class DetallesSortController(DetallesController):
         for product in products:
             product_data = {
                 "codigo_producto": product.codigoProducto,
-                "palabras": dict(list())
+                "palabras": {}
             }
 
-            data_words = dict(list())
+            related_groups = groups.filter(productos=product).select_related(
+                "catador__user"
+            ).prefetch_related("palabras")
 
-            for group in groups:
-                if product in group.productos.all():
-                    catador_username = group.catador.user.username
+            data_words = defaultdict(set)
 
-                    words_group = set()
-                    for word in group.palabras.all():
-                        words_group.add(word.nombre_palabra)
+            for group in related_groups:
+                catador_username = group.catador.user.username
 
-                    data_words[catador_username] = list(
-                        set(data_words.get(catador_username, list())) | words_group)
+                for word in group.palabras.all():
+                    data_words[catador_username].add(word.nombre_palabra)
 
-            product_data["palabras"] = data_words
+            product_data["palabras"] = {
+                username: list(words)
+                for username, words in data_words.items()
+            }
 
             data.append(product_data)
 
