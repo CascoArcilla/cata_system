@@ -187,7 +187,7 @@
         </p>
 
         {% if there_data %}
-        {% include "../components/table-sort.html" with data_groups=data_groups %}
+        {% include "../components/table-sort.html" with data_groups=data_groups sesion=sesion %}
         {% else %}
         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}

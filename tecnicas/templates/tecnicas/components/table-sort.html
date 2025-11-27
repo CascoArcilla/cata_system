@@ -1,5 +1,6 @@
 {% load custom_filters %}
-<section>
+{% load static %}
+<section class="space-y-4">
     <div class="overflow-x-auto rounded-lg border border-surface-general">
         <table class="min-w-max w-full text-sm text-center border-collapse">
             <thead class="bg-surface-sweet text-black font-semibold">
@@ -15,20 +16,27 @@
             <tbody class="bg-surface-ligt divide-y divide-gray-200 text-black">
                 {% for data_words in data_groups.data %}
                 <tr>
-                    <td class="py-2 px-3 border border-surface-general font-medium">{{ data_words.codigo_producto }}</td>
+                    <td class="py-2 px-3 border border-surface-general font-medium">{{ data_words.codigo_producto }}
+                    </td>
                     {% for tester in data_groups.testers %}
-                        <td class="py-2 px-3 border border-surface-general font-medium">
-                            {% for word in data_words.palabras|get_item:tester %}
-                                {{word}}
-                                {% if not forloop.last %}
-                                    ;
-                                {% endif %}
-                            {% endfor %}
-                        </td>
+                    <td class="py-2 px-3 border border-surface-general font-medium">
+                        {% for word in data_words.palabras|get_item:tester %}
+                        {{word}}{% if not forloop.last %} ;{% endif %}
+                        {% endfor %}
+                    </td>
                     {% endfor %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+
+    <div class="flex justify-end">
+        <button id="download-csv-btn" class="cts-btn-general cts-btn-primary btn-push"
+            data-session-name="{{ sesion.nombre_sesion }}" data-session-code="{{ sesion.codigo_sesion }}">
+            Descargar datos en CSV
+        </button>
+    </div>
 </section>
+
+<script src="{% static 'js/download-table-sort-csv.js' %}"></script>
