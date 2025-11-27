@@ -1,11 +1,11 @@
 from .panel_create_controller import PanelCreateController
 from django.http import HttpRequest, JsonResponse
+from tecnicas.models import Tecnica, TipoTecnica, EstiloPalabra, Producto, SesionSensorial
 from django.db import transaction
-from tecnicas.models import Tecnica, TipoTecnica, EstiloPalabra, SesionSensorial, Producto
-from tecnicas.utils import deleteDataSession, general_error
+from tecnicas.utils import deleteDataSession
 
 
-class PanelCreateSortController(PanelCreateController):
+class PanelCreateNappingController(PanelCreateController):
     def __init__(self):
         super().__init__()
 
@@ -23,14 +23,14 @@ class PanelCreateSortController(PanelCreateController):
                     #
                     # //////////////////////////// #
                     data_basic = request.session["form_basic"]
-                    data_basic["numero_catadores"] = data_basic["numero_catadores"] or 1
-                    data_basic["numero_repeticiones"] = 1
+                    data_basic["numero_catadores"] = data_basic["numero_catadores"] or 2
+                    data_basic["numero_repeticiones"] = 0
 
                     technique = Tecnica.objects.create(
                         tipo_tecnica=TipoTecnica.objects.get(
                             nombre_tecnica=data_basic["name_tecnica"]),
                         id_estilo=EstiloPalabra.objects.get(
-                            nombre_estilo="sort"),
+                            nombre_estilo="napping"),
                         repeticiones_max=data_basic["numero_repeticiones"],
                         limite_catadores=data_basic["numero_catadores"],
                         instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Presentador",

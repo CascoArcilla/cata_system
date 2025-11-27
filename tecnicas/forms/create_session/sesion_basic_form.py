@@ -38,9 +38,14 @@ class SesionBasicForm(forms.Form):
         if initial_conf is None:
             initial_conf = {}
 
-        self.fields['estilo_palabras'] = forms.ModelChoiceField(queryset=EstiloPalabra.objects.all(), widget=forms.RadioSelect(attrs={
+        options = [
+            ("atributos", "atributos"),
+            ("vocabulario", "vocabulario")
+        ]
+
+        self.fields['estilo_palabras'] = forms.ChoiceField(choices=options, widget=forms.RadioSelect(attrs={
             "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",
-        }), required=True, initial=EstiloPalabra.objects.first())
+        }), required=True, initial=options[0])
 
         self.fields['tipo_escala'] = forms.ModelChoiceField(queryset=TipoEscala.objects.all(), widget=forms.RadioSelect(attrs={
             "class": "uppercase text-lg tracking-wider font-medium p-2 px-4 active:px-5 transition-all rounded-xl bg-blue-500 text-white",

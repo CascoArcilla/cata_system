@@ -29,7 +29,7 @@ class PanelCreatePFController(PanelCreateController):
                         tipo_tecnica=TipoTecnica.objects.get(
                             nombre_tecnica=data_basic["name_tecnica"]),
                         id_estilo=EstiloPalabra.objects.get(
-                            nombre_estilo="vocabulario"),
+                            nombre_estilo="perfil flash"),
                         repeticiones_max=data_basic["numero_repeticiones"] +
                         phases_before_reptition,
                         limite_catadores=data_basic["numero_catadores"],

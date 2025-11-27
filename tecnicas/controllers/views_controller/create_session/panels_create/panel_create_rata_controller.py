@@ -31,7 +31,7 @@ class PanelCreateRataController(PanelCreateController):
                         tipo_tecnica=TipoTecnica.objects.get(
                             nombre_tecnica=data_basic["name_tecnica"]),
                         id_estilo=EstiloPalabra.objects.get(
-                            id=data_basic["estilo_palabras"]),
+                            nombre_estilo=data_basic["estilo_palabras"]),
                         repeticiones_max=data_basic["numero_repeticiones"] or 1,
                         limite_catadores=data_basic["numero_catadores"],
                         instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Presentador",

@@ -66,7 +66,7 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllGetRATA(request: HttpRequest, data, name_technique: str):
+    def controllGetWithoutOrders(request: HttpRequest, data, name_technique: str):
         num_products = data["numero_productos"]
         codes_products = generarCodigos(num_products)
         form_codes = CodesForm(codes=codes_products)
@@ -80,7 +80,7 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllPostRATA(request: HttpRequest, is_rata=True):
+    def controllPostWithWords(request: HttpRequest, name_technique: str):
         codes = []
         context_codes_form = {}
 
@@ -92,7 +92,7 @@ class PanelCodesController():
 
         context_codes_form = {
             "form_codes": form_codes,
-            "use_technique": "rata" if is_rata else "cata"
+            "use_technique": name_technique
         }
 
         if form_codes.is_valid():
@@ -117,7 +117,7 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllPostPF(request: HttpRequest):
+    def controllPostWithoutOrdersWords(request: HttpRequest, name_technique: str):
         codes = []
         context_codes_form = {}
 
@@ -129,31 +129,7 @@ class PanelCodesController():
 
         context_codes_form = {
             "form_codes": form_codes,
-            "use_technique": "perfil flash"
-        }
-
-        if form_codes.is_valid():
-            request.session["form_codes"] = codes
-            return redirect(reverse(PanelCodesController.url_create_session))
-        else:
-            context_codes_form["error"] = "error en los datos recibidos"
-
-        return render(request, PanelCodesController.url_current_panel, context_codes_form)
-
-    @staticmethod
-    def controllPostSort(request: HttpRequest):
-        codes = []
-        context_codes_form = {}
-
-        for name, value in request.POST.items():
-            if name.__contains__("producto_"):
-                codes.append(value)
-
-        form_codes = CodesForm(request.POST, codes=codes)
-
-        context_codes_form = {
-            "form_codes": form_codes,
-            "use_technique": "sort"
+            "use_technique": name_technique
         }
 
         if form_codes.is_valid():
