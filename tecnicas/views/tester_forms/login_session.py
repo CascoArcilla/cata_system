@@ -27,17 +27,11 @@ def loginSessionTester(req: HttpRequest):
 
         type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
 
-        if type_technique == "escalas":
-            response = login_controller.validateEntryEscalas(request=req)
+        if type_technique in ["escalas", "perfil flash", "sort", "napping"]:
+            response = login_controller.validateEntryLimitTesters(request=req)
 
-        elif type_technique == "rata" or type_technique == "cata":
-            response = login_controller.validateEntryRATA(request=req)
-
-        elif type_technique == "perfil flash":
-            response = login_controller.validateEntryRATA(request=req)
-
-        elif type_technique == "sort":
-            response = login_controller.validateEntrySort(request=req)
+        elif type_technique in ["rata", "cata"]:
+            response = login_controller.validateEntryRataCata(request=req)
 
         else:
             context = {

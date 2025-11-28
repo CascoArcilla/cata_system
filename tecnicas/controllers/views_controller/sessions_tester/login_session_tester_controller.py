@@ -39,6 +39,7 @@ class LoginSessionTesterController():
                     tecnica=self.session.tecnica, catador=self.tester)
                 context["error"] = "Usted ya esta dentro de la sesión"
                 return render(request, self.current_direcction, context)
+
             except Participacion.DoesNotExist:
                 with transaction.atomic():
                     code_session = self.session.codigo_sesion
@@ -66,7 +67,7 @@ class LoginSessionTesterController():
             context["error"] = "Ya no es posible ingresar a la sesión"
             return render(request, self.current_direcction, context)
 
-    def validateEntryRATA(self, request: HttpRequest):
+    def validateEntryRataCata(self, request: HttpRequest):
         context = {}
         if not self.session.activo:
             context["error"] = "La sesión no está activa actualmente"
@@ -98,7 +99,7 @@ class LoginSessionTesterController():
             context["error"] = "Imposible acceder a esta sesión"
             return render(request, self.current_direcction, context)
 
-    def validateEntrySort(self, request: HttpRequest):
+    def validateEntryLimitTesters(self, request: HttpRequest):
         context = {}
         if not self.session.activo:
             context["error"] = "La sesión no está activa actualmente"
@@ -143,6 +144,3 @@ class LoginSessionTesterController():
         else:
             context["error"] = "Ya no es posible ingresar a la sesión"
             return render(request, self.current_direcction, context)
-
-    def validateEntryPF(self, request=HttpRequest):
-        return self.validateEntryEscalas(request=request)
