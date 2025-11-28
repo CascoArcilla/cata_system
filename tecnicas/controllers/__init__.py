@@ -31,6 +31,7 @@ from .views_controller.session_management.details.details_rata_controller import
 from .views_controller.session_management.details.details_cata_controller import DetallesCATAController
 from .views_controller.session_management.details.details_pf_controller import DetallesPFController
 from .views_controller.session_management.details.details_sort_controller import DetallesSortController
+from .views_controller.session_management.details.details_napping_controller import DetallesNappingController
 
 from .views_controller.session_management.monitor.monitor_escalas_controller import MonitorEscalasController
 from .views_controller.session_management.monitor.monitor_rata_controller import MonitorRATAController
