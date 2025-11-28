@@ -46,7 +46,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
         return response
 
     elif req.method == "POST":
-        if type_technique == "escalas" or type_technique == "rata" or type_technique == "cata":
+        if type_technique in ["escalas", "rata", "cata"]:
             view_controller = InitSessionEscalasController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllPost(request=req)
@@ -60,7 +60,12 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
             view_controller = InitSessionSortController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllPost(request=req)
-        
+
+        elif type_technique == "napping":
+            view_controller = InitSessionNappingController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllPost(request=req)
+
         else:
             context = {
                 "session": session,

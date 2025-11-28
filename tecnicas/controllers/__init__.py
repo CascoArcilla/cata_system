@@ -47,6 +47,7 @@ from .views_controller.sessions_tester.tests_forms.test_rata_controller import T
 from .views_controller.sessions_tester.tests_forms.test_cata_controller import TestCataController
 from .views_controller.sessions_tester.tests_forms.test_pf_controller import TestPFController
 from .views_controller.sessions_tester.tests_forms.test_sort_controller import TestSortController
+from .views_controller.sessions_tester.tests_forms.test_napping_controller import TestNappingController
 
 from .views_controller.sessions_tester.init_session.init_session_escalas_controller import InitSessionEscalasController
 from .views_controller.sessions_tester.init_session.init_session_rata_controller import InitSessionRATAController

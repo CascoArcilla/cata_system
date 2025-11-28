@@ -122,6 +122,10 @@ urlpatterns = [
          views.sortTest,
          name="session_sort"),
 
+    path("testers/init-session/<str:code_sesion>/nappping",
+         views.nappingTest,
+         name="session_napping"),
+
 
     # APIs
     path("presenter/api/nueva-etiqueta",
