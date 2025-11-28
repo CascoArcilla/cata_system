@@ -2,6 +2,7 @@ from django.db import models
 
 from .estilo_palabra import EstiloPalabra
 from .tipo_tecnica import TipoTecnica
+from .modalidad import Modalidad
 
 
 class Tecnica(models.Model):
@@ -13,6 +14,9 @@ class Tecnica(models.Model):
     instrucciones = models.CharField(max_length=255)
     id_estilo = models.ForeignKey(
         EstiloPalabra, on_delete=models.CASCADE, related_name="estilo_tecnica")
+
+    modalidad = models.ManyToManyField(
+        Modalidad, related_name="modalidad_tecnica", blank=True)
 
     def __str__(self):
         return f"{self.id} : {self.tipo_tecnica.nombre_tecnica} : {self.id_estilo.nombre_estilo}"

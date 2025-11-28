@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
 from .details_controller import DetallesController
-from tecnicas.models import SesionSensorial, Presentador
+from tecnicas.models import SesionSensorial, Presentador, Modalidad
 from collections import defaultdict
 
 
@@ -19,6 +19,17 @@ class DetallesNappingController(DetallesController):
 
         self.defineStatus()
 
+        modes = Modalidad.objects.all()
+        technique_modes = self.session.tecnica.modalidad.all()
+
+        if not technique_modes.exists():
+            self.context["modes"] = modes
+        else:
+            use_modes = technique_modes.values_list("id", flat=True)
+
+            self.context["modes"] = modes.exclude(
+                id__in=use_modes)
+
         return self.context
 
     def defineStatus(self):
@@ -34,27 +45,20 @@ class DetallesNappingController(DetallesController):
             self.context["status"] = "En espera de la siguiente acción"
 
     def controllPostResponse(self, request: HttpRequest, action: str):
-        if action == "start_session":
-            response = self.startRepetition(
-                presenter=request.user.user_presentador, request=request)
+        print(action)
+        if action == "start_sin_modalidad":
+            response = self.startNapping(request=request)
 
         elif action == "delete_session":
             self.deleteSesorialSession()
             response = redirect(
                 reverse("cata_system:panel_sesiones", kwargs={"page": 1}))
 
-        return response
-
-    def startRepetition(self, presenter: Presentador, request: HttpRequest):
-        creator = presenter
-        technique = self.session.tecnica
-
-        repetition = technique.repeticion
-
-        if not repetition:
-            return self.startNapping(request=request)
         else:
-            return self.controllGetResponse(error="Implementación de modalidades en espera", request=request)
+            response= self.controllGetResponse(
+                error="Modalidad sin implantar", request=request)
+
+        return response
 
     def startNapping(self, request: HttpRequest):
         if request.user.user_presentador.user.username != self.session.creadoPor.user.username:
@@ -63,10 +67,7 @@ class DetallesNappingController(DetallesController):
             return self.controllGetResponse(error="La sesión ya está activada", request=request)
 
         self.session.activo = True
-        self.session.tecnica.repeticion = self.session.tecnica.repeticion + 1
-
         self.session.save()
-        self.session.tecnica.save()
 
         parameters = {
             "session_code": self.session.codigo_sesion

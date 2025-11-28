@@ -3,6 +3,7 @@ from .etiqueta import Etiqueta
 from .tipo_escala import TipoEscala
 from .tipo_tecnica import TipoTecnica
 from .estilo_palabra import EstiloPalabra
+from .modalidad import Modalidad
 
 from .presentador import Presentador
 from .catador import Catador
@@ -31,3 +32,4 @@ from .participacion import Participacion
 
 from .lista_palabras import ListaPalabras
 from .grupo_producto import GrupoProducto
+
