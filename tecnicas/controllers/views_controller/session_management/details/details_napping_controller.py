@@ -1,4 +1,6 @@
 from django.http import HttpRequest
+from django.shortcuts import redirect
+from django.urls import reverse
 from .details_controller import DetallesController
 from tecnicas.models import SesionSensorial, Presentador
 from collections import defaultdict
@@ -49,8 +51,10 @@ class DetallesNappingController(DetallesController):
 
         repetition = technique.repeticion
 
-        if not repetition == 0:
+        if not repetition:
             return self.startNapping(request=request)
+        else:
+            return self.controllGetResponse(error="Implementación de modalidades en espera", request=request)
 
     def startNapping(self, request: HttpRequest):
         if request.user.user_presentador.user.username != self.session.creadoPor.user.username:

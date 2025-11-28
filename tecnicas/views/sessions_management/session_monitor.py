@@ -7,7 +7,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import MonitorEscalasController, MonitorRATAController, MonitorPFController, MonitorSortController
+from tecnicas.controllers import MonitorEscalasController, MonitorRATAController, MonitorPFController, MonitorSortController, MonitorNappingController
 from tecnicas.utils import noValidTechnique
 
 
@@ -27,6 +27,10 @@ def sessionMonitor(req: HttpRequest, session_code: str):
 
         elif use_techinique == "sort":
             controll_view = MonitorSortController(sensorial_session)
+            response = controll_view.controllGetResponse(request=req)
+
+        elif use_techinique == "napping":
+            controll_view = MonitorNappingController(sensorial_session)
             response = controll_view.controllGetResponse(request=req)
 
         else:
@@ -80,6 +84,17 @@ def sessionMonitor(req: HttpRequest, session_code: str):
 
         elif use_techinique == "sort":
             controll_view = MonitorSortController(sensorial_session)
+            action = req.POST["action"]
+
+            if action == "finish_session":
+                response = controll_view.controllPostFinishSession(
+                    request=req)
+            else:
+                response = controll_view.controlGetResponse(
+                    request=req, error="No se ha definido la acción a realizar")
+
+        elif use_techinique == "napping":
+            controll_view = MonitorNappingController(sensorial_session)
             action = req.POST["action"]
 
             if action == "finish_session":
