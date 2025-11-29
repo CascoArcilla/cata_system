@@ -127,7 +127,8 @@
                     <button id="question-save" class="cts-btn-general cts-btn-secondary btn-push flex-1">
                         ¿Finalizar sesión?
                     </button>
-                    <button id="finish-session" class="cts-btn-general cts-btn-tertiary btn-push hidden flex-1">
+                    <button id="finish-session" class="cts-btn-general cts-btn-tertiary btn-push hidden flex-1"
+                        onclick="finishSession('form-actions')">
                         Finalizar
                     </button>
                     <button id="cancel-save" class="cts-btn-general cts-btn-error btn-push hidden flex-1">
@@ -147,30 +148,3 @@
 <script src="{% static 'js/actions-form.js' %}"></script>
 <script src="{% static 'js/test-napping.js' %}"></script>
 {% endblock %}
-
-<div id="point-JOW"
-    class="absolute w-4 h-4 bg-red-600 rounded-full transform -translate-x-1/2 -translate-y-1/2 cursor-pointer border-2 border-white shadow-md group"
-    style="left: 59px; top: 39px;">
-    <div
-        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap z-10 hidden group-hover:block">
-        <strong>JOW</strong><br>
-        X: 4.4<br>
-        Y: 37.1
-    </div><span
-        class="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs font-bold text-gray-700 pointer-events-none">JOW</span>
-</div>
-
-<div id="point-JOW"
-    class="absolute w-4 h-4 bg-red-600 rounded-full transform -translate-x-1/2 -translate-y-1/2 cursor-pointer border-2 border-white shadow-md group"
-    style="left: 58.93px; top: 685.07px;">
-    <div
-        class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap z-10 hidden group-hover:block">
-        <strong>JOW</strong><br>
-        X: 4.4<br>
-        Y: 37.1
-    </div>
-    <span
-        class="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs font-bold text-gray-700 pointer-events-none">
-        JOW
-    </span>
-</div>

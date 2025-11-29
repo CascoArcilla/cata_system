@@ -4,3 +4,11 @@ function exit_sesion(styleClass) {
   action.value = "exit_session";
   form.submit();
 }
+
+function finishSession(styleClass) {
+  const form = document.querySelector(`.${styleClass}`);
+  form.action = ""
+  const action = form.querySelector(".action-input");
+  action.value = "finish_session";
+  form.submit();
+}
