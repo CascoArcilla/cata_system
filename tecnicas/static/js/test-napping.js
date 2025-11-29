@@ -81,13 +81,37 @@ function renderPoint(code, xPx, yPx, xVal, yVal) {
     point.appendChild(label);
     planeContainer.appendChild(point);
 
-    // Also show a permanent label next to the point if desired, 
-    // or just rely on the hover. For now, let's add a small text label below it.
     const textLabel = document.createElement('span');
     textLabel.className = 'absolute top-4 left-1/2 transform -translate-x-1/2 text-xs font-bold text-gray-700 pointer-events-none';
     textLabel.innerText = code;
     point.appendChild(textLabel);
 }
+
+function checkPoints() {
+    const points = document.querySelectorAll('.data-point');
+
+    points.forEach(point => {
+        const code = point.dataset.code;
+
+        const xVal = parseFloat(point.dataset.px);
+        const yVal = parseFloat(point.dataset.py);
+
+        const rect = planeContainer.getBoundingClientRect();
+
+        const px = (xVal / PHYSICAL_WIDTH) * rect.width;
+        const py = ((PHYSICAL_HEIGHT - yVal) / PHYSICAL_HEIGHT) * rect.height;
+
+        placedPoints[code] = {
+            x: parseFloat(xVal.toFixed(2)),
+            y: parseFloat(yVal.toFixed(2)),
+            id: point.dataset.idProduct
+        };
+
+        renderPoint(code, px, py, xVal, yVal);
+    });
+}
+
+checkPoints();
 
 /*
 ////

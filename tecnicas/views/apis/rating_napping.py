@@ -7,7 +7,7 @@ def ratingNappingNoMode(req:  HttpRequest):
     if req.method == "POST":
         try:
             data = json.loads(req.body.decode("utf-8"))
-            response = RatingNappingController.saveRating(
+            response = RatingNappingController.saveRatingCoordinates(
                 request=req, data=data)
             return response
         except Exception as e:

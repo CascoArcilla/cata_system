@@ -1,7 +1,8 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from tecnicas.models import Participacion, Producto, TecnicaModalidad
+from django.db.models import F
+from tecnicas.models import Participacion, Producto, TecnicaModalidad, DatoPunto, Calificacion
 from tecnicas.utils import noValidTechnique
 from .general_test_controller import GenetalTestController
 
@@ -48,4 +49,26 @@ class TestNappingController(GenetalTestController):
         products_in_technique = Producto.objects.filter(id_tecnica=technique)
         self.context["products"] = products_in_technique
 
+        self.setCoordinates()
+
         return render(request, self.napping_test, self.context)
+
+    def setCoordinates(self):
+        technique = self.session.tecnica
+
+        ratings = Calificacion.objects.filter(
+            num_repeticion=0,
+            id_tecnica=technique,
+            id_catador=self.participation.catador
+        )
+
+        data_points = DatoPunto.objects.filter(
+            calificacion__in=ratings
+        ).values(
+            code= F("calificacion__id_producto__codigoProducto"),
+            px= F("x"),
+            py= F("y"),
+            id_product= F("calificacion__id_producto")
+        )
+
+        self.context["data_points"] = list(data_points)
