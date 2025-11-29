@@ -155,4 +155,8 @@ urlpatterns = [
     path("testers/api/rating-sort",
          views.ratingSort,
          name="api_rating_sort"),
+
+    path("testers/api/rating-napping/no-mode",
+         views.ratingNappingNoMode,
+         name="api_rating_napping_no_mode"),
 ]

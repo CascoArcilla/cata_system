@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
 from .details_controller import DetallesController
-from tecnicas.models import SesionSensorial, Presentador, Modalidad
+from tecnicas.models import SesionSensorial, Presentador, Modalidad, TecnicaModalidad
 from collections import defaultdict
 
 
@@ -20,12 +20,13 @@ class DetallesNappingController(DetallesController):
         self.defineStatus()
 
         modes = Modalidad.objects.all()
-        technique_modes = self.session.tecnica.modalidad.all()
+        technique_modes = TecnicaModalidad.objects.filter(
+            tecnica=self.session.tecnica)
 
         if not technique_modes.exists():
             self.context["modes"] = modes
         else:
-            use_modes = technique_modes.values_list("id", flat=True)
+            use_modes = technique_modes.values_list("modalidad", flat=True)
 
             self.context["modes"] = modes.exclude(
                 id__in=use_modes)
@@ -45,9 +46,9 @@ class DetallesNappingController(DetallesController):
             self.context["status"] = "En espera de la siguiente acción"
 
     def controllPostResponse(self, request: HttpRequest, action: str):
-        print(action)
         if action == "start_sin_modalidad":
-            response = self.startNapping(request=request)
+            name_mode = action.replace("start_", "").replace("_", " ")
+            response = self.startNapping(request=request, name_mode=name_mode)
 
         elif action == "delete_session":
             self.deleteSesorialSession()
@@ -55,16 +56,22 @@ class DetallesNappingController(DetallesController):
                 reverse("cata_system:panel_sesiones", kwargs={"page": 1}))
 
         else:
-            response= self.controllGetResponse(
+            response = self.controllGetResponse(
                 error="Modalidad sin implantar", request=request)
 
         return response
 
-    def startNapping(self, request: HttpRequest):
+    def startNapping(self, request: HttpRequest, name_mode: str):
         if request.user.user_presentador.user.username != self.session.creadoPor.user.username:
             return self.controllGetResponse(error="Solo el presentador que crea la sesión puede iniciar la repetición", request=request)
         elif self.session.activo:
             return self.controllGetResponse(error="La sesión ya está activada", request=request)
+
+        tecnique_mode = TecnicaModalidad.objects.get_or_create(
+            tecnica=self.session.tecnica, modalidad=Modalidad.objects.get(nombre=name_mode), usando=True)
+
+        if not tecnique_mode:
+            return self.controllGetResponse(error="Modalidad no encontrada", request=request)
 
         self.session.activo = True
         self.session.save()

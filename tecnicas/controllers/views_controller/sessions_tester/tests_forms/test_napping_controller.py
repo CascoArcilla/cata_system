@@ -1,7 +1,8 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from tecnicas.models import Participacion, Producto
+from tecnicas.models import Participacion, Producto, TecnicaModalidad
+from tecnicas.utils import noValidTechnique
 from .general_test_controller import GenetalTestController
 
 
@@ -23,13 +24,22 @@ class TestNappingController(GenetalTestController):
             }
             return redirect(reverse(self.previus_directory, kwargs=params))
 
-        if technique.repeticion == 1:
+        name_mode_activate = TecnicaModalidad.objects.get(
+            tecnica=technique, usando=True).modalidad.nombre
+
+        if name_mode_activate == "sin modalidad":
+            self.context["mode"] = "sin modalidad"
             return self.nappingTest(request)
         else:
-            params = {
-                "code_sesion": self.session.codigo_sesion
-            }
-            return redirect(reverse(self.previus_directory, kwargs=params))
+            return noValidTechnique(
+                name_view=self.previus_directory,
+                query_params={
+                    "error": "La técnica no tiene modalidad activada"
+                },
+                params={
+                    "code_sesion": self.session.codigo_sesion
+                }
+            )
 
     def nappingTest(self, request: HttpRequest):
         self.context["session"] = self.session

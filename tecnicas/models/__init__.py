@@ -32,4 +32,5 @@ from .participacion import Participacion
 
 from .lista_palabras import ListaPalabras
 from .grupo_producto import GrupoProducto
-
+from .tecnica_modalidad import TecnicaModalidad
+from .dato_punto import DatoPunto

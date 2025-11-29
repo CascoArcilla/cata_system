@@ -1,4 +1,3 @@
-
 const planeContainer = document.getElementById('napping-plane');
 const productsContainer = document.getElementById('items');
 const products = document.querySelectorAll('.item-product');
@@ -90,3 +89,97 @@ function renderPoint(code, xPx, yPx, xVal, yVal) {
     point.appendChild(textLabel);
 }
 
+/*
+////
+//////
+//////// Question to finish session
+//////
+////
+*/
+
+function showOptionsSave() {
+    document.getElementById("question-save").classList.add("hidden");
+    document.getElementById("finish-session").classList.remove("hidden");
+    document.getElementById("cancel-save").classList.remove("hidden");
+}
+
+function showQuestionSave() {
+    document.getElementById("question-save").classList.remove("hidden");
+    document.getElementById("finish-session").classList.add("hidden");
+    document.getElementById("cancel-save").classList.add("hidden");
+}
+
+document
+    .getElementById("question-save")
+    .addEventListener("click", showOptionsSave);
+
+document
+    .getElementById("cancel-save")
+    .addEventListener("click", showQuestionSave);
+
+/*
+////
+//////
+//////// Save data and finish session
+//////
+////
+*/
+
+async function saveData() {
+    const codeProducts = Object.keys(placedPoints);
+    const data = [];
+
+    if (products.length != codeProducts.length) {
+        spanNotifaction("Por favor, coloca todos los puntos")
+        return;
+    }
+
+    codeProducts.forEach((code) => {
+        const point = placedPoints[code];
+
+        const objData = {
+            code: code,
+            x: point.x,
+            y: point.y,
+            idProduct: point.id
+        };
+
+        data.push(objData);
+    })
+
+    const URL = "/cata/testers/api/rating-napping/no-mode"
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+    try {
+        const response = await fetch(URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,
+            },
+            body: JSON.stringify(data),
+        })
+
+        if (!response.ok) {
+            spanNotifaction("Error en la respuesta del servidor")
+            return false;
+        }
+
+        const result = await response.json()
+
+        if (result.error) {
+            spanNotifaction(result.error)
+            return false
+        } else {
+            spanNotifaction(result.message, false)
+            return true
+        }
+    } catch (error) {
+        spanNotifaction("Error en proceso de guardar los datos")
+        return false
+    }
+}
+
+document
+    .getElementById("save-progress")
+    .addEventListener("click", saveData);

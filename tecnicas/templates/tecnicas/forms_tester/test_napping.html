@@ -41,8 +41,8 @@
             </section>
 
             <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
-                <p class="text-xl font-bold text-center">
-                    Modalidad: Napping
+                <p class="text-xl font-bold text-center capitalize">
+                    Modalidad: {{ mode }}
                 </p>
             </section>
         </article>
@@ -71,7 +71,7 @@
                 </div>
             </div>
 
-            <!-- <section role="alert" class="alert alert-info">
+            <section role="alert" class="alert alert-info">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                     class="h-6 w-6 shrink-0 stroke-current">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -95,13 +95,13 @@
                         perderás todo lo que no hayas guardado antes
                     </span>
                     <span class="text-lg block">
-                        Con el botón <b>“Finalizar la sesión”</b>, se guardan las palabras, sales de la sesión y no
+                        Con el botón <b>“Finalizar”</b>, se guardan las posiciones, sales de la sesión y no
                         podrás ingresar otra vez
                     </span>
                 </div>
-            </section> -->
+            </section>
 
-            <!-- <section class="flex justify-end gap-4 max-sm:flex-col">
+            <section class="flex justify-end gap-4 max-sm:flex-col">
                 <button id="save-progress" class="cts-btn-general cts-btn-primary btn-push">
                     Guardar progreso
                 </button>
@@ -117,7 +117,7 @@
                     </button>
                 </div>
                 <span id="loading-data-save" class="loading loading-spinner loading-xl text-accent hidden"></span>
-            </section> -->
+            </section>
         </article>
 
         {% include "../components/toast-container.html" %}

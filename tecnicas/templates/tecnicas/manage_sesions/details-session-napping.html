@@ -126,9 +126,9 @@
             </button>
             {% endfor %}
             {% else %}
-            <a href="{% url 'cata_system:monitor_sesion' session_code=session.codigo_sesion %}" class="flex-1 w-fit">
+            <a href="{% url 'cata_system:monitor_sesion' session_code=session.codigo_sesion %}" class="w-full">
                 <button
-                    class="ct-btn-start-repition cts-btn-general cts-btn-primary btn-push">
+                    class="cts-btn-general capitalize active:border-orange-500 border-orange-800 bg-orange-600 btn-push flex flex-col justify-center items-center gap-2 w-full">
                     Monitorear repetición
                     <figure class="w-10">
                         <img src="{% static 'img/monitor.svg' %}" alt="flechas girando" class="invert">
@@ -137,7 +137,7 @@
             </a>
             {% endif %}
             <button
-                class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
+                class="uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2 w-full"
                 onclick="showWarningDialog('cts-warnig-dialog')">
                 borrar
                 <figure class="w-10">

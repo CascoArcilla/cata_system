@@ -15,9 +15,6 @@ class Tecnica(models.Model):
     id_estilo = models.ForeignKey(
         EstiloPalabra, on_delete=models.CASCADE, related_name="estilo_tecnica")
 
-    modalidad = models.ManyToManyField(
-        Modalidad, related_name="modalidad_tecnica", blank=True)
-
     def __str__(self):
         return f"{self.id} : {self.tipo_tecnica.nombre_tecnica} : {self.id_estilo.nombre_estilo}"
 
