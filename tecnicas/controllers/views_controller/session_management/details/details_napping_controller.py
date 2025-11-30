@@ -20,19 +20,7 @@ class DetallesNappingController(DetallesController):
         }
 
         self.defineStatus()
-
-        modes = Modalidad.objects.all()
-        technique_modes = TecnicaModalidad.objects.filter(
-            tecnica=self.session.tecnica)
-
-        if not technique_modes.exists():
-            self.context["modes"] = modes
-        else:
-            use_modes = technique_modes.values_list("modalidad", flat=True)
-
-            self.context["modes"] = modes.exclude(
-                id__in=use_modes)
-
+        self.setOptionesMode()
         self.setDataTableNoMode()
 
         return self.context
@@ -53,6 +41,10 @@ class DetallesNappingController(DetallesController):
         if action == "start_sin_modalidad":
             name_mode = action.replace("start_", "").replace("_", " ")
             response = self.startNapping(request=request, name_mode=name_mode)
+
+        if action == "start_perfil_ultra_flash":
+            name_mode = action.replace("start_", "").replace("_", " ")
+            return self.controllGetResponse(error="Trabajando en la modalidad", request=request)
 
         elif action == "delete_session":
             self.deleteSesorialSession()
@@ -119,3 +111,16 @@ class DetallesNappingController(DetallesController):
             coordinates_by_product)
 
         self.context["there_data"] = True
+
+    def setOptionesMode(self):
+        modes = Modalidad.objects.all()
+        technique_modes = TecnicaModalidad.objects.filter(
+            tecnica=self.session.tecnica)
+
+        if not technique_modes.exists():
+            self.context["modes"] = modes
+        else:
+            use_modes = technique_modes.values_list("modalidad", flat=True)
+
+            self.context["modes"] = modes.exclude(
+                id__in=use_modes)

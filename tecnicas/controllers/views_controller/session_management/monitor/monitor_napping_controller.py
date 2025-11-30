@@ -1,5 +1,5 @@
 from tecnicas.models import SesionSensorial
-from tecnicas.models import Participacion
+from tecnicas.models import Participacion, TecnicaModalidad
 from .monitor_controller import MonitorController
 
 
@@ -25,3 +25,13 @@ class MonitorNappingController(MonitorController):
             return (False, "No todos los catadores han finalizado su evaluación")
 
         return (True, "Puedes finalizar la sesión")
+
+    def finishSession(self):
+        mode_technique = TecnicaModalidad.objects.get(
+            tecnica=self.sensorial_session.tecnica, usando=True)
+        mode_technique.usando = False
+        mode_technique.save()
+
+        self.sensorial_session.activo = False
+        self.sensorial_session.save()
+        return self.sensorial_session
