@@ -119,7 +119,7 @@
             <button
                 class="cts-btn-general capitalize cts-btn-primary btn-push flex flex-col justify-center items-center gap-2"
                 data-mode="{{ mode.nombre }}" onclick="startSession('{{ mode.nombre }}')">
-                Napping {{ mode.nombre }}
+                Napping {% if mode.nombre != "sin modalidad" %} {{ mode.nombre }} {% endif %}
                 <figure class="w-10">
                     <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
                 </figure>
@@ -177,7 +177,12 @@
             Datos obtenidos
         </p>
 
+        {% if there_data %}
+        {% include "../components/table-napping-no-mode.html" with testers=testers coordinates_no_mode=coordinates_no_mode %}
+        {% else %}
         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+        {% endif %}
+
 
         <form action="" method="post" class="form-action-session hidden">
             <input type="hidden" name="action" class="action-option">

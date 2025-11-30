@@ -1,8 +1,10 @@
 from django.http import HttpRequest
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.db.models import F
 from .details_controller import DetallesController
-from tecnicas.models import SesionSensorial, Presentador, Modalidad, TecnicaModalidad
+from tecnicas.models import SesionSensorial, Presentador, Modalidad, TecnicaModalidad, Catador, Participacion, DatoPunto, Calificacion
+from tecnicas.utils import defaultdict_to_dict
 from collections import defaultdict
 
 
@@ -30,6 +32,8 @@ class DetallesNappingController(DetallesController):
 
             self.context["modes"] = modes.exclude(
                 id__in=use_modes)
+
+        self.setDataTableNoMode()
 
         return self.context
 
@@ -81,3 +85,37 @@ class DetallesNappingController(DetallesController):
         }
         return redirect(
             reverse(self.url_next, kwargs=parameters))
+
+    def setDataTableNoMode(self):
+        participations = Participacion.objects.filter(
+            tecnica=self.session.tecnica).select_related("catador")
+        testers = [participation.catador for participation in participations]
+        self.context["testers"] = testers
+
+        ratings = Calificacion.objects.filter(id_tecnica=self.session.tecnica)
+
+        coordinates = (
+            DatoPunto.objects.filter(calificacion__in=ratings)
+            .values(
+                producto=F("calificacion__id_producto__codigoProducto"),
+                catador=F("calificacion__id_catador__user__username"),
+                px=F("x"),
+                py=F("y"),
+            ))
+
+        if not coordinates.exists():
+            self.context["there_data"] = False
+            return []
+
+        coordinates_by_product = defaultdict(dict)
+
+        for coordinate in coordinates:
+            coordinates_by_product[coordinate["producto"]][coordinate["catador"]] = {
+                "px": coordinate["px"],
+                "py": coordinate["py"],
+            }
+
+        self.context["coordinates_no_mode"] = defaultdict_to_dict(
+            coordinates_by_product)
+
+        self.context["there_data"] = True

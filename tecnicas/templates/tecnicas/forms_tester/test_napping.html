@@ -42,7 +42,7 @@
 
             <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
                 <p class="text-xl font-bold text-center capitalize">
-                    Modalidad: {{ mode }}
+                    Modalidad: {% if mode != "sin modalidad" %}{{ mode }} {% else %} Nappging {% endif %}
                 </p>
             </section>
         </article>

@@ -27,11 +27,14 @@ def loginSessionTester(req: HttpRequest):
 
         type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
 
-        if type_technique in ["escalas", "perfil flash", "sort", "napping"]:
+        if type_technique in ["escalas", "perfil flash", "sort"]:
             response = login_controller.validateEntryLimitTesters(request=req)
 
         elif type_technique in ["rata", "cata"]:
             response = login_controller.validateEntryRataCata(request=req)
+
+        elif type_technique == "napping":
+            response = login_controller.validateEntryNapping(request=req)
 
         else:
             context = {
