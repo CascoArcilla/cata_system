@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
 from tecnicas.utils import noValidTechnique
-from tecnicas.controllers import DetallesController, DetallesEscalasController, DetallesCATAController, DetallesPFController, DetallesSortController
+from tecnicas.controllers import DetallesController, DetallesEscalasController, DetallesCATAController, DetallesPFController, DetallesSortController, DetallesNappingController
 
 
 def sessionDetails(req: HttpRequest, session_code: str):
@@ -43,6 +43,12 @@ def sessionDetails(req: HttpRequest, session_code: str):
             response = controller_view.controllGetResponse(
                 request=req, message=message)
 
+        elif use_techinique == "napping":
+            controller_view = DetallesNappingController(
+                session=sensorial_session)
+            response = controller_view.controllGetResponse(
+                request=req, message=message)
+
         else:
             response = noValidTechnique(
                 params={"page": 1},
@@ -51,6 +57,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
                 },
                 name_view="cata_system:panel_sesiones"
             )
+            
         return response
 
     elif req.method == "POST":
@@ -58,18 +65,26 @@ def sessionDetails(req: HttpRequest, session_code: str):
             codigo_sesion=session_code)
 
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
-
         controller_view = DetallesController(sensorial_session)
 
+        action = req.POST.get("action")
+
         if use_techinique in ["escalas", "rata", "cata", "perfil flash", "sort"]:
-            if req.POST.get("action") == "start_session":
+            if action == "start_session":
                 response = controller_view.startRepetition(
                     presenter=req.user.user_presentador, request=req)
 
-            elif req.POST.get("action") == "delete_session":
+            elif action == "delete_session":
                 controller_view.deleteSesorialSession()
                 response = redirect(
                     reverse("cata_system:panel_sesiones", kwargs={"page": 1}))
+
+        elif use_techinique == "napping":
+            controller_view = DetallesNappingController(
+                session=sensorial_session)
+
+            response = controller_view.controllPostResponse(
+                request=req, action=action)
 
         else:
             response = controller_view.controllGetResponse(

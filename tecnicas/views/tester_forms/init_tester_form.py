@@ -1,6 +1,6 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
-from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController
+from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController, InitSessionNappingController
 from tecnicas.models import SesionSensorial
 
 
@@ -30,10 +30,15 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllGet(request=req)
 
+        elif type_technique == "napping":
+            view_controller = InitSessionNappingController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllGet(request=req)
+
         else:
             context = {
                 "session": session,
-                "error": "La técnica usada en esta sesión o ha sido implementada para ingresar a ella"
+                "error": "La técnica usada en esta sesión no ha sido implementada para ingresar a ella"
             }
             response = render(
                 req, template_url, context)
@@ -41,7 +46,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
         return response
 
     elif req.method == "POST":
-        if type_technique == "escalas" or type_technique == "rata" or type_technique == "cata":
+        if type_technique in ["escalas", "rata", "cata"]:
             view_controller = InitSessionEscalasController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllPost(request=req)
@@ -55,7 +60,12 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
             view_controller = InitSessionSortController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllPost(request=req)
-        
+
+        elif type_technique == "napping":
+            view_controller = InitSessionNappingController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllPost(request=req)
+
         else:
             context = {
                 "session": session,
