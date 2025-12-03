@@ -1,4 +1,5 @@
 from django import forms
+from tecnicas.models import Modalidad
 
 
 class SesionBasicNappingForm(forms.Form):
@@ -22,3 +23,16 @@ class SesionBasicNappingForm(forms.Form):
         "class": "bg-surface-ligt border-b-1 text-center w-full p-1",
         "placeholder": "Este campo es opcional"
     }), required=False)
+
+    def __init__(self, *args, **kwargs):
+        super(SesionBasicNappingForm, self).__init__(*args, **kwargs)
+        names_mod = [
+            ("sin modalidad", "sin modalidad"),
+            ("sorting", "sorting"),
+            ("perfil ultra flash", "perfil ultra flash")
+        ]
+
+        self.fields['modalidad'] = forms.CharField(widget=forms.RadioSelect(choices=names_mod, attrs={
+            "class": "radio radio-lg radio-info",
+            "placeholder": "Seleccione una modalidad",
+        }), required=True, initial=names_mod[0])

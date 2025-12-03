@@ -1,6 +1,6 @@
 from .panel_create_controller import PanelCreateController
 from django.http import HttpRequest, JsonResponse
-from tecnicas.models import Tecnica, TipoTecnica, EstiloPalabra, Producto, SesionSensorial
+from tecnicas.models import Tecnica, TipoTecnica, EstiloPalabra, Producto, SesionSensorial, Modalidad, TecnicaModalidad
 from django.db import transaction
 from tecnicas.utils import deleteDataSession
 
@@ -62,6 +62,25 @@ class PanelCreateNappingController(PanelCreateController):
                     # /////////////////////////////////////////////////////// #
                     #
                     # Third step: Create session and relat with the technique #
+                    #
+                    # /////////////////////////////////////////////////////// #
+                    mod = Modalidad.objects.get(
+                        nombre=data_basic["modalidad"])
+
+                    if not mod:
+                        raise ValueError("Modalidad no encontrada")
+
+                    technique_mod = TecnicaModalidad.objects.create(
+                        tecnica=technique,
+                        modalidad=mod
+                    )
+
+                    if not technique_mod:
+                        raise ValueError("Error al guardar la técnica")
+
+                    # /////////////////////////////////////////////////////// #
+                    #
+                    # Fourth step: Create session and relat with the technique #
                     #
                     # /////////////////////////////////////////////////////// #
                     session = SesionSensorial.objects.create(

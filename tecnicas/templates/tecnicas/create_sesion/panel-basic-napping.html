@@ -28,14 +28,14 @@
                 </section>
                 <section class="flex flex-row flex-wrap justify-center gap-4">
                     <label for="{{ form_sesion.numero_productos.id_for_label }}"
-                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide">
+                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide flex-1">
                         <p class="tracking-normal text-base font-bold">
                             Número de Productos:
                         </p>
                         {{ form_sesion.numero_productos }}
                     </label>
                     <label for="{{ form_sesion.numero_catadores.id_for_label }}"
-                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide">
+                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide flex-1">
                         <p class="tracking-normal text-base font-bold">
                             Número de Catadores:
                         </p>
@@ -48,6 +48,21 @@
                         <p class="tracking-normal text-base font-bold">Instrucciones para la sesión:</p>
                         {{ form_sesion.instrucciones }}
                     </label>
+                </section>
+            </article>
+
+            <article class="space-y-4">
+                <h2 class="text-2xl font-bold">Elije Modalidad</h2>
+                <section class="flex flex-row gap-4 justify-around flex-wrap">
+                    {% for choice in form_sesion.modalidad %}
+                    <label for="{{choice.id_for_label}}"
+                        class="cts-btn-general-compress cts-btn-secondary btn-push px-4 py-2 uppercase flex-1 flex items-center justify-around gap-2">
+                        {{ choice.tag }}
+                        <p class="italic text-center flex-1">
+                            {{ choice.choice_label }}
+                        </p>
+                    </label>
+                    {% endfor %}
                 </section>
             </article>
 
