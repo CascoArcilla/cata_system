@@ -44,7 +44,7 @@ class DetallesNappingController(DetallesController):
 
         if action == "start_perfil_ultra_flash":
             name_mode = action.replace("start_", "").replace("_", " ")
-            return self.controllGetResponse(error="Trabajando en la modalidad", request=request)
+            response = self.startNapping(request=request, name_mode=name_mode)
 
         elif action == "delete_session":
             self.deleteSesorialSession()
@@ -63,11 +63,18 @@ class DetallesNappingController(DetallesController):
         elif self.session.activo:
             return self.controllGetResponse(error="La sesión ya está activada", request=request)
 
-        tecnique_mode = TecnicaModalidad.objects.get_or_create(
-            tecnica=self.session.tecnica, modalidad=Modalidad.objects.get(nombre=name_mode), usando=True)
+        (technique_mode, created) = TecnicaModalidad.objects.get_or_create(
+            tecnica=self.session.tecnica, modalidad=Modalidad.objects.get(nombre=name_mode))
 
-        if not tecnique_mode:
+        if not technique_mode:
             return self.controllGetResponse(error="Modalidad no encontrada", request=request)
+
+        technique_mode.usando = True
+        technique_mode.save()
+
+        is_update_participations = self.setParticipationsToNoFinished()
+        if not is_update_participations:
+            return self.controllGetResponse(error="Error al actualizar las participaciones", request=request)
 
         self.session.activo = True
         self.session.save()

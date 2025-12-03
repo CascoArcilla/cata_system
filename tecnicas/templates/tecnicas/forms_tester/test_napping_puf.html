@@ -42,7 +42,7 @@
 
             <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
                 <p class="text-xl font-bold text-center capitalize" data-mode="{{ mode }}">
-                    Modalidad: {% if mode != "sin modalidad" %}{{ mode }} {% else %} Napping {% endif %}
+                    Modalidad: {% if mode != "sin modalidad" %}{{ mode }} {% else %} Nappging {% endif %}
                 </p>
             </section>
         </article>
@@ -73,7 +73,8 @@
                     <div id="point-{{ point.code }}"
                         class="data-point absolute w-4 h-4 bg-red-600 rounded-full transform -translate-x-1/2 -translate-y-1/2 cursor-pointer border-2 border-white shadow-md group"
                         data-px="{{ point.px }}" data-py="{{ point.py }}" data-code="{{ point.code }}"
-                        data-id-product="{{ point.id_product }}">
+                        data-id-product="{{ point.id_product }}" {% if point.words %}
+                        data-words="{{ point.words|join:',' }}" {% endif %}>
                         <div
                             class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap z-10 hidden group-hover:block">
                             <strong>{{ point.code }}</strong><br>
@@ -143,6 +144,11 @@
                 <span id="loading-data-save" class="loading loading-spinner loading-xl text-accent hidden"></span>
             </section>
         </article>
+
+        {% if mode == "perfil ultra flash" %}
+        {% include "../components/dialog-nap-puf.html" %}
+        {% endif %}
+
         {% include "../components/toast-container.html" %}
     </article>
 </article>
@@ -151,4 +157,7 @@
 {% block extra_js %}
 <script src="{% static 'js/actions-form.js' %}"></script>
 <script src="{% static 'js/test-napping-plane.js' %}"></script>
+{% if mode == "perfil ultra flash" %}
+<script src="{% static 'js/test-napping-ultra-flash.js' %}"></script>
+{% endif %}
 {% endblock %}

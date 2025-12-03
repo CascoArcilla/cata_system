@@ -12,6 +12,7 @@ class LoginSessionTesterController():
     taster_participation: Participacion
     current_direcction = "tecnicas/forms_tester/login_session.html"
     destinity_direcction = "cata_system:catador_init_session"
+    context = {}
 
     def __init__(self):
         self.tester = Catador()
@@ -28,17 +29,17 @@ class LoginSessionTesterController():
             return controller_error("Credenciales inválidas")
 
     def validateEntryEscalas(self, request=HttpRequest):
-        context = {}
+        self.context = {}
         if not self.session.activo:
-            context["error"] = "La sesión no está activa actualmente"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "La sesión no está activa actualmente"
+            return render(request, self.current_direcction, self.context)
 
         if self.session.tecnica.repeticion == 1:
             try:
                 self.taster_participation = Participacion.objects.get(
                     tecnica=self.session.tecnica, catador=self.tester)
-                context["error"] = "Usted ya esta dentro de la sesión"
-                return render(request, self.current_direcction, context)
+                self.context["error"] = "Usted ya esta dentro de la sesión"
+                return render(request, self.current_direcction, self.context)
 
             except Participacion.DoesNotExist:
                 with transaction.atomic():
@@ -51,8 +52,8 @@ class LoginSessionTesterController():
                         tecnica=self.session.tecnica).count()
 
                     if current_num_testers >= max_testers:
-                        context["error"] = "La sesión ha alcanzado el número máximo de catadores"
-                        return render(request, self.current_direcction, context)
+                        self.context["error"] = "La sesión ha alcanzado el número máximo de catadores"
+                        return render(request, self.current_direcction, self.context)
 
                     self.taster_participation = Participacion.objects.create(
                         tecnica=self.session.tecnica,
@@ -64,21 +65,21 @@ class LoginSessionTesterController():
                 }
                 return redirect(reverse(self.destinity_direcction, kwargs=params))
         else:
-            context["error"] = "Ya no es posible ingresar a la sesión"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "Ya no es posible ingresar a la sesión"
+            return render(request, self.current_direcction, self.context)
 
     def validateEntryRataCata(self, request: HttpRequest):
-        context = {}
+        self.context = {}
         if not self.session.activo:
-            context["error"] = "La sesión no está activa actualmente"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "La sesión no está activa actualmente"
+            return render(request, self.current_direcction, self.context)
 
         if self.session.tecnica.repeticion <= 1:
             try:
                 self.taster_participation = Participacion.objects.get(
                     tecnica=self.session.tecnica, catador=self.tester)
-                context["error"] = "Usted ya esta dentro de la sesión"
-                return render(request, self.current_direcction, context)
+                self.context["error"] = "Usted ya esta dentro de la sesión"
+                return render(request, self.current_direcction, self.context)
             except Participacion.DoesNotExist:
                 with transaction.atomic():
                     code_session = self.session.codigo_sesion
@@ -96,41 +97,41 @@ class LoginSessionTesterController():
                 }
                 return redirect(reverse(self.destinity_direcction, kwargs=params))
         else:
-            context["error"] = "Imposible acceder a esta sesión"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "Imposible acceder a esta sesión"
+            return render(request, self.current_direcction, self.context)
 
     def validateEntryLimitTesters(self, request: HttpRequest):
-        context = {}
+        self.context = {}
         if not self.session.activo:
-            context["error"] = "La sesión no está activa actualmente"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "La sesión no está activa actualmente"
+            return render(request, self.current_direcction, self.context)
 
         if self.session.tecnica.repeticion == 1:
             return self.entrySessionLimitTesters(request)
 
         else:
-            context["error"] = "Ya no es posible ingresar a la sesión"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "Ya no es posible ingresar a la sesión"
+            return render(request, self.current_direcction, self.context)
 
     def validateEntryNapping(self, request: HttpRequest):
-        context = {}
+        self.context = {}
         if not self.session.activo:
-            context["error"] = "La sesión no está activa actualmente"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "La sesión no está activa actualmente"
+            return render(request, self.current_direcction, self.context)
 
         if self.session.tecnica.repeticion == 0:
             return self.entrySessionLimitTesters(request)
 
         else:
-            context["error"] = "Ya no es posible ingresar a la sesión"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "Ya no es posible ingresar a la sesión"
+            return render(request, self.current_direcction, self.context)
 
     def entrySessionLimitTesters(self, request: HttpRequest):
         try:
             self.taster_participation = Participacion.objects.get(
                 tecnica=self.session.tecnica, catador=self.tester)
-            context["error"] = "Usted ya esta dentro de la sesión"
-            return render(request, self.current_direcction, context)
+            self.context["error"] = "Usted ya esta dentro de la sesión"
+            return render(request, self.current_direcction, self.context)
 
         except Participacion.DoesNotExist:
             try:
@@ -158,5 +159,5 @@ class LoginSessionTesterController():
                     return redirect(reverse(self.destinity_direcction, kwargs=params))
 
             except ValueError as e:
-                context["error"] = str(e)
-                return render(request, self.current_direcction, context)
+                self.context["error"] = str(e)
+                return render(request, self.current_direcction, self.context)

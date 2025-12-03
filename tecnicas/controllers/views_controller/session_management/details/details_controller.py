@@ -41,14 +41,9 @@ class DetallesController():
         elif technique.repeticion >= technique.repeticiones_max:
             return self.controllGetResponse(error="Se ha alcanzado el número de repeticiones máxima", request=request)
 
-        there_participacions = Participacion.objects.filter(
-            tecnica=technique).exists()
-
-        if there_participacions:
-            (is_update_participations,
-             message) = ParticipacionController.outAllInSession(self.session)
-            if not is_update_participations:
-                return self.controllGetResponse(error=message, request=request)
+        is_update_participations = self.setParticipationsToNoFinished()
+        if not is_update_participations:
+            return self.controllGetResponse(error="Error al actualizar las participaciones", request=request)
 
         self.session.activo = True
         technique.repeticion = technique.repeticion + 1
@@ -61,3 +56,15 @@ class DetallesController():
         }
         return redirect(
             reverse(self.url_next, kwargs=parameters))
+
+    def setParticipationsToNoFinished(self):
+        there_participacions = Participacion.objects.filter(
+            tecnica=self.session.tecnica).exists()
+
+        if there_participacions:
+            (is_update_participations,
+             message) = ParticipacionController.outAllInSession(self.session)
+
+            return is_update_participations
+
+        return True
