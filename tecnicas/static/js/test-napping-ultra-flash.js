@@ -1,5 +1,7 @@
 // Store words: { "CODE": ["word1", "word2"] }
 const productWords = {};
+
+// Only initialize ultra flash if the mode is active
 if (window.isUltraFlash) {
     initUltraFlash(productWords);
 }
@@ -20,25 +22,31 @@ function initUltraFlash(productWords) {
     const points = document.querySelectorAll('.data-point');
     let hasExistingWords = false;
 
-    // Check if there are existing words
+    // Check if there are existing words from backend
     points.forEach(point => {
         const code = point.dataset.code;
         const wordsAttr = point.dataset.words;
 
-        if (wordsAttr) {
-            productWords[code] = wordsAttr.split(',').filter(w => w);
-            hasExistingWords = true;
+        if (wordsAttr && wordsAttr.trim() !== '') {
+            productWords[code] = wordsAttr.split(',').filter(w => w.trim() !== '');
+            if (productWords[code].length > 0) {
+                hasExistingWords = true;
+            }
         }
     });
 
+    // If words already exist, skip phase 1 and go directly to description phase
     if (hasExistingWords) {
         startDescriptionPhase();
+        // Update all point labels to show existing words
         points.forEach(point => {
             const code = point.dataset.code;
-            updatePointLabel(code);
-            console.log(productWords[code]);
+            if (productWords[code] && productWords[code].length > 0) {
+                updatePointLabel(code);
+            }
         });
     } else {
+        // No existing words, show continue button for phase 1
         continueBtn.classList.remove('hidden');
     }
 
@@ -57,15 +65,24 @@ function initUltraFlash(productWords) {
 
     function startDescriptionPhase() {
         isDescriptionPhase = true;
-        window.isPlacementActive = false;
+        window.isPlacementActive = false; // Freeze point placement
+        
+        // Hide continue button and show finish options
         continueBtn.classList.add('hidden');
-        document.getElementById("question-save").classList.remove("hidden");
+        questionSaveBtn.classList.remove("hidden");
 
+        // Update UI to indicate description phase
         spanNotifaction("Fase de descripción: Haz clic en un punto para agregar palabras.", false);
 
-        document.getElementById('napping-plane').classList.remove('cursor-crosshair');
-        document.getElementById('napping-plane').classList.add('cursor-default');
-        document.querySelectorAll('.item-product').forEach(p => p.classList.remove('ring-4', 'ring-primary'))
+        // Change cursor style to indicate different mode
+        const plane = document.getElementById('napping-plane');
+        plane.classList.remove('cursor-crosshair');
+        plane.classList.add('cursor-default');
+        
+        // Remove any product selection highlights
+        document.querySelectorAll('.item-product').forEach(p => {
+            p.classList.remove('ring-4', 'ring-primary');
+        });
     }
 
     // Handle Point Click for Description
@@ -120,10 +137,7 @@ function initUltraFlash(productWords) {
             productWords[currentProductCode] = [];
         }
 
-        if (productWords[currentProductCode].length >= 5) {
-            spanNotifaction("Máximo 5 palabras por producto.");
-            return;
-        }
+        // No maximum limit on words
 
         if (productWords[currentProductCode].includes(word)) {
             spanNotifaction("Palabra duplicada");
@@ -155,56 +169,61 @@ function initUltraFlash(productWords) {
         const point = document.getElementById(`point-${code}`);
         if (!point) return;
 
-        // Find or create the words container below the point
-        const tooltip = point.querySelector('.group-hover\\:block');
+        const words = productWords[code] || [];
+        
+        // Remove existing tooltip if present
+        let tooltip = point.querySelector('.group-hover\\:block');
         if (tooltip) {
-            // Rebuild tooltip content
-            const xVal = parseFloat(point.dataset.px).toFixed(1);
-            const yVal = parseFloat(point.dataset.py).toFixed(1);
-            const words = productWords[code] || [];
+            tooltip.remove();
+        }
 
-            let wordsHtml = '';
-            if (words.length > 0) {
-                wordsHtml = `<div class="mt-1 pt-1 border-t border-gray-600 text-yellow-300 italic">${words.join(', ')}</div>`;
-            }
-
+        // Only create tooltip in description phase and if there are words
+        if (isDescriptionPhase && words.length > 0) {
+            tooltip = document.createElement('div');
+            tooltip.className = 'absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded z-10 hidden group-hover:block';
+            
+            // Display words in a 3-column grid (no coordinates)
+            const wordBadges = words.map(w => `<span class="inline-block px-2 py-1 bg-yellow-600 text-white rounded text-xs">${w}</span>`).join('');
             tooltip.innerHTML = `
-                <strong>${code}</strong><br>
-                X: ${xVal}<br>
-                Y: ${yVal}
-                ${wordsHtml}
+                <strong>${code}</strong>
+                <div class="mt-2 pt-2 border-t border-gray-600" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; max-width: 300px;">
+                    ${wordBadges}
+                </div>
             `;
+            
+            // Add max-width to tooltip
+            tooltip.style.maxWidth = '320px';
+            tooltip.style.whiteSpace = 'normal';
+            
+            point.appendChild(tooltip);
         }
     }
 
-    // Override saveData to include words
-    // We need to hook into the existing saveData or replace it.
-    // Since we made saveData global, we can wrap it.
-
-    const originalSaveData = window.saveData;
-
+    // Override saveData to include words for ultra flash mode
+    // This replaces the basic saveData from test-napping-plane.js
     window.saveData = async function () {
-        // If in description phase, validate words
+        const codeProducts = Object.keys(window.placedPoints);
+        const totalProducts = document.querySelectorAll('.item-product').length;
+
+        // Validate all products are placed
+        if (totalProducts != codeProducts.length) {
+            spanNotifaction("Por favor, coloca todos los puntos");
+            return false;
+        }
+
+        // If in description phase, validate words (minimum 1 per product)
         if (isDescriptionPhase) {
-            const codes = Object.keys(window.placedPoints);
-            for (const code of codes) {
+            for (const code of codeProducts) {
                 const words = productWords[code] || [];
-                if (words.length < 3) {
-                    spanNotifaction(`El producto ${code} debe tener al menos 3 palabras.`);
+                if (words.length < 1) {
+                    spanNotifaction(`El producto ${code} debe tener al menos 1 palabra.`);
                     return false;
                 }
             }
         }
 
-        // Prepare data
-        const codeProducts = Object.keys(window.placedPoints);
+        // Prepare data with coordinates and words
         const data = [];
-
-        if (document.querySelectorAll('.item-product').length != codeProducts.length) {
-            spanNotifaction("Por favor, coloca todos los puntos")
-            return false;
-        }
-
         codeProducts.forEach((code) => {
             const point = window.placedPoints[code];
             const words = productWords[code] || [];
@@ -214,17 +233,14 @@ function initUltraFlash(productWords) {
                 x: point.x,
                 y: point.y,
                 idProduct: point.id,
-                words: words // Add words here
+                words: words // Include words for ultra flash mode
             };
 
             data.push(objData);
-        })
+        });
 
-        // We can reuse the rest of the logic, but we need to send the data.
-        // The original function constructs data inside it. We can't easily inject data into it unless we rewrite it.
-        // So I will rewrite the fetch part here.
-
-        const URL = "/cata/testers/api/rating-napping/no-mode"
+        // Send data to server
+        const URL = "/cata/testers/api/rating-napping/no-mode";
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         try {
@@ -235,25 +251,25 @@ function initUltraFlash(productWords) {
                     "X-CSRFToken": csrfToken,
                 },
                 body: JSON.stringify(data),
-            })
+            });
 
             if (!response.ok) {
-                spanNotifaction("Error en la respuesta del servidor")
+                spanNotifaction("Error en la respuesta del servidor");
                 return false;
             }
 
-            const result = await response.json()
+            const result = await response.json();
 
             if (result.error) {
-                spanNotifaction(result.error)
-                return false
+                spanNotifaction(result.error);
+                return false;
             } else {
-                spanNotifaction(result.message, false)
-                return true
+                spanNotifaction(result.message, false);
+                return true;
             }
         } catch (error) {
-            spanNotifaction("Error en proceso de guardar los datos")
-            return false
+            spanNotifaction("Error en proceso de guardar los datos");
+            return false;
         }
     }
 }

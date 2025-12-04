@@ -72,9 +72,9 @@ class InitSessionNappingController(InitSessionController):
 
     def setStatusSession(self):
         technique_mode = TecnicaModalidad.objects.get(
-            tecnica=self.session.tecnica, usando=True)
+            tecnica=self.session.tecnica).modalidad.nombre
 
-        if technique_mode.modalidad.nombre == "sin modalidad":
+        if technique_mode == "sin modalidad":
             self.context["status"] = "La sesión usa Napping"
         else:
-            self.context["status"] = f"La sesión usa Napping con modalidad {technique_mode.modalidad.nombre}"   
+            self.context["status"] = f"La sesión usa Napping con modalidad {technique_mode}"

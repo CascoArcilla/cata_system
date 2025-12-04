@@ -28,7 +28,7 @@ class TestNappingController(GenetalTestController):
             return redirect(reverse(self.previus_directory, kwargs=params))
 
         name_mode_activate = TecnicaModalidad.objects.get(
-            tecnica=technique, usando=True).modalidad.nombre
+            tecnica=technique).modalidad.nombre
 
         if name_mode_activate == "sin modalidad":
             self.context["mode"] = "sin modalidad"
@@ -60,9 +60,7 @@ class TestNappingController(GenetalTestController):
 
     def nappingPufTest(self, request: HttpRequest):
         maked_previus_napping = TecnicaModalidad.objects.get(
-            tecnica=self.session.tecnica,
-            modalidad=Modalidad.objects.get(nombre="sin modalidad")
-        )
+            tecnica=self.session.tecnica)
 
         self.context["maked_napping"] = True if maked_previus_napping else False
         self.context["mode"] = "perfil ultra flash"
@@ -91,7 +89,7 @@ class TestNappingController(GenetalTestController):
             code=F("calificacion__id_producto__codigoProducto"),
             px=F("x"),
             py=F("y"),
-            id_product=F("calificacion__id_producto")
+            id_product=F("calificacion__id_producto__id")
         )
 
         self.context["data_points"] = list(data_points)

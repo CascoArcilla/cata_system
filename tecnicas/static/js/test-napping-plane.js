@@ -13,13 +13,16 @@ let selectedProductId = null;
 window.placedPoints = {};
 
 const modeElement = document.querySelector('[data-mode]');
-window.isUltraFlash = modeElement && modeElement.dataset.mode.toLowerCase().includes('ultra flash') || None;
+window.isUltraFlash = modeElement && modeElement.dataset.mode.toLowerCase().includes('ultra flash');
 
+// For normal mode (sin modalidad), placement is always active
+// For ultra flash mode, it starts active but will be controlled by ultra-flash.js
 if (window.isUltraFlash) {
   document.getElementById("question-save").classList.add("hidden");
   window.isPlacementActive = true;
 } else {
-  window.isPlacementActive = false;
+  // Normal mode: placement is always active
+  window.isPlacementActive = true;
 }
 
 // 1. Handle Product Selection
@@ -90,15 +93,6 @@ window.renderPoint = function (code, xPx, yPx, xVal, yVal) {
   point.style.left = `${xPx}px`;
   point.style.top = `${yPx}px`;
 
-  const label = document.createElement('div');
-  label.className = 'absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap z-10 hidden group-hover:block';
-  label.innerHTML = `
-            <strong>${code}</strong><br>
-            X: ${xVal.toFixed(1)}<br>
-            Y: ${yVal.toFixed(1)}
-        `;
-
-  point.appendChild(label);
   planeContainer.appendChild(point);
 
   const textLabel = document.createElement('span');
