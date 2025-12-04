@@ -20,31 +20,32 @@ class DetallesNappingController(DetallesController):
         }
 
         self.defineStatus()
-        self.setOptionesMode()
+        self.setIsEndSession()
         self.setDataTableNoMode()
 
         return self.context
 
     def defineStatus(self):
         repetition = self.session.tecnica.repeticion
+        mod = TecnicaModalidad.objects.get(
+            tecnica=self.session.tecnica)
 
-        if not repetition and not self.session.activo:
+        self.context["mod_tech"] = mod.modalidad.nombre
+        self.context["mode"] = mod.modalidad.nombre
+        if mod.modalidad.nombre == "sin modalidad":
+            self.context["mod_tech"] = "No se usa modalidad"
+
+        if not self.session.activo:
             self.context["status"] = "Listo para iniciar la sesión con Napping"
-        elif not repetition and self.session.activo:
-            self.context["status"] = "Sesión con Napping en curso"
-        elif repetition == 1 and not self.session.activo:
-            self.context["status"] = "En espera de la siguiente acción"
-        else:
-            self.context["status"] = "En espera de la siguiente acción"
+        elif self.session.activo:
+            self.context["status"] = "Sesión con en curso"
 
     def controllPostResponse(self, request: HttpRequest, action: str):
         if action == "start_sin_modalidad":
-            name_mode = action.replace("start_", "").replace("_", " ")
-            response = self.startNapping(request=request, name_mode=name_mode)
+            response = self.startNapping(request=request)
 
-        if action == "start_perfil_ultra_flash":
-            name_mode = action.replace("start_", "").replace("_", " ")
-            response = self.startNapping(request=request, name_mode=name_mode)
+        elif action == "start_perfil_ultra_flash":
+            response = self.startNapping(request=request)
 
         elif action == "delete_session":
             self.deleteSesorialSession()
@@ -57,20 +58,11 @@ class DetallesNappingController(DetallesController):
 
         return response
 
-    def startNapping(self, request: HttpRequest, name_mode: str):
+    def startNapping(self, request: HttpRequest):
         if request.user.user_presentador.user.username != self.session.creadoPor.user.username:
             return self.controllGetResponse(error="Solo el presentador que crea la sesión puede iniciar la repetición", request=request)
         elif self.session.activo:
             return self.controllGetResponse(error="La sesión ya está activada", request=request)
-
-        (technique_mode, created) = TecnicaModalidad.objects.get_or_create(
-            tecnica=self.session.tecnica, modalidad=Modalidad.objects.get(nombre=name_mode))
-
-        if not technique_mode:
-            return self.controllGetResponse(error="Modalidad no encontrada", request=request)
-
-        technique_mode.usando = True
-        technique_mode.save()
 
         is_update_participations = self.setParticipationsToNoFinished()
         if not is_update_participations:
@@ -119,15 +111,15 @@ class DetallesNappingController(DetallesController):
 
         self.context["there_data"] = True
 
-    def setOptionesMode(self):
-        modes = Modalidad.objects.all()
-        technique_modes = TecnicaModalidad.objects.filter(
-            tecnica=self.session.tecnica)
+    def setIsEndSession(self):
+        if not self.session.activo:
+            self.context["finished"] = False
+            return
 
-        if not technique_modes.exists():
-            self.context["modes"] = modes
+        participations_finished = Participacion.objects.filter(
+            tecnica=self.session.tecnica, finalizado=False).count()
+
+        if participations_finished >= 1:
+            self.context["finished"] = False
         else:
-            use_modes = technique_modes.values_list("modalidad", flat=True)
-
-            self.context["modes"] = modes.exclude(
-                id__in=use_modes)
+            self.context["finished"] = True

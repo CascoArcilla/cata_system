@@ -54,7 +54,7 @@
             </section>
 
             <section
-                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                class="bg-surface-card col-span-2 flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
                 <p class="font-bold">
                     Fecha creación:
                 </p>
@@ -80,6 +80,13 @@
                 </p>
                 <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
                     {{ session.tecnica.tipo_tecnica }}
+                </p>
+            </section>
+
+            <section
+                class="bg-surface-ligt flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
+                <p class="font-sans">
+                    <b>Modalidad:</b> <span class="capitalize">{{ mod_tech }}</span>
                 </p>
             </section>
 
@@ -115,16 +122,23 @@
         </p>
         <article class="grid grid-cols-2 gap-4 max-sm:gap-2">
             {% if not session.activo %}
-            {% for mode in modes %}
+            {% if finished %}
+            <div
+                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none text-center">
+                <p class=" text-black">
+                    Sesión finalizada
+                </p>
+            </div>
+            {% else %}
             <button
                 class="cts-btn-general capitalize cts-btn-primary btn-push flex flex-col justify-center items-center gap-2"
-                data-mode="{{ mode.nombre }}" onclick="startSession('{{ mode.nombre }}')">
-                Napping {% if mode.nombre != "sin modalidad" %} {{ mode.nombre }} {% endif %}
+                data-mode="{{ mode }}" onclick="startSession('{{ mode }}')">
+                Iniciar {% if mode != "sin modalidad" %}Napping con {{ mode }}{% else %}Napping{% endif %}
                 <figure class="w-10">
                     <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
                 </figure>
             </button>
-            {% endfor %}
+            {% endif %}
             {% else %}
             <a href="{% url 'cata_system:monitor_sesion' session_code=session.codigo_sesion %}" class="w-full">
                 <button
@@ -178,7 +192,8 @@
         </p>
 
         {% if there_data %}
-        {% include "../components/table-napping-no-mode.html" with testers=testers coordinates_no_mode=coordinates_no_mode %}
+        {% include "../components/table-napping-no-mode.html" with testers=testers
+        coordinates_no_mode=coordinates_no_mode %}
         {% else %}
         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
