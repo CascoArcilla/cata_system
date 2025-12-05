@@ -1,6 +1,6 @@
 {% extends 'tecnicas/layouts/base.html' %}
-
 {% load static %}
+{% load custom_filters %}
 
 {% block title %}Napping{% endblock %}
 
@@ -34,12 +34,6 @@
         {% endif %}
 
         <article class="rounded flex flex-col gap-4">
-            <section class="flex items-center justify-center bg-surface-ligt p-2 rounded-lg">
-                <p class="text-lg font-medium text-center">
-                    {{ session.tecnica.instrucciones }}
-                </p>
-            </section>
-
             <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
                 <p class="text-xl font-bold text-center capitalize" data-mode="{{ mode }}">
                     Modalidad: {% if mode != "sin modalidad" %}{{ mode }} {% else %} Nappging {% endif %}
@@ -48,7 +42,15 @@
         </article>
 
         <article class="container-rating-word p-2 py-6 space-y-6 bg-surface-ligt rounded min-w-3xl">
-            <h2 class="text-xl font-bold">Productos en la sesión</h2>
+            <section class="flex items-center justify-around flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
+                <h2 class="text-xl font-bold">Productos en la sesión</h2>
+                <div class="flex flex-col items-center justify-center flex-wrap">
+                    <p class="text-lg font-bold text-center">Instrucciones</p>
+                    <p class="text-lg font-normal text-center">
+                        {{ session.tecnica.instrucciones }}
+                    </p>
+                </div>
+            </section>
             <div id="items" class="original-products flex gap-4 flex-wrap justify-center"
                 data-original-products="original">
                 {% for product in products %}
@@ -73,13 +75,11 @@
                     <div id="point-{{ point.code }}"
                         class="data-point absolute w-4 h-4 bg-red-600 rounded-full transform -translate-x-1/2 -translate-y-1/2 cursor-pointer border-2 border-white shadow-md group"
                         data-px="{{ point.px }}" data-py="{{ point.py }}" data-code="{{ point.code }}"
-                        data-id-product="{{ point.id_product }}" {% if point.words %}
-                        data-words="{{ point.words|join:',' }}" {% endif %}>
+                        data-id-product="{{ point.id_product }}" {% if words_by_product|get_item:point.code %}
+                        data-words="{{ words_by_product|get_item:point.code|join:',' }}" {% endif %}>
                         <div
                             class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-gray-800 text-white text-xs rounded whitespace-nowrap z-10 hidden group-hover:block">
-                            <strong>{{ point.code }}</strong><br>
-                            X: {{ point.px }}<br>
-                            Y: {{ point.py }}
+                            <strong>{{ point.code }}</strong>
                         </div>
                         <span
                             class="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs font-bold text-gray-700 pointer-events-none">
@@ -110,6 +110,20 @@
                 </svg>
                 <div class="flex-col">
                     <span class="text-lg block">
+                        Si ya has agregado <b>atributos</b> a un punto y <b>guardas el progreso</b> ya no será posible
+                        volver a mover los puntos
+                    </span>
+                </div>
+            </section>
+
+            <section role="alert" class="alert alert-warning">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <div class="flex-col">
+                    <span class="text-lg block">
                         Si usas el botón <b>“Salir de la sesión”</b> asegúrese de guardar el progreso de lo contrario
                         perderás todo lo que no hayas guardado antes
                     </span>
@@ -124,11 +138,9 @@
                 <button id="save-progress" class="cts-btn-general cts-btn-primary btn-push">
                     Guardar progreso
                 </button>
-                {% if mode == "perfil ultra flash" %}
                 <button id="continue-description" class="cts-btn-general cts-btn-primary btn-push hidden">
                     Continuar a descripción
                 </button>
-                {% endif %}
                 <div class="flex gap-2">
                     <button id="question-save" class="cts-btn-general cts-btn-secondary btn-push flex-1">
                         ¿Finalizar sesión?
@@ -145,9 +157,7 @@
             </section>
         </article>
 
-        {% if mode == "perfil ultra flash" %}
         {% include "../components/dialog-nap-puf.html" %}
-        {% endif %}
 
         {% include "../components/toast-container.html" %}
     </article>
@@ -157,7 +167,5 @@
 {% block extra_js %}
 <script src="{% static 'js/actions-form.js' %}"></script>
 <script src="{% static 'js/test-napping-plane.js' %}"></script>
-{% if mode == "perfil ultra flash" %}
 <script src="{% static 'js/test-napping-ultra-flash.js' %}"></script>
-{% endif %}
 {% endblock %}

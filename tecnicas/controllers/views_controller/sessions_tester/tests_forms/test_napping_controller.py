@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import F
-from tecnicas.models import Participacion, Producto, TecnicaModalidad, DatoPunto, Calificacion, Modalidad
+from tecnicas.models import Participacion, Producto, TecnicaModalidad, DatoPunto, Calificacion, Modalidad, Palabra
 from tecnicas.forms import ListWordsForm
 from tecnicas.utils import noValidTechnique
 from .general_test_controller import GenetalTestController
@@ -71,6 +71,7 @@ class TestNappingController(GenetalTestController):
         products_in_technique = Producto.objects.filter(id_tecnica=technique)
         self.context["products"] = products_in_technique
         self.setCoordinates()
+        self.setWords()
 
         return render(request, self.napping_puf_test, self.context)
 
@@ -93,3 +94,22 @@ class TestNappingController(GenetalTestController):
         )
 
         self.context["data_points"] = list(data_points)
+
+    def setWords(self):
+        technique = self.session.tecnica
+
+        ratings = Calificacion.objects.filter(
+            num_repeticion=0,
+            id_tecnica=technique,
+            id_catador=self.participation.catador
+        ).prefetch_related('palabras', 'id_producto')
+
+        words_by_product = {}
+        for rating in ratings:
+            product_code = rating.id_producto.codigoProducto
+            words_list = list(rating.palabras.values_list(
+                'nombre_palabra', flat=True))
+            if words_list:
+                words_by_product[product_code] = words_list
+
+        self.context["words_by_product"] = words_by_product

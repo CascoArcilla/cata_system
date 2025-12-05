@@ -15,7 +15,6 @@ window.placedPoints = {};
 const modeElement = document.querySelector('[data-mode]');
 window.isUltraFlash = modeElement && modeElement.dataset.mode.toLowerCase().includes('ultra flash');
 
-// For normal mode (sin modalidad), placement is always active
 // For ultra flash mode, it starts active but will be controlled by ultra-flash.js
 if (window.isUltraFlash) {
   document.getElementById("question-save").classList.add("hidden");
@@ -42,7 +41,6 @@ products.forEach(product => {
 
 // 2. Handle Plane Click (Placing Points)
 planeContainer.addEventListener('click', (e) => {
-  // If placement is not active, do nothing (or handle differently in other script)
   if (!window.isPlacementActive) return;
 
   if (!selectedProductCode) {
@@ -163,6 +161,12 @@ document
 ////
 */
 
+// Callback for additional validation before saving (can be set by ultra flash)
+window.beforeSaveData = null;
+
+// Function to get extra data for each product (can be set by ultra flash)
+window.getExtraDataForSave = null;
+
 window.saveData = async function () {
   const codeProducts = Object.keys(window.placedPoints);
   const data = [];
@@ -170,6 +174,14 @@ window.saveData = async function () {
   if (products.length != codeProducts.length) {
     spanNotifaction("Por favor, coloca todos los puntos")
     return;
+  }
+
+  // Call beforeSaveData callback if it exists (for ultra flash validation)
+  if (window.beforeSaveData && typeof window.beforeSaveData === 'function') {
+    const validationResult = window.beforeSaveData();
+    if (validationResult === false) {
+      return false;
+    }
   }
 
   codeProducts.forEach((code) => {
@@ -181,6 +193,12 @@ window.saveData = async function () {
       y: point.y,
       idProduct: point.id
     };
+
+    // Get extra data if callback exists (for ultra flash words)
+    if (window.getExtraDataForSave && typeof window.getExtraDataForSave === 'function') {
+      const extraData = window.getExtraDataForSave(code);
+      Object.assign(objData, extraData);
+    }
 
     data.push(objData);
   })

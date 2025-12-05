@@ -3,16 +3,15 @@ const productWords = {};
 
 // Only initialize ultra flash if the mode is active
 if (window.isUltraFlash) {
-    initUltraFlash(productWords);
+    initUltraFlash();
 }
 
-function initUltraFlash(productWords) {
+function initUltraFlash() {
     const continueBtn = document.getElementById('continue-description');
     const questionSaveBtn = document.getElementById('question-save');
-    const saveProgressBtn = document.getElementById('save-progress');
     const dialog = document.getElementById('word-dialog');
     const wordForm = document.getElementById('word-form');
-    const wordInput = document.getElementById('word-input');
+    const wordInput = document.querySelector('.cts-input-list-word');
     const wordList = document.getElementById('word-list');
     const dialogProductCode = document.getElementById('dialog-product-code');
 
@@ -22,6 +21,8 @@ function initUltraFlash(productWords) {
     const points = document.querySelectorAll('.data-point');
     let hasExistingWords = false;
 
+    wordInput.value = '';
+
     // Check if there are existing words from backend
     points.forEach(point => {
         const code = point.dataset.code;
@@ -29,26 +30,28 @@ function initUltraFlash(productWords) {
 
         if (wordsAttr && wordsAttr.trim() !== '') {
             productWords[code] = wordsAttr.split(',').filter(w => w.trim() !== '');
-            if (productWords[code].length > 0) {
+            
+            if (productWords[code].length >= 1) {
                 hasExistingWords = true;
             }
         }
     });
 
-    // If words already exist, skip phase 1 and go directly to description phase
-    if (hasExistingWords) {
-        startDescriptionPhase();
-        // Update all point labels to show existing words
-        points.forEach(point => {
-            const code = point.dataset.code;
-            if (productWords[code] && productWords[code].length > 0) {
-                updatePointLabel(code);
-            }
-        });
-    } else {
-        // No existing words, show continue button for phase 1
-        continueBtn.classList.remove('hidden');
-    }
+    setTimeout(() => {
+        if (hasExistingWords) {
+            startDescriptionPhase();
+            // Update all point labels to show existing words
+            points.forEach(point => {
+                const code = point.dataset.code;
+                if (productWords[code] && productWords[code].length > 0) {
+                    updatePointLabel(code);
+                }
+            });
+        } else {
+            // No existing words, show continue button for phase 1
+            continueBtn.classList.remove('hidden');
+        }
+    }, 100);
 
     // Check if all products are placed
     continueBtn.addEventListener('click', () => {
@@ -65,21 +68,14 @@ function initUltraFlash(productWords) {
 
     function startDescriptionPhase() {
         isDescriptionPhase = true;
-        window.isPlacementActive = false; // Freeze point placement
-        
-        // Hide continue button and show finish options
+        window.isPlacementActive = false;
         continueBtn.classList.add('hidden');
         questionSaveBtn.classList.remove("hidden");
-
-        // Update UI to indicate description phase
         spanNotifaction("Fase de descripción: Haz clic en un punto para agregar palabras.", false);
 
-        // Change cursor style to indicate different mode
         const plane = document.getElementById('napping-plane');
         plane.classList.remove('cursor-crosshair');
         plane.classList.add('cursor-default');
-        
-        // Remove any product selection highlights
         document.querySelectorAll('.item-product').forEach(p => {
             p.classList.remove('ring-4', 'ring-primary');
         });
@@ -170,9 +166,10 @@ function initUltraFlash(productWords) {
         if (!point) return;
 
         const words = productWords[code] || [];
-        
+
         // Remove existing tooltip if present
-        let tooltip = point.querySelector('.group-hover\\:block');
+        let tooltip = point.querySelector('.cts-tooltip');
+
         if (tooltip) {
             tooltip.remove();
         }
@@ -180,8 +177,8 @@ function initUltraFlash(productWords) {
         // Only create tooltip in description phase and if there are words
         if (isDescriptionPhase && words.length > 0) {
             tooltip = document.createElement('div');
-            tooltip.className = 'absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded z-10 hidden group-hover:block';
-            
+            tooltip.className = 'cts-tooltip absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-3 py-2 bg-gray-800 text-white text-xs rounded z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none';
+
             // Display words in a 3-column grid (no coordinates)
             const wordBadges = words.map(w => `<span class="inline-block px-2 py-1 bg-yellow-600 text-white rounded text-xs">${w}</span>`).join('');
             tooltip.innerHTML = `
@@ -190,29 +187,20 @@ function initUltraFlash(productWords) {
                     ${wordBadges}
                 </div>
             `;
-            
+
             // Add max-width to tooltip
             tooltip.style.maxWidth = '320px';
             tooltip.style.whiteSpace = 'normal';
-            
             point.appendChild(tooltip);
         }
     }
 
-    // Override saveData to include words for ultra flash mode
-    // This replaces the basic saveData from test-napping-plane.js
-    window.saveData = async function () {
-        const codeProducts = Object.keys(window.placedPoints);
-        const totalProducts = document.querySelectorAll('.item-product').length;
-
-        // Validate all products are placed
-        if (totalProducts != codeProducts.length) {
-            spanNotifaction("Por favor, coloca todos los puntos");
-            return false;
-        }
-
+    // Set up callbacks to extend the base saveData function
+    // Validation callback - runs before saving
+    window.beforeSaveData = function () {
         // If in description phase, validate words (minimum 1 per product)
         if (isDescriptionPhase) {
+            const codeProducts = Object.keys(window.placedPoints);
             for (const code of codeProducts) {
                 const words = productWords[code] || [];
                 if (words.length < 1) {
@@ -221,55 +209,15 @@ function initUltraFlash(productWords) {
                 }
             }
         }
+        return true;
+    };
 
-        // Prepare data with coordinates and words
-        const data = [];
-        codeProducts.forEach((code) => {
-            const point = window.placedPoints[code];
-            const words = productWords[code] || [];
-
-            const objData = {
-                code: code,
-                x: point.x,
-                y: point.y,
-                idProduct: point.id,
-                words: words // Include words for ultra flash mode
-            };
-
-            data.push(objData);
-        });
-
-        // Send data to server
-        const URL = "/cata/testers/api/rating-napping/no-mode";
-        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
-
-        try {
-            const response = await fetch(URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "X-CSRFToken": csrfToken,
-                },
-                body: JSON.stringify(data),
-            });
-
-            if (!response.ok) {
-                spanNotifaction("Error en la respuesta del servidor");
-                return false;
-            }
-
-            const result = await response.json();
-
-            if (result.error) {
-                spanNotifaction(result.error);
-                return false;
-            } else {
-                spanNotifaction(result.message, false);
-                return true;
-            }
-        } catch (error) {
-            spanNotifaction("Error en proceso de guardar los datos");
-            return false;
-        }
-    }
+    // Data extension callback - adds words to each product's data
+    window.getExtraDataForSave = function (code) {
+        const words = productWords[code] || [];
+        console.log(`Getting words for ${code}:`, words);
+        return {
+            words: words
+        };
+    };
 }
