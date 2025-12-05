@@ -192,7 +192,11 @@
         </p>
 
         {% if there_data %}
+        {% if mode == "perfil ultra flash" %}
+        {% include "../components/table-napping-puf.html" with testers=testers coordinates_no_mode=coordinates_no_mode word_frequencies=word_frequencies all_words=all_words %}
+        {% else %}
         {% include "../components/table-napping-no-mode.html" with testers=testers coordinates_no_mode=coordinates_no_mode %}
+        {% endif %}
         {% else %}
         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}

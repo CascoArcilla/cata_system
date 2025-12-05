@@ -21,7 +21,7 @@ class DetallesNappingController(DetallesController):
 
         self.defineStatus()
         self.setIsEndSession()
-        self.setDataTableNoMode()
+        self.setDataTable()
 
         return self.context
 
@@ -77,7 +77,7 @@ class DetallesNappingController(DetallesController):
         return redirect(
             reverse(self.url_next, kwargs=parameters))
 
-    def setDataTableNoMode(self):
+    def setDataTable(self):
         participations = Participacion.objects.filter(
             tecnica=self.session.tecnica).select_related("catador")
         testers = [participation.catador for participation in participations]
@@ -109,7 +109,43 @@ class DetallesNappingController(DetallesController):
         self.context["coordinates_no_mode"] = defaultdict_to_dict(
             coordinates_by_product)
 
+        # Add word frequency data for perfil ultra flash mode
+        mod = TecnicaModalidad.objects.get(tecnica=self.session.tecnica)
+        if mod.modalidad.nombre == "perfil ultra flash":
+            self.setWordFrequencies(ratings)
+
         self.context["there_data"] = True
+
+    def setWordFrequencies(self, ratings):
+        from collections import Counter
+        
+        # Prefetch palabras to optimize queries
+        ratings_with_words = ratings.prefetch_related('palabras').select_related('id_producto')
+        
+        # Dictionary to store word frequencies by product
+        word_frequencies_by_product = defaultdict(Counter)
+        all_words_set = set()
+        
+        for rating in ratings_with_words:
+            producto_code = rating.id_producto.codigoProducto
+            words = rating.palabras.all()
+            
+            for word in words:
+                word_name = word.nombre_palabra
+                word_frequencies_by_product[producto_code][word_name] += 1
+                all_words_set.add(word_name)
+        
+        # Convert Counter objects to regular dicts and sort words alphabetically
+        word_frequencies_dict = {
+            product: dict(frequencies)
+            for product, frequencies in word_frequencies_by_product.items()
+        }
+        
+        # Sort all words alphabetically for consistent column ordering
+        all_words_sorted = sorted(all_words_set)
+        
+        self.context["word_frequencies"] = word_frequencies_dict
+        self.context["all_words"] = all_words_sorted
 
     def setIsEndSession(self):
         if not self.session.activo and self.session.tecnica.repeticion < 1:
