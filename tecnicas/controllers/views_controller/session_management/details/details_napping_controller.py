@@ -112,14 +112,12 @@ class DetallesNappingController(DetallesController):
         self.context["there_data"] = True
 
     def setIsEndSession(self):
-        if not self.session.activo:
+        if not self.session.activo and self.session.tecnica.repeticion < 1:
             self.context["finished"] = False
             return
-
-        participations_finished = Participacion.objects.filter(
-            tecnica=self.session.tecnica, finalizado=False).count()
-
-        if participations_finished >= 1:
+        elif self.session.activo:
             self.context["finished"] = False
-        else:
+            return
+        elif not self.session.activo and self.session.tecnica.repeticion >= 1:
             self.context["finished"] = True
+            return
