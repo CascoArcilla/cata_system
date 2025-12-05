@@ -192,8 +192,7 @@
         </p>
 
         {% if there_data %}
-        {% include "../components/table-napping-no-mode.html" with testers=testers
-        coordinates_no_mode=coordinates_no_mode %}
+        {% include "../components/table-napping-no-mode.html" with testers=testers coordinates_no_mode=coordinates_no_mode %}
         {% else %}
         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}

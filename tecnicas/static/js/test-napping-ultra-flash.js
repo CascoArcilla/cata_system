@@ -79,6 +79,9 @@ function initUltraFlash() {
         document.querySelectorAll('.item-product').forEach(p => {
             p.classList.remove('ring-4', 'ring-primary');
         });
+
+        // Auto-save positions when transitioning to description phase
+        window.saveData(false);
     }
 
     // Handle Point Click for Description
@@ -197,25 +200,34 @@ function initUltraFlash() {
 
     // Set up callbacks to extend the base saveData function
     // Validation callback - runs before saving
-    window.beforeSaveData = function () {
-        // If in description phase, validate words (minimum 1 per product)
-        if (isDescriptionPhase) {
+    window.beforeSaveData = function (isFinishSession = false) {
+        // If finishing session, validate all products placed and have words
+        if (isFinishSession) {
+            const totalProducts = document.querySelectorAll('.item-product').length;
             const codeProducts = Object.keys(window.placedPoints);
+            
+            // Check all products are placed
+            if (codeProducts.length !== totalProducts) {
+                spanNotifaction("Por favor, coloca todos los productos antes de finalizar la sesión.");
+                return false;
+            }
+            
+            // Check each product has at least 1 word
             for (const code of codeProducts) {
                 const words = productWords[code] || [];
                 if (words.length < 1) {
-                    spanNotifaction(`El producto ${code} debe tener al menos 1 palabra.`);
+                    spanNotifaction(`El producto ${code} debe tener al menos 1 palabra para finalizar la sesión.`);
                     return false;
                 }
             }
         }
+        // For progress save, no validation needed
         return true;
     };
 
     // Data extension callback - adds words to each product's data
     window.getExtraDataForSave = function (code) {
         const words = productWords[code] || [];
-        console.log(`Getting words for ${code}:`, words);
         return {
             words: words
         };

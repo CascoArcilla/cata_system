@@ -161,24 +161,25 @@ document
 ////
 */
 
-// Callback for additional validation before saving (can be set by ultra flash)
+// Callback for additional validation before saving
 window.beforeSaveData = null;
 
-// Function to get extra data for each product (can be set by ultra flash)
+// Function to get extra data for each product
 window.getExtraDataForSave = null;
 
-window.saveData = async function () {
+window.saveData = async function (isFinishSession = false) {
   const codeProducts = Object.keys(window.placedPoints);
   const data = [];
 
-  if (products.length != codeProducts.length) {
-    spanNotifaction("Por favor, coloca todos los puntos")
-    return;
+  // Only validate all products placed if finishing session
+  if (isFinishSession && products.length != codeProducts.length) {
+    spanNotifaction("Por favor, coloca todos los puntos antes de finalizar la sesión")
+    return false;
   }
 
   // Call beforeSaveData callback if it exists (for ultra flash validation)
   if (window.beforeSaveData && typeof window.beforeSaveData === 'function') {
-    const validationResult = window.beforeSaveData();
+    const validationResult = window.beforeSaveData(isFinishSession);
     if (validationResult === false) {
       return false;
     }
@@ -236,6 +237,17 @@ window.saveData = async function () {
   }
 }
 
+// Function to finish session with validation
+window.finishSession = async function () {
+  const success = await window.saveData(true);
+  if (success) {
+    // Submit the form to finish session
+    const formFinish = document.getElementById("form-finish-session")
+    formFinish.action = ""
+    formFinish.submit();
+  }
+}
+
 document
   .getElementById("save-progress")
-  .addEventListener("click", window.saveData);
+  .addEventListener("click", () => window.saveData(false));

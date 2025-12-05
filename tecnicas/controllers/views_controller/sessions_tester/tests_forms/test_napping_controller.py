@@ -5,6 +5,7 @@ from django.db.models import F
 from tecnicas.models import Participacion, Producto, TecnicaModalidad, DatoPunto, Calificacion, Modalidad, Palabra
 from tecnicas.forms import ListWordsForm
 from tecnicas.utils import noValidTechnique
+from tecnicas.controllers import ParticipacionController
 from .general_test_controller import GenetalTestController
 
 
@@ -113,3 +114,78 @@ class TestNappingController(GenetalTestController):
                 words_by_product[product_code] = words_list
 
         self.context["words_by_product"] = words_by_product
+
+    def controllPost(self, request: HttpRequest):
+        action = request.POST.get("action")
+
+        if action == "finish_session":
+            # Get technique and mode
+            technique = self.session.tecnica
+            self.participation = Participacion.objects.get(
+                tecnica=technique, catador=request.user.user_catador)
+
+            name_mode_activate = TecnicaModalidad.objects.get(
+                tecnica=technique).modalidad.nombre
+
+            # Validate based on mode
+            validation_error = self.validateSessionCompletion(
+                technique, name_mode_activate)
+
+            if validation_error:
+                # Return to the appropriate template with error
+                if name_mode_activate == "sin modalidad":
+                    return self.nappingTest(request)
+                elif name_mode_activate == "perfil ultra flash":
+                    return self.nappingPufTest(request)
+
+            # If validation passes, finish the session
+            ParticipacionController.finishSession(self.participation)
+            params = {"code_sesion": self.session.codigo_sesion}
+            return redirect(reverse(self.previus_directory, kwargs=params))
+
+        # For other actions, call parent's controllPost
+        return super().controllPost(request)
+
+    def validateSessionCompletion(self, technique, mode_name):
+        # Get all products in technique
+        products = Producto.objects.filter(id_tecnica=technique)
+        product_count = products.count()
+
+        # Get all ratings for this tester
+        ratings = Calificacion.objects.filter(
+            num_repeticion=0,
+            id_tecnica=technique,
+            id_catador=self.participation.catador
+        ).select_related('id_producto').prefetch_related('palabras')
+
+        # Check if all products have ratings
+        if ratings.count() != product_count:
+            missing_count = product_count - ratings.count()
+            return f"Faltan {missing_count} producto(s) por evaluar."
+
+        # Check if all ratings have DatoPunto (coordinates)
+        ratings_with_points = DatoPunto.objects.filter(
+            calificacion__in=ratings
+        ).values_list('calificacion_id', flat=True)
+
+        ratings_without_points = ratings.exclude(id__in=ratings_with_points)
+        if ratings_without_points.exists():
+            missing_products = [
+                r.id_producto.codigoProducto for r in ratings_without_points
+            ]
+            return f"Los siguientes productos no tienen coordenadas: {', '.join(missing_products)}"
+
+        # Additional validation for "perfil ultra flash" mode
+        if mode_name == "perfil ultra flash":
+            # Check that each rating has at least one word
+            ratings_without_words = []
+            for rating in ratings:
+                if rating.palabras.count() < 1:
+                    ratings_without_words.append(
+                        rating.id_producto.codigoProducto)
+
+            if ratings_without_words:
+                return f"Los siguientes productos deben tener al menos 1 palabra: {', '.join(ratings_without_words)}"
+
+        # All validations passed
+        return None

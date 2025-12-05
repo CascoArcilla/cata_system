@@ -18,10 +18,11 @@
         </header>
 
         <article class="hidden">
-            <form action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post"
+            <form id="form-finish-session"
+                action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post"
                 class="form-actions">
                 {% csrf_token %}
-                <input type="hidden" name="action" class="action-input">
+                <input type="hidden" name="action" value="finish_session" class="action-input">
             </form>
         </article>
 
@@ -133,7 +134,7 @@
                         ¿Finalizar sesión?
                     </button>
                     <button id="finish-session" class="cts-btn-general cts-btn-tertiary btn-push hidden flex-1"
-                        onclick="finishSession('form-actions')">
+                        onclick="window.finishSession()">
                         Finalizar
                     </button>
                     <button id="cancel-save" class="cts-btn-general cts-btn-error btn-push hidden flex-1">
