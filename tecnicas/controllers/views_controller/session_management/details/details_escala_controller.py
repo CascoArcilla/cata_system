@@ -29,7 +29,7 @@ class DetallesEscalasController(DetallesController):
 
         self.context = {
             "sesion": self.session,
-            "use_technique": technique
+            "use_technique": technique.tipo_tecnica.nombre_tecnica
         }
 
         # Datos de la escala usada

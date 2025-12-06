@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.db.models import F
 from .details_controller import DetallesController
-from tecnicas.models import SesionSensorial, Presentador, Modalidad, TecnicaModalidad, Catador, Participacion, DatoPunto, Calificacion
+from tecnicas.models import SesionSensorial, Presentador, Modalidad, TecnicaModalidad, Catador, Participacion, DatoPunto, Calificacion, GrupoProducto
 from tecnicas.utils import defaultdict_to_dict
 from collections import defaultdict
 
@@ -20,31 +20,36 @@ class DetallesNappingController(DetallesController):
         }
 
         self.defineStatus()
-        self.setOptionesMode()
-        self.setDataTableNoMode()
+        self.setIsEndSession()
+        self.setDataTable()
 
         return self.context
 
     def defineStatus(self):
         repetition = self.session.tecnica.repeticion
+        mod = TecnicaModalidad.objects.get(
+            tecnica=self.session.tecnica)
 
-        if not repetition and not self.session.activo:
+        self.context["mod_tech"] = mod.modalidad.nombre
+        self.context["mode"] = mod.modalidad.nombre
+        if mod.modalidad.nombre == "sin modalidad":
+            self.context["mod_tech"] = "No se usa modalidad"
+
+        if not self.session.activo:
             self.context["status"] = "Listo para iniciar la sesión con Napping"
-        elif not repetition and self.session.activo:
-            self.context["status"] = "Sesión con Napping en curso"
-        elif repetition == 1 and not self.session.activo:
-            self.context["status"] = "En espera de la siguiente acción"
-        else:
-            self.context["status"] = "En espera de la siguiente acción"
+        elif self.session.activo:
+            self.context["status"] = "Sesión con en curso"
 
     def controllPostResponse(self, request: HttpRequest, action: str):
+        print(action)
         if action == "start_sin_modalidad":
-            name_mode = action.replace("start_", "").replace("_", " ")
-            response = self.startNapping(request=request, name_mode=name_mode)
+            response = self.startNapping(request=request)
 
-        if action == "start_perfil_ultra_flash":
-            name_mode = action.replace("start_", "").replace("_", " ")
-            return self.controllGetResponse(error="Trabajando en la modalidad", request=request)
+        elif action == "start_perfil_ultra_flash":
+            response = self.startNapping(request=request)
+
+        elif action == "start_sorting":
+            response = self.startNapping(request=request)
 
         elif action == "delete_session":
             self.deleteSesorialSession()
@@ -57,17 +62,15 @@ class DetallesNappingController(DetallesController):
 
         return response
 
-    def startNapping(self, request: HttpRequest, name_mode: str):
+    def startNapping(self, request: HttpRequest):
         if request.user.user_presentador.user.username != self.session.creadoPor.user.username:
             return self.controllGetResponse(error="Solo el presentador que crea la sesión puede iniciar la repetición", request=request)
         elif self.session.activo:
             return self.controllGetResponse(error="La sesión ya está activada", request=request)
 
-        tecnique_mode = TecnicaModalidad.objects.get_or_create(
-            tecnica=self.session.tecnica, modalidad=Modalidad.objects.get(nombre=name_mode), usando=True)
-
-        if not tecnique_mode:
-            return self.controllGetResponse(error="Modalidad no encontrada", request=request)
+        is_update_participations = self.setParticipationsToNoFinished()
+        if not is_update_participations:
+            return self.controllGetResponse(error="Error al actualizar las participaciones", request=request)
 
         self.session.activo = True
         self.session.save()
@@ -78,7 +81,7 @@ class DetallesNappingController(DetallesController):
         return redirect(
             reverse(self.url_next, kwargs=parameters))
 
-    def setDataTableNoMode(self):
+    def setDataTable(self):
         participations = Participacion.objects.filter(
             tecnica=self.session.tecnica).select_related("catador")
         testers = [participation.catador for participation in participations]
@@ -110,17 +113,115 @@ class DetallesNappingController(DetallesController):
         self.context["coordinates_no_mode"] = defaultdict_to_dict(
             coordinates_by_product)
 
+        # Add word frequency data for perfil ultra flash mode
+        mod = TecnicaModalidad.objects.get(tecnica=self.session.tecnica)
+        if mod.modalidad.nombre == "perfil ultra flash":
+            self.setWordFrequencies(ratings)
+        elif mod.modalidad.nombre == "sorting":
+            self.setSortingData()
+
         self.context["there_data"] = True
 
-    def setOptionesMode(self):
-        modes = Modalidad.objects.all()
-        technique_modes = TecnicaModalidad.objects.filter(
-            tecnica=self.session.tecnica)
+    def setWordFrequencies(self, ratings):
+        from collections import Counter
 
-        if not technique_modes.exists():
-            self.context["modes"] = modes
-        else:
-            use_modes = technique_modes.values_list("modalidad", flat=True)
+        # Prefetch palabras to optimize queries
+        ratings_with_words = ratings.prefetch_related(
+            'palabras').select_related('id_producto')
 
-            self.context["modes"] = modes.exclude(
-                id__in=use_modes)
+        # Dictionary to store word frequencies by product
+        word_frequencies_by_product = defaultdict(Counter)
+        all_words_set = set()
+
+        for rating in ratings_with_words:
+            producto_code = rating.id_producto.codigoProducto
+            words = rating.palabras.all()
+
+            for word in words:
+                word_name = word.nombre_palabra
+                word_frequencies_by_product[producto_code][word_name] += 1
+                all_words_set.add(word_name)
+
+        # Convert Counter objects to regular dicts and sort words alphabetically
+        word_frequencies_dict = {
+            product: dict(frequencies)
+            for product, frequencies in word_frequencies_by_product.items()
+        }
+
+        # Sort all words alphabetically for consistent column ordering
+        all_words_sorted = sorted(all_words_set)
+
+        self.context["word_frequencies"] = word_frequencies_dict
+        self.context["all_words"] = all_words_sorted
+
+    def setSortingData(self):
+        # Get all ratings for this technique to access DatoPunto
+        ratings = Calificacion.objects.filter(id_tecnica=self.session.tecnica)
+
+        # Get coordinates for all products
+        coordinates = (
+            DatoPunto.objects.filter(calificacion__in=ratings)
+            .values(
+                producto=F("calificacion__id_producto__codigoProducto"),
+                producto_id=F("calificacion__id_producto__id"),
+                catador=F("calificacion__id_catador__user__username"),
+                catador_id=F("calificacion__id_catador__id"),
+                px=F("x"),
+                py=F("y"),
+            ))
+
+        # Create a mapping of (catador_id, producto_id) -> coordinates
+        coord_map = {}
+        for coord in coordinates:
+            key = (coord["catador_id"], coord["producto_id"])
+            coord_map[key] = {
+                "px": coord["px"],
+                "py": coord["py"],
+                "producto": coord["producto"],
+                "catador": coord["catador"]
+            }
+
+        # Get all groups with their products and words
+        grupos = (
+            GrupoProducto.objects.filter(tecnica=self.session.tecnica)
+            .prefetch_related("productos", "palabras")
+            .select_related("catador__user")
+        )
+
+        # Create a mapping of (catador_id, producto_id) -> words
+        words_map = defaultdict(list)
+        for grupo in grupos:
+            catador_id = grupo.catador.id
+            words = [palabra.nombre_palabra for palabra in grupo.palabras.all()]
+            words_str = ";".join(words) if words else ""
+
+            for producto in grupo.productos.all():
+                key = (catador_id, producto.id)
+                words_map[key] = words_str
+
+        # Structure final data: product -> catador -> {px, py, words}
+        sorting_data = defaultdict(dict)
+
+        for key, coord_data in coord_map.items():
+            catador_id, producto_id = key
+            producto_code = coord_data["producto"]
+            catador_username = coord_data["catador"]
+
+            sorting_data[producto_code][catador_username] = {
+                "px": coord_data["px"],
+                "py": coord_data["py"],
+                "words": words_map.get(key, "")
+            }
+
+        self.context["sorting_data"] = defaultdict_to_dict(sorting_data)
+
+    def setIsEndSession(self):
+        if not self.session.activo and self.session.tecnica.repeticion < 1:
+            self.context["finished"] = False
+            return
+        elif self.session.activo:
+            self.context["finished"] = False
+            return
+        elif not self.session.activo and self.session.tecnica.repeticion >= 1:
+            self.context["finished"] = True
+            return

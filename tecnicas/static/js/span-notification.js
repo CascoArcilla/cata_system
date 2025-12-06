@@ -1,5 +1,6 @@
 function spanNotifaction(messageError, isError = true, time = 4500) {
   const span = document.createElement("span");
+  span.classList.add("text-xl", "font-bold", "text-white");
   span.textContent = messageError;
 
   const div = document.createElement("div");

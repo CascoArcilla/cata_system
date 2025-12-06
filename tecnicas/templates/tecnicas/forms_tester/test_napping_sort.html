@@ -35,12 +35,6 @@
         {% endif %}
 
         <article class="rounded flex flex-col gap-4">
-            <section class="flex items-center justify-center bg-surface-ligt p-2 rounded-lg">
-                <p class="text-lg font-medium text-center">
-                    {{ session.tecnica.instrucciones }}
-                </p>
-            </section>
-
             <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
                 <p class="text-xl font-bold text-center capitalize" data-mode="{{ mode }}">
                     Modalidad: {% if mode != "sin modalidad" %}{{ mode }} {% else %} Napping {% endif %}
@@ -49,16 +43,66 @@
         </article>
 
         <article class="container-rating-word p-2 py-6 space-y-6 bg-surface-ligt rounded min-w-3xl">
-            <h2 class="text-xl font-bold">Productos en la sesión</h2>
-            <div id="items" class="original-products flex gap-4 flex-wrap justify-center"
-                data-original-products="original">
-                {% for product in products %}
-                <div class="item-product bg-btn-secondary text-black font-bold px-4 py-2 rounded cursor-grab transition-all"
-                    data-id-product="{{ product.id }}" data-code="{{ product.codigoProducto }}">
-                    {{ product.codigoProducto }}
+            <section class="flex items-center justify-around flex-wrap gap-4 bg-surface-ligt p-2 rounded-lg">
+                <h2 class="text-xl font-bold">Productos en la sesión</h2>
+                <div class="flex flex-col items-center justify-center flex-wrap">
+                    <p class="text-lg font-bold text-center">Instrucciones</p>
+                    <p class="text-lg font-normal text-center">
+                        {{ session.tecnica.instrucciones }}
+                    </p>
                 </div>
-                {% endfor %}
-            </div>
+            </section>
+
+            <section class="flex max-sm:flex-col gap-2 justify-around">
+                <article id="items" class="original-products flex gap-4 flex-wrap justify-center"
+                    data-original-products="original">
+                    {% for product in products %}
+                    <div class="item-product bg-btn-secondary text-black font-bold px-4 py-2 rounded cursor-grab transition-all"
+                        data-id-product="{{ product.id }}" data-code="{{ product.codigoProducto }}">
+                        {{ product.codigoProducto }}
+                    </div>
+                    {% endfor %}
+                </article>
+
+                <article class="flex gap-2">
+                    <button id="continue-grouping"
+                        class="cts-btn-general-compress py-1 px-4 cts-btn-primary btn-push hidden">
+                        Continuar a Agrupación
+                    </button>
+                    <button id="continue-description"
+                        class="cts-btn-general-compress py-1 px-4 cts-btn-primary btn-push hidden">
+                        Continuar a Descripción
+                    </button>
+                </article>
+            </section>
+
+            <!-- Phase 2: Group Creation Controls (Hidden initially, shown in Sort mode) -->
+            <section id="group-controls" class="hidden space-y-2">
+                <div class="flex gap-4 justify-center items-center flex-wrap">
+                    <button id="create-group-btn" class="cts-btn-general-compress py-1 px-4 cts-btn-primary btn-push">
+                        Crear Grupo
+                    </button>
+                    <button id="dissolve-group-btn" class="cts-btn-general-compress py-1 px-4 cts-btn-error btn-push">
+                        Disolver Grupo
+                    </button>
+                </div>
+
+                {% if groups %}
+                <div class="data-group-products hidden">
+                    {% for group in groups %}
+                    <ul class="item-group" {% if group.words %} data-words="{{ group.words|join:',' }}" {% endif %}>
+                        {% for product in group.products %}
+                        <li class="item-group-product" data-id-product="{{ product.id }}"
+                            data-code="{{ product.codigoProducto }}"></li>
+                        {% endfor %}
+                    </ul>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <!-- Display existing groups -->
+                <div id="groups-display" class="flex gap-3 flex-wrap justify-center"></div>
+            </section>
 
             <!-- Cartesian Plane Container -->
             <div class="flex justify-center w-full">
@@ -110,11 +154,11 @@
                 </svg>
                 <div class="flex-col">
                     <span class="text-lg block">
-                        Si usas el botón <b>“Salir de la sesión”</b> asegúrese de guardar el progreso de lo contrario
+                        Si usas el botón <b>"Salir de la sesión"</b> asegúrese de guardar el progreso de lo contrario
                         perderás todo lo que no hayas guardado antes
                     </span>
                     <span class="text-lg block">
-                        Con el botón <b>“Finalizar”</b>, se guardan las posiciones, sales de la sesión y no
+                        Con el botón <b>"Finalizar"</b>, se guardan las posiciones, sales de la sesión y no
                         podrás ingresar otra vez
                     </span>
                 </div>
@@ -124,11 +168,6 @@
                 <button id="save-progress" class="cts-btn-general cts-btn-primary btn-push">
                     Guardar progreso
                 </button>
-                {% if mode == "perfil ultra flash" %}
-                <button id="continue-description" class="cts-btn-general cts-btn-primary btn-push hidden">
-                    Continuar a descripción
-                </button>
-                {% endif %}
                 <div class="flex gap-2">
                     <button id="question-save" class="cts-btn-general cts-btn-secondary btn-push flex-1">
                         ¿Finalizar sesión?
@@ -144,6 +183,9 @@
                 <span id="loading-data-save" class="loading loading-spinner loading-xl text-accent hidden"></span>
             </section>
         </article>
+
+        {% include "../components/dialog-nap-sort.html" with form=form %}
+
         {% include "../components/toast-container.html" %}
     </article>
 </article>
@@ -152,4 +194,5 @@
 {% block extra_js %}
 <script src="{% static 'js/actions-form.js' %}"></script>
 <script src="{% static 'js/test-napping-plane.js' %}"></script>
+<script src="{% static 'js/test-napping-sort.js' %}"></script>
 {% endblock %}

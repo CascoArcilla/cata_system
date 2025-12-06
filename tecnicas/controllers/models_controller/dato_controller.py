@@ -48,10 +48,6 @@ class DatoController():
                 value_rounded = round(decimal_value)
                 self.value_data = ValorDecimal(valor=value_rounded)
                 
-                print(self.value_rating)
-                print(decimal_value)
-                print(value_rounded)
-
             else:
                 self.value_data = ValorDecimal(valor=self.value_rating)
 

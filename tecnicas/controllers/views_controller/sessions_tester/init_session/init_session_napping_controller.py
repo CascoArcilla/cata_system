@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.models import Participacion
+from tecnicas.models import Participacion, TecnicaModalidad
 from tecnicas.controllers import ParticipacionController
 from .init_session_controller import InitSessionController
 
@@ -19,10 +19,7 @@ class InitSessionNappingController(InitSessionController):
             "has_ended": self.isEndedSession()
         }
 
-        if self.session.tecnica.repeticion == 1:
-            self.context["status"] = "En esta sesión se usará Napping"
-        else:
-            self.context["status"] = "Se uso Napping puro en la última sesión"
+        self.setStatusSession()
 
         if "error" in request.GET:
             self.context["error"] = request.GET["error"]
@@ -72,3 +69,12 @@ class InitSessionNappingController(InitSessionController):
         else:
             context["error"] = "Acción sin especificar"
             return render(request, self.current_direction, context)
+
+    def setStatusSession(self):
+        technique_mode = TecnicaModalidad.objects.get(
+            tecnica=self.session.tecnica).modalidad.nombre
+
+        if technique_mode == "sin modalidad":
+            self.context["status"] = "La sesión usa Napping"
+        else:
+            self.context["status"] = f"La sesión usa Napping con modalidad {technique_mode}"

@@ -1,0 +1,28 @@
+<dialog id="word-dialog" class="modal">
+    <div class="modal-box bg-surface-ligt space-y-4">
+        <h3 class="font-bold text-lg">
+            Describir producto
+            <span id="dialog-product-code"></span>
+        </h3>
+
+        <form id="word-form" class="cts-form-pf-word flex justify-center items-center gap-4">
+            <label for="{{ form.nombre_palabra.id_for_label }}" class="text-left flex-1">
+                {{ form.nombre_palabra }}
+            </label>
+            <button type="submit" class="cts-btn-general-compress cts-btn-primary btn-push py-1 px-4">
+                Agregar
+            </button>
+        </form>
+
+        <div id="word-list" class="flex flex-wrap gap-2 mb-4 min-h-[50px]"></div>
+
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn">Cerrar</button>
+            </form>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>

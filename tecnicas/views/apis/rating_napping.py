@@ -3,7 +3,7 @@ from tecnicas.controllers import RatingNappingController
 import json
 
 
-def ratingNappingNoMode(req:  HttpRequest):
+def ratingNapping(req:  HttpRequest):
     if req.method == "POST":
         try:
             data = json.loads(req.body.decode("utf-8"))

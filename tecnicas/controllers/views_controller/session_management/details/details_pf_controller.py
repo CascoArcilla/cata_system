@@ -6,6 +6,8 @@ from collections import defaultdict
 
 
 class DetallesPFController(DetallesController):
+    skip_repetition = 2
+
     def __init__(self, session: SesionSensorial):
         super().__init__(session)
         self.url_template = "tecnicas/manage_sesions/details-session-pf.html"
@@ -18,7 +20,7 @@ class DetallesPFController(DetallesController):
             "sesion": self.session,
             "use_technique": technique,
             "tipo_escala": technique.escala_tecnica.id_tipo_escala.nombre_escala,
-            "repeticiones_max": technique.repeticiones_max - 2
+            "repeticiones_max": technique.repeticiones_max - self.skip_repetition
         }
 
         # Definir el estado de la sesion
@@ -28,7 +30,14 @@ class DetallesPFController(DetallesController):
 
         self.getDataPhases()
 
+        self.isEndSession()
+
         return self.context
+
+    def isEndSession(self):
+        current_rep = self.session.tecnica.repeticion - self.skip_repetition
+        max_rep = self.session.tecnica.repeticiones_max - self.skip_repetition
+        self.context["finished"] = current_rep >= max_rep
 
     def getDataPhases(self):
         curren_repetition = self.session.tecnica.repeticion
@@ -46,7 +55,7 @@ class DetallesPFController(DetallesController):
             self.context["fisrt_phase"] = self.getDataFirstPhase()
             self.context["second_phase"] = self.getDataSecondPhase()
             self.context["data_ratings"] = self.getDataRatings()
-            self.context["repeticion"] = self.session.tecnica.repeticion - 2
+            self.context["repeticion"] = self.session.tecnica.repeticion - self.skip_repetition
 
         return self.context
 

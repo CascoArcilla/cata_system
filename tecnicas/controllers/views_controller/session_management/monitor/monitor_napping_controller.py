@@ -27,11 +27,9 @@ class MonitorNappingController(MonitorController):
         return (True, "Puedes finalizar la sesión")
 
     def finishSession(self):
-        mode_technique = TecnicaModalidad.objects.get(
-            tecnica=self.sensorial_session.tecnica, usando=True)
-        mode_technique.usando = False
-        mode_technique.save()
-
+        technique = self.sensorial_session.tecnica
+        technique.repeticion = 1
+        technique.save()
         self.sensorial_session.activo = False
         self.sensorial_session.save()
         return self.sensorial_session
