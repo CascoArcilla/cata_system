@@ -194,6 +194,8 @@
         {% if there_data %}
         {% if mode == "perfil ultra flash" %}
         {% include "../components/table-napping-puf.html" with testers=testers coordinates_no_mode=coordinates_no_mode word_frequencies=word_frequencies all_words=all_words %}
+        {% elif mode == "sorting" %}
+        {% include "../components/table-napping-sorting.html" with testers=testers sorting_data=sorting_data %}
         {% else %}
         {% include "../components/table-napping-no-mode.html" with testers=testers coordinates_no_mode=coordinates_no_mode %}
         {% endif %}

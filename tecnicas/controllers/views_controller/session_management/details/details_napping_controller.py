@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.db.models import F
 from .details_controller import DetallesController
-from tecnicas.models import SesionSensorial, Presentador, Modalidad, TecnicaModalidad, Catador, Participacion, DatoPunto, Calificacion
+from tecnicas.models import SesionSensorial, Presentador, Modalidad, TecnicaModalidad, Catador, Participacion, DatoPunto, Calificacion, GrupoProducto
 from tecnicas.utils import defaultdict_to_dict
 from collections import defaultdict
 
@@ -117,6 +117,8 @@ class DetallesNappingController(DetallesController):
         mod = TecnicaModalidad.objects.get(tecnica=self.session.tecnica)
         if mod.modalidad.nombre == "perfil ultra flash":
             self.setWordFrequencies(ratings)
+        elif mod.modalidad.nombre == "sorting":
+            self.setSortingData()
 
         self.context["there_data"] = True
 
@@ -151,6 +153,67 @@ class DetallesNappingController(DetallesController):
 
         self.context["word_frequencies"] = word_frequencies_dict
         self.context["all_words"] = all_words_sorted
+
+    def setSortingData(self):
+        # Get all ratings for this technique to access DatoPunto
+        ratings = Calificacion.objects.filter(id_tecnica=self.session.tecnica)
+
+        # Get coordinates for all products
+        coordinates = (
+            DatoPunto.objects.filter(calificacion__in=ratings)
+            .values(
+                producto=F("calificacion__id_producto__codigoProducto"),
+                producto_id=F("calificacion__id_producto__id"),
+                catador=F("calificacion__id_catador__user__username"),
+                catador_id=F("calificacion__id_catador__id"),
+                px=F("x"),
+                py=F("y"),
+            ))
+
+        # Create a mapping of (catador_id, producto_id) -> coordinates
+        coord_map = {}
+        for coord in coordinates:
+            key = (coord["catador_id"], coord["producto_id"])
+            coord_map[key] = {
+                "px": coord["px"],
+                "py": coord["py"],
+                "producto": coord["producto"],
+                "catador": coord["catador"]
+            }
+
+        # Get all groups with their products and words
+        grupos = (
+            GrupoProducto.objects.filter(tecnica=self.session.tecnica)
+            .prefetch_related("productos", "palabras")
+            .select_related("catador__user")
+        )
+
+        # Create a mapping of (catador_id, producto_id) -> words
+        words_map = defaultdict(list)
+        for grupo in grupos:
+            catador_id = grupo.catador.id
+            words = [palabra.nombre_palabra for palabra in grupo.palabras.all()]
+            words_str = ";".join(words) if words else ""
+
+            for producto in grupo.productos.all():
+                key = (catador_id, producto.id)
+                words_map[key] = words_str
+
+        # Structure final data: product -> catador -> {px, py, words}
+        sorting_data = defaultdict(dict)
+
+        for key, coord_data in coord_map.items():
+            catador_id, producto_id = key
+            producto_code = coord_data["producto"]
+            catador_username = coord_data["catador"]
+
+            sorting_data[producto_code][catador_username] = {
+                "px": coord_data["px"],
+                "py": coord_data["py"],
+                "words": words_map.get(key, "")
+            }
+
+        self.context["sorting_data"] = defaultdict_to_dict(sorting_data)
 
     def setIsEndSession(self):
         if not self.session.activo and self.session.tecnica.repeticion < 1:
