@@ -98,7 +98,7 @@ function initSortMode() {
         spanNotifaction("Fase de agrupación: Selecciona puntos y crea grupos.", false);
 
         // Auto-save points when transitioning to Phase 2
-        window.saveData(false);
+        sortModeSaveData(false);
 
         // Enable point selection
         enablePointSelection();
@@ -285,7 +285,6 @@ function initSortMode() {
             const icon = iconsDisolveGroup.item(index);
             icon.remove();
         }
-        
 
         spanNotifaction("Fase de descripción: Haz clic en un grupo para agregar palabras.", false);
 
@@ -423,16 +422,101 @@ function initSortMode() {
         return true;
     };
 
-    // Data extension callback - adds groups and words to save data
-    window.getExtraDataForSave = function (code) {
-        const groupId = productToGroup[code];
-        const group = groupId ? {
-            groupId: groupId,
-            groupWords: groupWords[groupId] || []
-        } : null;
+    // Override save-progress button to use sort mode save function
+    const saveProgressBtn = document.getElementById('save-progress');
+    // Remove existing event listener by cloning and replacing
+    const newSaveProgressBtn = saveProgressBtn.cloneNode(true);
+    newSaveProgressBtn.textContent = 'Guardar Progreso Sort';
+    saveProgressBtn.parentNode.replaceChild(newSaveProgressBtn, saveProgressBtn);
 
-        return {
-            group: group
-        };
-    };
+    newSaveProgressBtn.addEventListener('click', async () => {
+        await sortModeSaveData(false);
+    });
+
+    // Override finish-session button to use sort mode save function
+    document.getElementById('finish-session').addEventListener('click', async (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const success = await sortModeSaveData(true);
+        if (success) {
+            const formFinish = document.getElementById("form-finish-session");
+            formFinish.action = "";
+            formFinish.submit();
+        }
+    });
+
+    // Sort mode specific save function
+    async function sortModeSaveData(isFinishSession = false) {
+        // Run validation callback if it exists
+        if (window.beforeSaveData && typeof window.beforeSaveData === 'function') {
+            const validationResult = window.beforeSaveData(isFinishSession);
+            if (validationResult === false) {
+                return false;
+            }
+        }
+
+        // Build products array with basic position info and group assignment
+        const products = [];
+        for (const [code, point] of Object.entries(window.placedPoints)) {
+            const groupId = productToGroup[code];
+            products.push({
+                code: code,
+                x: point.x,
+                y: point.y,
+                idProduct: point.id,
+                group: groupId || "" // Empty string if no group assigned
+            });
+        }
+
+        // Build groups object with word arrays
+        const groups = {};
+        const groupIds = Object.keys(productGroups);
+
+        // Only include groups if they exist
+        if (groupIds.length > 0) {
+            for (const groupId of groupIds) {
+                groups[groupId] = groupWords[groupId] || [];
+            }
+        }
+
+        // Build the data structure
+        const data = { products: products };
+
+        // Only add groups if they exist
+        if (Object.keys(groups).length > 0) {
+            data.groups = groups;
+        }
+
+        const URL = "/cata/testers/api/rating-napping";
+        const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        try {
+            const response = await fetch(URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": csrfToken,
+                },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                spanNotifaction("Error en la respuesta del servidor");
+                return false;
+            }
+
+            const result = await response.json();
+
+            if (result.error) {
+                spanNotifaction(result.error);
+                return false;
+            } else {
+                spanNotifaction(result.message, false);
+                return true;
+            }
+        } catch (error) {
+            spanNotifaction("Error en proceso de guardar los datos");
+            return false;
+        }
+    }
 }
