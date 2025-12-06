@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.db.models import F
-from tecnicas.models import Participacion, Producto, TecnicaModalidad, DatoPunto, Calificacion, Modalidad, Palabra
+from tecnicas.models import Participacion, Producto, TecnicaModalidad, DatoPunto, Calificacion, Modalidad, Palabra, GrupoProducto
 from tecnicas.forms import ListWordsForm
 from tecnicas.utils import noValidTechnique
 from tecnicas.controllers import ParticipacionController
@@ -90,7 +90,9 @@ class TestNappingController(GenetalTestController):
         products_in_technique = Producto.objects.filter(id_tecnica=technique)
         self.context["products"] = products_in_technique
 
+        self.context["form"] = ListWordsForm()
         self.setCoordinates()
+        self.setGroups()
 
         return render(request, self.sort_direction, self.context)
 
@@ -113,6 +115,37 @@ class TestNappingController(GenetalTestController):
         )
 
         self.context["data_points"] = list(data_points)
+
+    def setGroups(self):
+        technique = self.session.tecnica
+
+        # Get all product groups for this tester
+        grupos_producto = GrupoProducto.objects.filter(
+            tecnica=technique,
+            catador=self.participation.catador
+        ).prefetch_related('productos', 'palabras')
+
+        groups = []
+        for group in grupos_producto:
+            # Get products in this group
+            products_list = []
+            for product in group.productos.all():
+                products_list.append({
+                    'id': product.id,
+                    'codigoProducto': product.codigoProducto
+                })
+
+            # Get words for this group
+            words_list = list(group.palabras.values_list(
+                'nombre_palabra', flat=True))
+
+            groups.append({
+                'id': group.id,
+                'products': products_list,
+                'words': words_list
+            })
+
+        self.context["groups"] = groups
 
     def setWords(self):
         technique = self.session.tecnica

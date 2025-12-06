@@ -32,6 +32,40 @@ if (isSortMode) {
     initSortMode();
 }
 
+function loadExistingGroups() {
+    const dataGroupContainer = document.querySelector('.data-group-products');
+    if (!dataGroupContainer) return { hasGroups: false, hasWords: false };
+
+    const groupElements = dataGroupContainer.querySelectorAll('.item-group');
+    let hasGroups = false;
+    let hasWords = false;
+
+    groupElements.forEach((groupEl, index) => {
+        const groupId = `group-${groupCounter++}`;
+        const products = [];
+        const words = groupEl.dataset.words ? groupEl.dataset.words.split(',').map(w => w.trim()).filter(w => w) : [];
+
+        // Get products in this group
+        groupEl.querySelectorAll('.item-group-product').forEach(productEl => {
+            const code = productEl.dataset.code;
+            products.push(code);
+            productToGroup[code] = groupId;
+        });
+
+        if (products.length > 0) {
+            hasGroups = true;
+            productGroups[groupId] = products;
+            groupWords[groupId] = words;
+
+            if (words.length > 0) {
+                hasWords = true;
+            }
+        }
+    });
+
+    return { hasGroups, hasWords };
+}
+
 function initSortMode() {
     const continueGroupingBtn = document.getElementById('continue-grouping');
     const continueDescriptionBtn = document.getElementById('continue-description');
@@ -39,17 +73,50 @@ function initSortMode() {
     const dissolveGroupBtn = document.getElementById('dissolve-group-btn');
     const groupControls = document.getElementById('group-controls');
     const questionSaveBtn = document.getElementById('question-save');
+
     const groupWordDialog = document.getElementById('group-word-dialog');
     const groupWordForm = document.getElementById('group-word-form');
-    const groupWordInput = document.querySelector('.cts-input-list-word');
+    const groupWordInput = document.getElementsByName('nombre_palabra')[0];
+    groupWordInput.value = "";
     const groupWordList = document.getElementById('group-word-list');
     const dialogGroupId = document.getElementById('dialog-group-id');
 
     // Hide question save button initially
     questionSaveBtn.classList.add('hidden');
 
-    // Check if there are existing groups from backend (TODO: implement backend data loading)
-    // For now, start in Phase 1
+    // Load existing groups from backend and determine initial phase
+    const { hasGroups, hasWords } = loadExistingGroups();
+
+    setTimeout(() => {
+        // Determine initial phase based on existing data
+        if (hasGroups && hasWords) {
+            // Skip to Phase 3 (Description) if groups have words
+            currentPhase = 3;
+            window.isPlacementActive = false;
+            groupControls.classList.remove('hidden');
+            continueDescriptionBtn.classList.remove('hidden');
+
+            renderExistingGroups();
+            startDescriptionPhase();
+        } else if (hasGroups) {
+            // Skip to Phase 2 (Grouping) if groups exist but no words
+            currentPhase = 2;
+            renderExistingGroups();
+            window.isPlacementActive = false;
+            groupControls.classList.remove('hidden');
+            continueDescriptionBtn.classList.remove('hidden');
+
+            const plane = document.getElementById('napping-plane');
+            plane.classList.remove('cursor-crosshair');
+            plane.classList.add('cursor-default');
+
+            enablePointSelection();
+            spanNotifaction("Continúa agrupando productos o pasa a la descripción.", false);
+        } else {
+            // Start in Phase 1 (Placement)
+            currentPhase = 1;
+        }
+    }, 200);
 
     // Phase 1: Product Placement
     // Show continue to grouping button when all products are placed
@@ -289,7 +356,7 @@ function initSortMode() {
         spanNotifaction("Fase de descripción: Haz clic en un grupo para agregar palabras.", false);
 
         // Auto-save groups when transitioning to Phase 3
-        window.saveData(false);
+        sortModeSaveData(false);
     }
 
     // Group Word Dialog Functions
@@ -317,6 +384,7 @@ function initSortMode() {
             });
 
             groupWordList.appendChild(badge);
+
         });
 
         // Update group display with word count
@@ -381,6 +449,39 @@ function initSortMode() {
             tooltip.style.maxWidth = '320px';
             tooltip.style.whiteSpace = 'normal';
             tooltip.classList.remove('hidden');
+        } else {
+            let tooltip = displayElement.querySelector('.group-tooltip');
+            if (tooltip) {
+                tooltip.remove();
+            }
+        }
+    }
+
+    function renderExistingGroups() {
+        const colors = ['bg-green-600', 'bg-purple-600', 'bg-yellow-600', 'bg-pink-600', 'bg-indigo-600'];
+        let colorIndex = 0;
+
+        for (const [groupId, products] of Object.entries(productGroups)) {
+            const color = colors[colorIndex % colors.length];
+            colorIndex++;
+
+            // Update point colors
+            products.forEach(code => {
+                const point = document.getElementById(`point-${code}`);
+
+                if (point) {
+                    point.classList.remove('bg-red-600');
+                    point.classList.add(color);
+                }
+            });
+
+            // Add group to display
+            addGroupToDisplay(groupId, products, color);
+
+            // Update display with words if they exist
+            if (groupWords[groupId] && groupWords[groupId].length > 0) {
+                updateGroupDisplayWithWords(groupId);
+            }
         }
     }
 

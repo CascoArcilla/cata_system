@@ -18,7 +18,6 @@ class RatingNappingController:
 
         # Branch based on modality
         if name_mod == 'sorting':
-            print(data)
             return RatingNappingController.processSortingMode(
                 data, participation
             )
@@ -50,6 +49,8 @@ class RatingNappingController:
                     RatingNappingController.processGroupsForSorting(
                         products, groups, participation, existing_ratings_map, products_map
                     )
+                else:
+                    RatingNappingController.deleteAllGroups(participation)
 
             return JsonResponse({"message": "Datos guardados exitosamente"})
 
@@ -163,6 +164,13 @@ class RatingNappingController:
             RatingNappingController.processWordsForGroups(
                 groups, all_groups_for_words
             )
+    
+    @staticmethod
+    def deleteAllGroups(participation):
+        GrupoProducto.objects.filter(
+            tecnica=participation.tecnica,
+            catador=participation.catador
+        ).delete()
 
     @staticmethod
     def processWordsForGroups(groups_data, groups_list):

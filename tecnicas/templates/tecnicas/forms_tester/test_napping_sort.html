@@ -87,6 +87,19 @@
                     </button>
                 </div>
 
+                {% if groups %}
+                <div class="data-group-products hidden">
+                    {% for group in groups %}
+                    <ul class="item-group" {% if group.words %} data-words="{{ group.words|join:',' }}" {% endif %}>
+                        {% for product in group.products %}
+                        <li class="item-group-product" data-id-product="{{ product.id }}"
+                            data-code="{{ product.codigoProducto }}"></li>
+                        {% endfor %}
+                    </ul>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
                 <!-- Display existing groups -->
                 <div id="groups-display" class="flex gap-3 flex-wrap justify-center"></div>
             </section>
@@ -171,7 +184,7 @@
             </section>
         </article>
 
-        {% include "../components/dialog-nap-sort.html" %}
+        {% include "../components/dialog-nap-sort.html" with form=form %}
 
         {% include "../components/toast-container.html" %}
     </article>
