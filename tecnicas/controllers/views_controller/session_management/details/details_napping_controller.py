@@ -41,10 +41,14 @@ class DetallesNappingController(DetallesController):
             self.context["status"] = "Sesión con en curso"
 
     def controllPostResponse(self, request: HttpRequest, action: str):
+        print(action)
         if action == "start_sin_modalidad":
             response = self.startNapping(request=request)
 
         elif action == "start_perfil_ultra_flash":
+            response = self.startNapping(request=request)
+
+        elif action == "start_sorting":
             response = self.startNapping(request=request)
 
         elif action == "delete_session":
@@ -118,32 +122,33 @@ class DetallesNappingController(DetallesController):
 
     def setWordFrequencies(self, ratings):
         from collections import Counter
-        
+
         # Prefetch palabras to optimize queries
-        ratings_with_words = ratings.prefetch_related('palabras').select_related('id_producto')
-        
+        ratings_with_words = ratings.prefetch_related(
+            'palabras').select_related('id_producto')
+
         # Dictionary to store word frequencies by product
         word_frequencies_by_product = defaultdict(Counter)
         all_words_set = set()
-        
+
         for rating in ratings_with_words:
             producto_code = rating.id_producto.codigoProducto
             words = rating.palabras.all()
-            
+
             for word in words:
                 word_name = word.nombre_palabra
                 word_frequencies_by_product[producto_code][word_name] += 1
                 all_words_set.add(word_name)
-        
+
         # Convert Counter objects to regular dicts and sort words alphabetically
         word_frequencies_dict = {
             product: dict(frequencies)
             for product, frequencies in word_frequencies_by_product.items()
         }
-        
+
         # Sort all words alphabetically for consistent column ordering
         all_words_sorted = sorted(all_words_set)
-        
+
         self.context["word_frequencies"] = word_frequencies_dict
         self.context["all_words"] = all_words_sorted
 

@@ -12,6 +12,8 @@ class RatingNappingController:
             id=request.session["id_participation"]
         )
 
+        print(data)
+
         try:
             with transaction.atomic():
                 products_map = RatingNappingController.getProductsMap(

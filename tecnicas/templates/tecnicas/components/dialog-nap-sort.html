@@ -1,0 +1,35 @@
+<dialog id="group-word-dialog" class="modal">
+    <div class="modal-box max-w-2xl">
+        <h3 class="font-bold text-lg">Describir Grupo: <span id="dialog-group-id"></span></h3>
+        <p class="py-2 text-sm text-gray-600">Agrega palabras para describir este grupo de productos</p>
+
+        <form id="group-word-form" class="space-y-4">
+            <div class="form-control">
+                <label class="label">
+                    <span class="label-text">Palabra</span>
+                </label>
+                <input type="text" class="cts-input-list-word input input-bordered w-full"
+                    placeholder="Escribe una palabra..." maxlength="50" required>
+            </div>
+
+            <div class="flex justify-end">
+                <button type="submit" class="cts-btn-general cts-btn-primary btn-push">
+                    Agregar Palabra
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-4">
+            <h4 class="font-semibold mb-2">Palabras agregadas:</h4>
+            <div id="group-word-list" class="flex flex-wrap gap-2">
+                <!-- Words will be added here dynamically -->
+            </div>
+        </div>
+
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="cts-btn-general cts-btn-secondary btn-push">Cerrar</button>
+            </form>
+        </div>
+    </div>
+</dialog>

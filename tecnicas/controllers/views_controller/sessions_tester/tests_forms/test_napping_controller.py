@@ -14,6 +14,7 @@ class TestNappingController(GenetalTestController):
         super().__init__(sensorial_session, user_tester)
         self.napping_test = "tecnicas/forms_tester/test_napping.html"
         self.napping_puf_test = "tecnicas/forms_tester/test_napping_puf.html"
+        self.sort_direction = "tecnicas/forms_tester/test_napping_sort.html"
 
     def controllGet(self, request: HttpRequest):
         technique = self.session.tecnica
@@ -34,9 +35,15 @@ class TestNappingController(GenetalTestController):
         if name_mode_activate == "sin modalidad":
             self.context["mode"] = "sin modalidad"
             return self.nappingTest(request)
+
         if name_mode_activate == "perfil ultra flash":
             self.context["mode"] = "perfil ultra flash"
             return self.nappingPufTest(request)
+
+        if name_mode_activate == "sorting":
+            self.context["mode"] = "sorting"
+            return self.nappingSort(request)
+
         else:
             return noValidTechnique(
                 name_view=self.previus_directory,
@@ -75,6 +82,17 @@ class TestNappingController(GenetalTestController):
         self.setWords()
 
         return render(request, self.napping_puf_test, self.context)
+
+    def nappingSort(self, request: HttpRequest):
+        self.context["session"] = self.session
+        technique = self.session.tecnica
+
+        products_in_technique = Producto.objects.filter(id_tecnica=technique)
+        self.context["products"] = products_in_technique
+
+        self.setCoordinates()
+
+        return render(request, self.sort_direction, self.context)
 
     def setCoordinates(self):
         technique = self.session.tecnica
