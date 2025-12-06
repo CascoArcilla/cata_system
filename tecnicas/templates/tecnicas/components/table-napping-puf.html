@@ -50,4 +50,14 @@
             </tbody>
         </table>
     </div>
+
+    <div class="flex justify-end">
+        <button id="download-csv-btn" class="cts-btn-general cts-btn-primary btn-push"
+            data-session-name="{{ session.nombre_sesion }}" data-session-code="{{ session.codigo_sesion }}">
+            Descargar datos en CSV
+        </button>
+    </div>
 </article>
+
+{% load static %}
+<script src="{% static 'js/download-table-csv.js' %}"></script>
