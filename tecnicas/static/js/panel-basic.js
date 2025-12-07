@@ -22,12 +22,13 @@ initPanel();
 
 function initPanel() {
   initRadios();
+  initSizeOptions();
 }
 
 function initRadios() {
-  inputsScale = document.getElementsByName("tipo_escala");
   inputTamano = document.getElementsByName("tamano_escala").item(0);
-  sizeOptionsContainer = document.getElementsByClassName("cts-options-size-scale")[0];
+  inputsScale = document.getElementsByName("tipo_escala");
+  inputsScale.item(0).checked = true;
 
   for (let index = 0; index < inputsScale.length; index++) {
     let parent = inputsScale.item(index).parentElement;
@@ -52,14 +53,16 @@ function initRadios() {
       showDescriptionStyle(parent);
     }
   }
-
-  initSizeOptions();
 }
 
 function initSizeOptions() {
+  sizeOptionsContainer = document.getElementsByClassName(
+    "cts-options-size-scale"
+  )[0];
+
   for (let i = 0; i < inputsScale.length; i++) {
     const radio = inputsScale.item(i);
-    radio.addEventListener('change', () => {
+    radio.addEventListener("change", () => {
       const tag = getTagFromLabel(radio);
       populateSizeOptions(tag);
     });
@@ -69,17 +72,21 @@ function initSizeOptions() {
     }
   }
 
-  const form = document.querySelector('form');
+  const form = document.querySelector("form");
   if (!form) return;
 
-  form.addEventListener('submit', (e) => {
-    const chosen = document.querySelector('input[name="option_size_scale"]:checked');
+  form.addEventListener("submit", (e) => {
+    const chosen = document.querySelector(
+      'input[name="option_size_scale"]:checked'
+    );
     if (chosen && inputTamano) {
       inputTamano.value = chosen.value;
     }
 
     if (sizeOptionsContainer) {
-      const toRemove = sizeOptionsContainer.querySelectorAll('input[name="option_size_scale"]');
+      const toRemove = sizeOptionsContainer.querySelectorAll(
+        'input[name="option_size_scale"]'
+      );
       toRemove.forEach((el) => el.remove());
     }
   });
@@ -88,37 +95,42 @@ function initSizeOptions() {
 function getTagFromLabel(radio) {
   try {
     const parent = radio.parentElement;
-    if (!parent) return '';
-    const text = parent.textContent || '';
+    if (!parent) return "";
+    const text = parent.textContent || "";
     return text.trim().split(/\s+/)[0].toLowerCase();
   } catch (err) {
-    return '';
+    return "";
   }
 }
 
 function populateSizeOptions(tag) {
-  const options = SIZE_OPTIONS[tag] || SIZE_OPTIONS['estructurada'];
+  const options = SIZE_OPTIONS[tag] || SIZE_OPTIONS["estructurada"];
   if (!sizeOptionsContainer) return;
-  sizeOptionsContainer.innerHTML = '';
+  sizeOptionsContainer.innerHTML = "";
 
   options.forEach((val) => {
-    const label = document.createElement('label');
-    label.className = 'flex flex-col items-center cursor-pointer';
+    const label = document.createElement("label");
+    label.className = "flex flex-col items-center cursor-pointer";
 
-    const input = document.createElement('input');
-    input.type = 'radio';
-    input.name = 'option_size_scale';
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "option_size_scale";
     input.value = String(val);
-    input.className = 'radio radio-lg checked:bg-pink-500';
+    input.className = "radio radio-lg checked:bg-pink-500";
 
-    const span = document.createElement('span');
-    span.className = 'mt-2 text-xl text-gray-700 font-medium';
+    const span = document.createElement("span");
+    span.className = "mt-2 text-xl text-gray-700 font-medium";
     span.textContent = String(val);
 
     label.appendChild(input);
     label.appendChild(span);
     sizeOptionsContainer.appendChild(label);
   });
+
+  const firstRadioSize = document
+    .getElementsByName("option_size_scale")
+    .item(0);
+  firstRadioSize.checked = true;
 }
 
 function showDescriptionStyle(label) {

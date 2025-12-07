@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.controllers import PanelCreateController
+from tecnicas.controllers import PanelCreateEscalasController, PanelCreateRataController, PanelCreateCataController, PanelCreatePFController, PanelCreateSortController, PanelCreateNappingController
 from tecnicas.utils import deleteDataSession
 
 
@@ -15,8 +15,18 @@ def createSession(req: HttpRequest):
     name_technique = basic_data["name_tecnica"]
 
     if req.method == "GET":
-        if name_technique == "escalas" or name_technique == "rata" or name_technique == "cata":
-            response = PanelCreateController.controllGetEscalas(req)
+        if name_technique == "escalas":
+            response = PanelCreateEscalasController.controllGet(req)
+        elif name_technique == "rata":
+            response = PanelCreateRataController.controllGet(req)
+        elif name_technique == "cata":
+            response = PanelCreateCataController.controllGet(req)
+        elif name_technique == "perfil flash":
+            response = PanelCreatePFController.controllGet(req)
+        elif name_technique == "sort":
+            response = PanelCreateSortController.controllGet(req)
+        elif name_technique == "napping":
+            response = PanelCreateNappingController.controllGet(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
@@ -24,11 +34,17 @@ def createSession(req: HttpRequest):
         return response
     if req.method == "POST":
         if name_technique == "escalas":
-            response = PanelCreateController.controllPostEscalas(req)
+            response = PanelCreateEscalasController.controllPost(req)
         elif name_technique == "rata":
-            response = PanelCreateController.controllPostRATA(req)
+            response = PanelCreateRataController.controllPost(req)
         elif name_technique == "cata":
-            response = PanelCreateController.controllPostCATA(req)
+            response = PanelCreateCataController.controllPost(req)
+        elif name_technique == "perfil flash":
+            response = PanelCreatePFController.controllPost(req)
+        elif name_technique == "sort":
+            response = PanelCreateSortController.controllPost(req)
+        elif name_technique == "napping":
+            response = PanelCreateNappingController.controllPost(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")

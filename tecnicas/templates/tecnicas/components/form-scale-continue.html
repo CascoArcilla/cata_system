@@ -6,10 +6,11 @@
                 class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase">{{ word }}</label>
 
             <span class="hidden id-word">{{ word.id }}</span>
-
+            
             <section class="block">
                 <div class="relative mx-6">
-                    <input type="range" type="range" min="0" max="1000" value="500" name="rating-word"
+                    <input type="range" type="range" min="0" max="{{ size_scale.max_size }}"
+                        value="{{ size_scale.middle_size }}" name="rating-word"
                         class="range range-md text-blue-400 [--range-bg:orange] [--range-thumb:blue] [--range-fill:0]"
                         style="width: {{scale.longitud}}cm;">
 

@@ -138,8 +138,6 @@ class CatadorForm(forms.Form):
         username = cleaned_data.get("nombre_usuario")
         is_update = cleaned_data.get("is_update")
 
-        print(username, is_update)
-
         if not is_update:
             if User.objects.filter(username__iexact=username).exists():
                 raise forms.ValidationError(

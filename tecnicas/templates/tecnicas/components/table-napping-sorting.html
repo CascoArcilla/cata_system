@@ -1,0 +1,57 @@
+{% load custom_filters %}
+<article class="space-y-4 text-black">
+    <h2 class="font-bold text-xl text-center">
+        Datos de Napping con Sorting
+    </h2>
+
+    <div class="overflow-x-auto rounded-lg border border-surface-general">
+        <table id="generic-donwload-table" class="min-w-max w-full text-sm text-center border-collapse">
+            <thead class="bg-surface-sweet font-semibold">
+                <tr>
+                    <th class="py-2 px-3 border border-surface-general">Producto</th>
+                    {% for tester in testers %}
+                    <th class="py-2 px-3 border border-surface-general uppercase">
+                        X{{ forloop.counter }}
+                    </th>
+                    <th class="py-2 px-3 border border-surface-general uppercase">
+                        Y{{ forloop.counter }}
+                    </th>
+                    <th class="py-2 px-3 border border-surface-general uppercase">
+                        C{{ forloop.counter }}
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody class="bg-surface-ligt divide-y divide-gray-200">
+                {% for product, data_per_tester in sorting_data.items %}
+                <tr>
+                    <td class="py-2 px-3 border border-surface-general">{{ product }}</td>
+                    {% for tester in testers %}
+                    {% with data=data_per_tester|get_item:tester.user.username %}
+                    <td class="py-2 px-3 border border-surface-general">
+                        {{ data.px }}
+                    </td>
+                    <td class="py-2 px-3 border border-surface-general">
+                        {{ data.py }}
+                    </td>
+                    <td class="py-2 px-3 border border-surface-general">
+                        {{ data.words }}
+                    </td>
+                    {% endwith %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex justify-end">
+        <button id="download-csv-btn" class="cts-btn-general cts-btn-primary btn-push"
+            data-session-name="{{ session.nombre_sesion }}" data-session-code="{{ session.codigo_sesion }}">
+            Descargar datos en CSV
+        </button>
+    </div>
+</article>
+
+{% load static %}
+<script src="{% static 'js/download-table-sort-csv.js' %}"></script>

@@ -53,6 +53,10 @@ urlpatterns = [
          views.createVocabulary,
          name="crear_vocabulario"),
 
+    path("presenter/ver-vocabulario/<str:nombre_vocabulario>",
+         views.viewVocabulary,
+         name="ver_vocabulario"),
+
     path("presenter/lista-vocabulario/<int:num_page>",
          views.listVocabulary,
          name="lista_vocabulario"),
@@ -110,6 +114,22 @@ urlpatterns = [
          views.convencionalScales,
          name="session_convencional"),
 
+    path("testers/init-session/<str:code_sesion>/cata",
+         views.cataTest,
+         name="session_cata"),
+
+    path("testers/init-session/<str:code_sesion>/perfil-flash",
+         views.pfTest,
+         name="session_pf"),
+
+    path("testers/init-session/<str:code_sesion>/sort",
+         views.sortTest,
+         name="session_sort"),
+
+    path("testers/init-session/<str:code_sesion>/nappping",
+         views.nappingTest,
+         name="session_napping"),
+
 
     # APIs
     path("presenter/api/nueva-etiqueta",
@@ -124,7 +144,23 @@ urlpatterns = [
          views.wordsVocabulary,
          name="api_palabras_vocabulary"),
 
-    path("testers/api/ratingword",
-         views.reatingWord,
-         name="api_rating_word"),
+    path("testers/api/ratingword/escalas",
+         views.ratingWordScales,
+         name="api_rating_word_scalas"),
+
+    path("testers/api/ratingword/cata",
+         views.ratingWordCata,
+         name="api_rating_word_cata"),
+
+    path("testers/api/ratingword/pf/list",
+         views.apiListWordsPF,
+         name="api_rating_word_pf_list"),
+
+    path("testers/api/rating-sort",
+         views.ratingSort,
+         name="api_rating_sort"),
+
+    path("testers/api/rating-napping",
+         views.ratingNapping,
+         name="api_rating_napping"),
 ]

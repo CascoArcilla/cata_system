@@ -55,21 +55,26 @@
             - Cata segmento en el que se divide debe tener la etiqueda correspondiente por debajo
 '''
 from django.http import HttpRequest
-from tecnicas.controllers import SesionController, ConvencionalScalesController
+from tecnicas.models import SesionSensorial
+from tecnicas.controllers import TestRataController, TestScalesController
 from tecnicas.utils import noValidTechnique
 
 
 def convencionalScales(req: HttpRequest, code_sesion: str):
-    session = SesionController.getSessionByCode(code_sesion)
+    session = SesionSensorial.objects.get(codigo_sesion=code_sesion)
     type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
 
     if req.method == "GET":
-        view_controller = ConvencionalScalesController(
-            sensorial_session=session, user_tester=req.user.user_catador)
         if type_technique == "escalas":
-            respose = view_controller.controllGetEscalas(request=req)
+            view_controller = TestScalesController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            respose = view_controller.controllGet(request=req)
+
         elif type_technique == "rata":
-            respose = view_controller.controllGetRATA(request=req)
+            view_controller = TestRataController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            respose = view_controller.controllGet(request=req)
+
         else:
             respose = noValidTechnique(
                 name_view='cata_system:catador_init_session',

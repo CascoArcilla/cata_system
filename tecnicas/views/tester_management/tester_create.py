@@ -8,6 +8,8 @@ from tecnicas.forms import CatadorForm
 
 
 def testerCreate(req: HttpRequest):
+    url_template = "tecnicas/manage_tester/tester-create.html"
+
     if req.method == "GET":
         form_tester = CatadorForm()
 
@@ -15,7 +17,7 @@ def testerCreate(req: HttpRequest):
             "form_cata": form_tester
         }
 
-        return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+        return render(req, url_template, context)
     elif req.method == "POST":
         new_values = {}
 
@@ -51,10 +53,10 @@ def testerCreate(req: HttpRequest):
                     )
                 except (ValidationError, DatabaseError):
                     context["error"] = "nombre de usuario en uso"
-                    return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+                    return render(req, url_template, context)
             context["message"] = "Datos guardados, consúltelo en Listar Catadores"
             context["form_cata"] = CatadorForm()
-            return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+            return render(req, url_template, context)
         else:
             context["error"] = "Datos no validos"
-            return render(req, "tecnicas/manage_tester/catador-crear.html", context)
+            return render(req, url_template, context)

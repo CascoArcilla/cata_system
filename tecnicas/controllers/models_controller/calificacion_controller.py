@@ -21,7 +21,7 @@ class CalificacionController():
     @staticmethod
     def getRatingsByTechnique(technique: Tecnica):
         repetition = technique.repeticion
-        ratings = list(Calificacion.objects.filter(id_tecnica=technique))
+        ratings = list(Calificacion.objects.filter(id_tecnica=technique, num_repeticion=repetition))
         return ratings
 
     @staticmethod

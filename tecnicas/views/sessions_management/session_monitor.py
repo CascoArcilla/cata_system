@@ -3,12 +3,11 @@ Para finalizar la sesion se debe realizar lo siguiente
 # Obtener todas las participaciones
 
 '''
-
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import MonitorEscalasController, MonitorRATAController
+from tecnicas.controllers import MonitorEscalasController, MonitorRATAController, MonitorPFController, MonitorSortController, MonitorNappingController
 from tecnicas.utils import noValidTechnique
 
 
@@ -18,9 +17,22 @@ def sessionMonitor(req: HttpRequest, session_code: str):
             codigo_sesion=session_code)
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
-        if use_techinique == "escalas" or use_techinique == "rata":
+        if use_techinique in ["escalas", "rata", "cata"]:
             controll_view = MonitorEscalasController(sensorial_session)
-            response = controll_view.controlGetResponse(request=req)
+            response = controll_view.controllGetResponse(request=req)
+
+        elif use_techinique == "perfil flash":
+            controll_view = MonitorPFController(sensorial_session)
+            response = controll_view.controllGetResponse(request=req)
+
+        elif use_techinique == "sort":
+            controll_view = MonitorSortController(sensorial_session)
+            response = controll_view.controllGetResponse(request=req)
+
+        elif use_techinique == "napping":
+            controll_view = MonitorNappingController(sensorial_session)
+            response = controll_view.controllGetResponse(request=req)
+
         else:
             response = noValidTechnique(
                 params={
@@ -31,7 +43,6 @@ def sessionMonitor(req: HttpRequest, session_code: str):
                 },
                 name_view="cata_system:detalles_sesion"
             )
-
         return response
     elif req.method == "POST":
         sensorial_session = SesionSensorial.objects.get(
@@ -48,7 +59,8 @@ def sessionMonitor(req: HttpRequest, session_code: str):
             else:
                 response = controll_view.controlGetResponse(
                     request=req, error="No se ha definido la acción a realizar")
-        elif use_techinique == "rata":
+
+        elif use_techinique == "rata" or use_techinique == "cata":
             controll_view = MonitorRATAController(sensorial_session)
             action = req.POST["action"]
 
@@ -58,6 +70,40 @@ def sessionMonitor(req: HttpRequest, session_code: str):
             else:
                 response = controll_view.controlGetResponse(
                     request=req, error="No se ha definido la acción a realizar")
+
+        elif use_techinique == "perfil flash":
+            controll_view = MonitorPFController(sensorial_session)
+            action = req.POST["action"]
+
+            if action == "finish_session":
+                response = controll_view.controllPostFinishSession(
+                    request=req)
+            else:
+                response = controll_view.controlGetResponse(
+                    request=req, error="No se ha definido la acción a realizar")
+
+        elif use_techinique == "sort":
+            controll_view = MonitorSortController(sensorial_session)
+            action = req.POST["action"]
+
+            if action == "finish_session":
+                response = controll_view.controllPostFinishSession(
+                    request=req)
+            else:
+                response = controll_view.controlGetResponse(
+                    request=req, error="No se ha definido la acción a realizar")
+
+        elif use_techinique == "napping":
+            controll_view = MonitorNappingController(sensorial_session)
+            action = req.POST["action"]
+
+            if action == "finish_session":
+                response = controll_view.controllPostFinishSession(
+                    request=req)
+            else:
+                response = controll_view.controlGetResponse(
+                    request=req, error="No se ha definido la acción a realizar")
+
         else:
             response = noValidTechnique(
                 params={

@@ -17,6 +17,12 @@ def configurationPanelBasic(req: HttpRequest):
             response = PanelBasicController.controllGetRATA(request=req)
         elif name_tecnica == "cata":
             response = PanelBasicController.controllGetCATA(request=req)
+        elif name_tecnica == "perfil flash":
+            response = PanelBasicController.controllGetPF(request=req)
+        elif name_tecnica == "sort":
+            response = PanelBasicController.controllGetSort(request=req)
+        elif name_tecnica == "napping":
+            response = PanelBasicController.controllGetNapping(request=req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida o sin implementar")
@@ -33,6 +39,15 @@ def configurationPanelBasic(req: HttpRequest):
                 request=req, name_tecnica=name_tecnica)
         elif name_tecnica == "cata":
             response = PanelBasicController.controllPostCATA(
+                request=req, name_tecnica=name_tecnica)
+        elif name_tecnica == "perfil flash":
+            response = PanelBasicController.controllPostPF(
+                request=req, name_tecnica=name_tecnica)
+        elif name_tecnica == "sort":
+            response = PanelBasicController.controllPostSort(
+                request=req, name_tecnica=name_tecnica)
+        elif name_tecnica == "napping":
+            response = PanelBasicController.controllPostNapping(
                 request=req, name_tecnica=name_tecnica)
         else:
             response = redirect(

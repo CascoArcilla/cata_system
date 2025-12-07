@@ -9,6 +9,6 @@ def selecionTecnica(req:HttpRequest):
         error = error.replace("_", " ")
         error = error.capitalize()
 
-        return render(req, "tecnicas/create_sesion/seleccion-tecnica.html", context={"tipos":tipos, "error":error})
+        return render(req, "tecnicas/create_sesion/select-tecnica.html", context={"tipos":tipos, "error":error})
     except KeyError:
-        return render(req, "tecnicas/create_sesion/seleccion-tecnica.html", context={"tipos":tipos})
+        return render(req, "tecnicas/create_sesion/select-tecnica.html", context={"tipos":tipos})

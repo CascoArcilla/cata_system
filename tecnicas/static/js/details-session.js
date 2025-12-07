@@ -18,3 +18,11 @@ function deleteSession() {
   input.value = "delete_session";
   actionForm.submit();
 }
+
+function startSession(nameMode) {
+  const nameUnderscort = nameMode.replaceAll(" ", "_");
+  console.log(nameUnderscort);
+  const input = actionForm.querySelector(".action-option")
+  input.value = `start_${nameUnderscort}`;
+  actionForm.submit();
+}

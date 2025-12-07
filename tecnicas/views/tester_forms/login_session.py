@@ -27,10 +27,15 @@ def loginSessionTester(req: HttpRequest):
 
         type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
 
-        if type_technique == "escalas":
-            response = login_controller.validateEntryEscalas(request=req)
-        elif type_technique == "rata":
-            response = login_controller.validateEntryRATA(request=req)
+        if type_technique in ["escalas", "perfil flash", "sort"]:
+            response = login_controller.validateEntryLimitTesters(request=req)
+
+        elif type_technique in ["rata", "cata"]:
+            response = login_controller.validateEntryRataCata(request=req)
+
+        elif type_technique == "napping":
+            response = login_controller.validateEntryNapping(request=req)
+
         else:
             context = {
                 "error": "La técnica usada en esta sesión es invalida o no ha sido implementada para ingresar a ella"

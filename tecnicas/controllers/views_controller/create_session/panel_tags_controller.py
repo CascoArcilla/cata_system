@@ -25,7 +25,7 @@ class PanelTagsController():
             "form_new_tag": form_new_etiqueta
         }
 
-        return render(request, "tecnicas/create_sesion/configuracion-panel-tags.html", context_tags)
+        return render(request, "tecnicas/create_sesion/conf-panel-tags.html", context_tags)
 
     @staticmethod
     def controllPostEscalas(request: HttpRequest, data):
@@ -54,7 +54,7 @@ class PanelTagsController():
         else:
             context_tags["error"] = "ha ocurrido un error"
             response = render(
-                request, "tecnicas/create_sesion/configuracion-panel-tags.html", context_tags)
+                request, "tecnicas/create_sesion/conf-panel-tags.html", context_tags)
 
         return response
 

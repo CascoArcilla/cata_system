@@ -16,7 +16,7 @@ class TecnicaController():
     def setTechniqueFromBasicData(self, basic):
         self.technique = Tecnica(
             tipo_tecnica=TipoTecnica.objects.get(nombre_tecnica=basic["name_tecnica"]),
-            id_estilo=EstiloPalabra.objects.get(id=basic["estilo_palabras"]),
+            id_estilo=EstiloPalabra.objects.get(nombre_estilo=basic["estilo_palabras"]),
             repeticiones_max=basic["numero_repeticiones"] or 1,
             limite_catadores=basic["numero_catadores"],
             instrucciones=basic["instrucciones"] or "Espere instrucciones del Presentador",

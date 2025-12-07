@@ -1,0 +1,174 @@
+{% load static %}
+{% load custom_filters %}
+<article class="space-y-4 text-black">
+    <!-- Session B Information -->
+    <div class="bg-surface-card p-4 rounded-lg space-y-2">
+        <h3 class="font-bold text-lg">Información de la Sesión B</h3>
+        <div class="grid grid-cols-2 max-sm:grid-cols-1 gap-2 text-sm">
+            <p><span class="font-semibold">Código:</span> {{ session_b.codigo_sesion }}</p>
+            <p><span class="font-semibold">Técnica:</span> {{ technique_type }}</p>
+            <p><span class="font-semibold">Nombre:</span> {{ session_b.nombre_sesion|default:"Sin nombre" }}</p>
+            <p><span class="font-semibold">Catadores:</span> {{ testers|length }}</p>
+            
+            {% if combined_data.vocabulary_info %}
+            <p class="col-span-2 max-sm:col-span-1">
+                <span class="font-semibold">Vocabulario:</span> {{ combined_data.vocabulary_info.nombre }}
+            </p>
+            {% endif %}
+            
+            {% if combined_data.scale_info %}
+            <p><span class="font-semibold">Escala:</span> {{ combined_data.scale_info.type }}</p>
+            <p><span class="font-semibold">Longitud:</span> {{ combined_data.scale_info.size }}</p>
+            {% endif %}
+            
+            {% if combined_data.num_repetitions %}
+            <p><span class="font-semibold">Repeticiones:</span> {{ combined_data.num_repetitions }}</p>
+            {% endif %}
+            
+            <p class="col-span-2 max-sm:col-span-1">
+                <span class="font-semibold">Palabras utilizadas:</span> 
+                {{ combined_data.all_words|join:", " }}
+            </p>
+        </div>
+    </div>
+
+    <!-- Combined Data Table -->
+    <div class="overflow-x-auto rounded-lg border border-surface-general">
+        <table id="combined-table-download" class="min-w-max w-full text-sm text-center border-collapse">
+            <thead class="bg-surface-sweet font-semibold">
+                <tr>
+                    <th class="py-2 px-3 border border-surface-general">Producto</th>
+                    {% for tester in testers %}
+                    <th class="py-2 px-3 border border-surface-general uppercase">
+                        X{{ forloop.counter }}
+                    </th>
+                    <th class="py-2 px-3 border border-surface-general uppercase">
+                        Y{{ forloop.counter }}
+                    </th>
+                    {% endfor %}
+                    {% for word in combined_data.all_words %}
+                    <th class="py-2 px-3 border border-surface-general capitalize">
+                        {{ word }}
+                    </th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody class="bg-surface-ligt divide-y divide-gray-200">
+                {% for product, coordinates_tester in coordinates_no_mode.items %}
+                <tr>
+                    <td class="py-2 px-3 border border-surface-general">{{ product }}</td>
+                    {% for tester in testers %}
+                    {% with points=coordinates_tester|get_item:tester.user.username %}
+                    <td class="py-2 px-3 border border-surface-general">
+                        {{ points.px }}
+                    </td>
+                    <td class="py-2 px-3 border border-surface-general">
+                        {{ points.py }}
+                    </td>
+                    {% endwith %}
+                    {% endfor %}
+                    {% for word in combined_data.all_words %}
+                    <td class="py-2 px-3 border border-surface-general">
+                        {% if combined_data.word_frequencies %}
+                            {% with freq=combined_data.word_frequencies|get_item:product|get_item:word %}
+                                {% if freq %}{{ freq }}{% else %}0{% endif %}
+                            {% endwith %}
+                        {% elif combined_data.word_averages %}
+                            {% with avg=combined_data.word_averages|get_item:product|get_item:word %}
+                                {% if avg %}{{ avg|floatformat:2 }}{% else %}0.00{% endif %}
+                            {% endwith %}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex justify-end">
+        <button id="download-combined-csv-btn" class="cts-btn-general cts-btn-primary btn-push"
+            data-session-name="{{ session.nombre_sesion }}_combinado_{{ session_b.codigo_sesion }}" 
+            data-session-code="{{ session.codigo_sesion }}">
+            Descargar datos combinados en CSV
+        </button>
+    </div>
+</article>
+
+<script>
+(function() {
+  const btn = document.getElementById("download-combined-csv-btn");
+  if (!btn) return;
+
+  btn.addEventListener("click", function () {
+    const table = document.getElementById("combined-table-download");
+    if (!table) {
+      console.warn("No se encontró la tabla combinada para descargar.");
+      return;
+    }
+
+    // helper to trim and normalize cell text
+    const cellText = (cell) => {
+      if (!cell) return "";
+      return String(cell.textContent || "").trim();
+    };
+
+    // Collect headers
+    const headers = [];
+    const ths = table.querySelectorAll("thead th");
+    ths.forEach((th) => headers.push(cellText(th)));
+
+    // Collect rows
+    const rows = [];
+    const trs = table.querySelectorAll("tbody tr");
+    trs.forEach((tr) => {
+      const cols = [];
+      const tds = tr.querySelectorAll("td");
+      tds.forEach((td) => cols.push(cellText(td)));
+      rows.push(cols);
+    });
+
+    // Convert to CSV string (escape quotes, wrap in quotes if needed)
+    const escapeValue = (val) => {
+      if (val == null) return "";
+      const normalVal = val.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      const needsQuotes = /[",\n,]/.test(normalVal);
+      let v = String(normalVal).replace(/"/g, '""');
+      if (needsQuotes) v = `"${v}"`;
+      return v;
+    };
+
+    const lines = [];
+    if (headers.length) lines.push(headers.map(escapeValue).join(","));
+    rows.forEach((r) => lines.push(r.map(escapeValue).join(",")));
+
+    const csvContent = lines.join("\n");
+
+    // File name: data_{nombre_sesion or codigo_sesion}
+    const rawName = (btn.dataset.sessionName || "").trim();
+    const code = (btn.dataset.sessionCode || "").trim() || "session";
+    const namePart = rawName
+      ? rawName.replace(/[^a-zA-Z0-9-_áéíóúÁÉÍÓÚ ]/g, "").replace(/\s+/g, "_")
+      : code;
+    const fileName = `data_${namePart}.csv`;
+
+    // Create blob and force download
+    const blob = new Blob([csvContent], { type: "text/csv;charset=UTF-8;" });
+    if (navigator.msSaveBlob) {
+      navigator.msSaveBlob(blob, fileName);
+    } else {
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", fileName);
+      link.style.visibility = "hidden";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    }
+  });
+})();
+</script>

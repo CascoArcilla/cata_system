@@ -125,12 +125,7 @@ class SesionController():
             return controller_error("Presentador invalido")
 
     @staticmethod
-    def finishRepetion(session: SesionSensorial | str):
-        if isinstance(session, str):
-            use_session = SesionSensorial.objects.get(codigo_sesion=session)
-        else:
-            use_session = session
-
-        use_session.activo = False
-        use_session.save()
+    def finishRepetion(session: SesionSensorial):
+        session.activo = False
+        session.save()
         return session
