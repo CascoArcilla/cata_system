@@ -14,6 +14,7 @@ class DetallesController():
 
     def controllGetResponse(self, request: HttpRequest, error: str = "", message: str = ""):
         context = self.getContext()
+        print(context)
 
         if error != "" or error:
             context["error"] = error

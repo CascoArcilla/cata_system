@@ -203,6 +203,49 @@
         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
 
+        {% if mode == "sin modalidad" and finished %}
+        <p class="text-black font-bold text-2xl border-b-2">
+            Combinar datos con otra sesión
+        </p>
+        <article class="space-y-4 text-black bg-surface-card p-4 rounded-2xl">
+            <p class="text-lg">
+                Puede combinar los datos de esta sesión de Napping con otra sesión que use CATA, RATA o Escalas.
+                Ambas sesiones deben tener los mismos productos y catadores
+            </p>
+            
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="combine_sessions">
+                
+                <div class="flex flex-col gap-2">
+                    <label for="session_b_code" class="font-semibold">
+                        Código de la sesión a combinar:
+                    </label>
+                    <div class="flex gap-2 max-sm:flex-col">
+                        <input 
+                            type="text" 
+                            id="session_b_code" 
+                            name="session_b_code" 
+                            class="flex-1 px-4 py-2 border border-surface-general rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Ingrese el código de sesión"
+                            required
+                        >
+                        <button type="submit" class="cts-btn-general cts-btn-primary btn-push">
+                            Validar y Combinar
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </article>
+        {% endif %}
+
+        {% if combined_data %}
+        <p class="text-black font-bold text-2xl border-b-2 mt-8">
+            Datos Combinados (Napping + {{ session_b_technique_type }})
+        </p>
+        {% include "../components/table-napping-combined.html" with session=session session_b=session_b technique_type=session_b_technique_type combined_data=combined_data testers=testers coordinates_no_mode=coordinates_no_mode %}
+        {% endif %}
+
 
         <form action="" method="post" class="form-action-session hidden">
             <input type="hidden" name="action" class="action-option">
