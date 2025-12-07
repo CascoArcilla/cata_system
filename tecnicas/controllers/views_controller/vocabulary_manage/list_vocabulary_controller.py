@@ -40,7 +40,7 @@ class ListVocabularyController():
             return controller_error("índice inválido")
 
         if not vocabularies_in_page.object_list:
-            return controller_error("Sin registros de Participaciones")
+            return controller_error("Sin registros de Vocabularios")
 
         current_page = vocabularies_in_page.number
         is_last_page = not current_page < paginator.num_pages

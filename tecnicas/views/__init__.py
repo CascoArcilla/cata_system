@@ -20,6 +20,7 @@ from .tester_management.tester_list import testerList
 
 from .vocabulary_management.vocabulry_menu import vocabularyMenu
 from .vocabulary_management.create_vocabulary import createVocabulary
+from .vocabulary_management.view_vocabulary import viewVocabulary
 from .vocabulary_management.list_vocabulary import listVocabulary
 
 from .apis.api_tag import newTag
