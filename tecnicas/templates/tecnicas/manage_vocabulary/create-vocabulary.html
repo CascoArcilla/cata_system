@@ -26,15 +26,9 @@
             <form action="" method="post" class="cts-craed-vocabulary bg-surface-card p-4 rounded-lg">
                 {% csrf_token %}
                 <label for="nombre_vocabulario" class="font-bold text-2xl mb-2 block">Nombre del vocabulario</label>
-                {% if name_vacabulary %}
-                <input id="nombre_vocabulario" name="nombre_vocabulario" type="text" required
-                    class="cts-name-voca p-2 px-4 bg-surface-ligt rounded-lg w-full text-lg font-medium"
-                    placeholder="Ingrese un nombre" value="{{ name_vacabulary }}">
-                {% else %}
                 <input id="nombre_vocabulario" name="nombre_vocabulario" type="text" required
                     class="cts-name-voca p-2 px-4 bg-surface-ligt rounded-lg w-full text-lg font-medium"
                     placeholder="Ingrese un nombre">
-                {% endif %}
                 <p class="text-lg mt-2 font-semibold">Debajo puede buscar y seleccionar palabras para asignarlas a
                     este vocabulario.</p>
             </form>
@@ -105,22 +99,11 @@
                 </p>
             </form>
 
-            {% if name_vacabulary %}
-            <p class="hidden cts-original-name">{{ name_vacabulary }}</p>
-            {% endif %}
-
             <article class="flex justify-center gap-4 mt-4">
-                {% if name_vacabulary %}
-                <button type="button" name="start" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full"
-                    onclick="submitSelectWords('cts-craed-vocabulary', true)">
-                    Actualizar vocabulario
-                </button>
-                {% else %}
                 <button type="button" name="start" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full"
                     onclick="submitSelectWords('cts-craed-vocabulary')">
                     Crear vocabulario
                 </button>
-                {% endif %}
                 <a href="{% url 'cata_system:panel_vocabulario' %}" class="flex-1 w-full">
                     <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
                         Cancelar

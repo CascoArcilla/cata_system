@@ -56,6 +56,7 @@ from .views_controller.sessions_tester.init_session.init_session_sort_controller
 from .views_controller.sessions_tester.init_session.init_session_napping_controller import InitSessionNappingController
 
 from .views_controller.vocabulary_manage.create_vocabulary_controller import CreateVocabularyController
+from .views_controller.vocabulary_manage.view_vocabulary_controller import ViewVocabularyController
 from .views_controller.vocabulary_manage.list_vocabulary_controller import ListVocabularyController
 
 from .api_controller.rating_sacales_controller import RatingScalesController

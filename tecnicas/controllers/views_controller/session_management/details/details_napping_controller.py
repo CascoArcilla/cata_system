@@ -3,7 +3,11 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.db.models import F
 from .details_controller import DetallesController
-from tecnicas.models import SesionSensorial, Presentador, Modalidad, TecnicaModalidad, Catador, Participacion, DatoPunto, Calificacion, GrupoProducto
+from tecnicas.models import (
+    SesionSensorial, Presentador, Modalidad, TecnicaModalidad, Catador,
+    Participacion, DatoPunto, Calificacion, GrupoProducto, ValorBooleano,
+    ValorDecimal, Producto, Escala, EsVocabulario, Vocabulario
+)
 from tecnicas.utils import defaultdict_to_dict
 from collections import defaultdict
 
@@ -13,11 +17,10 @@ class DetallesNappingController(DetallesController):
         super().__init__(session)
         self.url_template = "tecnicas/manage_sesions/details-session-napping.html"
         self.url_next = "cata_system:monitor_sesion"
+        self.context = {}
 
     def getContext(self):
-        self.context = {
-            "session": self.session,
-        }
+        self.context["session"] = self.session
 
         self.defineStatus()
         self.setIsEndSession()
@@ -41,7 +44,6 @@ class DetallesNappingController(DetallesController):
             self.context["status"] = "Sesión con en curso"
 
     def controllPostResponse(self, request: HttpRequest, action: str):
-        print(action)
         if action == "start_sin_modalidad":
             response = self.startNapping(request=request)
 
@@ -50,6 +52,9 @@ class DetallesNappingController(DetallesController):
 
         elif action == "start_sorting":
             response = self.startNapping(request=request)
+
+        elif action == "combine_sessions":
+            response = self.combineSessions(request=request)
 
         elif action == "delete_session":
             self.deleteSesorialSession()
@@ -225,3 +230,279 @@ class DetallesNappingController(DetallesController):
         elif not self.session.activo and self.session.tecnica.repeticion >= 1:
             self.context["finished"] = True
             return
+
+    # ==================== SESSION COMBINATION METHODS ====================
+
+    def combineSessions(self, request: HttpRequest):
+        """Handle session combination request"""
+        session_b_code = request.POST.get("session_b_code", "").strip()
+
+        if not session_b_code:
+            return self.controllGetResponse(
+                error="Debe proporcionar un código de sesión", request=request)
+
+        # Validate and get session B
+        validation_result = self.validateSessionCombination(session_b_code)
+
+        if validation_result.get("error"):
+            return self.controllGetResponse(
+                error=validation_result["error"], request=request)
+
+        session_b = validation_result["session_b"]
+        technique_type = validation_result["technique_type"]
+
+        # Get combined data based on technique type
+        if technique_type == "cata":
+            combined_data = self.getCombinedDataForCATA(session_b)
+        elif technique_type == "rata":
+            combined_data = self.getCombinedDataForRATA(session_b)
+        elif technique_type == "escalas":
+            combined_data = self.getCombinedDataForEscalas(session_b)
+        else:
+            return self.controllGetResponse(
+                error="Tipo de técnica no soportado para combinación", request=request)
+
+        # Add combined data to context
+        self.context["combined_data"] = combined_data
+        self.context["session_b"] = session_b
+        self.context["session_b_technique_type"] = technique_type
+
+        return self.controllGetResponse(request=request)
+
+    def validateSessionCombination(self, session_b_code: str):
+        """Validate that Session B can be combined with Session A (Napping)"""
+        result = {"error": None, "session_b": None, "technique_type": None}
+
+        # Check if Session B exists
+        try:
+            session_b = SesionSensorial.objects.select_related(
+                "tecnica__tipo_tecnica").get(codigo_sesion=session_b_code)
+        except SesionSensorial.DoesNotExist:
+            result["error"] = f"No existe una sesión con el código: {session_b_code}"
+            return result
+
+        # Check if Session B technique is CATA, RATA, or Escalas
+        technique_type = session_b.tecnica.tipo_tecnica.nombre_tecnica
+        valid_techniques = ["cata", "rata", "escalas"]
+
+        if technique_type not in valid_techniques:
+            result[
+                "error"] = f"La sesión B debe usar CATA, RATA o Escalas. Técnica actual: {technique_type}"
+            return result
+
+        # Check if Session B is finished
+        if session_b.activo:
+            result["error"] = "La sesión B debe estar finalizada (no activa)"
+            return result
+
+        if session_b.tecnica.repeticion < 1:
+            result["error"] = "La sesión B debe haber completado al menos una repetición"
+            return result
+
+        # Get products from both sessions
+        products_a = set(
+            Producto.objects.filter(
+                calificacion_producto__id_tecnica=self.session.tecnica
+            ).values_list("codigoProducto", flat=True).distinct()
+        )
+
+        products_b = set(
+            Producto.objects.filter(
+                calificacion_producto__id_tecnica=session_b.tecnica
+            ).values_list("codigoProducto", flat=True).distinct()
+        )
+
+        # Check if products match
+        if products_a != products_b:
+            result["error"] = f"Los productos no coinciden. Sesión A: {len(products_a)} productos, Sesión B: {len(products_b)} productos"
+            return result
+
+        # Get tasters from both sessions
+        tasters_a = set(
+            Participacion.objects.filter(
+                tecnica=self.session.tecnica
+            ).values_list("catador__user__username", flat=True)
+        )
+
+        tasters_b = set(
+            Participacion.objects.filter(
+                tecnica=session_b.tecnica
+            ).values_list("catador__user__username", flat=True)
+        )
+
+        # Check if tasters match
+        if tasters_a != tasters_b:
+            result["error"] = f"Los catadores no coinciden. Sesión A: {len(tasters_a)} catadores, Sesión B: {len(tasters_b)} catadores"
+            return result
+
+        result["session_b"] = session_b
+        result["technique_type"] = technique_type
+        return result
+
+    def getCombinedDataForCATA(self, session_b: SesionSensorial):
+        """Get combined data for CATA technique (word frequencies)"""
+        from collections import Counter
+
+        # Get all ratings for session B
+        ratings_b = Calificacion.objects.filter(id_tecnica=session_b.tecnica)
+
+        # Get boolean values (CATA uses boolean)
+        data = (
+            ValorBooleano.objects
+            .filter(id_dato__id_calificacion__in=ratings_b, valor=True)
+            .values(
+                palabra=F("id_dato__id_palabra__nombre_palabra"),
+                producto=F(
+                    "id_dato__id_calificacion__id_producto__codigoProducto"),
+            )
+        )
+
+        # Count word frequencies per product
+        word_frequencies = defaultdict(Counter)
+        all_words_set = set()
+
+        for item in data:
+            palabra = item["palabra"]
+            producto = item["producto"]
+            word_frequencies[producto][palabra] += 1
+            all_words_set.add(palabra)
+
+        # Get vocabulary info if exists
+        vocabulary_info = self.getVocabularyInfo(session_b.tecnica)
+
+        return {
+            "word_frequencies": defaultdict_to_dict(word_frequencies),
+            "all_words": sorted(all_words_set),
+            "vocabulary_info": vocabulary_info,
+        }
+
+    def getCombinedDataForRATA(self, session_b: SesionSensorial):
+        """Get combined data for RATA technique (word averages)"""
+
+        # Get all ratings for session B
+        ratings_b = Calificacion.objects.filter(id_tecnica=session_b.tecnica)
+
+        # Get decimal values (RATA uses decimal)
+        data = (
+            ValorDecimal.objects
+            .filter(id_dato__id_calificacion__in=ratings_b)
+            .values(
+                palabra=F("id_dato__id_palabra__nombre_palabra"),
+                producto=F(
+                    "id_dato__id_calificacion__id_producto__codigoProducto"),
+                valor_decimal=F("valor"),
+            )
+        )
+
+        # Calculate averages per product per word
+        word_sums = defaultdict(lambda: defaultdict(list))
+        all_words_set = set()
+
+        for item in data:
+            palabra = item["palabra"]
+            producto = item["producto"]
+            valor = item["valor_decimal"]
+            word_sums[producto][palabra].append(valor)
+            all_words_set.add(palabra)
+
+        # Calculate averages
+        word_averages = {}
+        for producto, palabras in word_sums.items():
+            word_averages[producto] = {}
+            for palabra, valores in palabras.items():
+                word_averages[producto][palabra] = sum(valores) / len(valores)
+
+        # Get vocabulary info if exists
+        vocabulary_info = self.getVocabularyInfo(session_b.tecnica)
+
+        return {
+            "word_averages": word_averages,
+            "all_words": sorted(all_words_set),
+            "vocabulary_info": vocabulary_info,
+        }
+
+    def getCombinedDataForEscalas(self, session_b: SesionSensorial):
+        """Get combined data for Escalas technique (averages across repetitions)"""
+
+        # Get all ratings for session B
+        ratings_b = Calificacion.objects.filter(id_tecnica=session_b.tecnica)
+
+        # Get decimal values grouped by repetition
+        data = (
+            ValorDecimal.objects
+            .filter(id_dato__id_calificacion__in=ratings_b)
+            .values(
+                palabra=F("id_dato__id_palabra__nombre_palabra"),
+                producto=F(
+                    "id_dato__id_calificacion__id_producto__codigoProducto"),
+                repeticion=F("id_dato__id_calificacion__num_repeticion"),
+                valor_decimal=F("valor"),
+            )
+        )
+
+        # Calculate averages per repetition (like RATA), then average across repetitions
+        # Structure: {producto: {repeticion: {palabra: [valores]}}}
+        repetition_values = defaultdict(
+            lambda: defaultdict(lambda: defaultdict(list)))
+        all_words_set = set()
+
+        for item in data:
+            palabra = item["palabra"]
+            producto = item["producto"]
+            repeticion = item["repeticion"]
+            valor = item["valor_decimal"]
+            # Collect all values for averaging
+            repetition_values[producto][repeticion][palabra].append(valor)
+            all_words_set.add(palabra)
+
+        # Calculate average per repetition, then average across repetitions
+        word_averages = {}
+        for producto, repeticiones in repetition_values.items():
+            word_averages[producto] = {}
+            # Get all words for this product across all repetitions
+            all_product_words = set()
+            for rep_words in repeticiones.values():
+                all_product_words.update(rep_words.keys())
+
+            # Calculate average for each word
+            for palabra in all_product_words:
+                # Get average for each repetition
+                rep_averages = []
+                for rep in repeticiones.keys():
+                    if palabra in repeticiones[rep]:
+                        valores = repeticiones[rep][palabra]
+                        rep_averages.append(sum(valores) / len(valores))
+
+                # Average the repetition averages
+                if rep_averages:
+                    word_averages[producto][palabra] = sum(
+                        rep_averages) / len(rep_averages)
+
+        # Get scale and vocabulary info
+        scale = Escala.objects.get(tecnica=session_b.tecnica)
+        scale_info = None
+        if scale:
+            scale_info = {
+                "type": scale.id_tipo_escala.nombre_escala,
+                "size": scale.longitud
+            }
+
+        vocabulary_info = self.getVocabularyInfo(session_b.tecnica)
+
+        return {
+            "word_averages": word_averages,
+            "all_words": sorted(all_words_set),
+            "scale_info": scale_info,
+            "vocabulary_info": vocabulary_info,
+            "num_repetitions": session_b.tecnica.repeticion,
+        }
+
+    def getVocabularyInfo(self, tecnica):
+        es_vocabulario = EsVocabulario.objects.filter(
+            id_tecnica=tecnica).first()
+        if es_vocabulario:
+            vocabulario = es_vocabulario.id_vocabulario
+            return {
+                "nombre": vocabulario.nombre_vocabulario,
+            }
+        return None

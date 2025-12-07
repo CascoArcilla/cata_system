@@ -10,9 +10,9 @@
             </div>
         </div>
         <div>
-            <a href="{% url 'cata_system:crear_vocabulario' %}?name_voca={{vocabulary.nombre_vocabulario}}">
+            <a href="{% url 'cata_system:ver_vocabulario' nombre_vocabulario=vocabulary.nombre_vocabulario %}">
                 <button class="btn bg-btn-primary border-0 block w-full btn-push">
-                    Revisar Vocabulario
+                    Ver Detalles
                 </button>
             </a>
         </div>

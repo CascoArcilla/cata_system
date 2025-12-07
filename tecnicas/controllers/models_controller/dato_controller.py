@@ -36,18 +36,18 @@ class DatoController():
             return controller_error(e.message)
 
     def setValue(self):
-        if isinstance(self.value_rating, bool):
+        type_technique = self.data.id_calificacion.id_tecnica.tipo_tecnica
+        if type_technique == "cata":
             self.value_data = ValorBooleano(valor=self.value_rating)
 
         else:
             type_scale = self.data.id_calificacion.id_tecnica.escala_tecnica.id_tipo_escala.nombre_escala
-            
 
             if type_scale == "continua":
                 decimal_value = self.value_rating/100
                 value_rounded = round(decimal_value)
                 self.value_data = ValorDecimal(valor=value_rounded)
-                
+
             else:
                 self.value_data = ValorDecimal(valor=self.value_rating)
 

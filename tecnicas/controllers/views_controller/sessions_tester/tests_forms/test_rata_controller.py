@@ -77,5 +77,11 @@ class TestRataController(GenetalTestController):
 
         use_tags = EscalaController.getRelatedTagsInScale(scale=scale)
         self.context["tags"] = use_tags
+        
+        if self.context["type_scale"] == "continua":
+            self.context["size_scale"] = {
+                "max_size": scale.longitud * 100,
+                "middle_size": (scale.longitud * 100)/2
+            }
 
         return render(request, self.current_directory, self.context)

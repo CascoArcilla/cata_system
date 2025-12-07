@@ -96,7 +96,9 @@ class PanelCodesController():
         }
 
         if form_codes.is_valid():
-            request.session["form_codes"] = codes
+            # Extract codes from cleaned_data to ensure uppercase conversion
+            cleaned_codes = [value for name, value in form_codes.cleaned_data.items() if name.startswith('producto_')]
+            request.session["form_codes"] = cleaned_codes
             return redirect(reverse(PanelCodesController.url_words))
         else:
             context_codes_form["error"] = "error en los datos recibidos"
@@ -133,7 +135,9 @@ class PanelCodesController():
         }
 
         if form_codes.is_valid():
-            request.session["form_codes"] = codes
+            # Extract codes from cleaned_data to ensure uppercase conversion
+            cleaned_codes = [value for name, value in form_codes.cleaned_data.items() if name.startswith('producto_')]
+            request.session["form_codes"] = cleaned_codes
             return redirect(reverse(PanelCodesController.url_create_session))
         else:
             context_codes_form["error"] = "error en los datos recibidos"
