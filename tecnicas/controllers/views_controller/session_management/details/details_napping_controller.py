@@ -44,7 +44,6 @@ class DetallesNappingController(DetallesController):
             self.context["status"] = "Sesión con en curso"
 
     def controllPostResponse(self, request: HttpRequest, action: str):
-        print(action)
         if action == "start_sin_modalidad":
             response = self.startNapping(request=request)
 

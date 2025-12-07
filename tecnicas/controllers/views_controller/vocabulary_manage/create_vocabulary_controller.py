@@ -41,8 +41,6 @@ class CreateVocabularyController():
         new_vocabulary_name = request.POST.get("nombre_vocabulario").strip()
         is_update = request.POST.get("is_update")
 
-        print(is_update)
-
         if is_update:
             if "original_name" not in request.POST:
                 self.context["error"] = "Nombre original de vocabulario requerido"
