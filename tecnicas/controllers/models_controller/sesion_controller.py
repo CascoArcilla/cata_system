@@ -67,7 +67,7 @@ class SesionController():
                 "tecnica__tipo_tecnica__nombre_tecnica",
                 "tecnica__id_estilo__nombre_estilo"
             )
-            .order_by("-fechaCreacion")
+            .order_by("-activo", "-fechaCreacion")
         )
 
         paginator = Paginator(queryset, elements_by_page)
@@ -75,6 +75,8 @@ class SesionController():
             sessions_in_page = paginator.page(page)
         except PageNotAnInteger:
             return controller_error("índice inválido")
+        except EmptyPage:
+            return controller_error("Sin registros en este índice")
 
         if not sessions_in_page.object_list:
             return controller_error("Sin registros de sesiones")

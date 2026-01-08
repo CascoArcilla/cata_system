@@ -13,8 +13,12 @@ from tecnicas.utils import noValidTechnique
 
 def sessionMonitor(req: HttpRequest, session_code: str):
     if req.method == "GET":
-        sensorial_session = SesionSensorial.objects.get(
-            codigo_sesion=session_code)
+        try:
+            sensorial_session = SesionSensorial.objects.get(
+                codigo_sesion=session_code)
+        except SesionSensorial.DoesNotExist:
+            return noValidTechnique(params={"page": 1}, query_params={"message": "Sesión no encontrada para monitorear"}, name_view="cata_system:panel_sesiones")
+
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
         if use_techinique in ["escalas", "rata", "cata"]:
@@ -45,8 +49,12 @@ def sessionMonitor(req: HttpRequest, session_code: str):
             )
         return response
     elif req.method == "POST":
-        sensorial_session = SesionSensorial.objects.get(
-            codigo_sesion=session_code)
+        try:
+            sensorial_session = SesionSensorial.objects.get(
+                codigo_sesion=session_code)
+        except SesionSensorial.DoesNotExist:
+            return noValidTechnique(params={"page": 1}, query_params={"message": "Sesión no encontrada para monitorear"}, name_view="cata_system:panel_sesiones")
+
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
         if use_techinique == "escalas":
