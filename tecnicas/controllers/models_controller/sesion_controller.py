@@ -67,7 +67,7 @@ class SesionController():
                 "tecnica__tipo_tecnica__nombre_tecnica",
                 "tecnica__id_estilo__nombre_estilo"
             )
-            .order_by("-fechaCreacion")
+            .order_by("-activo", "-fechaCreacion")
         )
 
         paginator = Paginator(queryset, elements_by_page)
