@@ -34,7 +34,7 @@ from .apis.rating_napping import ratingNapping
 
 from .tester_forms.init_tester_form import initTesterForm
 from .tester_forms.panel_main_tester import mainPanelTester
-from .tester_forms.login_session import loginSessionTester
+from .tester_forms.subscribe_session import subscribeSessionTester
 from .tester_forms.sessions_list_tester import sessionsListTester
 from .tester_forms.convencional_scales import convencionalScales
 from .tester_forms.cata_test import cataTest
