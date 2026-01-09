@@ -102,9 +102,9 @@ urlpatterns = [
          views.sessionsListTester,
          name="catador_list_sessions"),
 
-    path("testers/log-in-session",
-         views.loginSessionTester,
-         name="catador_in_session"),
+    path("testers/subscribe-session",
+         views.subscribeSessionTester,
+         name="catador_subscribe_session"),
 
     path("testers/init-session/<str:code_sesion>",
          views.initTesterForm,
