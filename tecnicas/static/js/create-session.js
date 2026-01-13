@@ -63,13 +63,13 @@ function renderElementsResponse({
     message.textContent = "No se ha podido completar la creacion de la sesion";
     idSession.textContent = `Error: ${error}`;
   } else {
-    message.textContent = "La session se ha creado";
-    idSession.innerHTML = `El ID de la seesion es:<br><strong class="border-b border-white">${sessionId}</strong>`;
-    nameSessionP.textContent = `Nombre de sesion: ${nameSession}`;
+    message.textContent = "La sesión se ha creado";
+    idSession.innerHTML = `El código de la sesión es:<br><strong class="border-b border-white">${sessionId}</strong>`;
+    nameSessionP.textContent = `Nombre de sesión: ${nameSession}`;
 
     pHelp.classList.add("text-lg", "text-center");
     pHelp.textContent =
-      "Puedes pasar este ID a los catadores para que ingresen a la sesion";
+      "Puedes pasar este código a los catadores para que ingresen a la sesión";
   }
 
   const divBtns = document.createElement("div");
@@ -100,7 +100,7 @@ function renderElementsResponse({
 
   const aDetails = document.createElement("a");
   aDetails.href = `/cata/presenter/detalles-sesion/${sessionId}`;
-  aDetails.textContent = "Ver detalles la sesion";
+  aDetails.textContent = "Ver detalles la sesión";
 
   aDetails.classList.add(
     ...stylesBtns,
