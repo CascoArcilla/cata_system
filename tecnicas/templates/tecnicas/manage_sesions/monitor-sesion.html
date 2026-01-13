@@ -17,7 +17,12 @@
             </p>
             <div class="flex flex-col gap-2">
                 <button class="uppercase cts-btn-general-compress cts-btn-secondary py-2 px-6 btn-push"
-                    onclick="finishSession()">
+                {% if use_technique == "escalas" %}
+                    onclick="finishSession()"
+                {% else %}
+                    onclick="confirmFinishSession.showModal()"
+                {% endif %}
+                >
                     Finalizar sesión
                 </button>
                 <a href="{% url 'cata_system:detalles_sesion' session_code=code_session %}" class="w-full">
@@ -27,6 +32,20 @@
                 </a>
             </div>
         </section>
+
+        {% if use_technique != "escalas" %}
+        <dialog id="confirmFinishSession" class="modal">
+        <div class="modal-box bg-surface-card text-black text-center">
+            <h3 class="text-lg font-bold">¿Está seguro de finalizar la sesión?</h3>
+            <p class="py-4">Asegúrese de que todos los catadores hayan participado en la sesión</p>
+            <button type="button" onclick="confirmFinishSession.close()" class="cts-btn-general cts-btn-error">Cancelar</button>
+            <button type="button" onclick="finishSession()" class="cts-btn-general cts-btn-primary">Finalizar</button>
+        </div>
+        <form method="dialog" class="modal-backdrop">
+            <button>close</button>
+        </form>
+        </dialog>
+        {% endif %}
 
         <form action="" method="post" class="hidden action-form">
             <input type="hidden" name="action">

@@ -10,7 +10,7 @@ class LoginSessionTesterController():
     tester: Catador
     session: SesionSensorial
     taster_participation: Participacion
-    current_direcction = "tecnicas/forms_tester/login_session.html"
+    current_direcction = "tecnicas/forms_tester/suscribe_session.html"
     destinity_direcction = "cata_system:catador_init_session"
     context = {}
 
