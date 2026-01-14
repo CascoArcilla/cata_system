@@ -1,4 +1,4 @@
-from tecnicas.models import SesionSensorial, ListaPalabras, Calificacion, Catador
+from tecnicas.models import SesionSensorial, ListaPalabras, Calificacion, Catador, Producto
 from tecnicas.controllers import DatoController
 from tecnicas.utils import defaultdict_to_dict
 from .details_controller import DetallesController
@@ -56,6 +56,7 @@ class DetallesPFController(DetallesController):
             self.context["second_phase"] = self.getDataSecondPhase()
             self.context["data_ratings"] = self.getDataRatings()
             self.context["repeticion"] = self.session.tecnica.repeticion - self.skip_repetition
+            self.context["valor_max"] = Producto.objects.filter(id_tecnica=self.session.tecnica).count()
 
         return self.context
 
