@@ -17,6 +17,9 @@ class MonitorRATAController(MonitorController):
         all_participations = list(
             Participacion.objects.filter(tecnica=technique))
 
+        if len(all_participations) == 0:
+            return (False, "No hay catadores en la sesión, deben participar al menos un Catador")
+
         for particiapation in all_participations:
             num_ratings_now = Dato.objects.filter(
                 id_calificacion__num_repeticion=technique.repeticion,
