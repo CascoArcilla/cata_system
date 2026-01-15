@@ -19,11 +19,20 @@
 }
 
 .cts-btn-primary {
-  @apply text-white bg-btn-primary border-green-800;
+  @apply text-white bg-btn-primary border-orange-800;
 }
 
 .cts-btn-secondary {
-  @apply text-white bg-btn-secondary border-pink-800;
+  @apply text-black bg-btn-secondary border-cts-border;
+}
+
+.cts-btn-gray-dark {
+  @apply text-white border-black;
+  background-color: #696969;
+}
+
+.cts-radius-green {
+  @apply radio radio-lg checked:bg-cts-radius-ring-color;
 }
 
 .cts-btn-tertiary {

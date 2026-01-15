@@ -1,12 +1,12 @@
 {% extends 'tecnicas/layouts/base.html' %}
 {% load static %}
 
-{% block title %}Panel Configuracion{% endblock %}
+{% block title %}Panel de configuración básica{% endblock %}
 
 {% block content %}
 <article class="cts-container-main">
     <article class="cts-wrap-content text-black">
-        <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
+        <h1 class="text-center font-bold text-4xl">Panel de configuración básica</h1>
         {% if error %}
         <p class="text-sm bg-red-200 text-center">{{ error }}</p>
         {% endif %}
@@ -80,7 +80,7 @@
                 <section class="flex flex-row gap-4 justify-around flex-wrap">
                     {% for escala in form_sesion.estilo_palabras %}
                     <label for="{{escala.id_for_label}}"
-                        class="ct-radio-estilo uppercase text-lg tracking-wider font-bold p-2 px-4 rounded-xl cts-btn-secondary btn-push">
+                        class="cts-btn-general-compress uppercase p-2 px-4 cts-btn-gray-dark btn-push">
                         {{ escala.tag }}
                         {{ escala.choice_label }}
                     </label>
@@ -99,7 +99,7 @@
                 <section class="flex flex-row gap-4 justify-around flex-wrap">
                     {% for escala in form_sesion.tipo_escala %}
                     <label for="{{escala.id_for_label}}"
-                        class="ct-radio-escala uppercase text-lg tracking-wider font-bold p-2 px-4 rounded-xl cts-btn-primary btn-push">
+                        class="cts-btn-general-compress uppercase p-2 px-4 cts-btn-gray-dark btn-push">
                         {{ escala.tag }}
                         {{ escala.choice_label }}
                     </label>
@@ -121,17 +121,17 @@
                     <div class="flex justify-around max-sm:flex-col gap-8 cts-options-size-scale">
                         <label class="flex flex-col items-center cursor-pointer">
                             <input type="radio" name="option_size_scale" value="5"
-                                class="radio radio-lg checked:bg-pink-500" />
+                                class="cts-radius-green" />
                             <span class="mt-2 text-xl text-gray-700 font-medium">5</span>
                         </label>
                         <label class="flex flex-col items-center cursor-pointer">
                             <input type="radio" name="option_size_scale" value="7"
-                                class="radio radio-lg checked:bg-pink-500" />
+                                class="cts-radius-green" />
                             <span class="mt-2 text-xl text-gray-700 font-medium">7</span>
                         </label>
                         <label class="flex flex-col items-center cursor-pointer">
                             <input type="radio" name="option_size_scale" value="9"
-                                class="radio radio-lg checked:bg-pink-500" />
+                                class="cts-radius-green" />
                             <span class="mt-2 text-xl text-gray-700 font-medium">9</span>
                         </label>
                     </div>

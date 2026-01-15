@@ -13,12 +13,12 @@
             <section
                 class="flex max-sm:flex-col flex-wrap justify-center max-sm:gap-4 items-center p-8 w-full bg-surface-card rounded-md shadow-lg">
                 <section class="flex flex-col text-black flex-1 flex-wrap gap-4 w-full">
-                    <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl">
-                        <legend class="text-black fieldset-legend px-1.5">Nombre Presentador</legend>
+                    <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl bg-white">
+                        <legend class="text-black fieldset-legend text-lg px-1.5">Nombre Presentador</legend>
                         <p class="text-3xl max-sm:text-2xl font-medium">{{ name }}</p>
                     </fieldset>
-                    <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl">
-                        <legend class="text-black fieldset-legend px-1.5">Nombre de usuario</legend>
+                    <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl bg-white">
+                        <legend class="text-black fieldset-legend text-lg px-1.5">Nombre de usuario</legend>
                         <p class="text-3xl max-sm:text-2xl font-medium">{{ username }}</p>
                         <p class="text-3xl max-sm:text-2xl font-medium">{{ cumple }}</p>
                     </fieldset>
@@ -41,22 +41,22 @@
             <article class="grid grid-cols-2 gap-6 w-5xl max-lg:w-3xl max-md:w-auto text-3xl max-sm:text-2xl 
          max-md:grid-cols-1 justify-items-center items-start place-items-stretch">
                 <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-full">
-                    <button class="w-full text-black cts-btn-general cts-btn-tertiary btn-push">
+                    <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
                         Crear Sesión <br> Sensorial
                     </button>
                 </a>
                 <a href="{% url 'cata_system:panel_catadores' %}" class="w-full">
-                    <button class="w-full text-black cts-btn-general cts-btn-tertiary btn-push">
+                    <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
                         Gestión de <br>catadores
                     </button>
                 </a>
                 <a href="{% url 'cata_system:panel_sesiones' page=1 %}" class="w-full">
-                    <button class="w-full text-black cts-btn-general cts-btn-tertiary btn-push">
+                    <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
                         Gestión de sesiones<br>sensoriales
                     </button>
                 </a>
                 <a href="{% url 'cata_system:panel_vocabulario' %}" class="w-full h-full">
-                    <button class="w-full h-full text-black cts-btn-general cts-btn-tertiary btn-push">
+                    <button class="w-full h-full text-black cts-btn-general cts-btn-primary btn-push">
                         Gestión de vocabularios
                     </button>
                 </a>

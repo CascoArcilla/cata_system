@@ -7,15 +7,19 @@ document.addEventListener("DOMContentLoaded", () => {
   vocabSelect.addEventListener("change", async (e) => {
     const vocabId = e.target.value;
     vocabularyId = vocabId;
-    console.log(e.target);
-    console.log(vocabId);
 
-    wordsList.innerHTML =
-      "<li class='text-gray-500 text-center'>Cargando...</li>";
+    wordsList.innerHTML = `
+    <li
+        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl w-full">
+        Cargando...
+    </li>`;
 
     if (!vocabId) {
-      wordsList.innerHTML =
-        "<li class='text-gray-500 text-center'>Selecciona un vocabulario para ver sus palabras</li>";
+      wordsList.innerHTML = `
+      <li
+        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl w-full">
+        Selecciona un vocabulario para ver sus palabras
+      </li>`
       return;
     }
 
@@ -30,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (words === 0) {
         wordsList.innerHTML =
-          "<li class='text-center text-lg'>No hay palabras asociadas</li>";
+          "<li class='text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl w-full'>No hay palabras asociadas</li>";
         return;
       }
 
@@ -39,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const li = document.createElement("li");
         li.textContent = p.nombre_palabra;
         li.className =
-          "bg-surface-sweet text-black rounded font-bold text-lg px-4 py-3";
+          "bg-surface-card text-black rounded font-bold text-lg px-4 py-3 capitalize";
         wordsList.appendChild(li);
       });
     } catch (err) {
@@ -52,8 +56,11 @@ document.addEventListener("DOMContentLoaded", () => {
   formNextStep.addEventListener("submit", (e) => {
     if (!vocabularyId) {
       e.preventDefault();
-      wordsList.innerHTML =
-        "<li class='text-center text-lg'>Seleccione un Vocabulario</li>";
+      wordsList.innerHTML = `
+      <li
+        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl w-full">
+        Selecciona un vocabulario para ver sus palabras
+      </li>`
       return;
     }
 

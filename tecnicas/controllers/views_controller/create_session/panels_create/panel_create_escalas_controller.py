@@ -12,6 +12,7 @@ class PanelCreateEscalasController(PanelCreateController):
 
     @staticmethod
     def controllPost(request: HttpRequest):
+        return general_error("No se ha establecido acción")
         if request.POST.get('action') == 'create_session':
             if not request.session.get("form_tags") or not request.session.get("form_codes") or not request.session.get("form_words"):
                 deleteDataSession(request)

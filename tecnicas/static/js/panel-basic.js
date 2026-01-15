@@ -2,9 +2,9 @@ const descriptons = {
   estructurada: "Establece número de segmentos:",
   continua: "Establece la longitud de la escala:",
   atributos:
-    "Con el estilo atributos elijes las palabras para evaluar los productos",
+    "Nota: Con el estilo atributos elijes las palabras para evaluar los productos",
   vocabulario:
-    "Los vocabularios son un conjunto de palabras específicas para evaluar aspectos de un producto",
+    "Nota: Los vocabularios son un conjunto de palabras específicas para evaluar aspectos de un producto",
 };
 
 let inputsScale;
@@ -116,7 +116,7 @@ function populateSizeOptions(tag) {
     input.type = "radio";
     input.name = "option_size_scale";
     input.value = String(val);
-    input.className = "radio radio-lg checked:bg-pink-500";
+    input.className = "cts-radius-green";
 
     const span = document.createElement("span");
     span.className = "mt-2 text-xl text-gray-700 font-medium";

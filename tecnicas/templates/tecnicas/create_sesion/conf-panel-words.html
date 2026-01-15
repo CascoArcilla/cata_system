@@ -1,13 +1,13 @@
 {% extends 'tecnicas/layouts/base.html' %}
 {% load static %}
 
-{% block title %}Panel Configuracion{% endblock %}
+{% block title %}Panel de palabras{% endblock %}
 
 {% block content %}
 <article class="cts-container-main">
     <section class="w-fit h-fit relative">
         <article class="cts-wrap-content text-black lg:w-4xl w-full">
-            <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
+            <h1 class="text-center font-bold text-4xl">Panel de palabras</h1>
             <hr>
             {% if error %}
             <p class="bg-red-400 font-bold text-lg tracking-wide capitalize text-center py-2">
@@ -20,12 +20,12 @@
                     <form action="" method="get" class="ct-serach-words">
                         {% csrf_token %}
                         <p class="text-lg font-bold text-center mb-2 bg-surface-card p-2 rounded">
-                            Dejar en blaco para buscar las primeras 10 palabras
+                            Si deja el campo en blanco el sistema mostrará las ultimas 10 palabras creadas
                         </p>
                         <section class="flex flex-row gap-2">
                             <label for="search" class="w-full">
                                 <input type="text" name="search" id="search" placeholder="Buscar palabra"
-                                    class="p-2 px-4 bg-surface-ligt rounded-lg w-full text-lg font-medium">
+                                    class="p-2 px-4 bg-white rounded-lg w-full text-lg font-medium">
                             </label>
                             <button type="submit"
                                 class="font-bold rounded-lg text-xl px-3 text-center cts-btn-tertiary btn-push">
@@ -59,6 +59,7 @@
                     </ul>
                 </section>
             </article>
+            <hr>
 
             <article class="ct-new-tags bg-surface-card p-5 flex justify-center items-center rounded-2xl">
                 <form method="post" action="" class="ct-form-new-word p-3">
@@ -68,16 +69,14 @@
                     </p>
                     <label for="{{ form_word.nombre_palabra.id_for_label }}"
                         class="font-medium text-xl  flex flex-wrap justify-center items-center gap-3 mb-4">
-                        <p class="px-4">Nueva palabra:</p>
                         {{ form_word.nombre_palabra }}
                     </label>
                     <p class="ct-error-word mb-4 font-bold bg-red-500 text-md capitalize text-center rounded hidden">
                         error
                     </p>
-                    <hr>
                     <article class="flex justify-center gap-8 mt-4 font-medium tracking-wide">
                         <button
-                            class="text-lg tracking-wider font-medium p-2 px-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white w-fit"
+                            class="font-bold rounded-lg text-xl text-center py-2 px-4 cts-btn-gray-dark btn-push w-fit text-white flex justify-center items-center"
                             type="submit">
                             Crear y agregar a la lista
                         </button>
@@ -85,29 +84,28 @@
                 </form>
             </article>
 
-            <article>
-                <form action="" method="post" class="ct-creat-session flex justify-center mt-4">
-                    {% csrf_token %}
-                    <article class="cs-escalas-radio w-full flex flex-col gap-4">
-                        <section class="flex max-sm:flex-col flex-wrap items-center justify-center gap-4">
-                            <button type="submit" name="start"
-                                class="cts-btn-general cts-btn-primary btn-push flex-1 w-full">
-                                Crear sesión
-                            </button>
-                            <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1 w-full">
-                                <button type="button" class="cts-btn-general cts-btn-secondary btn-push w-full">
-                                    Paso anterior
-                                </button>
-                            </a>
-                        </section>
-                        <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1 w-full">
-                            <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
-                                Cancelar la creación
+            <hr>
+            <form action="" method="post" class="ct-creat-session mt-4">
+                {% csrf_token %}
+                <article class="cs-escalas-radio max-lg:flex-col justify-center flex gap-4">
+                    <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
+                        <a href="{% url 'cata_system:panel_configuracion_codes' %}" class="flex-1 w-full">
+                            <button type="button" class="cts-btn-general cts-btn-gray-dark btn-push w-full">
+                                Paso anterior
                             </button>
                         </a>
-                    </article>
-                </form>
-            </article>
+                        <button type="submit" name="start"
+                            class="cts-btn-general cts-btn-primary btn-push w-fit max-lg:w-full">
+                            Crear sesión
+                        </button>
+                    </section>
+                    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
+                        <button type="button" class="cts-btn-general cts-btn-error btn-push w-fit max-lg:w-full">
+                            Cancelar la creación
+                        </button>
+                    </a>
+                </article>
+            </form>
 
             <article
                 class="ct-notification-red absolute max-md:fixed bottom-0 mb-4 left-1/2 -translate-x-1/2 bg-red-600 text-white p-2 px-4 rounded-lg text-center font-medium hidden uppercase">

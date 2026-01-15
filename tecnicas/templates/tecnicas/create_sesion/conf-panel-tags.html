@@ -1,13 +1,13 @@
 {% extends 'tecnicas/layouts/base.html' %}
 {% load static %}
 
-{% block title %}Panel Configuracion{% endblock %}
+{% block title %}Panel para etiquetas{% endblock %}
 
 {% block content %}
 <article class="cts-container-main">
     <section class="w-fit h-fit relative">
         <article class="cts-wrap-content text-black w-full">
-            <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
+            <h1 class="text-center font-bold text-4xl">Panel para Etiquetas</h1>
             <hr>
             {% if error %}
             <p class="bg-red-400 font-bold text-lg tracking-wide text-white capitalize text-center py-2">
@@ -35,23 +35,23 @@
                         Agregar otra etiqueta
                     </p>
                     <button type="button" onclick="showHiddeExtraTags()"
-                        class="cts-btn-general cts-btn-secondary btn-push w-40">
-                        ➕
+                        class="font-bold rounded-lg text-4xl text-center py-2 cts-btn-gray-dark btn-push w-40 text-white flex justify-center items-center">
+                        +
                     </button>
                 </article>
                 <hr>
-                <article class="cs-escalas-radio w-full flex flex-col gap-4">
-                    <section class="flex max-sm:flex-col flex-wrap items-center justify-center gap-4">
-                        <button type="submit" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full">
-                            Continuar
-                        </button>
-                        <button type="button" class="cts-btn-general cts-btn-secondary btn-push w-full"
-                        onclick="window.history.back();">
+                <article class="cs-escalas-radio max-lg:flex-col flex gap-4">
+                    <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
+                        <button type="button" class="cts-btn-general cts-btn-gray-dark btn-push w-fit max-lg:w-full"
+                            onclick="window.history.back();">
                             Paso anterior
                         </button>
+                        <button type="submit" class="cts-btn-general cts-btn-primary btn-push w-fit max-lg:w-full">
+                            Continuar
+                        </button>
                     </section>
-                    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1 w-full">
-                        <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
+                    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
+                        <button type="button" class="cts-btn-general cts-btn-error btn-push w-fit max-lg:w-full">
                             Cancelar la creación
                         </button>
                     </a>

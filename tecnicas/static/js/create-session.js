@@ -95,7 +95,7 @@ function renderElementsResponse({
 
   aIndex.classList.add(
     ...stylesBtns,
-    "cts-btn-secondary"
+    "cts-btn-gray-dark"
   );
 
   const aDetails = document.createElement("a");
@@ -104,7 +104,7 @@ function renderElementsResponse({
 
   aDetails.classList.add(
     ...stylesBtns,
-    "cts-btn-tertiary"
+    "cts-btn-error"
   );
 
   divBtns.appendChild(aIndex);
