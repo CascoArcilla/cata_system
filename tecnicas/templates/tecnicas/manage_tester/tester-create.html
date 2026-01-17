@@ -4,8 +4,8 @@
 {% block title %}Crear Catador{% endblock %}
 
 {% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content max-w-4xl">
+<article class="cts-container">
+    <article class="cts-container-fit max-w-4xl">
         <header class="flex flex-col gap-7">
             <div class="bg-surface-card p-8 text-black text-2xl font-bold rounded-2xl text-center">
                 <h1>Creando Catador</h1>
@@ -116,7 +116,7 @@
                     </button>
                     <a href="{% url 'cata_system:panel_catadores' %}">
                         <button type="button"
-                            class="text-white text-lg bg-ct-error font-bold rounded-xl px-8 py-4 text-center border-b-red-800 btn-push">
+                            class="text-white text-lg bg-cts-error font-bold rounded-xl px-8 py-4 text-center border-b-red-800 btn-push">
                             Regresar
                         </button>
                     </a>

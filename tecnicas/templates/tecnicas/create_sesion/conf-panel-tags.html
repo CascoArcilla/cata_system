@@ -4,86 +4,83 @@
 {% block title %}Panel para etiquetas{% endblock %}
 
 {% block content %}
-<article class="cts-container-main">
-    <section class="w-fit h-fit relative">
-        <article class="cts-wrap-content text-black w-full">
-            <h1 class="text-center font-bold text-4xl">Panel para Etiquetas</h1>
+<article class="cts-container">
+    <article class="cts-container-config">
+        <h1 class="text-center font-bold text-4xl">Panel para Etiquetas</h1>
+        <hr>
+        {% if error %}
+        <p class="bg-red-400 font-bold text-lg tracking-wide text-white capitalize text-center py-2">
+            {{ error }}
+        </p>
+        {% endif %}
+        <form method="post" action="" class="flex flex-col gap-5">
+            {% csrf_token %}
+            <article class="p-4 flex flex-col gap-2 rounded max-sm:text-center">
+                <h2 class="text-2xl mb-2 font-bold">Seleccion de etiquetas</h2>
+                {% for field in form_tags %}
+                <div
+                    class="flex max-sm:flex-col justify-center items-center gap-5 max-sm:gap-2 text-lg border-b-4 border-l-4 border-btn-secondary bg-surface-card p-1">
+                    <label for="{{ field.id_for_label }}" class="font-medium p-1 px-3 max-sm:w-full capitalize rounded">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                </div>
+                {% endfor %}
+            </article>
             <hr>
-            {% if error %}
-            <p class="bg-red-400 font-bold text-lg tracking-wide text-white capitalize text-center py-2">
-                {{ error }}
-            </p>
-            {% endif %}
-            <form method="post" action="" class="flex flex-col gap-5">
+            <article class="flex flex-col gap-3 p-2 justify-center items-center bg-surface-card rounded">
+                <p class="p-2 text-center rounded font-bold text-md">
+                    Agregar otra etiqueta
+                </p>
+                <button type="button" onclick="showHiddeExtraTags()"
+                    class="font-bold rounded-lg text-4xl text-center py-2 cts-btn-gray-dark btn-push w-40 text-white flex justify-center items-center">
+                    +
+                </button>
+            </article>
+            <hr>
+            <article class="cs-escalas-radio max-lg:flex-col flex w-full justify-center gap-4">
+                <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
+                    <button type="button" class="cts-btn-general cts-btn-gray-dark btn-push w-fit max-lg:w-full"
+                        onclick="window.history.back();">
+                        Paso anterior
+                    </button>
+                    <button type="submit" class="cts-btn-general cts-btn-primary btn-push w-fit max-lg:w-full">
+                        Continuar
+                    </button>
+                </section>
+                <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
+                    <button type="button" class="cts-btn-general cts-btn-error btn-push w-fit max-lg:w-full">
+                        Cancelar la creación
+                    </button>
+                </a>
+            </article>
+        </form>
+    </article>
+    <article
+        class="ct-new-tags absolute top-0 w-full h-full bg-surface-sweet/70 p-5 flex justify-center items-center rounded-2xl hidden">
+        <section class="p-5 bg-surface-ligt border border-surface-general w-fit rounded">
+            <form method="post" action="" class="ct-form-new-tag p-3">
                 {% csrf_token %}
-                <article class="p-4 flex flex-col gap-2 rounded max-sm:text-center">
-                    <h2 class="text-2xl mb-2 font-bold">Seleccion de etiquetas</h2>
-                    {% for field in form_tags %}
-                    <div
-                        class="flex max-sm:flex-col justify-center items-center gap-5 max-sm:gap-2 text-lg border-b-4 border-l-4 border-btn-secondary bg-surface-card p-1">
-                        <label for="{{ field.id_for_label }}"
-                            class="font-medium p-1 px-3 max-sm:w-full capitalize rounded">
-                            {{ field.label }}
-                        </label>
-                        {{ field }}
-                    </div>
-                    {% endfor %}
-                </article>
-                <hr>
-                <article class="flex flex-col gap-3 p-2 justify-center items-center bg-surface-card rounded">
-                    <p class="p-2 text-center rounded font-bold text-md">
-                        Agregar otra etiqueta
-                    </p>
-                    <button type="button" onclick="showHiddeExtraTags()"
-                        class="font-bold rounded-lg text-4xl text-center py-2 cts-btn-gray-dark btn-push w-40 text-white flex justify-center items-center">
-                        +
+                <label for="{{ form_new_tag.nueva_etiqueta.id_for_label }}"
+                    class="font-medium text-md text-black flex max-sm:flex-col gap-3">
+                    <p class="bg-btn-secondary sm:p-4 p-1 font-semibold">Nueva etiqueta:</p>
+                    {{ form_new_tag.nueva_etiqueta }}
+                </label>
+                <p
+                    class="cts-error-tag mt-4 font-bold bg-red-500 text-white text-md capitalize text-center rounded hidden">
+                    error</p>
+                <article
+                    class="flex max-sm:flex-col justify-center gap-8 max-sm:gap-4 mt-4 text-white font-medium tracking-wide">
+                    <button type="submit" class="cts-btn-general cts-btn-primary btn-push">
+                        Agregar
+                    </button>
+                    <button class="cts-btn-general cts-btn-error btn-push" type="button" onclick="showHiddeExtraTags()">
+                        Cancelar
                     </button>
                 </article>
-                <hr>
-                <article class="cs-escalas-radio max-lg:flex-col flex gap-4">
-                    <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
-                        <button type="button" class="cts-btn-general cts-btn-gray-dark btn-push w-fit max-lg:w-full"
-                            onclick="window.history.back();">
-                            Paso anterior
-                        </button>
-                        <button type="submit" class="cts-btn-general cts-btn-primary btn-push w-fit max-lg:w-full">
-                            Continuar
-                        </button>
-                    </section>
-                    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
-                        <button type="button" class="cts-btn-general cts-btn-error btn-push w-fit max-lg:w-full">
-                            Cancelar la creación
-                        </button>
-                    </a>
-                </article>
             </form>
-        </article>
-        <article
-            class="ct-new-tags absolute top-0 w-full h-full bg-surface-sweet/70 p-5 flex justify-center items-center rounded-2xl hidden">
-            <section class="p-5 bg-surface-ligt border border-surface-general w-fit rounded">
-                <form method="post" action="" class="ct-form-new-tag p-3">
-                    {% csrf_token %}
-                    <label for="{{ form_new_tag.nueva_etiqueta.id_for_label }}"
-                        class="font-medium text-md text-black flex max-sm:flex-col gap-3">
-                        <p class="bg-btn-secondary sm:p-4 p-1 font-semibold">Nueva etiqueta:</p>
-                        {{ form_new_tag.nueva_etiqueta }}
-                    </label>
-                    <p
-                        class="ct-error-tag mt-4 font-bold bg-red-500 text-white text-md capitalize text-center rounded hidden">
-                        error</p>
-                    <article
-                        class="flex max-sm:flex-col justify-center gap-8 max-sm:gap-4 mt-4 text-white font-medium tracking-wide">
-                        <button type="submit" class="cts-btn-general cts-btn-primary btn-push">
-                            Agregar
-                        </button>
-                        <button class="cts-btn-general cts-btn-error btn-push" type="button"
-                            onclick="showHiddeExtraTags()">
-                            Cancelar
-                        </button>
-                    </article>
-                </form>
-            </section>
-        </article>
+        </section>
+    </article>
     </section>
 </article>
 {% endblock %}

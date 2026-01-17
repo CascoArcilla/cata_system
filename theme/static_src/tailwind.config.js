@@ -18,7 +18,7 @@ module.exports = {
         "btn-secondary": "#E6E6E6",
         "btn-tertiary": "#88EE88",
         "ct-success": "#2E7D32",
-        "ct-error": "#D18100",
+        "cts-error": "#D18100",
         "cts-border": "#969696",
 
         "cts-radius-ring-color": "#79E785",

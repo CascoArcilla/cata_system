@@ -3,8 +3,8 @@
 {% block title %}Panel principal{% endblock %}
 
 {% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content">
+<article class="cts-container">
+    <article class="cts-container-config">
         <header class="text-center flex sm:flex-row flex-col md:gap-8 gap-3 items-center w-full">
             <div class="bg-surface-card p-4 text-black rounded-xl sm:flex-1 w-full">
                 <h1 class="font-bold text-2xl">Selección de técnica sensorial</h1>
@@ -19,7 +19,7 @@
         </header>
         <section class="text-white *:not-last:mb-4">
             {% if error %}
-            <article class="ct-error bg-red-400 rounded-xl text-center font-normal tracking-wider text-xl p-1 pb-2">
+            <article class="cts-error bg-red-400 rounded-xl text-center font-normal tracking-wider text-xl p-1 pb-2">
                 <p>{{ error }}</p>
             </article>
             {% endif %}
@@ -62,7 +62,7 @@
     }
 
     function hiddenError () {
-        const error = document.getElementsByClassName("ct-error")[0]
+        const error = document.getElementsByClassName("cts-error")[0]
         error.classList.add("hidden")
     }
 </script>

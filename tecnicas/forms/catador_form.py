@@ -122,7 +122,7 @@ class CatadorForm(forms.Form):
         choices=GENERO_OPCIONES,
         widget=forms.RadioSelect(
             attrs={
-                "class": "ct-inputs-pos-cata radio radio-warning checked:bg-btn-secondary mx-2 bg-surface-ligt disabled:bg-ct-error"
+                "class": "ct-inputs-pos-cata radio radio-warning checked:bg-btn-secondary mx-2 bg-surface-ligt disabled:bg-cts-error"
             }
         )
     )

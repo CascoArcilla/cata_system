@@ -4,8 +4,8 @@
 {% block title %}Panel Configuracion{% endblock %}
 
 {% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content text-black">
+<article class="cts-container">
+    <article class="cts-container-config">
         <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
 
         {% if error %}
@@ -56,7 +56,7 @@
                 <section class="flex flex-row gap-4 justify-around flex-wrap">
                     {% for choice in form_sesion.modalidad %}
                     <label for="{{choice.id_for_label}}"
-                        class="cts-btn-general-compress cts-btn-secondary btn-push px-4 py-2 uppercase flex-1 flex items-center justify-around gap-2">
+                        class="cts-btn-general-compress cts-btn-gray-dark btn-push px-4 py-2 uppercase flex-1 flex items-center justify-around gap-2">
                         {{ choice.tag }}
                         <p class="italic text-center flex-1">
                             {{ choice.choice_label }}

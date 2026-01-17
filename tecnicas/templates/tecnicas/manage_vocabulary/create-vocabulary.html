@@ -4,7 +4,7 @@
 {% block title %}Crear vocabulario{% endblock %}
 
 {% block content %}
-<article class="cts-container-main">
+<article class="cts-container">
     <article
         class="ct-notification-red absolute max-md:fixed bottom-0 mb-4 left-1/2 -translate-x-1/2 bg-red-400 text-white p-2 px-4 rounded-lg text-center font-bold hidden uppercase traking-wide">
     </article>
@@ -12,7 +12,7 @@
         class="ct-notification-green absolute max-md:fixed bottom-0 mb-4 left-1/2 -translate-x-1/2 bg-green-600 text-white p-2 px-4 rounded-lg text-center font-medium hidden uppercase">
     </article>
 
-    <article class="cts-wrap-content text-black lg:w-4xl space-y-4">
+    <article class="cts-container-fit text-black lg:w-4xl space-y-4">
         <h1 class="w-full text-center font-bold text-4xl bg-surface-card py-8 rounded-lg">Crear vocabulario</h1>
 
         {% if error %}
@@ -51,7 +51,7 @@
                             </button>
                         </section>
                     </form>
-                    <p class="ct-error-words hidden capitalize bg-red-600 text-center text-2xl p-1.5 rounded">
+                    <p class="cts-error-words hidden capitalize bg-red-600 text-center text-2xl p-1.5 rounded">
                         error</p>
                     <ul class="ct-palabras-encontradas gap-2 grid-cols-2 overflow-y-auto">
                         <div class="flex justify-center items-center">
@@ -94,7 +94,7 @@
                         Crear y agregar a la lista
                     </button>
                 </section>
-                <p class="ct-error-word mb-4 font-bold bg-red-500 text-md capitalize text-center rounded hidden">
+                <p class="cts-error-word mb-4 font-bold bg-red-500 text-md capitalize text-center rounded hidden">
                     error
                 </p>
             </form>

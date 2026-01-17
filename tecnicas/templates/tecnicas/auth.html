@@ -3,8 +3,8 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content">
+<article class="cts-container">
+    <article class="cts-container-config">
         <form action="" method="post" class="p-8 rounded-xl text-black">
             <header class="text-center mb-2">
                 <h1 class="text-5xl max-sm:text-3xl font-bold">Cata System</h1>
@@ -21,13 +21,13 @@
             <section class="flex flex-col gap-6 items-center w-full mt-5">
                 <label for="username">
                     <input type="text" name="username" id="username" placeholder="Ingrese Nombre de Usuario"
-                        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-surface-ligt py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
+                        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-white py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
                         required>
                 </label>
 
                 <label for="password">
                     <input type="password" name="password" id="password" placeholder="Ingrese Contraseña"
-                        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-surface-ligt py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
+                        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-white py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
                         required>
                 </label>
 
@@ -36,7 +36,6 @@
                         Ingresar
                     </button>
                 </section>
-
             </section>
         </form>
     </article>

@@ -6,7 +6,7 @@ const imgList = document.querySelector(".ct-img-list");
 const listWordsSelect = [];
 const wordsSelectContainer = document.querySelector(".ct-palabras-usadas");
 
-const errorp = document.getElementsByClassName("ct-error-words")[0];
+const errorp = document.getElementsByClassName("cts-error-words")[0];
 const foundWordsContainer = document.getElementsByClassName(
   "ct-palabras-encontradas"
 )[0];
