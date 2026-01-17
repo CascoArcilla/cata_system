@@ -9,24 +9,35 @@ const descriptons = {
 
 let inputsScale;
 let inputTamano;
-
-let inputsStyle;
-let helpStyle;
 let sizeOptionsContainer;
 const SIZE_OPTIONS = {
   estructurada: [5, 7, 9],
   continua: [9, 13, 15],
 };
 
-initPanel();
+let inputsStyle;
+let helpStyle;
+
+document.addEventListener("DOMContentLoaded", () => {
+  initPanel();
+});
+
+window.addEventListener("popstate", () => {
+  initPanel();
+});
 
 function initPanel() {
   initRadios();
-  initSizeOptions();
 }
 
 function initRadios() {
+  initStyle();
+  initScale();
+}
+
+function initScale() {
   inputTamano = document.getElementsByName("tamano_escala").item(0);
+  if (!inputTamano) return;
   inputsScale = document.getElementsByName("tipo_escala");
   inputsScale.item(0).checked = true;
 
@@ -40,9 +51,13 @@ function initRadios() {
     }
   }
 
-  labelsStyle = document.getElementsByClassName("ct-radio-estilo");
-  helpStyle = document.getElementsByClassName("ct-ayuda-estilo")[0];
+  initSizeOptions();
+}
+
+function initStyle() {
   inputsStyle = document.getElementsByName("estilo_palabras");
+  if (!inputsStyle) return;
+  helpStyle = document.getElementsByClassName("ct-ayuda-estilo")[0];
 
   for (let index = 0; index < inputsStyle.length; index++) {
     let parent = inputsStyle.item(index).parentElement;
