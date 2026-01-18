@@ -1,0 +1,14 @@
+{% if end_collection %}
+    <div
+        class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none text-center">
+        <p class="text-black">
+            Máximo número de repeticiones alcanzado
+        </p>
+    </div>
+{% else %}
+    {% if not session.activated %}
+        {% include "./btn_start_session.html" %}
+    {% else %}
+        {% include "./btn_monitor_session.html" with code=code_session %}
+    {% endif %}
+{% endif %}

@@ -124,26 +124,26 @@
                 </p>
             </div>
             {% else %}
-            {% if not sesion.activo %}
-            <button
-                class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
-                onclick="startRepetition()">
-                Iniciar fase o repetición
-                <figure class="w-10">
-                    <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
-                </figure>
-            </button>
-            {% else %}
-            <a href="{% url 'cata_system:monitor_sesion' session_code=sesion.codigo_sesion %}" class="flex-1 w-fit">
-                <button
-                    class="ct-btn-start-repition w-full uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
-                    Monitorear repetición
-                    <figure class="w-10">
-                        <img src="{% static 'img/monitor.svg' %}" alt="flechas girando" class="invert">
-                    </figure>
-                </button>
-            </a>
-            {% endif %}
+                {% if not sesion.activo %}
+                    <button
+                        class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
+                        onclick="startRepetition()">
+                        Iniciar fase o repetición
+                        <figure class="w-10">
+                            <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
+                        </figure>
+                    </button>
+                {% else %}
+                    <a href="{% url 'cata_system:monitor_sesion' session_code=sesion.codigo_sesion %}" class="flex-1 w-fit">
+                        <button
+                            class="ct-btn-start-repition w-full uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+                            Monitorear repetición
+                            <figure class="w-10">
+                                <img src="{% static 'img/monitor.svg' %}" alt="flechas girando" class="invert">
+                            </figure>
+                        </button>
+                    </a>
+                {% endif %}
             {% endif %}
             <button
                 class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
@@ -187,7 +187,7 @@
         </p>
 
         {% if there_data %}
-        {% include "../components/table-sort.html" with data_groups=data_groups sesion=sesion %}
+        {% include "../components/tables/table-sort.html" with data_groups=data_groups sesion=sesion %}
         {% else %}
         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}

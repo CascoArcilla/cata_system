@@ -1,0 +1,14 @@
+<section
+    class="bg-surface-card flex flex-wrap items-center justify-center gap-x-2 p-4 rounded-2xl {{ container_class }}">
+    {% if field_name %}
+    <p class="font-bold {{ param_class }}">
+        {{ field_name }}
+    </p>
+    {% endif %}
+
+    {% if field_value %}
+    <p class="font-sans text-lg max-sm:text-base font-normal {{ value_class }}">
+        {{ field_value }}
+    </p>
+    {% endif %}
+</section>

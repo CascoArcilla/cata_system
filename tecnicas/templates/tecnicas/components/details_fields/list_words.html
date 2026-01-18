@@ -1,0 +1,13 @@
+<h2 class="text-black font-bold text-2xl border-b-2">
+    Palabras usadas para calificar
+</h2>
+<article
+    class="text-white rounded-xl grid grid-cols-4 max-sm:grid-cols-1 gap-3 *:bg-surface-ligt *:flex *:items-center *:justify-center *:gap-x-2 *:p-4 *:rounded-2xl">
+    {% for palabra in palabras %}
+    <section>
+        <p class="block text-black text-xl antialiased font-medium">
+            {{ palabra }}
+        </p>
+    </section>
+    {% endfor %}
+</article>

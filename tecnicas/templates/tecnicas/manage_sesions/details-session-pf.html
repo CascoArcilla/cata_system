@@ -242,7 +242,7 @@
 
                 {% if repeticion == 1 %}
                     {% if data_ratings %}
-                        {% include "../components/table_pf_all.html" with second_phase=second_phase data_ratings=data_ratings session_name=sesion.nombre_sesion session_code=sesion.codigo_sesion %}
+                        {% include "../components/tables/table_pf_all.html" with second_phase=second_phase data_ratings=data_ratings session_name=sesion.nombre_sesion session_code=sesion.codigo_sesion %}
                     {% else %}
                         {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
                     {% endif %}
@@ -250,7 +250,7 @@
                     {% if data_ratings %}
                         <article class="overflow-x-auto py-2 space-y-4">
                             {% for data_tester in data_ratings %}
-                                {% include "../components/table_pf.html" with data=data_tester session_name=sesion.nombre_sesion session_code=sesion.codigo_sesion %}
+                                {% include "../components/tables/table_pf.html" with data=data_tester session_name=sesion.nombre_sesion session_code=sesion.codigo_sesion %}
                             {% endfor %}
                         </article>
                         <div class="flex justify-end mt-3 gap-4 flex-wrap">

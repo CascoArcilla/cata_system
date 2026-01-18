@@ -47,8 +47,8 @@
 
     <div class="flex justify-end mt-3">
         <button id="download-csv-btn" class="cts-btn-general cts-btn-primary btn-push"
-            data-session-name="{% if sesion and sesion.nombre_sesion %}{{ sesion.nombre_sesion }}{% else %}{% endif %}"
-            data-session-code="{% if sesion and sesion.codigo_sesion %}{{ sesion.codigo_sesion }}{% else %}{% endif %}">
+            data-session-name="{% if session and session.session_name %}{{ session.session_name }}{% else %}{% endif %}"
+            data-session-code="{% if session and session.session_code %}{{ session.session_code }}{% else %}{% endif %}">
             Descargar CSV
         </button>
     </div>

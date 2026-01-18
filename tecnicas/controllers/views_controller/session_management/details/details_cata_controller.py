@@ -16,9 +16,31 @@ class DetallesCATAController(DetallesController):
         technique = self.session.tecnica
 
         self.context = {
-            "sesion": self.session,
-            "use_technique": technique
+            "use_technique": technique.tipo_tecnica.nombre_tecnica,
+            "session": {
+                "session_code": self.session.codigo_sesion,
+                "session_name": self.session.nombre_sesion or "Sin nombre asignado",
+                "session_date": self.session.fechaCreacion,
+                "activated": self.session.activo,
+                "session_instructions": technique.instrucciones,
+            },
+            "technique": {
+                "words_style": technique.id_estilo,
+                "max_catadores": technique.limite_catadores,
+                "max_repetitions": technique.repeticiones_max,
+                "current_repetition": technique.repeticion,
+            },
         }
+
+        # Establer estado
+        if technique.repeticion == 0:
+            self.context["session"]["session_status"] = "Listo para iniciar"
+        elif technique.repeticion == 1 and self.session.activo:
+            self.context["session"]["session_status"] = "Sesión en curso"
+        elif technique.repeticion == 1 and not self.session.activo:
+            self.context["session"]["session_status"] = "Recolección de datos finalizada"
+        else:
+            self.context["session"]["session_status"] = "No se puede establecer el estado"
 
         # Recuperar palabras
         self.words = PalabrasController.getWordsInTechnique(

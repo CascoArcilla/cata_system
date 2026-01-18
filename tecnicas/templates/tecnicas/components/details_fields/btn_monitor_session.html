@@ -1,0 +1,10 @@
+{% load static %}
+<a href="{% url 'cata_system:monitor_sesion' session_code=code %}" class="flex-1 w-fit">
+    <button
+        class="ct-btn-start-repition w-full uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
+        Monitorear repetición
+        <figure class="w-10">
+            <img src="{% static 'img/monitor.svg' %}" alt="flechas girando" class="invert">
+        </figure>
+    </button>
+</a>
