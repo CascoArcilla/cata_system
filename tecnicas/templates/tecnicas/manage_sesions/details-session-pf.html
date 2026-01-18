@@ -93,3 +93,12 @@
     </section>
 </article>
 {% endblock %}
+
+{% block details_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/download-table-zip.js' %}"></script>
+<script src="{% static 'js/download-pf-all-csv.js' %}"></script>
+{% endblock %}

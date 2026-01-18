@@ -48,7 +48,7 @@ class DetallesEscalasController(DetallesController):
 
         # Definir estado de sesion
         # Se comprueba que ya no se pueda iniciar la repeticion
-        self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max
+        self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max and not self.session.activo
 
         if self.context["fin_repeticiones"]:
             self.context["session"]["session_status"] = "Recolección de datos finalizada"
