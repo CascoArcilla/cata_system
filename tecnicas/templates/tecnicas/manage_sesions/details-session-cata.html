@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block available_actions %}
-{% include "../components/details_fields/actions_rep.html" with end_collection=fin_repeticiones code_session=session.session_code %}
+{% include "../components/details_fields/actions_rep.html" with end_collection=fin_repeticiones code_session=session.session_code end_message="Se ha realizado la recolección de datos" %}
 {% endblock %}
 
 {% block data_obtained %}
