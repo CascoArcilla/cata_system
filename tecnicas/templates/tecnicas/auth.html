@@ -1,43 +1,33 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/login_base.html' %}
+{% load static %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Autentificación{% endblock %}
 
-{% block content %}
-<article class="cts-container">
-    <article class="cts-container-config">
-        <form action="" method="post" class="p-8 rounded-xl text-black">
-            <header class="text-center mb-2">
-                <h1 class="text-5xl max-sm:text-3xl font-bold">Cata System</h1>
-                <p class="text-2xl max-sm:text-xl font-semibold mt-3">Presentador</p>
-            </header>
+{% block chain_user %}
+<div class="bg-surface-card rounded-xl absolute top-0 right-0">
+    <a href="{% url 'cata_system:catador_login' %}" class="w-fit flex flex-col items-center">
+        <img src="{% static 'img/icons/icon_wine.svg' %}" alt="Icon Data Base" class="w-15 object-contain">
+        <span class="badge text-lg">Catador</span>
+    </a>
+</div>
+{% endblock %}
 
-            {% if error %}
-            {% include "./components/error_message.html" with message=error %}
-            {% endif %}
-            {% if message %}
-            {% include "./components/error_message.html" with message=message %}
-            {% endif %}
+{% block icon %}
+<img src="{% static 'img/icons/icon_data_base.svg' %}" alt="Icon Data Base" class="w-40 object-contain">
+{% endblock %}
 
-            <section class="flex flex-col gap-6 items-center w-full mt-5">
-                <label for="username">
-                    <input type="text" name="username" id="username" placeholder="Ingrese Nombre de Usuario"
-                        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-white py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
-                        required>
-                </label>
+{% block user_type %}Analista{% endblock %}
 
-                <label for="password">
-                    <input type="password" name="password" id="password" placeholder="Ingrese Contraseña"
-                        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-white py-3 px-6 rounded-xl lg:w-sm border-b-2 border-surface-sweet"
-                        required>
-                </label>
+{% block more_fields %}
+<label for="username" class="w-full">
+    <input type="text" name="username" id="username" placeholder="Nombre de Usuario"
+        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-white py-3 px-6 rounded-xl w-full border-b-2 border-surface-sweet"
+        required>
+</label>
 
-                <section class="flex flex-row flex-wrap gap-4 w-f ull justify-center">
-                    <button type="submit" class="cts-btn-general cts-btn-primary btn-push uppercase lg:w-sm">
-                        Ingresar
-                    </button>
-                </section>
-            </section>
-        </form>
-    </article>
-</article>
+<label for="password" class="w-full">
+    <input type="password" name="password" id="password" placeholder="Contraseña"
+        class="placeholder:text-gray-400 placeholder:font-semibold text-xl max-sm:text-base bg-white py-3 px-6 rounded-xl w-full border-b-2 border-surface-sweet"
+        required>
+</label>
 {% endblock %}

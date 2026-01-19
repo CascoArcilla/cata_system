@@ -7,7 +7,7 @@
 }
 
 .cts-container {
-  @apply w-full flex flex-col justify-center items-center bg-surface-general mt-10 mb-10;
+  @apply w-full flex flex-col justify-center items-center bg-surface-general py-10;
 }
 
 .cts-container-fit {

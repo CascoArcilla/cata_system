@@ -37,7 +37,7 @@
                 {% if num_page != 1 %}
                 <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:-1 %}" class="w-fit">
                     <button class="join-item btn bg-cts-secondary py-1">
-                        <img class="h-full" src="{% static 'img/less-than.svg' %}" alt="menor que">
+                        <img class="h-full" src="{% static 'img/icons/less_than.svg' %}" alt="menor que">
                     </button>
                 </a>
                 {% endif %}
@@ -45,7 +45,7 @@
                 {% if not last_page %}
                 <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:1 %}" class="w-fit">
                     <button class="join-item btn bg-cts-secondary py-1">
-                        <img class="h-full" src="{% static 'img/greater-than.svg' %}" alt="mayor que">
+                        <img class="h-full" src="{% static 'img/icons/greater_than.svg' %}" alt="mayor que">
                     </button>
                 </a>
                 {% endif %}

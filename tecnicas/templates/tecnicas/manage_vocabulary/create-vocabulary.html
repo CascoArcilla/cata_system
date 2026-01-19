@@ -55,7 +55,7 @@
                         error</p>
                     <ul class="ct-palabras-encontradas gap-2 grid-cols-2 overflow-y-auto">
                         <div class="flex justify-center items-center">
-                            <img src="{% static 'img/lupa.svg' %}" alt="lupa de busqueda" style="width: 50%;">
+                            <img src="{% static 'img/icons/lupa.svg' %}" alt="lupa de busqueda" style="width: 50%;">
                         </div>
                     </ul>
                 </section>
@@ -68,7 +68,7 @@
                     </div>
                     <ul class="ct-palabras-usadas flex flex-col gap-3 overflow-y-auto max-h-full">
                         {% if not words %}
-                        <img src="{% static 'img/list.svg' %}" alt="lista de palabras" class="ct-img-list">
+                        <img src="{% static 'img/icons/list.svg' %}" alt="lista de palabras" class="ct-img-list">
                         {% endif %}
                         {% for word in words %}
                         <li
