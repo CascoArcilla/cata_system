@@ -6,7 +6,7 @@ const imgList = document.querySelector(".ct-img-list");
 const listWordsSelect = [];
 const wordsSelectContainer = document.querySelector(".ct-palabras-usadas");
 
-const errorp = document.getElementsByClassName("cts-error-words")[0];
+const errorp = document.getElementsByClassName("cts-fourthy-words")[0];
 const foundWordsContainer = document.getElementsByClassName(
   "ct-palabras-encontradas"
 )[0];
@@ -96,7 +96,7 @@ function createButton(add = true, callback = null) {
   button.textContent = add ? "+" : "-";
   button.classList.add(
     "cts-btn-general-compress",
-    "cts-btn-gray-dark",
+    "cts-btn-fifthy",
     "border-b-2",
     "active:border-b-0",
     "active:border-t-2",

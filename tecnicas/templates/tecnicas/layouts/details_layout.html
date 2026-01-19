@@ -11,17 +11,17 @@
                 Detalles de la sesión
             </h1>
             <a href="{% url 'cata_system:panel_sesiones' page=1 %}">
-                <button class="cts-btn-general cts-btn-error btn-push">
+                <button class="cts-btn-general cts-btn-fourthy btn-push">
                     Volver a las Sesiones
                 </button>
             </a>
         </header>
 
         {% if message %}
-        {% include "../components/error-message.html" with message=message %}
+        {% include "../components/error_message.html" with message=message %}
         {% endif %}
         {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+        {% include "../components/error_message.html" with message=error %}
         {% endif %}
 
         <h2 class="text-black font-bold text-2xl border-b-2">
@@ -100,7 +100,7 @@
             {% block available_actions %}
             {% endblock %}
             <button
-                class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
+                class="flex-1 uppercase text-lg cts-btn-general cts-btn-fourthy btn-push flex flex-col justify-center items-center gap-2"
                 onclick="confirm_delete_dialog.showModal()">
                 borrar
                 <figure class="w-10">
@@ -123,7 +123,7 @@
                         ¿Estás seguro de continuar?
                     </p>
                     <div class="flex max-sm:flex-col gap-4 justify-center">
-                        <button class="cts-btn-general cts-btn-error btn-push" onclick="Session()">
+                        <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="Session()">
                             Estoy seguro
                         </button>
                         <form method="dialog">

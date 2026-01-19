@@ -25,7 +25,7 @@
                 </section>
                 <section class="flex-1 flex justify-center max-sm:w-full">
                     <button type="button"
-                        class="text-black cts-btn-general cts-btn-error btn-push max-sm:w-full"
+                        class="text-black cts-btn-general cts-btn-fourthy btn-push max-sm:w-full"
                         onclick="exit_sesion('frm-exit')">
                         Salir del sistema
                     </button>
@@ -34,7 +34,7 @@
         </header>
 
         {% if error %}
-        {% include "./components/error-message.html" with message=error %}
+        {% include "./components/error_message.html" with message=error %}
         {% endif %}
 
         <article class="w-full py-6 p-2 sm:p-4 md:p-8 bg-surface-card rounded-lg shadow-lg">

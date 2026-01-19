@@ -11,7 +11,7 @@
             </div>
             <div class="sm:flex-1 flex flex-row-reverse">
                 <a href="{% url 'cata_system:index' %}">
-                    <button class="cts-btn-general cts-btn-error btn-push">
+                    <button class="cts-btn-general cts-btn-fourthy btn-push">
                         Panel principal
                     </button>
                 </a>
@@ -19,7 +19,7 @@
         </header>
         <section class="text-white *:not-last:mb-4">
             {% if error %}
-            <article class="cts-error bg-red-400 rounded-xl text-center font-normal tracking-wider text-xl p-1 pb-2">
+            <article class="cts-fourthy bg-red-400 rounded-xl text-center font-normal tracking-wider text-xl p-1 pb-2">
                 <p>{{ error }}</p>
             </article>
             {% endif %}
@@ -62,7 +62,7 @@
     }
 
     function hiddenError () {
-        const error = document.getElementsByClassName("cts-error")[0]
+        const error = document.getElementsByClassName("cts-fourthy")[0]
         error.classList.add("hidden")
     }
 </script>

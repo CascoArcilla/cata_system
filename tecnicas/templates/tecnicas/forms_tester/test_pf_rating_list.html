@@ -12,7 +12,7 @@
                 Sesión usando <br>técnica
                 <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
             </h1>
-            <button class="cts-btn-general cts-btn-error btn-push" onclick="exit_sesion('form-actions')">
+            <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
                 Salir de la sesión
             </button>
         </header>
@@ -30,7 +30,7 @@
         </section>
 
         {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+        {% include "../components/error_message.html" with message=error %}
         {% endif %}
 
         <article class="rounded flex flex-col gap-4">
@@ -88,7 +88,7 @@
                 <div id="containers" class="flex gap-6 flex-wrap justify-center">
                     {% for product in products %}
                     <section class="w-fit space-y-2">
-                        <div class="dropzone w-32 min-h-16 bg-surface-alter-card border-2 border-dashed border-gray-500 rounded p-2 space-y-2"
+                        <div class="dropzone w-32 min-h-16 bg-cts-enfasis border-2 border-dashed border-gray-500 rounded p-2 space-y-2"
                             data-index="{{ forloop.counter }}"></div>
                         <p class="text-center text-2xl">{{ forloop.counter }}</p>
                     </section>
@@ -113,14 +113,14 @@
                 <button id="save-data" class="cts-btn-general cts-btn-primary btn-push hidden">
                     Guardar
                 </button>
-                <button id="cancel-save" class="cts-btn-general cts-btn-error btn-push hidden">
+                <button id="cancel-save" class="cts-btn-general cts-btn-fourthy btn-push hidden">
                     Cancelar
                 </button>
                 <span id="loading-data-save" class="loading loading-spinner loading-xl text-accent hidden"></span>
             </section>
         </article>
 
-        {% include "../components/toast-container.html" %}
+        {% include "../components/toast_container.html" %}
     </article>
 </article>
 {% endblock %}

@@ -1,5 +1,5 @@
 <div
-    class='card {{ sesion.activo|yesno:"bg-surface-ligt,bg-surface-card" }} shadow-lg text-black sm:max-w-80 w-full flex justify-center items-center'>
+    class='card {{ sesion.activo|yesno:"bg-surface-ligt border-red-300 border-t,bg-surface-card" }} shadow-lg text-black sm:max-w-80 w-full flex justify-center items-center'>
     <div class="card-body flex flex-col justify-between w-full">
         <div class="flex flex-col gap-1 [&>*]:first:text-xl [&>*]:first:font-bold [&>*]:first:border-b">
             {% if sesion.nombre_sesion %}
@@ -9,25 +9,28 @@
             <span class="text-lg">Código:<br>{{ sesion.codigo_sesion }}</span>
             {% endif %}
         </div>
-        <ul class="mt-6 flex flex-col gap-2 text-base">
+        <ul class="mt-6 flex flex-col text-lg">
             <li>
-                Se usa la Técnica:
-                <span class="uppercase font-bold">
+                <b>Técnica:</b>
+                <span class="capitalize">
                     {{ sesion.tecnica.tipo_tecnica.nombre_tecnica }}
                 </span>
             </li>
             <li>
-                El Estilo de palabras:
-                <span class="uppercase font-bold">
+                <b>Estilo de palabras:</b>
+                <span class="capitalize">
                     {{ sesion.tecnica.id_estilo.nombre_estilo }}
                 </span>
             </li>
             <li>
-                {{ sesion.fechaCreacion }}
+                <b>Creación:</b>
+                <span>
+                    {{ sesion.fechaCreacion }}
+                </span>
             </li>
             <li>
-                Estado:
-                <span class="uppercase font-bold">
+                <b>Estado:</b>
+                <span class="capitalize">
                     {% if sesion.activo %}
                     Activo
                     {% else %}
@@ -38,7 +41,7 @@
         </ul>
         <div class="mt-6">
             <a href="{% url 'cata_system:detalles_sesion' session_code=sesion.codigo_sesion %}">
-                <button class="btn bg-btn-primary border-0 block w-full btn-push">
+                <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
                     Inspeccionar sesión
                 </button>
             </a>

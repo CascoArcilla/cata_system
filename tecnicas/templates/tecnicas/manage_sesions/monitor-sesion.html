@@ -26,7 +26,7 @@
                     Finalizar sesión
                 </button>
                 <a href="{% url 'cata_system:detalles_sesion' session_code=code_session %}" class="w-full">
-                    <button class="uppercase cts-btn-general-compress cts-btn-error py-2 px-6 btn-push w-full">
+                    <button class="uppercase cts-btn-general-compress cts-btn-fourthy py-2 px-6 btn-push w-full">
                         Regresar
                     </button>
                 </a>
@@ -38,7 +38,7 @@
         <div class="modal-box bg-surface-card text-black text-center">
             <h3 class="text-lg font-bold">¿Está seguro de finalizar la sesión?</h3>
             <p class="py-4">Asegúrese de que todos los catadores hayan participado en la sesión</p>
-            <button type="button" onclick="confirmFinishSession.close()" class="cts-btn-general cts-btn-error">Cancelar</button>
+            <button type="button" onclick="confirmFinishSession.close()" class="cts-btn-general cts-btn-fourthy">Cancelar</button>
             <button type="button" onclick="finishSession()" class="cts-btn-general cts-btn-primary">Finalizar</button>
         </div>
         <form method="dialog" class="modal-backdrop">
@@ -53,11 +53,11 @@
         </form>
 
         {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+        {% include "../components/error_message.html" with message=error %}
         {% endif %}
 
         {% if message %}
-        {% include "../components/error-message.html" with message=message %}
+        {% include "../components/error_message.html" with message=message %}
         {% endif %}
 
         <section aria-labelledby="catadores-titulo">

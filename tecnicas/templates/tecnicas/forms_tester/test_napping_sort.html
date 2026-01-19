@@ -12,7 +12,7 @@
                 Sesión usando <br>técnica
                 <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
             </h1>
-            <button class="cts-btn-general cts-btn-error btn-push" onclick="exit_sesion('form-actions')">
+            <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
                 Salir de la sesión
             </button>
         </header>
@@ -31,7 +31,7 @@
         </section>
 
         {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+        {% include "../components/error_message.html" with message=error %}
         {% endif %}
 
         <article class="rounded flex flex-col gap-4">
@@ -57,7 +57,7 @@
                 <article id="items" class="original-products flex gap-4 flex-wrap justify-center"
                     data-original-products="original">
                     {% for product in products %}
-                    <div class="item-product bg-btn-secondary text-black font-bold px-4 py-2 rounded cursor-grab transition-all"
+                    <div class="item-product bg-cts-secondary text-black font-bold px-4 py-2 rounded cursor-grab transition-all"
                         data-id-product="{{ product.id }}" data-code="{{ product.codigoProducto }}">
                         {{ product.codigoProducto }}
                     </div>
@@ -82,7 +82,7 @@
                     <button id="create-group-btn" class="cts-btn-general-compress py-1 px-4 cts-btn-primary btn-push">
                         Crear Grupo
                     </button>
-                    <button id="dissolve-group-btn" class="cts-btn-general-compress py-1 px-4 cts-btn-error btn-push">
+                    <button id="dissolve-group-btn" class="cts-btn-general-compress py-1 px-4 cts-btn-fourthy btn-push">
                         Disolver Grupo
                     </button>
                 </div>
@@ -176,7 +176,7 @@
                         onclick="window.finishSession()">
                         Finalizar
                     </button>
-                    <button id="cancel-save" class="cts-btn-general cts-btn-error btn-push hidden flex-1">
+                    <button id="cancel-save" class="cts-btn-general cts-btn-fourthy btn-push hidden flex-1">
                         Cancelar
                     </button>
                 </div>
@@ -184,9 +184,9 @@
             </section>
         </article>
 
-        {% include "../components/dialog-nap-sort.html" with form=form %}
+        {% include "../components/dialog_nap_sort.html" with form=form %}
 
-        {% include "../components/toast-container.html" %}
+        {% include "../components/toast_container.html" %}
     </article>
 </article>
 {% endblock %}

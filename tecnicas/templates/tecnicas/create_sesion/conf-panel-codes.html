@@ -10,10 +10,10 @@
         <hr>
 
         {% if error %}
-        {% include "./components/error-message.html" with message=error %}
+        {% include "./components/error_message.html" with message=error %}
         {% endif %}
         {% if message %}
-        {% include "./components/error-message.html" with message=message %}
+        {% include "./components/error_message.html" with message=message %}
         {% endif %}
 
         <form method="post" action="" class="ct-codes-form flex flex-col gap-5">
@@ -34,7 +34,7 @@
                     {% endfor %}
                 </article>
                 {% if use_technique == 'escalas' %}
-                <button type="button" class="cts-btn-general cts-btn-gray-dark btn-push uppercase"
+                <button type="button" class="cts-btn-general cts-btn-fifthy btn-push uppercase"
                     onclick="setPermutations()">
                     Regenerar Órdenes
                 </button>
@@ -57,7 +57,7 @@
             <article class="cs-escalas-radio max-lg:flex-col justify-center flex gap-4">
                 <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
                     <a href="{% url 'cata_system:panel_configuracion_tags' %}" class="flex-1 w-full">
-                        <button type="button" class="cts-btn-general cts-btn-gray-dark btn-push w-full">
+                        <button type="button" class="cts-btn-general cts-btn-fifthy btn-push w-full">
                             Paso anterior
                         </button>
                     </a>
@@ -66,7 +66,7 @@
                     </button>
                 </section>
                 <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
-                    <button type="button" class="cts-btn-general cts-btn-error btn-push w-fit max-lg:w-full">
+                    <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-fit max-lg:w-full">
                         Cancelar la creación
                     </button>
                 </a>

@@ -22,13 +22,13 @@
         </header>
 
         {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+        {% include "../components/error_message.html" with message=error %}
         {% else %}
         <div class="space-y-4">
             <h3 class="text-xl font-semibold">Sesiones en las que ha participado</h3>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {% for session in sessions %}
-                {% include "../components/item_session_tester.html" with session=session %}
+                {% include "../components/elements_items/item_session_tester.html" with session=session %}
                 {% empty %}
                 <div class="col-span-full text-center text-gray-500">
                     No hay sesiones registradas.
@@ -40,15 +40,15 @@
                 <div class="join space-x-2">
                     {% if page > 1 %}
                     <a href="{% url 'cata_system:catador_list_sessions' num_page=page|add:-1 %}" class="w-fit">
-                        <button class="join-item btn bg-btn-secondary py-1 text-2xl">
+                        <button class="join-item btn bg-cts-secondary py-1 text-2xl">
                             ⏮️
                         </button>
                     </a>
                     {% endif %}
-                    <button class="join-item btn bg-btn-secondary">Page {{ page }}</button>
+                    <button class="join-item btn bg-cts-secondary">Page {{ page }}</button>
                     {% if not last_page %}
                     <a href="{% url 'cata_system:catador_list_sessions' num_page=page|add:1 %}" class="w-fit">
-                        <button class="join-item btn bg-btn-secondary py-1 text-2xl">
+                        <button class="join-item btn bg-cts-secondary py-1 text-2xl">
                             ⏭️
                         </button>
                     </a>

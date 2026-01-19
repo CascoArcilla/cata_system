@@ -20,7 +20,7 @@
         {% include "../components/tables/table-napping-no-mode.html" with testers=testers coordinates_no_mode=coordinates_no_mode session=session %}
     {% endif %}
 {% else %}
-    {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+    {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
 {% endif %}
 
 {% if session.mod_tech == "posicionamiento" and finished %}

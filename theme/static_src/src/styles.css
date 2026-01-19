@@ -27,28 +27,27 @@
 }
 
 .cts-btn-primary {
-  @apply text-white bg-btn-primary border-orange-800;
+  @apply text-white bg-cts-primary border-orange-800;
 }
 
 .cts-btn-secondary {
-  @apply text-black bg-btn-secondary border-cts-border;
+  @apply text-black bg-cts-secondary border-cts-border;
 }
 
-.cts-btn-gray-dark {
-  @apply text-white border-black;
-  background-color: #696969;
+.cts-btn-tertiary {
+  @apply text-gray-700 bg-cts-tertiary border-green-600;
+}
+
+.cts-btn-fourthy {
+  @apply text-white bg-cts-fourthy border-red-800;
+}
+
+.cts-btn-fifthy {
+  @apply text-white border-black bg-cts-fifthy;
 }
 
 .cts-radius-green {
   @apply radio radio-lg checked:bg-cts-radius-ring-color;
-}
-
-.cts-btn-tertiary {
-  @apply text-gray-700 bg-btn-tertiary border-green-600;
-}
-
-.cts-btn-error {
-  @apply text-white bg-cts-error border-red-800;
 }
 
 .btn-push {

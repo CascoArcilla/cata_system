@@ -14,6 +14,6 @@
 {% if there_data %}
     {% include "../components/tables/table-sort.html" with data_groups=data_groups session=session %}
 {% else %}
-    {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+    {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
 {% endif %}
 {% endblock %}

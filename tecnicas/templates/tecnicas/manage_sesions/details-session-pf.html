@@ -22,11 +22,11 @@
         {% if fisrt_phase %}
         <article class="flex gap-4 overflow-x-auto py-2">
             {% for list_tester in fisrt_phase %}
-            {% include "../components/item-list-words.html" with list_tester=list_tester %}
+            {% include "../components/elements_items/item_list_words.html" with list_tester=list_tester %}
             {% endfor %}
         </article>
         {% else %}
-        {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+        {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
     </section>
 
@@ -40,11 +40,11 @@
         {% if second_phase %}
         <article class="flex gap-4 overflow-x-auto py-2">
             {% for list_tester in second_phase %}
-            {% include "../components/item-list-words.html" with list_tester=list_tester %}
+            {% include "../components/elements_items/item_list_words.html" with list_tester=list_tester %}
             {% endfor %}
         </article>
         {% else %}
-        {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+        {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
     </section>
 
@@ -67,7 +67,7 @@
             {% if data_ratings %}
                 {% include "../components/tables/table_pf_all.html" with second_phase=second_phase data_ratings=data_ratings session_name=session.session_name session_code=session.session_code %}
             {% else %}
-                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+                {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
             {% endif %}
         {% else %}
             {% if data_ratings %}
@@ -87,7 +87,7 @@
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
                 <script src="{% static 'js/download-table-xlsx.js' %}"></script>
             {% else %}
-                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
+                {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
             {% endif %}
         {% endif %}
     </section>

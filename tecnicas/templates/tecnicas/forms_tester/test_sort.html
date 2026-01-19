@@ -12,7 +12,7 @@
                 Sesión usando <br>técnica
                 <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
             </h1>
-            <button class="cts-btn-general cts-btn-error btn-push" onclick="exit_sesion('form-actions')">
+            <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
                 Salir de la sesión
             </button>
         </header>
@@ -30,7 +30,7 @@
         </section>
 
         {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+        {% include "../components/error_message.html" with message=error %}
         {% endif %}
 
         <article class="rounded flex flex-col gap-4">
@@ -70,7 +70,7 @@
             <div id="items" class="original-products flex gap-4 flex-wrap justify-center"
                 data-original-products="original">
                 {% for product in products %}
-                <div class="draggable bg-btn-secondary text-black font-bold px-4 py-2 rounded cursor-grab"
+                <div class="draggable bg-cts-secondary text-black font-bold px-4 py-2 rounded cursor-grab"
                     draggable="true" data-id-product="{{ product.id }}" data-code="{{ product.codigoProducto }}">
                     {{ product.codigoProducto }}
                 </div>
@@ -86,7 +86,7 @@
 
                 <section class="flex sm:flex-row flex-col items-stretch w-full gap-4">
                     <article
-                        class="dropzone trash-products flex-1 min-h-16 bg-cts-error rounded py-4 px-2 flex flex-col items-center justify-center flex-wrap gap-2">
+                        class="dropzone trash-products flex-1 min-h-16 bg-cts-fourthy rounded py-4 px-2 flex flex-col items-center justify-center flex-wrap gap-2">
                         <p class="text-lg text-center font-bold text-white">
                             Arrastra aquí para borrar
                         </p>
@@ -110,9 +110,9 @@
                     {% for group in grups_products %}
                     <section class="w-fit space-y-4 border rounded p-2 bg-surface-sweet">
                         <article
-                            class="dropzone w-64 min-h-16 bg-surface-alter-card rounded p-2 flex items-center justify-center flex-wrap gap-2">
+                            class="dropzone w-64 min-h-16 bg-cts-enfasis rounded p-2 flex items-center justify-center flex-wrap gap-2">
                             {% for product in group.productos.all %}
-                            <div class="draggable bg-btn-secondary text-black font-bold px-4 py-2 rounded cursor-grab"
+                            <div class="draggable bg-cts-secondary text-black font-bold px-4 py-2 rounded cursor-grab"
                                 draggable="true" data-id-product="{{ product.id }}"
                                 data-code="{{ product.codigoProducto }}">
                                 {{ product.codigoProducto }}
@@ -135,7 +135,7 @@
                                 class="cts-item-words bg-surface-ligt text-black rounded font-bold text-lg p-1 flex flex-wrap flex-row flex-1 min-w-fit justify-center items-center gap-3">
                                 <span class="item-word">{{ word.nombre_palabra }}</span>
                                 <button data-word="{{ word.nombre_palabra }}"
-                                    class="cts-remove-word cts-btn-general-compress px-2 cts-btn-error">
+                                    class="cts-remove-word cts-btn-general-compress px-2 cts-btn-fourthy">
                                     ➖
                                 </button>
                             </div>
@@ -150,7 +150,7 @@
                             <button class="cts-remove cts-btn-general-compress flex-1 cts-btn-primary btn-push hidden">
                                 Remover
                             </button>
-                            <button class="cts-no-remove cts-btn-general-compress flex-1 cts-btn-error btn-push hidden">
+                            <button class="cts-no-remove cts-btn-general-compress flex-1 cts-btn-fourthy btn-push hidden">
                                 Conservar
                             </button>
                         </article>
@@ -160,7 +160,7 @@
                     {% else %}
                     <section class="w-fit space-y-4 border rounded p-2 bg-surface-sweet">
                         <article
-                            class="dropzone w-64 min-h-16 bg-surface-alter-card rounded p-2 flex items-center justify-center flex-wrap gap-2">
+                            class="dropzone w-64 min-h-16 bg-cts-enfasis rounded p-2 flex items-center justify-center flex-wrap gap-2">
                             <p class="text-products text-center text-lg font-medium">
                                 Agrupación de productos
                             </p>
@@ -188,7 +188,7 @@
                             <button class="cts-remove cts-btn-general-compress flex-1 cts-btn-primary btn-push hidden">
                                 Remover
                             </button>
-                            <button class="cts-no-remove cts-btn-general-compress flex-1 cts-btn-error btn-push hidden">
+                            <button class="cts-no-remove cts-btn-general-compress flex-1 cts-btn-fourthy btn-push hidden">
                                 Conservar
                             </button>
                         </article>
@@ -239,7 +239,7 @@
                     <button id="finish-session" class="cts-btn-general cts-btn-tertiary btn-push hidden flex-1">
                         Finalizar
                     </button>
-                    <button id="cancel-save" class="cts-btn-general cts-btn-error btn-push hidden flex-1">
+                    <button id="cancel-save" class="cts-btn-general cts-btn-fourthy btn-push hidden flex-1">
                         Cancelar
                     </button>
                 </div>
@@ -247,7 +247,7 @@
             </section>
         </article>
 
-        {% include "../components/toast-container.html" %}
+        {% include "../components/toast_container.html" %}
     </article>
 </article>
 {% endblock %}

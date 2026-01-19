@@ -1,17 +1,17 @@
-<div class='card bg-surface-ligt shadow-lg text-black sm:max-w-80 w-full flex justify-center items-center'>
+<div class='card bg-surface-card shadow-lg text-black sm:max-w-80 w-full flex justify-center items-center'>
     <div class="card-body flex flex-col justify-between w-full">
         <div class="flex flex-col gap-2">
-            <h2 class="text-xl font-bold text-right bg-btn-secondary text-white p-2 rounded">
+            <h2 class="text-xl font-bold text-center bg-surface-sweet p-2 rounded">
                 {{ vocabulary.nombre_vocabulario }}
             </h2>
-            <div class="text-lg bg-surface-alter-card p-2 rounded">
+            <div class="text-lg bg-surface-sweet p-2 rounded">
                 <p class="font-bold">Creado en:</p>
                 <p>{{ vocabulary.creado }}</p>
             </div>
         </div>
         <div>
             <a href="{% url 'cata_system:ver_vocabulario' nombre_vocabulario=vocabulary.nombre_vocabulario %}">
-                <button class="btn bg-btn-primary border-0 block w-full btn-push">
+                <button class="cts-btn-general-compress cts-btn-primary px-4 py-2 w-full btn-push">
                     Ver Detalles
                 </button>
             </a>

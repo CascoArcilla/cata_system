@@ -34,7 +34,7 @@ async function postNewTag(e) {
     const jsonResponse = await respone.json();
 
     if (jsonResponse.error) {
-      const errorp = document.getElementsByClassName("cts-error-tag")[0];
+      const errorp = document.getElementsByClassName("cts-fourthy-tag")[0];
       errorp.textContent = `error: ${jsonResponse.error}`;
       errorp.classList.remove("hidden");
       return;
