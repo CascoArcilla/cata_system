@@ -1,4 +1,4 @@
-from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm
+from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm, SesionBasicRATAForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -61,8 +61,7 @@ class PanelBasicController():
 
     @staticmethod
     def controllGetRATA(request: HttpRequest):
-        form_sesion = SesionBasicForm(
-            initial_conf=PanelBasicController.conf_initial_rata)
+        form_sesion = SesionBasicRATAForm()
 
         view_context = {
             "form_sesion": form_sesion,
@@ -76,8 +75,7 @@ class PanelBasicController():
     @staticmethod
     def controllPostRATA(request: HttpRequest, name_tecnica: str):
         try:
-            form = SesionBasicForm(
-                request.POST, initial_conf=PanelBasicController.conf_initial_rata)
+            form = SesionBasicRATAForm(request.POST)
 
             if form.is_valid():
                 values = {}
@@ -86,13 +84,6 @@ class PanelBasicController():
                         values[name] = value.id
                     else:
                         values[name] = value
-
-                for key, expected in PanelBasicController.conf_initial_rata.items():
-                    actual = values.get(key)
-
-                    if actual is None or str(actual) != str(expected):
-                        form.add_error(
-                            key, f"Valor inválido para '{key}': se esperaba {expected}, se recibió {actual}")
 
                 if form.errors:
                     response = render(request, PanelBasicController.url_panel_basic, {
