@@ -1,46 +1,49 @@
 <hr>
-<h2 class="text-2xl font-bold">Selecciona una escala</h2>
-<article class="cs-escalas-radio flex flex-col gap-4">
-    <section class="flex flex-row gap-4 justify-around flex-wrap">
-        {% for escala in form_sesion.tipo_escala %}
-        <label for="{{escala.id_for_label}}"
-            class="cts-btn-general-compress uppercase p-2 px-4 cts-btn-fifthy btn-push">
-            {{ escala.tag }}
-            {{ escala.choice_label }}
-        </label>
-        {% endfor %}
+<section class="space-y-4 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl font-bold">Selecciona una escala</h2>
+    <article class="cs-escalas-radio flex flex-col gap-4">
+        <section class="flex flex-row gap-4 justify-around flex-wrap">
+            {% for escala in form_sesion.tipo_escala %}
+            <label for="{{escala.id_for_label}}"
+                class="cts-btn-general-compress uppercase p-2 px-4 cts-btn-fifthy btn-push">
+                {{ escala.tag }}
+                {{ escala.choice_label }}
+            </label>
+            {% endfor %}
 
-        {% if form_sesion.tipo_escala.errors %}
-        <div class="w-full text-center text-red-600 text-xl font-medium tracking-wide">
-            {{ form_sesion.tipo_escala.errors }}
-        </div>
-        {% endif %}
-    </section>
+            {% if form_sesion.tipo_escala.errors %}
+            <div class="w-full text-center text-red-600 text-xl font-medium tracking-wide">
+                {{ form_sesion.tipo_escala.errors }}
+            </div>
+            {% endif %}
+        </section>
 
-    <section class="py-2 px-5 flex flex-col justify-center items-center gap-2 relative">
-        <label for="{{ form_sesion.tamano_escala.id_for_label }}"
-            class="ct-size-scale text-xl flex flex-col items-center px-2 font-bold">
-            <p>Establece número de segmentos:</p>
-            {{ form_sesion.tamano_escala }}
-        </label>
-        <div class="flex justify-around max-sm:flex-col gap-8 cts-options-size-scale">
-            <label class="flex flex-col items-center cursor-pointer">
-                <input type="radio" name="option_size_scale" value="5" class="cts-radius-green" />
-                <span class="mt-2 text-xl text-gray-700 font-medium">5</span>
+        <section class="py-2 px-5 flex flex-col justify-center items-center gap-2 relative">
+            <label for="{{ form_sesion.tamano_escala.id_for_label }}"
+                class="ct-size-scale text-xl flex flex-col items-center px-2 font-bold">
+                <p>Establece número de segmentos:</p>
+                {{ form_sesion.tamano_escala }}
             </label>
-            <label class="flex flex-col items-center cursor-pointer">
-                <input type="radio" name="option_size_scale" value="7" class="cts-radius-green" />
-                <span class="mt-2 text-xl text-gray-700 font-medium">7</span>
-            </label>
-            <label class="flex flex-col items-center cursor-pointer">
-                <input type="radio" name="option_size_scale" value="9" class="cts-radius-green" />
-                <span class="mt-2 text-xl text-gray-700 font-medium">9</span>
-            </label>
-        </div>
-        {% if form_sesion.tamano_escala.errors %}
-        <article class="w-fit rounded px-2 py-0.5 text-center text-white text-sm font-medium tracking-wide bg-red-500">
-            {{ form_sesion.tamano_escala.errors }}
-        </article>
-        {% endif %}
-    </section>
-</article>
+            <div class="flex justify-around max-sm:flex-col gap-8 cts-options-size-scale">
+                <label class="flex flex-col items-center cursor-pointer">
+                    <input type="radio" name="option_size_scale" value="5" class="cts-radius-green" />
+                    <span class="mt-2 text-xl text-gray-700 font-medium">5</span>
+                </label>
+                <label class="flex flex-col items-center cursor-pointer">
+                    <input type="radio" name="option_size_scale" value="7" class="cts-radius-green" />
+                    <span class="mt-2 text-xl text-gray-700 font-medium">7</span>
+                </label>
+                <label class="flex flex-col items-center cursor-pointer">
+                    <input type="radio" name="option_size_scale" value="9" class="cts-radius-green" />
+                    <span class="mt-2 text-xl text-gray-700 font-medium">9</span>
+                </label>
+            </div>
+            {% if form_sesion.tamano_escala.errors %}
+            <article
+                class="w-fit rounded px-2 py-0.5 text-center text-white text-sm font-medium tracking-wide bg-red-500">
+                {{ form_sesion.tamano_escala.errors }}
+            </article>
+            {% endif %}
+        </section>
+    </article>
+</section>

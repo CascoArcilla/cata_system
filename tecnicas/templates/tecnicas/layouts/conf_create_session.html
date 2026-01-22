@@ -1,14 +1,17 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/base_analist.html' %}
 {% load static %}
 
 {% block title %}{% endblock %}
 
-{% block content %}
-<article class="cts-container">
-    <article class="cts-container-config">
-        <h1 class="text-center font-bold text-4xl">
-            {% block title_form %}{% endblock %}
-        </h1>
+{% block content_analist %}
+<article class="cts-container-main">
+    <article class="cts-container-panel">
+        <header class="space-y-2 bg-surface-card rounded p-4">
+            <h1 class="text-center font-bold text-4xl">
+                {% block title_form %}{% endblock %}
+            </h1>
+            <h2 class="text-center font-bold text-3xl uppercase underline">{{ use_technique }}</h2>
+        </header>
 
         {% if error %}
         {% include "../components/error_message.html" with message=error %}
@@ -16,7 +19,7 @@
         {% if message %}
         {% include "../components/error_message.html" with message=message %}
         {% endif %}
-        
+
         <hr>
         <form method="post" action="" class="space-y-4">
             {% csrf_token %}

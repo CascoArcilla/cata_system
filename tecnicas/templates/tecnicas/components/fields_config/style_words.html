@@ -1,18 +1,20 @@
 <hr>
-<h2 class="text-2xl font-bold">Selecciona estilo para las palabras</h2>
-<article class="flex flex-col gap-4">
-    <section class="flex flex-row gap-4 justify-around flex-wrap">
-        {% for style in form_sesion.estilo_palabras %}
-        <label for="{{style.id_for_label}}"
-            class="cts-btn-general-compress uppercase p-2 px-4 cts-btn-fifthy btn-push">
-            {{ style.tag }}
-            {{ style.choice_label }}
-        </label>
-        {% endfor %}
-    </section>
-    <section class="w-full flex justify-center items-center">
-        <p
-            class="ct-ayuda-estilo max-w-2xl text-lg font-medium tracking-wide bg-surface-card text-center py-1 px-4 rounded-xl">
-        </p>
-    </section>
-</article>
+<section class="space-y-4 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl font-bold">Selecciona estilo para las palabras</h2>
+    <article class="flex flex-col gap-4">
+        <section class="flex flex-row gap-4 justify-around flex-wrap">
+            {% for style in form_sesion.estilo_palabras %}
+            <label for="{{style.id_for_label}}"
+                class="cts-btn-general-compress uppercase p-2 px-4 cts-btn-fifthy btn-push">
+                {{ style.tag }}
+                {{ style.choice_label }}
+            </label>
+            {% endfor %}
+        </section>
+        <section class="w-full flex justify-center items-center">
+            <p
+                class="ct-ayuda-estilo max-w-2xl text-lg font-medium tracking-wide bg-surface-general text-center py-1 px-4 rounded-xl">
+            </p>
+        </section>
+    </article>
+</section>

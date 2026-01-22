@@ -1,5 +1,5 @@
 <div
-    class='card {{ sesion.activo|yesno:"bg-surface-ligt border-red-300 border-t,bg-surface-card" }} shadow-lg text-black sm:max-w-80 w-full flex justify-center items-center'>
+    class='card {{ sesion.activo|yesno:"bg-surface-ligt border-red-300 border-t,bg-surface-card" }} shadow-lg text-black w-full flex justify-center items-center'>
     <div class="card-body flex flex-col justify-between w-full">
         <div class="flex flex-col gap-1 [&>*]:first:text-xl [&>*]:first:font-bold [&>*]:first:border-b">
             {% if sesion.nombre_sesion %}

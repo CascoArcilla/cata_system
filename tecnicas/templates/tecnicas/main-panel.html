@@ -1,73 +1,69 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/base_analist.html' %}
 {% load static %}
 
 {% block title %}Panel principal{% endblock %}
 
-{% block content %}
-<article class="cts-container">
-    <article class="cts-container-fit">
-        <header class="flex flex-col flex-wrap justify-center items-center space-y-8">
-            <section class="bg-surface-card p-8 rounded-md w-full shadow-lg">
-                <h1 class="text-black text-4xl font-bold text-center max-sm:text-2xl">Panel Principal</h1>
+{% block content_analist %}
+<article class="cts-container-panel">
+    <header class="flex flex-col flex-wrap justify-center items-center space-y-8">
+        <section class="bg-surface-card p-8 rounded-md w-full shadow-lg">
+            <h1 class="text-black text-4xl font-bold text-center max-sm:text-2xl">Panel Principal</h1>
+        </section>
+        <section
+            class="flex max-sm:flex-col flex-wrap justify-center max-sm:gap-4 items-center p-8 w-full bg-surface-card rounded-md shadow-lg">
+            <section class="flex flex-col text-black flex-1 flex-wrap gap-4 w-full">
+                <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl bg-white">
+                    <legend class="text-black fieldset-legend text-lg px-1.5">Nombre Analista</legend>
+                    <p class="text-3xl max-sm:text-2xl font-medium">{{ name }}</p>
+                </fieldset>
+                <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl bg-white">
+                    <legend class="text-black fieldset-legend text-lg px-1.5">Nombre de usuario</legend>
+                    <p class="text-3xl max-sm:text-2xl font-medium">{{ username }}</p>
+                    <p class="text-3xl max-sm:text-2xl font-medium">{{ cumple }}</p>
+                </fieldset>
             </section>
-            <section
-                class="flex max-sm:flex-col flex-wrap justify-center max-sm:gap-4 items-center p-8 w-full bg-surface-card rounded-md shadow-lg">
-                <section class="flex flex-col text-black flex-1 flex-wrap gap-4 w-full">
-                    <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl bg-white">
-                        <legend class="text-black fieldset-legend text-lg px-1.5">Nombre Presentador</legend>
-                        <p class="text-3xl max-sm:text-2xl font-medium">{{ name }}</p>
-                    </fieldset>
-                    <fieldset class="fieldset rounded-box border px-3 pb-3 rounded-2xl bg-white">
-                        <legend class="text-black fieldset-legend text-lg px-1.5">Nombre de usuario</legend>
-                        <p class="text-3xl max-sm:text-2xl font-medium">{{ username }}</p>
-                        <p class="text-3xl max-sm:text-2xl font-medium">{{ cumple }}</p>
-                    </fieldset>
-                </section>
-                <section class="flex-1 flex justify-center max-sm:w-full">
-                    <button type="button"
-                        class="text-black cts-btn-general cts-btn-fourthy btn-push max-sm:w-full"
-                        onclick="exit_sesion('frm-exit')">
-                        Salir del sistema
-                    </button>
-                </section>
+            <section class="flex-1 flex justify-center max-sm:w-full">
+                <button type="button" class="text-black cts-btn-general cts-btn-fourthy btn-push max-sm:w-full"
+                    onclick="exit_sesion('frm-exit')">
+                    Salir del sistema
+                </button>
             </section>
-        </header>
+        </section>
+    </header>
 
-        {% if error %}
-        {% include "./components/error_message.html" with message=error %}
-        {% endif %}
+    {% if error %}
+    {% include "./components/error_message.html" with message=error %}
+    {% endif %}
 
-        <article class="w-full py-6 p-2 sm:p-4 md:p-8 bg-surface-card rounded-lg shadow-lg">
-            <article class="grid grid-cols-2 gap-6 w-5xl max-lg:w-3xl max-md:w-auto text-3xl max-sm:text-2xl 
-         max-md:grid-cols-1 justify-items-center items-start place-items-stretch">
-                <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-full">
-                    <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
-                        Crear Sesión <br> Sensorial
-                    </button>
-                </a>
-                <a href="{% url 'cata_system:panel_catadores' %}" class="w-full">
-                    <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
-                        Gestión de <br>catadores
-                    </button>
-                </a>
-                <a href="{% url 'cata_system:panel_sesiones' page=1 %}" class="w-full">
-                    <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
-                        Gestión de sesiones<br>sensoriales
-                    </button>
-                </a>
-                <a href="{% url 'cata_system:panel_vocabulario' %}" class="w-full h-full">
-                    <button class="w-full h-full text-black cts-btn-general cts-btn-primary btn-push">
-                        Gestión de vocabularios
-                    </button>
-                </a>
-            </article>
+    <article class="w-full py-6 p-2 sm:p-4 md:p-8 bg-surface-card rounded-lg shadow-lg">
+        <article class="grid grid-cols-2 gap-4 text-3xl max-sm:text-2xl max-md:grid-cols-1 place-items-center">
+            <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-full">
+                <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
+                    Crear Sesión <br> Sensorial
+                </button>
+            </a>
+            <a href="{% url 'cata_system:panel_catadores' %}" class="w-full">
+                <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
+                    Gestión de <br>catadores
+                </button>
+            </a>
+            <a href="{% url 'cata_system:panel_sesiones' page=1 %}" class="w-full">
+                <button class="w-full text-black cts-btn-general cts-btn-primary btn-push">
+                    Gestión de sesiones<br>sensoriales
+                </button>
+            </a>
+            <a href="{% url 'cata_system:panel_vocabulario' %}" class="w-full h-full">
+                <button class="w-full h-full text-black cts-btn-general cts-btn-primary btn-push">
+                    Gestión de vocabularios
+                </button>
+            </a>
         </article>
     </article>
-    <form action="" method="post" class="frm-exit hidden">
-        <input type="hidden" name="action" class="action-input">
-        {% csrf_token %}
-    </form>
 </article>
+<form action="" method="post" class="frm-exit hidden">
+    <input type="hidden" name="action" class="action-input">
+    {% csrf_token %}
+</form>
 {% endblock %}
 
 {% block extra_js %}

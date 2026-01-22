@@ -6,12 +6,12 @@
   @apply flex flex-col w-full min-h-screen bg-surface-general appearance-none;
 }
 
-.cts-container {
+.cts-container-main {
   @apply w-full flex flex-col justify-center items-center bg-surface-general py-10;
 }
 
-.cts-container-fit {
-  @apply flex flex-col gap-8 bg-surface-alter p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-xl max-lg:rounded-none;
+.cts-container-panel {
+  @apply container max-w-screen-xl text-black bg-surface-alter space-y-8 p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-xl;
 }
 
 .cts-container-config {

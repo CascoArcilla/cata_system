@@ -1,0 +1,97 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block body_class %}h-screen bg-surface-general{% endblock %}
+
+
+{% block content %}
+<div class="drawer lg:drawer-open z-50">
+    <input id="menu-aside" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col">
+        <article class="cts-container-main">
+            {% block content_analist %}
+            {% endblock %}
+        </article>
+        <label for="menu-aside"
+            class="btn drawer-button bg-surface-ligt border-0 rounded-full fixed bottom-4 right-4 z-50 w-14 h-14 flex items-center justify-center shadow-lg lg:hidden">
+            <img src="{% static 'img/icons/menu_burguer.svg' %}" alt="menu hamburguesa" class="w-8">
+        </label>
+    </div>
+    <div class="drawer-side">
+        <label for="menu-aside" aria-label="close sidebar" class="drawer-overlay"></label>
+        <article class="menu bg-surface-sweet min-h-full w-80 p-4 text-black space-y-4">
+            <header class="bg-surface-card p-4 rounded-md">
+                <a href="{% url 'cata_system:index' %}">
+                    <h2 class="text-2xl font-bold text-center">Senso System</h2>
+                </a>
+            </header>
+            <section class="space-y-4">
+                <div class="space-y-2 bg-surface-card p-4 rounded-md">
+                    <a href="{% url 'cata_system:index' %}"
+                        class="flex items-center justify-center hover:bg-cts-primary">
+                        <img src="{% static 'img/icons/home.svg' %}" alt="home" class="h-12">
+                        <h2 class="text-xl font-bold text-center">Inicio</h2>
+                    </a>
+                </div>
+                <div class="space-y-2 bg-surface-card p-4 rounded-md">
+                    <h2 class="text-xl font-bold">Crear sesión</h2>
+                    <ul class="pl-10 flex flex-col gap-2">
+                        <a href="{% url 'cata_system:panel_configuracion_basic' %}?name_tecnica=escalas">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                ⚙️ Escalas</li>
+                        </a>
+                        <a href="{% url 'cata_system:panel_configuracion_basic' %}?name_tecnica=rata">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                ⚙️ Rata</li>
+                        </a>
+                        <a href="{% url 'cata_system:panel_configuracion_basic' %}?name_tecnica=cata">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                ⚙️ Cata</li>
+                        </a>
+                        <a href="{% url 'cata_system:panel_configuracion_basic'%}?name_tecnica=perfil flash">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                ⚙️ Perfil Flash</li>
+                        </a>
+                        <a href="{% url 'cata_system:panel_configuracion_basic'%}?name_tecnica=sort">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                ⚙️ Sort</li>
+                        </a>
+                        <a href="{% url 'cata_system:panel_configuracion_basic'%}?name_tecnica=napping">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                ⚙️ Napping</li>
+                        </a>
+                    </ul>
+                </div>
+                <div class="space-y-2 bg-surface-card p-4 rounded-md">
+                    <h2 class="text-xl font-bold">Catadores</h2>
+                    <ul class="pl-10 flex flex-col gap-2">
+                        <a href="{% url 'cata_system:crear_catador' %} ">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                ➕ Crear nuevo</li>
+                        </a>
+                        <a href="{% url 'cata_system:listar_catador' num_page=1 %} ">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                📋 Ver catadores</li>
+                        </a>
+                    </ul>
+                </div>
+                <div class="space-y-2 bg-surface-card p-4 rounded-md">
+                    <h2 class="text-xl font-bold">Vocabularios</h2>
+                    <ul class="pl-10 flex flex-col gap-2">
+                        <a href="{% url 'cata_system:crear_vocabulario' %} ">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                ➕ Crear nuevo</li>
+                        </a>
+                        <a href="{% url 'cata_system:lista_vocabulario' num_page=1 %} ">
+                            <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
+                                📋 Ver vocabularios</li>
+                        </a>
+                    </ul>
+                </div>
+            </section>
+        </article>
+    </div>
+</div>
+{% endblock %}
