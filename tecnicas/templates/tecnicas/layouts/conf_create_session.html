@@ -4,36 +4,33 @@
 {% block title %}{% endblock %}
 
 {% block content_analist %}
-<article class="cts-container-main">
-    <article class="cts-container-panel">
-        <header class="space-y-2 bg-surface-card rounded p-4">
-            <h1 class="text-center font-bold text-4xl">
-                {% block title_form %}{% endblock %}
-            </h1>
-            <h2 class="text-center font-bold text-3xl uppercase underline">{{ use_technique }}</h2>
-        </header>
+<article class="cts-container-panel">
+    <header class="space-y-2 bg-surface-card rounded p-4">
+        <h1 class="text-center font-bold text-4xl">
+            {% block title_form %}{% endblock %}
+        </h1>
+        <h2 class="text-center font-bold text-3xl uppercase underline">{{ use_technique }}</h2>
+    </header>
 
-        {% if error %}
-        {% include "../components/error_message.html" with message=error %}
-        {% endif %}
-        {% if message %}
-        {% include "../components/error_message.html" with message=message %}
-        {% endif %}
+    {% if error %}
+    {% include "../components/error_message.html" with message=error %}
+    {% endif %}
+    {% if message %}
+    {% include "../components/error_message.html" with message=message %}
+    {% endif %}
 
-        <hr>
-        <form method="post" action="" class="space-y-4">
-            {% csrf_token %}
-            <label for="form_sesion.name_tecnica.id_for_label" class="hidden">
-                {{ form_sesion.name_tecnica }}
-            </label>
+    <form method="post" action="" class="space-y-4">
+        {% csrf_token %}
+        <label for="form_sesion.name_tecnica.id_for_label" class="hidden">
+            {{ form_sesion.name_tecnica }}
+        </label>
 
-            {% block content_form %}
-            {% endblock %}
-        </form>
-    </article>
+        {% block content_main_form %}
+        {% endblock %}
+    </form>
+    {% block extra_content %}
+    {% endblock %}
+    
+    {%include "../components/toast_container.html"%}
 </article>
-{% endblock %}
-
-{% block extra_js %}
-<script src="{% static 'js/panel-basic.js' %}"></script>
 {% endblock %}
