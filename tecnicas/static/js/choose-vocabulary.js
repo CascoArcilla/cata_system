@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     wordsList.innerHTML = `
     <li
-        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl w-full">
+        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded w-full">
         Cargando...
     </li>`;
 
     if (!vocabId) {
       wordsList.innerHTML = `
       <li
-        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl w-full">
+        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded w-full">
         Selecciona un vocabulario para ver sus palabras
       </li>`
       return;
@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (words === 0) {
         wordsList.innerHTML =
-          "<li class='text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl w-full'>No hay palabras asociadas</li>";
+          "<li class='text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded w-full'>No hay palabras asociadas</li>";
         return;
       }
 
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       wordsList.innerHTML = `
       <li
-        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl w-full">
+        class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded w-full">
         Selecciona un vocabulario para ver sus palabras
       </li>`
       return;

@@ -14,13 +14,13 @@
         <h2 class="font-bold text-3xl">Senso System</h2>
     </div>
 
-    <div class="navbar-end h-full pr-2 space-x-2">
-        <img src="{% static 'img/logos/tecnm.webp' %}" alt="Logo TecNM" class="h-full object-contain max-lg:hidden">
-        <img src="{% static 'img/logos/itsz.webp' %}" alt="Logo ITSZ" class="h-full object-contain max-lg:hidden">
+    <div class="navbar-end pr-2 space-x-2">
+        <img src="{% static 'img/logos/tecnm.webp' %}" alt="Logo TecNM" class="max-w-26 object-contain max-lg:hidden">
+        <img src="{% static 'img/logos/itsz.webp' %}" alt="Logo ITSZ" class="max-w-26 object-contain max-lg:hidden">
         <img src="{% static 'img/logos/logo_colpus.webp' %}" alt="Logo Colpus"
-            class="h-full object-contain max-lg:hidden">
+            class="max-w-26 object-contain max-lg:hidden">
         <img src="{% static 'img/logos/tec_huatusco.webp' %}" alt="Logo Tec Huatusco"
-            class="h-full object-contain max-lg:hidden">
+            class="h-12 max-w-26 object-contain max-lg:hidden">
     </div>
 </div>
 {% endblock %}
@@ -29,6 +29,7 @@
 <article class="cts-container-main">
     <article class="cts-container-config">
         <form action="" method="post" class="text-black flex flex-col lg:flex-row items-center w-full">
+            {% csrf_token %}
             <header class="text-center flex-col items-center justify-center hidden lg:flex lg:w-1/2">
                 <h1 class="text-5xl max-sm:text-3xl font-bold">Senso System</h1>
                 <div class="w-full">
@@ -88,13 +89,13 @@
         </div>
         
         <div class="grid grid-cols-2 gap-4 justify-items-center w-full lg:hidden">
-            <img src="{% static 'img/logos/itsz.webp' %}" alt="Logo ITSZ" class="h-18 w-full">
+            <img src="{% static 'img/logos/tecnm.webp' %}" alt="Logo TecNM" class="h-15">
+            <img src="{% static 'img/logos/itsz.webp' %}" alt="Logo ITSZ" class="h-15">
+
+            <img src="{% static 'img/logos/iias.webp' %}" alt="Logo IIAS" class="h-16">
             <img src="{% static 'img/logos/isc.webp' %}" alt="Logo ISC" class="h-16">
 
-            <img src="{% static 'img/logos/tecnm.webp' %}" alt="Logo TecNM" class="h-18 w-full">
-            <img src="{% static 'img/logos/iias.webp' %}" alt="Logo IIAS" class="h-16">
-
-            <img src="{% static 'img/logos/logo_colpus.webp' %}" alt="Logo Colpus" class="h-16 w-full">
+            <img src="{% static 'img/logos/logo_colpus.webp' %}" alt="Logo Colpus" class="h-14">
             <img src="{% static 'img/logos/tec_huatusco.webp' %}" alt="Logo Tec Huatusco" class="h-16">
         </div>
     </nav>

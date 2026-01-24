@@ -25,12 +25,11 @@
 
         {% for cate, tecnicas in tipos.items %}
         <article>
-            <button
-                class="cts-btn-general cts-btn-primary btn-push flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full relative"
-                onclick="showList('{{cate}}'); hiddenError()" type="button">{{ cate }}</button>
+            <div
+                class="cts-btn-general cts-btn-primary flex flex-row gap-4 justify-center items-center rounded-lg text-2xl font-medium uppercase tracking-wider w-full relative">{{ cate }}</div>
             {% if tecnicas %}
             <section
-                class="modal-list-{{ cate }} flex flex-col text-lg bg-surface-card p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 transition-all duration-1000 hidden w-full">
+                class="modal-list-{{ cate }} flex flex-col text-lg bg-surface-card p-4 pr-6 pl-8 sm:pl-12 z-10 -translate-y-1 rounded-b-2xl *:not-last:mb-4 w-full">
                 {% for tecnica in tecnicas %}
                 <a href="{% url 'cata_system:panel_configuracion_basic'%}?name_tecnica={{ tecnica }}">
                     <button
