@@ -9,13 +9,18 @@ from .init_session_controller import InitSessionController
 class InitSessionNappingController(InitSessionController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_direction = "tecnicas/forms_tester/init_test_napping.html"
+        self.current_direction = "tecnicas/forms_tester/init_scales_test.html"
         self.napping_direction = "cata_system:session_napping"
+        self.context = {}
 
-    def controllGet(self, request: HttpRequest):
+    def controllGet(self, request: HttpRequest):        
         self.context = {
-            "session": self.session,
-            "type_technique": "napping",
+            "session_info": {
+                "code": self.session.codigo_sesion,
+                "name": self.session.nombre_sesion,
+                "instructions": self.session.tecnica.instrucciones,
+            },
+            "use_technique": "napping",
             "has_ended": self.isEndedSession()
         }
 
@@ -31,11 +36,17 @@ class InitSessionNappingController(InitSessionController):
             tecnica=self.session.tecnica, catador=self.tester).finalizado
 
     def controllPost(self, request: HttpRequest):
+        self.context = {} 
         context = {
-            "session": self.session,
-            "type_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
+            "session_info": {
+                "code": self.session.codigo_sesion,
+                "name": self.session.nombre_sesion,
+                "instructions": self.session.tecnica.instrucciones,
+            },
+            "use_technique": "napping"
         }
 
+        self.setStatusSession()
         use_action = request.POST["action"]
 
         if use_action == "start_posting":
@@ -75,6 +86,6 @@ class InitSessionNappingController(InitSessionController):
             tecnica=self.session.tecnica).modalidad.nombre
 
         if technique_mode == "sin modalidad":
-            self.context["status"] = "La sesión usa Napping"
+            self.context["session_info"]["status"] = "La sesión usa Napping"
         else:
-            self.context["status"] = f"La sesión usa Napping con modalidad {technique_mode}"
+            self.context["session_info"]["status"] = f"La sesión usa Napping con modalidad {technique_mode}"

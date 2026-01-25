@@ -11,8 +11,10 @@
     <input id="menu-aside" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content flex flex-col">
         <article class="cts-container-main">
-            {% block content_tester %}
-            {% endblock %}
+            <article class="cts-container-panel text-black">
+                {% block content_tester %}
+                {% endblock %}
+            </article>
         </article>
         <label for="menu-aside"
             class="btn drawer-button bg-surface-ligt border-0 rounded-full fixed bottom-4 right-4 z-50 w-14 h-14 flex items-center justify-center shadow-lg lg:hidden">
@@ -36,20 +38,41 @@
                     </a>
                 </div>
                 <div class="space-y-2 bg-surface-card p-4 rounded-md">
-                    <h2 class="text-xl font-bold">Pruebas</h2>
+                    <h2 class="text-xl font-bold">Sesiones</h2>
                     <ul class="pl-10 flex flex-col gap-2">
-                        <a href="{% url 'cata_system:crear_catador' %} ">
+                        <a href="{% url 'cata_system:catador_subscribe_session' %} ">
                             <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
-                                ➕ Crear nuevo</li>
+                                ➕ Suscribirse</li>
                         </a>
-                        <a href="{% url 'cata_system:listar_catador' num_page=1 %} ">
+                        <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %} ">
                             <li class="text-lg px-4 font-medium hover:font-bold hover:bg-cts-primary">
-                                📋 Ver catadores</li>
+                                📋 Revisar sesiones</li>
                         </a>
                     </ul>
+                </div>
+                <div class="space-y-2 bg-surface-card p-4 rounded-md">
+                    <button class="cts-btn-general-compress px-4 py-2 cts-btn-fourthy btn-push w-full"
+                        onclick="exit_sesion('cts-action-form')">
+                        Salir del Sistema
+                    </button>
+                    <form action="" method="post" class="hidden cts-action-form">
+                        <input type="hidden" name="action" class="action-input">
+                        {% csrf_token %}
+                    </form>
                 </div>
             </section>
         </article>
     </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function exit_sesion(styleClass) {
+        const form = document.querySelector(`.${styleClass}`);
+        const action = form.querySelector(".action-input");
+        action.value = "exit_session";
+        form.submit();
+    }
+</script>
 {% endblock %}

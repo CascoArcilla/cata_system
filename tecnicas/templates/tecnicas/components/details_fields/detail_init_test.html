@@ -1,0 +1,12 @@
+<section class="bg-surface-sweet p-4 rounded flex flex-wrap justify-center items-center gap-2">
+    {% if title %}
+    <p class="text-xl font-bold">
+        {{ title }}
+    </p>
+    {% endif %}
+    {% if value %}
+    <p class="font-sans text-xl font-normal {{ value_style }}">
+        {{ value }}
+    </p>
+    {% endif %}
+</section>
