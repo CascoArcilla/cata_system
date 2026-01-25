@@ -1,151 +1,55 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/base_monitor.html' %}
 {% load static %}
 
-{% block title %}Monitoreo{% endblock %}
-
-{% block content %}
-<article class="cts-container-main">
-    <article class="cts-container-panel">
-        <header class="text-center">
-            <h1 class="text-3xl font-bold text-black">Sesión sensorial en curso</h1>
-        </header>
-
-        <section class="flex flex-col sm:flex-row justify-between items-center gap-10">
-            <p class="text-xl text-center bg-surface-card p-4 text-black rounded-lg shadow-lg">
-                Código de sesión:<br>
-                <span class="font-mono text-2xl font-bold">{{ code_session }}</span>
-            </p>
-            <div class="flex flex-col gap-2">
-                <button class="uppercase cts-btn-general-compress cts-btn-secondary py-2 px-6 btn-push"
-                {% if use_technique == "escalas" %}
-                    onclick="finishSession()"
-                {% else %}
-                    onclick="confirmFinishSession.showModal()"
-                {% endif %}
-                >
-                    Finalizar sesión
-                </button>
-                <a href="{% url 'cata_system:detalles_sesion' session_code=code_session %}" class="w-full">
-                    <button class="uppercase cts-btn-general-compress cts-btn-fourthy py-2 px-6 btn-push w-full">
-                        Regresar
-                    </button>
-                </a>
-            </div>
-        </section>
-
-        {% if use_technique != "escalas" %}
-        <dialog id="confirmFinishSession" class="modal">
-        <div class="modal-box bg-surface-card text-black text-center">
-            <h3 class="text-lg font-bold">¿Está seguro de finalizar la sesión?</h3>
-            <p class="py-4">Asegúrese de que todos los catadores hayan participado en la sesión</p>
-            <button type="button" onclick="confirmFinishSession.close()" class="cts-btn-general cts-btn-fourthy">Cancelar</button>
-            <button type="button" onclick="finishSession()" class="cts-btn-general cts-btn-primary">Finalizar</button>
-        </div>
-        <form method="dialog" class="modal-backdrop">
-            <button>close</button>
-        </form>
-        </dialog>
-        {% endif %}
-
-        <form action="" method="post" class="hidden action-form">
-            <input type="hidden" name="action">
-            {% csrf_token %}
-        </form>
-
-        {% if error %}
-        {% include "../components/error_message.html" with message=error %}
-        {% endif %}
-
-        {% if message %}
-        {% include "../components/error_message.html" with message=message %}
-        {% endif %}
-
-        <section aria-labelledby="catadores-titulo">
-            <article
-                class="flex max-sm:flex-col justify-around bg-surface-card border border-gray-300 rounded-md p-3 mb-4 items-center shadow-lg">
-                <button class="uppercase cts-btn-general-compress cts-btn-tertiary py-2 px-6 btn-push"
-                    onclick="reloadPage()">
-                    Actualizar lista
-                </button>
-                <h2 id="catadores-titulo" class="text-2xl text-center font-bold rounded-lg text-gray-700 py-2 px-3">
-                    Catadores activos
-                </h2>
-            </article>
-
-            <article
-                class="flex flex-col justify-center gap-3 bg-surface-card border border-gray-300 rounded-md p-3 mb-4 text-lg max-sm:text-sm text-gray-700 shadow-lg">
-                <div class="flex justify-center items-center">
-                    <h2 class="text-xl font-semibold">Participantes</h2>
-                </div>
-                <section class="flex flex-wrap justify-around items-center">
-                    {% if use_technique == "escalas" %}
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                        <span class="font-semibold">Máximo:</span>
-                        <span>{{ max_testers }}</span>
-                    </div>
-                    {% endif %}
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                        <span class="font-semibold">
-                            {% if use_technique == "escalas" %}
-                            Actuales:
-                            {% else %}
-                            Total:
-                            {% endif %}
-                        </span>
-                        <span>{{ current_testers }}</span>
-                    </div>
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
-                        <span class="font-semibold">Activos:</span>
-                        <span class="text-green-600 font-semibold">{{ active_testers }}</span>
-                    </div>
-                </section>
-            </article>
-
-            <article class="max-sm:overflow-x-auto shadow-lg">
-                <div class="min-w-[400px] sm:min-w-0">
-                    <div
-                        class="grid grid-cols-4 bg-surface-sweet text-center font-semibold text-black text-sm rounded-t-lg max-sm:w-full [&_>*]:px-2">
-                        <div class="py-2 border-r border-gray-400">Usuario</div>
-                        <div class="py-2 border-r border-gray-400">Nombre</div>
-                        <div class="py-2 border-r border-gray-400">Estado</div>
-                        <div class="py-2">Finalizado</div>
-                    </div>
-
-                    <ul class="divide-y divide-gray-400 max-sm:w-full text-black">
-                        {% for parti in participations %}
-                        <li class="grid grid-cols-4 text-center bg-surface-card py-2 [&_>*]:px-2">
-                            <p class="border-r border-gray-400">{{ parti.catador.user.username }}</p>
-                            <p class="border-r border-gray-400">
-                                {{ parti.catador.user.first_name }}
-                                {{ parti.catador.user.last_name}}
-                            </p>
-
-                            {% if parti.activo %}
-                            <p class="border-r border-gray-400 text-green-600 font-semibold">Activo</p>
-                            {% else %}
-                            <p class="border-r border-gray-400 text-red-500 font-semibold">No activo</p>
-                            {% endif %}
-
-                            {% if parti.finalizado %}
-                            <p class="text-green-600 font-semibold">Si</p>
-                            {% else %}
-                            <p class="text-red-500 font-semibold">No</p>
-                            {% endif %}
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            </article>
-        </section>
-    </article>
-</article>
+{% block finish_button %}
+<button class="uppercase cts-btn-general-compress cts-btn-secondary py-2 px-6 btn-push w-full"
+{% if use_technique == "escalas" %}
+    onclick="finishSession()"
+{% else %}
+    onclick="confirmFinishSession.showModal()"
+{% endif %}
+>
+    Finalizar sesión
+</button>
 {% endblock %}
 
-{% block extra_js %}
-<script>
-    function reloadPage () {
-        location.reload()
-    }
-</script>
-<script src="{% static 'js/finish-session.js' %}"></script>
+{% block extra_modals %}
+{% if use_technique != "escalas" %}
+<dialog id="confirmFinishSession" class="modal">
+<div class="modal-box bg-surface-card text-black text-center">
+    <h3 class="text-lg font-bold">¿Está seguro de finalizar la sesión?</h3>
+    <p class="py-4">Asegúrese de que todos los catadores hayan participado en la sesión</p>
+    <button type="button" onclick="confirmFinishSession.close()" class="cts-btn-general cts-btn-fourthy">Cancelar</button>
+    <button type="button" onclick="finishSession()" class="cts-btn-general cts-btn-primary">Finalizar</button>
+</div>
+<form method="dialog" class="modal-backdrop">
+    <button>close</button>
+</form>
+</dialog>
+{% endif %}
+{% endblock %}
+
+{% block stats_grid %}
+<section class="flex flex-wrap justify-around items-center">
+    {% if use_technique == "escalas" %}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+        <span class="font-semibold">Máximo:</span>
+        <span>{{ max_testers }}</span>
+    </div>
+    {% endif %}
+    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+        <span class="font-semibold">
+            {% if use_technique == "escalas" %}
+            Actuales:
+            {% else %}
+            Total:
+            {% endif %}
+        </span>
+        <span>{{ current_testers }}</span>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:gap-2">
+        <span class="font-semibold">Activos:</span>
+        <span class="text-green-600 font-semibold">{{ active_testers }}</span>
+    </div>
+</section>
 {% endblock %}
