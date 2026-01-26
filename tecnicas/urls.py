@@ -163,4 +163,8 @@ urlpatterns = [
     path("testers/api/rating-napping",
          views.ratingNapping,
          name="api_rating_napping"),
+
+    path("testers/api/activity",
+         views.UserActivityApi.as_view(),
+         name="api_user_activity"),
 ]
