@@ -90,5 +90,5 @@ class DetallesCATAController(DetallesController):
         self.context["existen_calificaciones"] = True
 
         # Se comprueba que ya no se pueda iniciar la repeticion
-        self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max
+        self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max and not self.session.activo
         return self.context

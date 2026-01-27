@@ -5,9 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
   const message = document.getElementById("response-message");
 
-  const modal = document.getElementById("confirmModal");
   const modalContent = document.getElementById("confirmModalContent");
-  const cancelBtn = document.getElementById("cancelBtn");
   const confirmBtn = document.getElementById("confirmBtn");
 
   const URL = "/cata/testers/api/ratingword/cata";
@@ -35,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const uncheckedWords = words.filter((w) => !w.is_check);
 
     modalContent.innerHTML = `
-            <div>
+            <div class="bg-surface-general p-4 rounded-lg space-y-2">
                 <p class="font-semibold text-green-600">Palabras seleccionadas:</p>
                 <ul class="flex flex-wrap gap-2">
                     ${
@@ -43,14 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
                         ? checkedWords
                             .map(
                               (w) =>
-                                `<li class="border-r border-b p-1">${w.word}</li>`
+                                `<li class="bg-surface-sweet font-bold rounded p-2">${w.word}</li>`
                             )
                             .join("")
-                        : '<li class="border-b p-1 w-full">Ninguna</li>'
+                        : '<li class="bg-surface-sweet font-bold rounded p-2 w-full text-center">Ninguna seleccionada</li>'
                     }
                 </ul>
             </div>
-            <div class="mt-3">
+            <div class="bg-surface-general p-4 rounded-lg space-y-2">
                 <p class="font-semibold text-red-600">Palabras no seleccionadas:</p>
                 <ul class="flex flex-wrap gap-2">
                     ${
@@ -58,24 +56,17 @@ document.addEventListener("DOMContentLoaded", () => {
                         ? uncheckedWords
                             .map(
                               (w) =>
-                                `<li class="border-r border-b p-1">${w.word}</li>`
+                                `<li class="bg-surface-sweet font-bold rounded p-2">${w.word}</li>`
                             )
                             .join("")
-                        : '<li class="border-b p-1 w-full">Todas seleccionadas</li>'
+                        : '<li class="bg-surface-sweet font-bold rounded p-2 w-full text-center">Todas seleccionadas</li>'
                     }
                 </ul>
             </div>
         `;
-    modal.classList.remove("hidden");
   }
 
-  cancelBtn.addEventListener("click", () => {
-    modalContent.innerHTML = "";
-    modal.classList.add("hidden");
-  });
-
   confirmBtn.addEventListener("click", async () => {
-    modal.classList.add("hidden");
     const dataProduct = {
       id: parseInt(document.querySelector(".id-product").textContent),
       code: document.querySelector(".code-product").textContent,
