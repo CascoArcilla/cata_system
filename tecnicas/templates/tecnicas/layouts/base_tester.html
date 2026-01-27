@@ -52,10 +52,10 @@
                 </div>
                 <div class="space-y-2 bg-surface-card p-4 rounded-md">
                     <button class="cts-btn-general-compress px-4 py-2 cts-btn-fourthy btn-push w-full"
-                        onclick="exit_sesion('cts-action-form')">
+                        onclick="exit_sesion('cts-close-sesion')">
                         Salir del Sistema
                     </button>
-                    <form action="" method="post" class="hidden cts-action-form">
+                    <form action="/cata/testers/catador-main" method="post" class="hidden cts-close-sesion">
                         <input type="hidden" name="action" class="action-input">
                         {% csrf_token %}
                     </form>
@@ -64,9 +64,6 @@
         </article>
     </div>
 </div>
-{% endblock %}
-
-{% block extra_js %}
 <script>
     function exit_sesion(styleClass) {
         const form = document.querySelector(`.${styleClass}`);

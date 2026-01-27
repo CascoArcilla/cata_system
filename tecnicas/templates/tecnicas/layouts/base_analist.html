@@ -90,8 +90,27 @@
                         </a>
                     </ul>
                 </div>
+
+                <div class="space-y-2 bg-surface-card p-4 rounded-md">
+                    <button class="cts-btn-general-compress px-4 py-2 cts-btn-fourthy btn-push w-full"
+                        onclick="exit_sesion('cts-close-sesion')">
+                        Salir del Sistema
+                    </button>
+                    <form action="/cata/presenter/" method="post" class="hidden cts-close-sesion">
+                        <input type="hidden" name="action" class="action-input">
+                        {% csrf_token %}
+                    </form>
+                </div>
             </section>
         </article>
     </div>
 </div>
+<script>
+    function exit_sesion(styleClass) {
+        const form = document.querySelector(`.${styleClass}`);
+        const action = form.querySelector(".action-input");
+        action.value = "exit_session";
+        form.submit();
+    }
+</script>
 {% endblock %}
