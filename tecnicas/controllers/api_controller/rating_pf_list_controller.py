@@ -105,7 +105,7 @@ class RatingPFListController():
     @staticmethod
     def addWordsToListWordsTester(list_words: list[str], list_tester: ListaPalabras):
         # Normalizar
-        clean_words = [s.strip() for s in list_words if s.strip()]
+        clean_words = [s.strip().lower().replace(" ", "") for s in list_words if s.strip()]
 
         # Obtener existentes
         all_words = Palabra.objects.filter(nombre_palabra__in=clean_words)

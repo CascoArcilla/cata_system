@@ -25,7 +25,7 @@ async function getWordsByName(e) {
 
   const dataForm = new FormData(this);
   const params = new URLSearchParams({
-    palabra: dataForm.get("search").trim(),
+    palabra: dataForm.get("search").trim().toLowerCase(),
   });
 
   const url = `api/palabras?${params}`;

@@ -43,6 +43,7 @@ class RatingSortController():
                     # Crear u obtener palabras
                     words_objs = []
                     for word_name in words_data:
+                        word_name = word_name.strip().lower().replace(" ", "")
                         word, created = Palabra.objects.get_or_create(nombre_palabra=word_name)
                         words_objs.append(word)
 

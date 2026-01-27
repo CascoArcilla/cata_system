@@ -156,7 +156,7 @@ function initUltraFlash() {
 
     wordForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const word = wordInput.value.trim();
+        const word = wordInput.value.trim().toLowerCase().replace(/\s+/g, '');
         if (word) {
             addWord(word);
             wordInput.value = '';

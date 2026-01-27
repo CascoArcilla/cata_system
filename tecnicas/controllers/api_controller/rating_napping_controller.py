@@ -183,7 +183,7 @@ class RatingNappingController:
         all_words = set()
         for group_id, words in groups_data.items():
             if words:
-                all_words.update(words)
+                all_words.update([w.strip().lower().replace(" ", "") for w in words])
 
         if not all_words:
             # No words to process, just clear existing words from groups
@@ -212,6 +212,7 @@ class RatingNappingController:
         for grupo, group_id in groups_list:
             words = groups_data.get(group_id, [])
             if words:
+                words = [w.strip().lower().replace(" ", "") for w in words]
                 words_to_set = [word_objects[word_name]
                                 for word_name in words if word_name in word_objects]
                 grupo.palabras.set(words_to_set)
@@ -317,7 +318,7 @@ class RatingNappingController:
         for item in data:
             words = item.get("words", [])
             if words:
-                all_words.update(words)
+                all_words.update([w.strip().lower().replace(" ", "") for w in words])
 
         if not all_words:
             return
@@ -344,7 +345,7 @@ class RatingNappingController:
                 rating = existing_ratings_map.get(product_id)
 
                 if rating:
-                    words_to_set = [word_objects[word_name]
+                    words_to_set = [word_objects[word_name.strip().lower().replace(" ", "")]
                                     for word_name in words]
                     rating.palabras.set(words_to_set)
 

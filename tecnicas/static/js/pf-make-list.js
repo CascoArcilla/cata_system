@@ -113,7 +113,7 @@ function setupDescribeFormToAddWord() {
     const input = FORM_DESCRIBE.querySelector('input[type="text"]');
     if (!input) return;
 
-    const value = input.value.trim();
+    const value = input.value.trim().toLowerCase().replace(/\s+/g, '');
     if (!value) return;
 
     if (WORDS.includes(value)) {
