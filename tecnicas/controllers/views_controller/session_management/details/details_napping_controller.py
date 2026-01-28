@@ -20,10 +20,19 @@ class DetallesNappingController(DetallesController):
         self.context = {}
 
     def getContext(self):
-        self.context["session"] = self.session
+        self.context["use_technique"] = self.session.tecnica.tipo_tecnica.nombre_tecnica
+        self.context["session"] = {
+                "session_code": self.session.codigo_sesion,
+                "session_name": self.session.nombre_sesion or "Sin nombre asignado",
+                "session_date": self.session.fechaCreacion,
+                "activated": self.session.activo,
+                "session_instructions": self.session.tecnica.instrucciones,
+            }
+        self.context["technique"] = {
+            "max_catadores": self.session.tecnica.limite_catadores
+        }
 
         self.defineStatus()
-        self.setIsEndSession()
         self.setDataTable()
 
         return self.context
@@ -33,24 +42,28 @@ class DetallesNappingController(DetallesController):
         mod = TecnicaModalidad.objects.get(
             tecnica=self.session.tecnica)
 
-        self.context["mod_tech"] = mod.modalidad.nombre
-        self.context["mode"] = mod.modalidad.nombre
-        if mod.modalidad.nombre == "sin modalidad":
-            self.context["mod_tech"] = "No se usa modalidad"
+        self.context["session"]["mod_tech"] = mod.modalidad.nombre
+        self.context["finished"] = False
 
-        if not self.session.activo:
-            self.context["status"] = "Listo para iniciar la sesión con Napping"
-        elif self.session.activo:
-            self.context["status"] = "Sesión con en curso"
+        if repetition == 0:
+            self.context["session"]["session_status"] = "Listo para iniciar la sesión"
+        elif repetition == 1 and self.session.activo:
+            self.context["session"]["session_status"] = "Sesión en curso"
+        elif repetition >= 1 and not self.session.activo:
+            self.context["session"]["session_status"] = "Recolección de datos finalizada"
+            self.context["finished"] = True
 
     def controllPostResponse(self, request: HttpRequest, action: str):
-        if action == "start_sin_modalidad":
-            response = self.startNapping(request=request)
+        # if action == "start_sin_modalidad":
+        #     response = self.startNapping(request=request)
 
-        elif action == "start_perfil_ultra_flash":
-            response = self.startNapping(request=request)
+        # elif action == "start_perfil_ultra_flash":
+        #     response = self.startNapping(request=request)
 
-        elif action == "start_sorting":
+        # elif action == "start_sorting":
+        #     response = self.startNapping(request=request)
+
+        if action == "start_session":
             response = self.startNapping(request=request)
 
         elif action == "combine_sessions":
@@ -219,17 +232,6 @@ class DetallesNappingController(DetallesController):
             }
 
         self.context["sorting_data"] = defaultdict_to_dict(sorting_data)
-
-    def setIsEndSession(self):
-        if not self.session.activo and self.session.tecnica.repeticion < 1:
-            self.context["finished"] = False
-            return
-        elif self.session.activo:
-            self.context["finished"] = False
-            return
-        elif not self.session.activo and self.session.tecnica.repeticion >= 1:
-            self.context["finished"] = True
-            return
 
     # ==================== SESSION COMBINATION METHODS ====================
 

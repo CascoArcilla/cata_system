@@ -9,7 +9,7 @@ from tecnicas.forms.word_form import WordForm
 def words(req: HttpRequest):
     if req.method == "GET":
         try:
-            word_name = req.GET["palabra"]
+            word_name = req.GET["palabra"].lower()
 
             if word_name == "":
                 fund_words = Palabra.objects.all()[:10]

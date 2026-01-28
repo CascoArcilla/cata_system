@@ -4,6 +4,7 @@ from .categoria_tecnica import CategoriaTecnica
 
 class TipoTecnica(models.Model):
     nombre_tecnica = models.CharField(max_length=255, unique=True)
+    descripcion = models.CharField(max_length=255, blank=True, null=True, default="Sin descripción")
     id_categoria_tecnica = models.ForeignKey(CategoriaTecnica, on_delete=models.CASCADE, related_name="tipo_tecnica_categoria_tecnica")
 
     def __str__(self):

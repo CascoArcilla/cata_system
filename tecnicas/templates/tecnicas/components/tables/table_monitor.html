@@ -1,0 +1,39 @@
+<article class="max-sm:overflow-x-auto shadow-lg">
+    <div class="min-w-[400px] sm:min-w-0">
+        <div
+            class="grid grid-cols-4 bg-surface-sweet text-center font-semibold text-black text-sm rounded-t-lg max-sm:w-full [&_>*]:px-2">
+            <div class="py-2 border-r border-gray-400">Usuario</div>
+            <div class="py-2 border-r border-gray-400">Nombre</div>
+            <div class="py-2 border-r border-gray-400">Estado</div>
+            <div class="py-2">Finalizado</div>
+        </div>
+
+        {% if participations %}
+        <ul class="divide-y divide-gray-400 max-sm:w-full text-black">
+            {% for parti in participations %}
+            <li class="grid grid-cols-4 text-center bg-surface-card py-2 [&_>*]:px-2">
+                <p class="border-r border-gray-400">{{ parti.catador.user.username }}</p>
+                <p class="border-r border-gray-400">
+                    {{ parti.catador.user.first_name }}
+                    {{ parti.catador.user.last_name}}
+                </p>
+
+                {% if parti.activo %}
+                <p class="border-r border-gray-400 text-green-600 font-semibold">Activo</p>
+                {% else %}
+                <p class="border-r border-gray-400 text-red-500 font-semibold">No activo</p>
+                {% endif %}
+
+                {% if parti.finalizado %}
+                <p class="text-green-600 font-semibold">Si</p>
+                {% else %}
+                <p class="text-red-500 font-semibold">No</p>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="bg-surface-card border-gray-400 font-semibold p-2 text-center">Sin participantes actualmente</p>
+        {% endif %}
+    </div>
+</article>

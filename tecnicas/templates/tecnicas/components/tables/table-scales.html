@@ -1,0 +1,56 @@
+{% load static %}
+<section>
+    <div class="overflow-x-auto rounded-lg border border-surface-general">
+        <table id="generic-donwload-table" class="min-w-max w-full text-sm text-center border-collapse">
+            <thead class="bg-surface-sweet text-black font-semibold">
+                <tr>
+                    {% if sesion.tecnica.tipo_tecnica.nombre_tecnica != "rata" %}
+                    <th class="py-2 px-3 border border-surface-general">Repetición</th>
+                    {% endif %}
+                    <th class="py-2 px-3 border border-surface-general">Usuario</th>
+                    <th class="py-2 px-3 border border-surface-general">Producto</th>
+                    {% for palabra in palabras %}
+                    <th class="py-2 px-3 border border-surface-general uppercase">{{ palabra }}</th>
+                    {% endfor %}
+                </tr>
+            </thead>
+            <tbody class="bg-surface-ligt divide-y divide-gray-200">
+                {% for repeticion, catadores in calificaciones.items %}
+                    {% for usuario, productos in catadores.items %}
+                        {% for codigo, valores in productos.items %}
+                        <tr>
+                            {% if sesion.tecnica.tipo_tecnica.nombre_tecnica != "rata" %}
+                                <td class="py-2 px-3 border border-surface-general">{{ repeticion }}</td>
+                            {% endif %}
+                            <td class="py-2 px-3 border border-surface-general">{{ usuario }}</td>
+                            <td class="py-2 px-3 border border-surface-general">{{ codigo }}</td>
+                            {% for palabra in palabras %}
+                            <td class="py-2 px-3 border border-surface-general">
+                                {% with match=False %}
+                                {% for valor in valores %}
+                                    {% if valor.nombre_palabra == palabra %}
+                                        {{ valor.dato_valor }}
+                                        {% with match=True %}{% endwith %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if match %}0{% endif %}
+                                {% endwith %}
+                            </td>
+                            {% endfor %}
+                        </tr>
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex justify-end mt-3">
+        <button id="download-csv-btn" class="cts-btn-general cts-btn-primary btn-push"
+            data-session-name="{% if session and session.session_name %}{{ session.session_name }}{% else %}{% endif %}"
+            data-session-code="{% if session and session.session_code %}{{ session.session_code }}{% else %}{% endif %}">
+            Descargar CSV
+        </button>
+    </div>
+</section>
+<script src="{% static 'js/download-table-csv.js' %}"></script>

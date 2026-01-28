@@ -6,7 +6,7 @@ from .monitor_controller import MonitorController
 class MonitorSortController(MonitorController):
     def __init__(self, session: SesionSensorial):
         super().__init__(session)
-        self.url_view = "tecnicas/manage_sesions/monitor-session-sort.html"
+        self.url_view = "tecnicas/manage_sesions/monitor-sesion.html"
         self.previus_view = "cata_system:detalles_sesion"
 
     def checkAllFinish(self):

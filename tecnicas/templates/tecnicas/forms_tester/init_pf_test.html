@@ -5,7 +5,7 @@
 
 {% block content %}
 <article class="cts-container-main">
-    <article class="cts-wrap-content text-black max-w-4xl">
+    <article class="cts-container-panel text-black max-w-4xl">
         <header class="text-center flex-row w-full flex justify-around items-center flex-wrap gap-10">
             <h1 class="rounded-xl font-bold text-2xl bg-surface-ligt p-4 flex-1">
                 Revision de la actividad
@@ -19,10 +19,10 @@
         </article>
 
         {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+        {% include "../components/error_message.html" with message=error %}
         {% endif %}
         {% if message %}
-        {% include "../components/error-message.html" with message=message %}
+        {% include "../components/error_message.html" with message=message %}
         {% endif %}
         <hr>
 
@@ -95,16 +95,16 @@
                 onclick="startTest()">
                 Entrar en fase o repetición
                 <figure class="w-10">
-                    <img src="{% static 'img/check.svg' %}" alt="flechas girando" class="invert">
+                    <img src="{% static 'img/icons/check.svg' %}" alt="flechas girando" class="invert">
                 </figure>
             </button>
             {% endif %}
             <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}">
                 <button
-                    class="flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2">
+                    class="flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-fourthy btn-push flex flex-col justify-center items-center gap-2">
                     Regresar a la lista
                     <figure class="w-10">
-                        <img src="{% static 'img/exit.svg' %}" alt="bote de basura" class="invert">
+                        <img src="{% static 'img/icons/exit.svg' %}" alt="bote de basura" class="invert">
                     </figure>
                 </button>
             </a>

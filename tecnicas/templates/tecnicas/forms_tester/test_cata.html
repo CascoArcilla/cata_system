@@ -1,119 +1,117 @@
-{% extends 'tecnicas/layouts/base.html' %}
-
+{% extends 'tecnicas/layouts/base_tester.html' %}
 {% load static %}
 
-{% block title %}Convencional{% endblock %}
+{% block title %}Sesión de Cata{% endblock %}
 
-{% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content text-black relative">
-        <header class="text-center flex-row max-sm:flex-col w-full items-stretch flex justify-around flex-wrap gap-2">
-            <h1 class="rounded font-bold text-2xl bg-surface-ligt p-4 flex-1">
-                Sesión usando <br>técnica
-                <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
-            </h1>
-            <button class="cts-btn-general cts-btn-error btn-push" onclick="exit_sesion('form-actions')">
-                Salir de la sesión
-            </button>
-        </header>
+{% block content_tester %}
+<header class="text-center flex-row max-sm:flex-col w-full items-stretch flex justify-around flex-wrap gap-2">
+    <h1 class="rounded font-bold text-2xl bg-surface-card p-4 flex-1">
+        Sesión usando <br>técnica
+        <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+        <span class="hidden code-sesion">{{ session.codigo_sesion }}</span>
+    </h1>
+    <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
+        Salir de la sesión
+    </button>
+</header>
 
-        <article class="hidden">
-            <form action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post"
-                class="form-actions">
-                {% csrf_token %}
-                <input type="hidden" name="action" class="action-input">
-            </form>
-        </article>
-
-        <section class="hidden">
-            <input type="hidden" value="{{ session.tecnica.id }}" name="id-tecnica" class="ct-input-id-tech">
-        </section>
-
-        {% if error %}
-        {% include "../components/error-message.html" with message=error %}
-        {% endif %}
-        {% if message %}
-        {% include "../components/error-message.html" with message=message %}
-        {% endif %}
-
-        <article class="rounded flex flex-col gap-4">
-            <section class="flex items-center justify-center bg-surface-ligt p-2 rounded-lg">
-                <p class="text-lg font-medium text-center">
-                    {{ session.tecnica.instrucciones }}
-                </p>
-            </section>
-            <section class="flex items-center justify-center flex-wrap gap-4">
-                <div class="bg-surface-ligt p-2 rounded-lg flex-1">
-                    <p class="text-lg font-bold text-center">
-                        Producto:
-                    </p>
-                    <p class="text-2xl font-bold text-center ct-product-rating">
-                        <span class="code-product">{{ product }}</span>
-                        <span class="hidden id-product">{{ product.id }}</span>
-                    </p>
-                </div>
-                <div class="bg-surface-ligt p-2 rounded-lg flex-1">
-                    <p class="text-lg font-bold text-center">
-                        Repetición:
-                    </p>
-                    <p class="text-2xl font-bold text-center">
-                        {{ session.tecnica.repeticion }}
-                    </p>
-                </div>
-            </section>
-        </article>
-
-        <p id="response-message"
-            class="text-white font-bold text-lg text-center bg-red-400 px-2 py-4 rounded-lg hidden">
-            Soy el mensaje para responder
-        </p>
-
-        <article
-            class="words-check-container bg-surface-card w-full max-w-3xl mx-auto p-6 bg-base-200 rounded-xl shadow-lg text-center">
-            <form id="wordsForm" method="POST" class="flex flex-col gap-4">
-                {% csrf_token %}
-                <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
-                    {% for word in words %}
-                    <label
-                        class="flex items-center justify-between bg-surface-sweet p-4 gap-2 rounded-lg shadow-sm hover:shadow-md transition-all">
-                        <span class="text-lg font-medium">{{ word }}</span>
-                        <input type="checkbox" name="word_{{ word.id }}" class="checkbox checkbox-primary"
-                            data-word-id="{{ word.id }}" data-word-name="{{ word }}" />
-                    </label>
-                    {% empty %}
-                    <p class="text-center text-gray-500">No hay palabras disponibles.</p>
-                    {% endfor %}
-                </div>
-                <button type="submit" class="cts-btn-general cts-btn-primary btn-push mt-6">
-                    Enviar calificaciones
-                </button>
-            </form>
-        </article>
-
-        <section id="confirmModal"
-            class="absolute w-full h-full left-0 top-0 flex justify-center items-center bg-gray-500/70 hidden">
-            <div class="absolute max-w-xl bg-surface-card shadow-lg rounded-lg p-4">
-                <div class="space-y-4">
-                    <h3 class="font-bold text-lg mb-4">Confirma tu elección</h3>
-                    <div id="confirmModalContent" class="space-y-2 max-h-60 overflow-y-auto">
-                    </div>
-                    <div>
-                        <button id="cancelBtn" class="cts-btn-general-compress cts-btn-secondary btn-push py-1 px-4">
-                            Cancelar
-                        </button>
-                        <button id="confirmBtn" class="cts-btn-general-compress cts-btn-primary btn-push py-1 px-4">
-                            Confirmar
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-    </article>
+<article class="hidden">
+    <form action="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}" method="post"
+        class="form-actions">
+        {% csrf_token %}
+        <input type="hidden" name="action" class="action-input">
+    </form>
 </article>
+
+<section class="hidden">
+    <input type="hidden" value="{{ session.tecnica.id }}" name="id-tecnica" class="ct-input-id-tech">
+</section>
+
+{% if error %}
+{% include "../components/error_message.html" with message=error %}
+{% endif %}
+{% if message %}
+{% include "../components/error_message.html" with message=message %}
+{% endif %}
+
+<article class="rounded flex flex-col gap-4">
+    <section class="flex items-center justify-center bg-surface-card p-2 rounded-lg">
+        <p class="text-lg font-medium text-center">
+            {{ session.tecnica.instrucciones }}
+        </p>
+    </section>
+    <section class="flex items-center justify-center flex-wrap gap-4">
+        <div class="bg-surface-card p-2 rounded-lg flex-1">
+            <p class="text-lg font-bold text-center">
+                Producto:
+            </p>
+            <p class="text-2xl font-bold text-center ct-product-rating">
+                <span class="code-product">{{ product }}</span>
+                <span class="hidden id-product">{{ product.id }}</span>
+            </p>
+        </div>
+        <div class="bg-surface-card p-2 rounded-lg flex-1">
+            <p class="text-lg font-bold text-center">
+                Repetición:
+            </p>
+            <p class="text-2xl font-bold text-center">
+                {{ session.tecnica.repeticion }}
+            </p>
+        </div>
+    </section>
+</article>
+
+<p id="response-message" class="text-white font-bold text-lg text-center bg-red-400 px-2 py-4 rounded-lg hidden">
+    Soy el mensaje para responder
+</p>
+
+<article class="words-check-container bg-surface-card p-6 bg-base-200 rounded-xl shadow-lg text-center">
+    <form id="wordsForm" method="POST" class="flex flex-col gap-4">
+        {% csrf_token %}
+        <h2 class="text-xl font-bold text-center">Selecciona los atributos que distinga del producto:</h2>
+        <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
+            {% for word in words %}
+            <label
+                class="flex items-center justify-between bg-surface-sweet p-4 gap-2 rounded-lg shadow-sm hover:shadow-md transition-all hover:cursor-pointer">
+                <span class="text-lg font-bold capitalize">{{ word }}</span>
+                <input type="checkbox" name="word_{{ word.id }}" class="checkbox checkbox-primary"
+                    data-word-id="{{ word.id }}" data-word-name="{{ word }}" />
+            </label>
+            {% empty %}
+            <p class="text-center text-gray-500">No hay palabras disponibles.</p>
+            {% endfor %}
+        </div>
+        <button type="submit" class="cts-btn-general cts-btn-primary btn-push w-fit"
+            onclick="modal_confirm_send.showModal()">
+            Comprobar para enviar
+        </button>
+    </form>
+</article>
+
+<dialog id="modal_confirm_send" class="modal">
+    <div class="modal-box bg-surface-card space-y-6">
+        <h3 class="font-bold text-xl text-center">Confirma tu elección</h3>
+        <div id="confirmModalContent" class="space-y-2 max-h-60 overflow-y-auto">
+        </div>
+
+        <div class="flex justify-end gap-4">
+            <button id="confirmBtn" class="cts-btn-general-compress cts-btn-primary btn-push py-1 px-4" onclick="modal_confirm_send.close()">
+                Enviar
+            </button>
+            <button class="cts-btn-general-compress cts-btn-fourthy btn-push py-1 px-4"
+                onclick="modal_confirm_send.close()">
+                Cancelar
+            </button>
+        </div>
+    </div>
+    <form method="dialog" class="modal-backdrop">
+        <button>close</button>
+    </form>
+</dialog>
 {% endblock %}
 
 {% block extra_js %}
 <script src="{% static 'js/actions-form.js' %}"></script>
 <script src="{% static 'js/test-cata.js' %}"></script>
+<script src="{% static 'js/activity-monitor.js' %}"></script>
 {% endblock %}

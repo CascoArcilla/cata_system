@@ -2,12 +2,20 @@
 @plugin "daisyui";
 
 
-.cts-container-main {
-  @apply w-full flex flex-col justify-center items-center bg-surface-general mt-10 mb-10;
+.cts-root-continer {
+  @apply flex flex-col w-full min-h-screen bg-surface-general appearance-none;
 }
 
-.cts-wrap-content {
-  @apply flex flex-col gap-8 bg-surface-alter p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-xl max-lg:rounded-none;
+.cts-container-main {
+  @apply w-full flex flex-col justify-center items-center bg-surface-general py-10;
+}
+
+.cts-container-panel {
+  @apply container max-w-screen-xl text-black bg-surface-alter space-y-8 p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-xl;
+}
+
+.cts-container-config {
+  @apply space-y-8 bg-surface-alter container text-black max-w-screen-lg p-10 max-lg:p-6 max-sm:px-2 rounded-xl;
 }
 
 .cts-btn-general {
@@ -19,19 +27,27 @@
 }
 
 .cts-btn-primary {
-  @apply text-white bg-btn-primary border-green-800;
+  @apply text-white bg-cts-primary border-orange-800;
 }
 
 .cts-btn-secondary {
-  @apply text-white bg-btn-secondary border-pink-800;
+  @apply text-black bg-cts-secondary border-cts-border;
 }
 
 .cts-btn-tertiary {
-  @apply text-gray-700 bg-btn-tertiary border-green-600;
+  @apply text-gray-700 bg-cts-tertiary border-green-600;
 }
 
-.cts-btn-error {
-  @apply text-white bg-ct-error border-red-800;
+.cts-btn-fourthy {
+  @apply text-white bg-cts-fourthy border-red-800;
+}
+
+.cts-btn-fifthy {
+  @apply text-white border-black bg-cts-fifthy;
+}
+
+.cts-radius-green {
+  @apply radio radio-lg checked:bg-cts-radius-ring-color;
 }
 
 .btn-push {

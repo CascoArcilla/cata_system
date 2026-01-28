@@ -1,4 +1,4 @@
-from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm
+from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm, SesionBasicRATAForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -11,10 +11,6 @@ class PanelBasicController():
     }
 
     url_panel_basic = "tecnicas/create_sesion/conf-panel-basic.html"
-    url_panel_basic_cata = "tecnicas/create_sesion/panel-basic-cata.html"
-    url_panel_basic_pf = "tecnicas/create_sesion/panel-basic-pf.html"
-    url_panel_basic_sort = "tecnicas/create_sesion/panel-basic-sort.html"
-    url_panel_basic_napping = "tecnicas/create_sesion/panel-basic-napping.html"
 
     url_next_panel_tags = "cata_system:panel_configuracion_tags"
     url_next_panel_codes = "cata_system:panel_configuracion_codes"
@@ -65,8 +61,7 @@ class PanelBasicController():
 
     @staticmethod
     def controllGetRATA(request: HttpRequest):
-        form_sesion = SesionBasicForm(
-            initial_conf=PanelBasicController.conf_initial_rata)
+        form_sesion = SesionBasicRATAForm()
 
         view_context = {
             "form_sesion": form_sesion,
@@ -80,8 +75,7 @@ class PanelBasicController():
     @staticmethod
     def controllPostRATA(request: HttpRequest, name_tecnica: str):
         try:
-            form = SesionBasicForm(
-                request.POST, initial_conf=PanelBasicController.conf_initial_rata)
+            form = SesionBasicRATAForm(request.POST)
 
             if form.is_valid():
                 values = {}
@@ -90,13 +84,6 @@ class PanelBasicController():
                         values[name] = value.id
                     else:
                         values[name] = value
-
-                for key, expected in PanelBasicController.conf_initial_rata.items():
-                    actual = values.get(key)
-
-                    if actual is None or str(actual) != str(expected):
-                        form.add_error(
-                            key, f"Valor inválido para '{key}': se esperaba {expected}, se recibió {actual}")
 
                 if form.errors:
                     response = render(request, PanelBasicController.url_panel_basic, {
@@ -125,7 +112,7 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic_cata, view_context)
+            request, PanelBasicController.url_panel_basic, view_context)
 
     @staticmethod
     def controllPostCATA(request: HttpRequest, name_tecnica: str):
@@ -156,7 +143,7 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic_pf, view_context)
+            request, PanelBasicController.url_panel_basic, view_context)
 
     @staticmethod
     def controllPostPF(request: HttpRequest, name_tecnica: str):
@@ -172,7 +159,7 @@ class PanelBasicController():
             response = redirect(
                 reverse(PanelBasicController.url_next_panel_codes))
         else:
-            response = render(request, PanelBasicController.url_panel_basic_pf, {
+            response = render(request, PanelBasicController.url_panel_basic, {
                 "form_sesion": form, "error": "Información no valida"})
 
         return response
@@ -187,7 +174,7 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic_sort, view_context)
+            request, PanelBasicController.url_panel_basic, view_context)
 
     @staticmethod
     def controllPostSort(request: HttpRequest, name_tecnica: str):
@@ -203,7 +190,7 @@ class PanelBasicController():
             response = redirect(
                 reverse(PanelBasicController.url_next_panel_codes))
         else:
-            response = render(request, PanelBasicController.url_panel_basic_sort, {
+            response = render(request, PanelBasicController.url_panel_basic, {
                 "form_sesion": form, "error": "Información no valida"})
 
         return response
@@ -218,7 +205,7 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic_napping, view_context)
+            request, PanelBasicController.url_panel_basic, view_context)
 
     @staticmethod
     def controllPostNapping(request: HttpRequest, name_tecnica: str):
@@ -234,7 +221,7 @@ class PanelBasicController():
             response = redirect(
                 reverse(PanelBasicController.url_next_panel_codes))
         else:
-            response = render(request, PanelBasicController.url_panel_basic_napping, {
+            response = render(request, PanelBasicController.url_panel_basic, {
                 "form_sesion": form, "error": "Información no valida"})
 
         return response

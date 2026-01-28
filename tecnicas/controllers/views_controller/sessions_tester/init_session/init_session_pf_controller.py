@@ -9,20 +9,23 @@ from .init_session_controller import InitSessionController
 class InitSessionPFController(InitSessionController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_direction = "tecnicas/forms_tester/init_pf_test.html"
+        self.current_direction = "tecnicas/forms_tester/init_scales_test.html"
         self.pf_direction = "cata_system:session_pf"
 
     def controllGet(self, request: HttpRequest):
-        context = {
-            "session": self.session,
-            "type_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
-        }
-
         (is_end, message, rep_show) = self.isEndedSession()
 
-        context["has_ended"] = is_end
-        context["activity"] = message
-        context["repetition"] = rep_show
+        context = {
+            "session_info": {
+                "code": self.session.codigo_sesion,
+                "name": self.session.nombre_sesion,
+                "instructions": self.session.tecnica.instrucciones,
+                "activity": message,
+                "repetition": rep_show
+            },
+            "use_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica,
+            "has_ended": is_end
+        }
 
         if "error" in request.GET:
             context["error"] = request.GET["error"]
@@ -30,9 +33,16 @@ class InitSessionPFController(InitSessionController):
         return render(request, self.current_direction, context)
 
     def controllPost(self, request: HttpRequest):
+        (is_end, message, rep_show) = self.isEndedSession()
         context = {
-            "session": self.session,
-            "type_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
+            "session_info": {
+                "code": self.session.codigo_sesion,
+                "name": self.session.nombre_sesion,
+                "instructions": self.session.tecnica.instrucciones,
+                "activity": message,
+                "repetition": rep_show
+            },
+            "use_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
         }
 
         action = request.POST["action"]

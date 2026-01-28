@@ -12,23 +12,33 @@ class DetallesSortController(DetallesController):
     def getContext(self):
         technique = self.session.tecnica
 
-        finished = False
-        status = ""
-
-        if technique.repeticion < technique.repeticiones_max and not self.session.activo:
-            status = "En espera para iniciar la sesión"
-        elif technique.repeticion >= technique.repeticiones_max and not self.session.activo:
-            status = "Esta sesión ha sido finalizada"
-            finished = True
-        else:
-            status = "La sesión está en progreso"
-
         self.context = {
-            "sesion": self.session,
-            "technique": technique,
-            "status": status,
-            "finished": finished
+            "use_technique": technique.tipo_tecnica.nombre_tecnica,
+            "session": {
+                "session_code": self.session.codigo_sesion,
+                "session_name": self.session.nombre_sesion or "Sin nombre asignado",
+                "session_date": self.session.fechaCreacion,
+                "activated": self.session.activo,
+                "session_instructions": technique.instrucciones,
+            },
+            "technique": {
+                "words_style": technique.id_estilo,
+                "max_catadores": technique.limite_catadores,
+                "max_repetitions": technique.repeticiones_max,
+                "current_repetition": technique.repeticion,
+            },
         }
+
+        rep = technique.repeticion
+        self.context["end_collection"] = False
+
+        if rep == 0:
+            self.context["session"]["session_status"] = "Listo para iniciar"
+        elif rep == 1 and self.session.activo:
+            self.context["session"]["session_status"] = "Sesión en curso"
+        elif rep == 1 and not self.session.activo:
+            self.context["session"]["session_status"] = "Se ha finalizado la recolección de datos"
+            self.context["end_collection"] = True
 
         self.context["data_groups"] = {
             "data": self.setDataSort(),

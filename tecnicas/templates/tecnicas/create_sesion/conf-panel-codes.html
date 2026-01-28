@@ -1,81 +1,67 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/conf_create_session.html' %}
 {% load static %}
 
-{% block title %}Panel Configuracion{% endblock %}
+{% block title %}Panel de codificación de productos{% endblock %}
+{% block title_form %}Panel de codificación de productos{% endblock %}
 
-{% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content text-black">
-        <h1 class="text-center font-bold text-4xl">Panel de configuración</h1>
-
-        {% if error %}
-        {% include "./components/error-message.html" with message=error %}
-        {% endif %}
-        {% if message %}
-        {% include "./components/error-message.html" with message=message %}
-        {% endif %}
-
-        <form method="post" action="" class="ct-codes-form flex flex-col gap-5">
-            {% csrf_token %}
-            <h2 class="text-2xl mb-2 font-bold">Codificar productos</h2>
-
-            <article class="w-full flex flex-col justify-center items-center gap-5">
-                <p class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded max-w-4xl">
-                    Puede dejar los campos como están para usar los códigos predefinidos.
-                </p>
-                <article class="flex flex-row flex-wrap gap-4 items-center justify-center max-w-4xl">
-                    {% for field in form_codes %}
-                    <label for="{{ field.id_for_label }}"
-                        class="text-lg flex flex-col items-center px-2 font-medium tracking-wide">
-                        <p class="tracking-normal capitalize text-base font-bold">{{ field.label }}</p>
-                        {{ field }}
-                    </label>
-                    {% endfor %}
-                </article>
-                {% if use_technique == 'escalas' %}
-                <button type="button" class="cts-btn-general cts-btn-secondary btn-push uppercase"
-                    onclick="setPermutations()">
-                    regenerar ordenes
-                </button>
-                {% endif %}
-            </article>
-
-            {% if use_technique == 'escalas' %}
-            <h2 class="text-2xl mb-2 font-bold">Ordenes</h2>
-            <hr>
-            <article class="w-full">
-                <section class="flex justify-center">
-                    <article
-                        class="ct-orden-list grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-4 px-3 py-4 justify-center items-center capitalize text-lg bg-surface-sweet">
-                    </article>
-                </section>
-            </article>
-            {% endif %}
-
-            <article class="flex flex-col items-center gap-4">
-                <section class="flex w-full max-sm:flex-col flex-wrap gap-4 max-w-2xl">
-                    <button type="submit" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full">
-                        Continuar
-                    </button>
-                    <a href="{% url 'cata_system:panel_configuracion_tags' %}" class="flex-1 w-full">
-                        <button type="button" class="cts-btn-general cts-btn-secondary btn-push w-full">
-                            Paso anterior
-                        </button>
-                    </a>
-                </section>
-                <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-full max-w-2xl">
-                    <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
-                        Cancelar la creación
-                    </button>
-                </a>
-            </article>
-        </form>
-
-        {% if use_technique == 'escalas' %}
-        <input type="number" value="{{ num_tester }}" class="ct-num-cata hidden" disabled>
-        {% endif %}
+{% block content_main_form %}
+<article class="space-y-4 bg-surface-card p-4 rounded">
+    <h2 class="text-2xl font-bold">Codificar productos</h2>
+    <p class="text-center font-bold tracking-wide text-xl">
+        Puede dejar los campos como están para usar los códigos predefinidos
+    </p>
+    <article class="flex flex-row flex-wrap gap-4 items-center justify-center">
+        {% for field in form_codes %}
+        <label for="{{ field.id_for_label }}" class="text-lg flex flex-col items-center px-2 font-medium tracking-wide">
+            <p class="tracking-normal capitalize text-base font-bold">{{ field.label }}</p>
+            {{ field }}
+        </label>
+        {% endfor %}
     </article>
 </article>
+
+{% if use_technique == 'escalas' %}
+<article class="w-full space-y-4 p-4 rounded bg-surface-card">
+    <h2 class="text-2xl mb-2 font-bold">Órdenes</h2>
+    <p class="text-center font-bold tracking-wide text-xl">
+        Estas ordenes serán asignadas a los Catadores de forma aleatoria al entrar a la sesión
+    </p>
+
+    <section class="flex justify-center">
+        <article
+            class="ct-orden-list grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-4 px-3 py-4 justify-center items-center capitalize text-lg">
+        </article>
+    </section>
+
+    <div class="flex justify-center">
+        <button type="button" class="cts-btn-general cts-btn-fifthy btn-push" onclick="setPermutations()">
+            Volver a ordenar
+        </button>
+    </div>
+</article>
+{% endif %}
+
+<article class="cs-escalas-radio max-lg:flex-col justify-center flex gap-4">
+    <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
+        <a href="{% url 'cata_system:panel_configuracion_tags' %}" class="flex-1 w-full">
+            <button type="button" class="cts-btn-general cts-btn-fifthy btn-push w-full">
+                Paso anterior
+            </button>
+        </a>
+        <button type="submit" class="cts-btn-general cts-btn-primary btn-push w-fit max-lg:w-full">
+            Continuar
+        </button>
+    </section>
+    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
+        <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-fit max-lg:w-full">
+            Cancelar la creación
+        </button>
+    </a>
+</article>
+
+{% if use_technique == 'escalas' %}
+<input type="number" value="{{ num_tester }}" class="ct-num-cata hidden" disabled>
+{% endif %}
 {% endblock %}
 
 {% block extra_js %}

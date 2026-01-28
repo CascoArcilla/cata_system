@@ -19,18 +19,43 @@ from collections import defaultdict
 
 
 class DetallesEscalasController(DetallesController):
-    def __init__(self, session: SesionSensorial):
+    def __init__(self, session: SesionSensorial, type_technique: str):
         super().__init__(session)
         self.url_template = "tecnicas/manage_sesions/details-session.html"
+        if type_technique == "rata":
+            self.url_template = "tecnicas/manage_sesions/details-session-rata.html"
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):
         technique = self.session.tecnica
 
         self.context = {
-            "sesion": self.session,
-            "use_technique": technique.tipo_tecnica.nombre_tecnica
+            "use_technique": technique.tipo_tecnica.nombre_tecnica,
+            "session": {
+                "session_code": self.session.codigo_sesion,
+                "session_name": self.session.nombre_sesion or "Sin nombre asignado",
+                "session_date": self.session.fechaCreacion,
+                "activated": self.session.activo,
+                "session_instructions": technique.instrucciones,
+            },
+            "technique": {
+                "words_style": technique.id_estilo,
+                "max_catadores": technique.limite_catadores,
+                "max_repetitions": technique.repeticiones_max,
+                "current_repetition": technique.repeticion,
+            },
         }
+
+        # Definir estado de sesion
+        # Se comprueba que ya no se pueda iniciar la repeticion
+        self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max and not self.session.activo
+
+        if self.context["fin_repeticiones"]:
+            self.context["session"]["session_status"] = "Recolección de datos finalizada"
+        elif self.session.activo:
+            self.context["session"]["session_status"] = "Sesión en curso"
+        else:
+            self.context["session"]["session_status"] = "Listo para iniciar repetición"
 
         # Datos de la escala usada
         scale: Escala = technique.escala_tecnica
@@ -75,8 +100,5 @@ class DetallesEscalasController(DetallesController):
         self.context["calificaciones"] = defaultdict_to_dict(
             ratings_for_repetition)
         self.context["existen_calificaciones"] = True
-
-        # Se comprueba que ya no se pueda iniciar la repeticion
-        self.context["fin_repeticiones"] = technique.repeticion >= technique.repeticiones_max
 
         return self.context

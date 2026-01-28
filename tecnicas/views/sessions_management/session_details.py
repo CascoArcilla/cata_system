@@ -23,7 +23,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
 
         if use_techinique == "escalas" or use_techinique == "rata":
             controller_view = DetallesEscalasController(
-                session=sensorial_session)
+                session=sensorial_session, type_technique=use_techinique)
             response = controller_view.controllGetResponse(
                 request=req, message=message)
 

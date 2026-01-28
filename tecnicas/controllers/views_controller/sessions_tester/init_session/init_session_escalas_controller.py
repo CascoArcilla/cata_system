@@ -19,8 +19,15 @@ class InitSessionEscalasController(InitSessionController):
 
     def controllGet(self, request: HttpRequest):
         context = {
-            "session": self.session,
-            "type_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
+            "session_info": {
+                "code": self.session.codigo_sesion,
+                "name": self.session.nombre_sesion,
+                "instructions": self.session.tecnica.instrucciones,
+                "style": self.session.tecnica.id_estilo.nombre_estilo,
+                "type_scale": self.session.tecnica.escala_tecnica.id_tipo_escala.nombre_escala,
+                "repeticion": self.session.tecnica.repeticion
+            },
+            "use_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
         }
 
         order = self.checkAndAssignOrder()
@@ -43,9 +50,20 @@ class InitSessionEscalasController(InitSessionController):
 
     def controllPost(self, request: HttpRequest):
         context = {
-            "session": self.session,
-            "type_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
+            "session_info": {
+                "code": self.session.codigo_sesion,
+                "name": self.session.nombre_sesion,
+                "instructions": self.session.tecnica.instrucciones,
+                "style": self.session.tecnica.id_estilo.nombre_estilo,
+                "repeticion": self.session.tecnica.repeticion
+            },
+            "use_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
         }
+
+        try:
+            context["session_info"]["type_scale"] = self.session.tecnica.escala_tecnica.id_tipo_escala.nombre_escala
+        except Exception as e:
+            context["session_info"]["type_scale"] = None
 
         if request.POST["action"] == "start_posting":
             parameters = {

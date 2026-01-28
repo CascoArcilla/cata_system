@@ -1,80 +1,113 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/base_tester.html' %}
 {% load static %}
 
-{% block title %}Panel Principal Tester{% endblock %}
+{% block title %}Main Tester{% endblock %}
 
-{% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content text-black">
-        <div class="container mx-auto max-w-2xl p-4 space-y-6">
-            <div class="card bg-surface-card shadow-lg">
-                <div class="card-body">
-                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                        <h2 class="card-title text-2xl font-semibold">Información del Usuario</h2>
+{% block content_tester %}
+<div class="card bg-surface-card shadow-lg">
+    <div class="card-body flex flex-col items-center justify-center text-center py-6">
+        <h1 class="text-3xl font-bold text-gray-800">Panel Principal</h1>
+        <h2 class="text-xl font-medium text-gray-600 mt-1">Catador</h2>
+    </div>
+</div>
 
-                        <button class="cts-btn-general-compress px-4 py-2 cts-btn-error btn-push"
-                            onclick="exit_sesion('cts-action-form')">
-                            Salir del Sistema
-                        </button>
-                    </div>
-
-                    <div class="divider my-3"></div>
-
-                    <div class="flex flex-wrap gap-4 text-base">
-                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
-                            <p class="font-semibold">Nombre completo:</p>
-                            <p>{{ name }}</p>
-                        </div>
-                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
-                            <p class="font-semibold">Nombre de usuario:</p>
-                            <p>@{{ username }}</p>
-                        </div>
-                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
-                            <p class="font-semibold">Email:</p>
-                            <p>{{ email }}</p>
-                        </div>
-                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
-                            <p class="font-semibold">Teléfono:</p>
-                            <p>{{ phone }}</p>
-                        </div>
-                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
-                            <p class="font-semibold">Genero:</p>
-                            <p>{{ genere }}</p>
-                        </div>
-                        <div class="bg-surface-sweet rounded-xl p-4 grow border-l-2 border-b-2 border-pink-400">
-                            <p class="font-semibold">Nacimiento:</p>
-                            <p>{{ birthday }}</p>
-                        </div>
-                    </div>
+<div class="card bg-surface-card shadow-lg">
+    <div class="card-body">
+        <h2 class="card-title font-bold text-2xl">Información Personal</h2>
+        <hr>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div
+                class="bg-surface-sweet rounded-xl p-4 w-full flex items-center gap-4 border-l-4 border-pink-400 shadow-sm hover:shadow-md transition-shadow">
+                <div
+                    class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center shrink-0 text-xl text-gray-600">
+                    👤
+                </div>
+                <div class="grow min-w-0">
+                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Nombre completo</p>
+                    <p class="text-lg font-medium truncate">{{ name }}</p>
                 </div>
             </div>
 
-            <div class="card bg-surface-card shadow-lg">
-                <div class="card-body">
-                    <article class="flex flex-wrap gap-4 max-sm:flex-col justify-center">
-                        <a href="{% url 'cata_system:catador_subscribe_session' %}" class="w-fit max-sm:w-full grow">
-                            <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
-                                ➕ Nueva sesión
-                            </button>
-                        </a>
-                        <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}"
-                            class="w-fit max-sm:w-full grow">
-                            <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
-                                🔍 Ver sesiones
-                            </button>
-                        </a>
-                    </article>
+            <div
+                class="bg-surface-sweet rounded-xl p-4 w-full flex items-center gap-4 border-l-4 border-pink-400 shadow-sm hover:shadow-md transition-shadow">
+                <div
+                    class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center shrink-0 text-xl text-gray-600">
+                    @
+                </div>
+                <div class="grow min-w-0">
+                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Nombre de usuario</p>
+                    <p class="text-lg font-medium truncate">@{{ username }}</p>
                 </div>
             </div>
 
-            <form action="" method="post" class="hidden cts-action-form">
-                <input type="hidden" name="action" class="action-input">
-                {% csrf_token %}
-            </form>
-    </article>
-</article>
-{% endblock %}
+            <div
+                class="bg-surface-sweet rounded-xl p-4 w-full flex items-center gap-4 border-l-4 border-pink-400 shadow-sm hover:shadow-md transition-shadow">
+                <div
+                    class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center shrink-0 text-xl text-gray-600">
+                    ✉️
+                </div>
+                <div class="grow min-w-0">
+                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Email</p>
+                    <p class="text-lg font-medium truncate">{{ email }}</p>
+                </div>
+            </div>
 
-{% block extra_js %}
-<script src="{% static 'js/actions-form.js' %}"></script>
+            <div
+                class="bg-surface-sweet rounded-xl p-4 w-full flex items-center gap-4 border-l-4 border-pink-400 shadow-sm hover:shadow-md transition-shadow">
+                <div
+                    class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center shrink-0 text-xl text-gray-600">
+                    📞
+                </div>
+                <div class="grow min-w-0">
+                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Teléfono</p>
+                    <p class="text-lg font-medium truncate">{{ phone }}</p>
+                </div>
+            </div>
+
+            <div
+                class="bg-surface-sweet rounded-xl p-4 w-full flex items-center gap-4 border-l-4 border-pink-400 shadow-sm hover:shadow-md transition-shadow">
+                <div
+                    class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center shrink-0 text-xl text-gray-600">
+                    ⚧
+                </div>
+                <div class="grow min-w-0">
+                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Genero</p>
+                    <p class="text-lg font-medium truncate">{{ genere }}</p>
+                </div>
+            </div>
+
+            <div
+                class="bg-surface-sweet rounded-xl p-4 w-full flex items-center gap-4 border-l-4 border-pink-400 shadow-sm hover:shadow-md transition-shadow">
+                <div
+                    class="w-12 h-12 rounded-full bg-white/50 flex items-center justify-center shrink-0 text-xl text-gray-600">
+                    🎂
+                </div>
+                <div class="grow min-w-0">
+                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Nacimiento</p>
+                    <p class="text-lg font-medium truncate">{{ birthday }}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="card bg-surface-card shadow-lg">
+    <div class="card-body">
+        <h2 class="card-title font-bold text-2xl">Acciones</h2>
+        <hr>
+        <article class="flex flex-wrap gap-4 max-sm:flex-col justify-center">
+            <a href="{% url 'cata_system:catador_subscribe_session' %}" class="w-fit max-sm:w-full grow">
+                <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
+                    ➕ Suscribirse a una sesión
+                </button>
+            </a>
+            <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}" class="w-fit max-sm:w-full grow">
+                <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
+                    🔍 Listar sesiones
+                </button>
+            </a>
+        </article>
+    </div>
+</div>
 {% endblock %}
