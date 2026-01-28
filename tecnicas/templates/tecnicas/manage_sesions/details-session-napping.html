@@ -29,9 +29,27 @@
 </p>
 <article class="space-y-4 text-black bg-surface-card p-4 rounded-2xl">
     <p class="text-lg">
-        Puede combinar los datos de esta sesión de Napping con otra sesión que use CATA, RATA o Escalas.
-        Ambas sesiones deben tener los mismos productos y catadores
+        Puede combinar los datos de esta sesión de Napping tener en cuenta:
     </p>
+
+    <section class="flex gap-8 justify-center text-center">
+        <div class="flex flex-col gap-2 bg-white w-xs p-2 rounded">
+            <h2 class="font-bold text-xl">Técnicas posibles</h2>
+            <ul class="space-y-2">
+                <li class="font-semibold bg-cts-secondary p-2 rounded">CATA</li>
+                <li class="font-semibold bg-cts-secondary p-2 rounded">RATA</li>
+                <li class="font-semibold bg-cts-secondary p-2 rounded">Escalas</li>
+            </ul>
+        </div>
+
+        <div class="flex flex-col gap-2 bg-white w-xs p-2 rounded">
+            <h2 class="font-bold text-xl">Sesiones deben</h2>
+            <ul class="space-y-2">
+                <li class="font-semibold bg-cts-secondary p-2 rounded">Tener los mismos productos (codigos)</li>
+                <li class="font-semibold bg-cts-secondary p-2 rounded">Tener los mismos catadores</li>
+            </ul>
+        </div>
+    </section>
     
     <form method="post" class="space-y-4">
         {% csrf_token %}
@@ -46,7 +64,7 @@
                     type="text" 
                     id="session_b_code" 
                     name="session_b_code" 
-                    class="flex-1 px-4 py-2 border border-surface-general rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="flex-1 px-4 py-2 bg-white border border-surface-general rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="Ingrese el código de sesión"
                     required
                 >

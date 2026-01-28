@@ -22,7 +22,7 @@ class RatingNappingController:
                 data, participation
             )
 
-        if name_mod in ['sin modalidad', 'perfil ultra flash']:
+        if name_mod in ['posicionamiento', 'perfil ultra flash']:
             return RatingNappingController.processNappOrPUF(
                 data, participation
             )
