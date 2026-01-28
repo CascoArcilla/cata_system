@@ -30,7 +30,7 @@ zonesDrop.forEach(manageDropZone);
 function addNewGrup() {
     const container = document.getElementById("containers");
     const newGrup = document.createElement("section");
-    const styles = "w-fit space-y-4 border rounded p-2 bg-surface-sweet";
+    const styles = "w-fit space-y-4 border rounded p-2 bg-surface-ligt";
     newGrup.classList.add(...styles.split(" "));
 
     const formWord = document.getElementById("form-word");
@@ -38,16 +38,16 @@ function addNewGrup() {
     formWordClone.classList.remove("hidden");
 
     newGrup.innerHTML = `
-        <div class="dropzone w-64 min-h-16 bg-cts-enfasis rounded p-2 flex items-center justify-center flex-wrap gap-2">
+        <div class="dropzone w-64 min-h-16 bg-surface-sweet rounded p-2 flex items-center justify-center flex-wrap gap-2">
             ${productsPlaceHolder}
         </div>
         ${formWordClone.outerHTML}
         <div
-            class="words-container w-64 min-h-16 bg-surface-alter rounded p-2 flex items-center justify-center flex-wrap gap-2">
+            class="words-container w-64 min-h-16 bg-surface-sweet rounded p-2 flex items-center justify-center flex-wrap gap-2">
             ${wordsPlaceHolder}
         </div>
         <div class="cts-container-question flex items-center justify-around gap-2">
-            <button class="cts-question cts-btn-general-compress flex-1 cts-btn-secondary btn-push">
+            <button class="cts-question cts-btn-general-compress flex-1 cts-btn-fifthy btn-push">
                 ¿Remover este grupo?
             </button>
             <button class="cts-remove cts-btn-general-compress flex-1 cts-btn-primary btn-push hidden">

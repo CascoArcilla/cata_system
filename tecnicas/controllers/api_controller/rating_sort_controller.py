@@ -36,6 +36,9 @@ class RatingSortController():
                 if sent_product_ids != technique_product_ids:
                     return JsonResponse({"error": "Faltan productos por clasificar"})
 
+                # Limpiar grupos anteriores
+                GrupoProducto.objects.filter(tecnica=technique, catador=catador).delete()
+
                 for group in data:
                     words_data = group["words"]
                     products_data = group["products"]

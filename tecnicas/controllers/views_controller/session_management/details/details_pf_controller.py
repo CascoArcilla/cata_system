@@ -31,15 +31,26 @@ class DetallesPFController(DetallesController):
                 "words_style": technique.id_estilo,
                 "max_catadores": technique.limite_catadores,
                 "max_repetitions": technique.repeticiones_max - self.skip_repetition,
-                "current_repetition": technique.repeticion - self.skip_repetition,
             },
+            "valor_max": Producto.objects.filter(
+                id_tecnica=self.session.tecnica).count()
         }
+
+        if technique.repeticion <= self.skip_repetition:
+            self.context["technique"]["current_repetition"] = "0"
+        elif technique.repeticion > self.skip_repetition:
+            self.context["technique"]["current_repetition"] = technique.repeticion - \
+                self.skip_repetition
+        elif technique.repeticion > technique.repeticiones_max:
+            self.context["technique"]["current_repetition"] = technique.repeticion - \
+                self.skip_repetition
 
         # Definir el estado de la sesion
         rep = technique.repeticion
         max_rep = technique.repeticiones_max
         activate = self.session.activo
-        self.context["session"]["session_status"] = self.getStatus(rep, activate, max_rep)
+        self.context["session"]["session_status"] = self.getStatus(
+            rep, activate, max_rep)
 
         self.getDataPhases()
 
@@ -70,8 +81,6 @@ class DetallesPFController(DetallesController):
             self.context["data_ratings"] = self.getDataRatings()
             self.context["repeticion"] = self.session.tecnica.repeticion - \
                 self.skip_repetition
-            self.context["valor_max"] = Producto.objects.filter(
-                id_tecnica=self.session.tecnica).count()
 
         return self.context
 
@@ -172,11 +181,16 @@ class DetallesPFController(DetallesController):
         ratings = list(Calificacion.objects.filter(
             id_tecnica=self.session.tecnica, num_repeticion=3))
 
+        structured_data = None
+
         if ratings:
             raw_data = DatoController.getWordValuesForConvecional(
                 technique=self.session.tecnica,
                 ratings=ratings
             )
+
+            if not raw_data:
+                return None
 
             structured_data = defaultdict(lambda: defaultdict(list))
 

@@ -7,7 +7,7 @@ const FORM_ACTION = document.querySelector(".form-actions");
 const WORDS = [];
 const STYLES_LI = [
   "cts-item-words",
-  "bg-gray-400",
+  "bg-surface-sweet",
   "text-black",
   "rounded",
   "font-bold",
@@ -19,25 +19,20 @@ const STYLES_LI = [
   "flex-row",
   "flex-1",
   "min-w-fit",
-  "justify-center",
+  "justify-left",
   "items-center",
   "gap-3",
+  "break-words",
 ];
 
 const STYLES_BTN = [
   "cts-remove-word",
-  "px-4",
+  "cts-btn-general-compress",
+  "cts-btn-fifthy",
   "border-b-2",
   "active:border-b-0",
   "active:border-t-2",
-  "transition-all",
-  "rounded-xl",
-  "font-black",
-  "w-fit",
-  "capitalize",
-  "active:border-red-500",
-  "border-red-800",
-  "bg-red-500",
+  "px-4",
 ];
 
 const itemWord = (wordName, index) => {
@@ -54,8 +49,8 @@ const itemWord = (wordName, index) => {
   li.setAttribute("id", `word-${index}`);
   li.classList.add(...STYLES_LI);
 
-  li.appendChild(ph);
   li.appendChild(btn);
+  li.appendChild(ph);
 
   return li;
 };
