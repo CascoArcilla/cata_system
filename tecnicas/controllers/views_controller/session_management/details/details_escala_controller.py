@@ -58,7 +58,7 @@ class DetallesEscalasController(DetallesController):
             self.context["session"]["session_status"] = "Listo para iniciar repetición"
 
         # Datos de la escala usada
-        scale: Escala = technique.escala_tecnica
+        scale: Escala = Escala.objects.get(tecnica=technique)
 
         self.context["scale"] = {
             "type": scale.id_tipo_escala.nombre_escala,
