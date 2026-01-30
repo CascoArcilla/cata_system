@@ -14,4 +14,4 @@ class PanelCreateController():
 
     @staticmethod
     def controllPost(request: HttpRequest):
-        return JsonResponse({"message": "Método no permitido"})
+        return JsonResponse({"message": "Creación con la técnica seleccionada no implementada"})

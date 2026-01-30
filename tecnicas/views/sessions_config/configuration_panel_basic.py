@@ -23,6 +23,8 @@ def configurationPanelBasic(req: HttpRequest):
             response = PanelBasicController.controllGetSort(request=req)
         elif name_tecnica == "napping":
             response = PanelBasicController.controllGetNapping(request=req)
+        elif name_tecnica == "perfil_ideal":
+            response = PanelBasicController.controllGetIdeal(request=req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida o sin implementar")
@@ -49,9 +51,12 @@ def configurationPanelBasic(req: HttpRequest):
         elif name_tecnica == "napping":
             response = PanelBasicController.controllPostNapping(
                 request=req, name_tecnica=name_tecnica)
+        elif name_tecnica == "perfil_ideal":
+            response = PanelBasicController.controllPostIdeal(
+                request=req, name_tecnica=name_tecnica)
         else:
             response = redirect(
-                reverse("cata_system:seleccion_tecnica") + "?error=¡Oh, vaya! Cambio de técnica repentino, vuelve a elegir otra vez")
+                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida o sin implementar para validar")
 
         return response
     else:

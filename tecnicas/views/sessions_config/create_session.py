@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
-from tecnicas.controllers import PanelCreateEscalasController, PanelCreateRataController, PanelCreateCataController, PanelCreatePFController, PanelCreateSortController, PanelCreateNappingController
+from tecnicas.controllers import PanelCreateEscalasController, PanelCreateRataController, PanelCreateCataController, PanelCreatePFController, PanelCreateSortController, PanelCreateNappingController, PanelCreateIdealController
 from tecnicas.utils import deleteDataSession
 
 
@@ -27,6 +27,8 @@ def createSession(req: HttpRequest):
             response = PanelCreateSortController.controllGet(req)
         elif name_technique == "napping":
             response = PanelCreateNappingController.controllGet(req)
+        elif name_technique == "perfil_ideal":
+            response = PanelCreateIdealController.controllGet(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
@@ -45,6 +47,8 @@ def createSession(req: HttpRequest):
             response = PanelCreateSortController.controllPost(req)
         elif name_technique == "napping":
             response = PanelCreateNappingController.controllPost(req)
+        elif name_technique == "perfil_ideal":
+            response = PanelCreateIdealController.controllPost(req)
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")

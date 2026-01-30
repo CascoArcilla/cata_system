@@ -7,7 +7,7 @@ class EscalaController():
     scale: Escala
     tags_relation: dict[str, EtiquetasEscala]
 
-    def __init__(self, data, use_scale: Escala = None):
+    def __init__(self, data: dict = {}, use_scale: Escala = None):
         if use_scale:
             self.scale = use_scale
         else:
@@ -30,6 +30,7 @@ class EscalaController():
     def saveScale(self):
         try:
             self.scale.save()
+            self.scale.refresh_from_db()
             return self.scale
         except DatabaseError as error:
             return controller_error("Error al guardar la escala")
@@ -59,18 +60,28 @@ class EscalaController():
         try:
             index = 1
             self.tags_relation = {}
+            tags_scale = []
 
             for name, id_tag in tags.items():
                 tag = Etiqueta.objects.get(id=id_tag)
-                related_tag = EtiquetasEscala.objects.create(
+                related_tag = EtiquetasEscala(
                     id_escala=self.scale,
                     id_etiqueta=tag,
                     posicion=index
                 )
-                self.tags_relation[name] = related_tag
+                tags_scale.append(related_tag)
                 index += 1
 
-            return self.tags_relation
+            EtiquetasEscala.objects.bulk_create(tags_scale)
+            tags_scale_created = list(
+                EtiquetasEscala.objects.filter(id_escala=self.scale))
+
+            if not tags_scale_created:
+                return controller_error("Escalas no guardadas")
+
+            ids_tags = [item.id for item in tags_scale_created]
+
+            return {"message": "Etiquetas creadas", "ids_tags": ids_tags}
         except DatabaseError as error:
             self.deleteRelationshipsWithLabels()
             return controller_error("Error en guardar la relación etiqueta escala")

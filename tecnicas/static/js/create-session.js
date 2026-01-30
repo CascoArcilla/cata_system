@@ -30,7 +30,7 @@ async function cretaeSession() {
       nameSession: data["nombre_sesion"],
     });
   } catch (error) {
-    renderElementsResponse({ error: jsonResponse.error });
+    renderElementsResponse({ error: error });
   }
 }
 

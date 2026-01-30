@@ -17,12 +17,12 @@ def configurationPanelWords(req: HttpRequest):
     style_words = basic_data["estilo_palabras"]
 
     if req.method == "GET":
-        if name_technique == "escalas" or name_technique == "rata" or name_technique == "cata":
+        if name_technique in ["escalas", "rata", "cata", "perfil_ideal"]:
             if style_words == "atributos":
-                response = PanelWordsController.controllGetEscalasAtributes(
+                response = PanelWordsController.controllGetAtributes(
                     req)
             elif style_words == "vocabulario":
-                response = PanelWordsController.controllGetEscalasVocabulary(
+                response = PanelWordsController.controllGetVocabulary(
                     req)
             else:
                 response = redirect(
@@ -33,12 +33,12 @@ def configurationPanelWords(req: HttpRequest):
         return response
 
     elif req.method == "POST":
-        if name_technique == "escalas" or name_technique == "rata" or name_technique == "cata":
+        if name_technique in ["escalas", "rata", "cata", "perfil_ideal"]:
             if style_words == "atributos":
-                response = PanelWordsController.controllPostEscalasAtributes(
+                response = PanelWordsController.controllPostAtributes(
                     req)
             elif style_words == "vocabulario":
-                response = PanelWordsController.controllPostEscalasVocabulary(
+                response = PanelWordsController.controllPostVocabulary(
                     req)
             else:
                 response = redirect(

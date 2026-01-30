@@ -65,6 +65,7 @@ class SesionController():
                 "fechaCreacion",
                 "activo",
                 "tecnica__tipo_tecnica__nombre_tecnica",
+                "tecnica__tipo_tecnica__descripcion",
                 "tecnica__id_estilo__nombre_estilo"
             )
             .order_by("-activo", "-fechaCreacion")

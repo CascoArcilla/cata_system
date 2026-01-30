@@ -23,6 +23,7 @@ from .views_controller.create_session.panels_create.panel_create_cata_controller
 from .views_controller.create_session.panels_create.panel_create_pf_controller import PanelCreatePFController
 from .views_controller.create_session.panels_create.panel_create_sort_controller import PanelCreateSortController
 from .views_controller.create_session.panels_create.panel_create_napping_controller import PanelCreateNappingController
+from .views_controller.create_session.panels_create.panel_create_ideal_cotroller import PanelCreateIdealController
 
 
 from .views_controller.session_management.details.details_controller import DetallesController
