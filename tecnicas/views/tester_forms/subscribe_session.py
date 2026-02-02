@@ -27,7 +27,7 @@ def subscribeSessionTester(req: HttpRequest):
 
         type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
 
-        if type_technique in ["escalas", "perfil flash", "sort"]:
+        if type_technique in ["escalas", "perfil flash", "sort", "perfil_ideal"]:
             response = login_controller.validateEntryLimitTesters(request=req)
 
         elif type_technique in ["rata", "cata"]:
