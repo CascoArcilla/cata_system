@@ -1,7 +1,7 @@
 {% extends 'tecnicas/layouts/base_tester.html' %}
 {% load static %}
 
-{% block title %}Sesión Convencional{% endblock %}
+{% block title %}Perfil Ideal - Fase 2{% endblock %}
 
 {% block extra_css %}
 <style>
@@ -22,20 +22,14 @@
         background: #3b82f6;
         cursor: pointer;
     }
-
-    @media (width < 40rem) {
-        .container-forms {
-            width: inherit;
-        }
-    }
 </style>
 {% endblock %}
 
 {% block content_tester %}
 <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
     <h1 class="rounded font-bold text-2xl bg-surface-card p-4 flex-1">
-        Sesión usando <br>técnica
-        <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+        Perfil Ideal - Fase 2<br>
+        <span class="text-lg">Evaluación Hedónica</span>
         <span class="hidden code-sesion">{{ session.codigo_sesion }}</span>
     </h1>
     <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
@@ -65,51 +59,35 @@
 {% endif %}
 
 <article class="rounded flex flex-col gap-4">
+    <section class="flex items-center justify-center bg-surface-card p-4 rounded-lg">
+        <div class="text-center">
+            <p class="text-xl font-bold mb-2">Evaluación de Agrado</p>
+            <p class="text-base">Ahora evalúa tu nivel de agrado general por cada producto usando la escala hedónica.
+            </p>
+        </div>
+    </section>
+
     <section class="flex items-center justify-center bg-surface-card p-2 rounded-lg">
         <p class="text-lg font-medium text-center">
             {{ session.tecnica.instrucciones }}
         </p>
     </section>
-    <section class="flex items-center justify-center flex-wrap gap-4">
-        <div class="bg-surface-card p-2 rounded-lg flex-1">
+
+    <section class="bg-surface-card flex items-center justify-center flex-wrap gap-4">
+        <div class="p-2 rounded-lg flex-1">
             <p class="text-lg font-bold text-center">
                 Producto:
             </p>
-            <p class="text-2xl font-bold text-center ct-product-rating">
+            <p class="text-3xl font-bold text-center ct-product-rating">
                 <span class="code-product">{{ product }}</span>
                 <span class="hidden id-product">{{ product.id }}</span>
             </p>
         </div>
-        <div class="bg-surface-card p-2 rounded-lg flex-1">
-            <p class="text-lg font-bold text-center">
-                Repetición:
-            </p>
-            <p class="text-2xl font-bold text-center">
-                {{ session.tecnica.repeticion }}
-            </p>
-        </div>
-    </section>
-    <section class="flex flex-col bg-red-200 py-2 px-4 rounded-lg min-sm:hidden">
-        <p>
-            El largo de estas escalas puede afectar la vista en dispositivos móviles. Para ver el resto de la
-            escala puede deslizar con el dedo a la derecha o la izquierda sin tocar la escala.
-        </p>
     </section>
 </article>
 
-<article
-    class="scales-container [&>*:not(:last-child)]:mb-5 min-lg:grid min-lg:items-start grid-cols-2 gap-3">
-    {% with path_con="../components/form-scale-continue.html" path_str="../components/form-scale-structure.html" %}
-        {% if type_scale == "continua" %}
-            {% for word in words %}
-                {% include path_con with word=word tags=tags scale=scale size_scale=size_scale %}
-            {% endfor %}
-        {% elif type_scale == "estructurada" %}
-            {% for word in words %}
-                {% include path_str with word=word tags=tags scale=scale %}
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+<article class="scales-container">
+    {% include "../components/form-hedonic-scale.html" with product=product tags=tags scale=hedonic_scale %}
 </article>
 {% endblock %}
 
@@ -122,7 +100,7 @@
         });
     });
 </script>
-<script src="{% static 'js/created-scale.js' %}"></script>
+<script src="{% static 'js/perfil-ideal-phase2.js' %}"></script>
 <script src="{% static 'js/actions-form.js' %}"></script>
 <script src="{% static 'js/activity-monitor.js' %}"></script>
 {% endblock %}

@@ -130,6 +130,14 @@ urlpatterns = [
          views.nappingTest,
          name="session_napping"),
 
+    path("testers/init-session/<str:code_sesion>/perfil-ideal/fase1",
+         views.perfilIdealPhase1,
+         name="session_perfil_ideal_phase1"),
+
+    path("testers/init-session/<str:code_sesion>/perfil-ideal/fase2",
+         views.perfilIdealPhase2,
+         name="session_perfil_ideal_phase2"),
+
 
     # APIs
     path("presenter/api/nueva-etiqueta",
@@ -163,6 +171,14 @@ urlpatterns = [
     path("testers/api/rating-napping",
          views.ratingNapping,
          name="api_rating_napping"),
+
+    path("testers/api/ratingword/perfil-ideal/fase1",
+         views.ratingPerfilIdealPhase1,
+         name="api_rating_perfil_ideal_phase1"),
+
+    path("testers/api/ratingword/perfil-ideal/fase2",
+         views.ratingPerfilIdealPhase2,
+         name="api_rating_perfil_ideal_phase2"),
 
     path("testers/api/activity",
          views.UserActivityApi.as_view(),

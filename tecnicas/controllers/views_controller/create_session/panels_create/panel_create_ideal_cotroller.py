@@ -2,7 +2,7 @@ from .panel_create_controller import PanelCreateController
 from django.http import HttpRequest, JsonResponse
 from django.db import transaction
 from tecnicas.controllers import EscalaController
-from tecnicas.models import EsVocabulario, Tecnica, TipoTecnica, EstiloPalabra, EsAtributo, Vocabulario, Palabra, SesionSensorial, Producto, Escala, TipoEscala, Etiqueta
+from tecnicas.models import EsVocabulario, Tecnica, TipoTecnica, EstiloPalabra, EsAtributo, Vocabulario, Palabra, SesionSensorial, Producto, Escala, TipoEscala, Etiqueta, EtiquetasEscala
 from tecnicas.utils import deleteDataSession, general_error
 
 
@@ -138,18 +138,6 @@ class PanelCreateIdealController(PanelCreateController):
                     if not ideal_scale:
                         raise ValueError("Error al crear la escala ideal")
 
-                    tags = Etiqueta.objects.filter(
-                        valor_etiqueta__in=PanelCreateIdealController.names_tags)
-                    if not tags:
-                        raise ValueError("No se encontraron las etiquetas")
-
-                    tags_dict = {tag.valor_etiqueta: tag.id for tag in tags}
-
-                    index = 1
-                    ids_tag = {}
-                    for name in PanelCreateIdealController.names_tags:
-                        ids_tag[f"segmento_{index}"] = tags_dict[name]
-
                     hedonic_scale = Escala.objects.create(
                         id_tipo_escala=TipoEscala.objects.get(
                             nombre_escala="hedonica"),
@@ -159,10 +147,29 @@ class PanelCreateIdealController(PanelCreateController):
                     if not hedonic_scale:
                         raise ValueError("Error al crear la escala hedónica")
 
-                    controller_scale = EscalaController(use_scale=hedonic_scale)
-                    response_create = controller_scale.realteTags(ids_tag)
-                    if "error" in response_create:
-                        raise ValueError(response_create["error"])
+                    tags = Etiqueta.objects.filter(
+                        valor_etiqueta__in=PanelCreateIdealController.names_tags)
+                    if not tags:
+                        raise ValueError("No se encontraron las etiquetas")
+
+                    tags_dict = {tag.valor_etiqueta: tag for tag in tags}
+
+                    tags_sort = []
+                    for name in PanelCreateIdealController.names_tags:
+                        tags_sort.append(tags_dict[name])
+                    
+                    scale_tags = []
+                    for index, tag in enumerate(tags_sort, start=1):
+                        scale_tags.append(EtiquetasEscala(
+                            id_escala=hedonic_scale,
+                            id_etiqueta=tag,
+                            posicion=index
+                        ))
+
+                    EtiquetasEscala.objects.bulk_create(scale_tags)
+                    scale_tags_created = EtiquetasEscala.objects.filter(id_escala=hedonic_scale).count()
+                    if scale_tags_created != len(PanelCreateIdealController.names_tags):
+                        raise ValueError("Error al relacionar las etiquetas con la escala hedónica")
 
                     # /////////////////////////////////////////////////////// #
                     #

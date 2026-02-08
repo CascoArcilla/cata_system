@@ -1,0 +1,55 @@
+<form action="" method="post" class="form-rating-hedonic w-full">
+    {% csrf_token %}
+    <article class="overflow-x-scroll w-full">
+        <article class="bg-surface-card p-6 rounded-lg mb-3 w-fit">
+            <label for="id-scale-hedonic"
+                class="text-xl font-bold tracking-wide block mb-6 text-center">
+                Nivel de Agrado del Producto
+            </label>
+
+            <section>
+                <div class="w-full min-w-xs">
+                    <div class="relative mx-6">
+                        <input type="range" autocomplete="off" min="1" max="{{ scale.longitud }}" step="1" 
+                               value="5"
+                               name="rating-hedonic"
+                               class="w-full range range-md text-blue-400 [--range-bg:orange] [--range-thumb:blue] [--range-fill:0] z-5">
+                        <div class="absolute top-0 left-0 w-full h-full z-10 flex justify-between pointer-events-none">
+                            {% for tag in tags %}
+                            <div class="w-0.5 transform -translate-x-1/2 h-full bg-red-500">
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between mt-4 text-xs gap-1">
+                        {% for tag in tags %}
+                        <div class="flex items-center justify-center text-center w-[70px]">
+                            <span class="text-xs font-medium text-gray-700 break-words first-letter:capitalize">
+                                {{ tag.id_etiqueta }}
+                            </span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </article>
+    </article>
+
+    <article class="flex flex-col justify-center gap-2 items-end actions-hedonic">
+        <section class="flex justify-end items-center gap-2 btns-container">
+            <button type="button" onclick="checkSendRatingHedonic()"
+                class="ct-btn-check-hedonic cts-btn-general-compress py-2 px-4 cts-btn-fifthy btn-push">
+                ¿Guardar calificación?
+            </button>
+            <button type="button" onclick="sendRatingHedonic()"
+                class="ct-btn-submit-hedonic cts-btn-general-compress py-2 px-4 cts-btn-primary btn-push hidden">
+                Estoy seguro
+            </button>
+            <button type="button" onclick="cancelSendRatingHedonic()"
+                class="ct-btn-cancel-hedonic cts-btn-general-compress py-2 px-4 cts-btn-fourthy btn-push hidden">
+                Cancelar
+            </button>
+        </section>
+    </article>
+</form>
