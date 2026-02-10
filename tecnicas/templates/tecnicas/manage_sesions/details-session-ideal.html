@@ -19,10 +19,8 @@
 {% block data_obtained %}
 <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded">
     {% if existen_calificaciones %}
-        {% comment %} 
-            TODO: Implementar visualizacion de datos para Perfil Ideal
-        {% endcomment %}
-        <p>Tabla de datos pendientes de implementar</p>
+        <h2 class="text-xl font-bold mb-4">Tabla de datos</h2>
+        {% include "../components/tables/table_ideal.html" with ratings=ratings palabras=palabras session=session %}
     {% else %}
         {% include "../components/error_message.html" with message='Sin calificaciones que mostrar aún' %}
     {% endif %}
