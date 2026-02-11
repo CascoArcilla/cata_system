@@ -1,7 +1,8 @@
 {% load custom_filters %}
+{% load static %}
 <section>
     <div class="overflow-x-auto rounded-lg border border-surface-general">
-        <table id="table-ideal" class="min-w-max w-full text-sm text-center border-collapse">
+        <table id="generic-donwload-table" class="min-w-max w-full text-sm text-center border-collapse">
             <thead class="bg-surface-sweet text-black font-semibold">
                 <tr>
                     <th class="py-2 px-3 border border-surface-general">Producto</th>
@@ -53,7 +54,7 @@
         </table>
     </div>
     <div class="flex justify-end mt-4">
-        <button id="download-ideal-csv-btn" 
+        <button id="download-csv-btn"
                 class="cts-btn-general cts-btn-primary btn-push"
                 data-session-name="{{ session.session_name }}"
                 data-session-code="{{ session.session_code }}">
@@ -61,3 +62,4 @@
         </button>
     </div>
 </section>
+<script src="{% static 'js/download-table-csv.js' %}"></script>
