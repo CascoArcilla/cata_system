@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import CategoriaTecnica, TipoTecnica, TipoEscala, EstiloPalabra, Catador, Presentador, Tecnica, SesionSensorial, EsAtributo, Palabra, Vocabulario, Etiqueta, Escala, EtiquetasEscala, Producto, Participacion, Orden, Posicion, Dato, ValorDecimal, ValorBooleano, Calificacion, ListaPalabras, GrupoProducto, Modalidad, TecnicaModalidad, DatoPunto
+from .models import CategoriaTecnica, TipoTecnica, TipoEscala, EstiloPalabra, Catador, Presentador, Tecnica, SesionSensorial, EsAtributo, Palabra, Vocabulario, Etiqueta, Escala, EtiquetasEscala, Producto, Participacion, Orden, Posicion, Dato, ValorDecimal, ValorBooleano, Calificacion, CalificacionEscala, ListaPalabras, GrupoProducto, Modalidad, TecnicaModalidad, DatoPunto, DatoHedonico
 
 # Register your models here.
 admin.site.register(CategoriaTecnica)
@@ -32,6 +32,8 @@ admin.site.register(Dato)
 admin.site.register(ValorDecimal)
 admin.site.register(ValorBooleano)
 admin.site.register(Calificacion)
+admin.site.register(CalificacionEscala)
+admin.site.register(DatoHedonico)
 
 admin.site.register(ListaPalabras)
 admin.site.register(GrupoProducto)

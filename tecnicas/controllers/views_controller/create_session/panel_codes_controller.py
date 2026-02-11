@@ -16,6 +16,10 @@ class PanelCodesController():
 
     @staticmethod
     def controllGetEscalas(request: HttpRequest, data):
+        """
+        Obtain codes for scales technique
+        Include orders for Catadores
+        """
         num_products = data["numero_productos"]
         num_tester = data["numero_catadores"]
 
@@ -33,6 +37,10 @@ class PanelCodesController():
 
     @staticmethod
     def controllPostEscalas(request: HttpRequest, data):
+        """
+        Post codes for scales technique
+        Save orders for Catadores
+        """
         num_tester = data["numero_catadores"]
 
         sorts_code = json.loads(request.POST.get("sort_codes"))
@@ -67,6 +75,9 @@ class PanelCodesController():
 
     @staticmethod
     def controllGetWithoutOrders(request: HttpRequest, data, name_technique: str):
+        """
+        Obtain codes for techniques without orders for Catadores
+        """
         num_products = data["numero_productos"]
         codes_products = generarCodigos(num_products)
         form_codes = CodesForm(codes=codes_products)
@@ -80,7 +91,11 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllPostWithWords(request: HttpRequest, name_technique: str):
+    def controllPostNoOrdersWithWords(request: HttpRequest, name_technique: str):
+        """
+        Post codes for techniques without orders for Catadores
+        Save codes and redirect to words panel or vocabulary panel
+        """
         codes = []
         context_codes_form = {}
 
@@ -106,20 +121,12 @@ class PanelCodesController():
         return render(request, PanelCodesController.url_current_panel, context_codes_form)
 
     @staticmethod
-    def controllGetCATA(request: HttpRequest, data):
-        num_products = data["numero_productos"]
-        codes_products = generarCodigos(num_products)
-        form_codes = CodesForm(codes=codes_products)
-
-        context_codes_form = {
-            "form_codes": form_codes,
-            "use_technique": "cata"
-        }
-
-        return render(request, PanelCodesController.url_current_panel, context_codes_form)
-
-    @staticmethod
-    def controllPostWithoutOrdersWords(request: HttpRequest, name_technique: str):
+    def controllPostNoOrdersNoWords(request: HttpRequest, name_technique: str):
+        """
+        Post codes for techniques without orders for Catadores
+        Save codes and redirect to create session panel
+        For techniqes without style words
+        """
         codes = []
         context_codes_form = {}
 

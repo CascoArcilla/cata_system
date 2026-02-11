@@ -42,3 +42,4 @@ from .tester_forms.cata_test import cataTest
 from .tester_forms.pf_test import pfTest
 from .tester_forms.sort_test import sortTest
 from .tester_forms.napping_test import nappingTest
+from .tester_forms.perfil_ideal_phases import perfilIdealPhase1, perfilIdealPhase2, ratingPerfilIdealPhase1, ratingPerfilIdealPhase2

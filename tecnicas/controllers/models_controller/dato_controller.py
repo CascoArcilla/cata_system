@@ -15,6 +15,10 @@ class DatoController():
         self.value_rating = value_rating
 
     def setRating(self, new_rating: Calificacion):
+        """
+        Cambia la calificación asociada al dato.\n
+        No guarda el dato en la base de datos. \n
+        """
         try:
             self.data.id_calificacion = new_rating
             return self.data.id_calificacion
@@ -22,6 +26,9 @@ class DatoController():
             return controller_error(e.message)
 
     def validateRating(self):
+        """
+        Valida el dato con los atributos del modelo.
+        """
         try:
             self.data.full_clean()
             return self.data
@@ -29,6 +36,10 @@ class DatoController():
             return controller_error(e.message)
 
     def saveData(self):
+        """
+        Guarda la instancia de Dato en la base de datos.\n
+        Aquí no se guarda el valor del dato.\n
+        """
         try:
             self.data.save()
             return self.data
@@ -36,6 +47,12 @@ class DatoController():
             return controller_error(e.message)
 
     def setValue(self):
+        """
+        Establece el valor del dato.\n
+        Si el tipo de técnica es "cata", se establece el valor como booleano.\n
+        Si es escala continua, se divide el valor entre 100 y se redondea.\n
+        Si es escala no continua, el valor se usa de forma directa.
+        """
         type_technique = self.data.id_calificacion.id_tecnica.tipo_tecnica
         if type_technique == "cata":
             self.value_data = ValorBooleano(valor=self.value_rating)
@@ -55,6 +72,9 @@ class DatoController():
         return self.value_data
 
     def saveValue(self):
+        """
+        Guarda la instancia de ValorBooleano o ValorDecimal en la base de datos.
+        """
         try:
             self.value_data.save()
             return self.value_data
@@ -64,8 +84,8 @@ class DatoController():
     @staticmethod
     def getRerecordedData(ratings: list[Calificacion]):
         '''
-        Get Datos' registers for each Calificacion.
-        Datos' registers no contain the value of rating.
+        Obtiene los registros de Dato para cada Calificacion.
+        Los registros de Dato no contienen el valor de la calificación.
         '''
         if not ratings:
             return []
@@ -79,6 +99,9 @@ class DatoController():
 
     @staticmethod
     def getWordValuesForConvecional(technique: Tecnica, ratings: list[Calificacion]):
+        """
+        Obtiene los valores de las palabras para una técnica convencional.
+        """
         model = ValorBooleano if technique.tipo_tecnica == "cata" else ValorDecimal
 
         ids_ratings = [rat.id for rat in ratings]
@@ -101,6 +124,9 @@ class DatoController():
 
     @staticmethod
     def getWordValuesPF(technique: Tecnica, ratings: list[Calificacion], tester: Catador):
+        """
+        Obtiene los valores de las palabras para una técnica de perfil ideal.
+        """
         ids_ratings = [rat.id for rat in ratings]
 
         result = (

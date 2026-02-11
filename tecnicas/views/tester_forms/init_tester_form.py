@@ -1,6 +1,6 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
-from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController, InitSessionNappingController
+from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController, InitSessionNappingController, InitSessionPerfilIdealController
 from tecnicas.models import SesionSensorial
 from tecnicas.utils import noValidTechnique
 
@@ -39,6 +39,11 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllGet(request=req)
 
+        elif type_technique == "perfil_ideal":
+            view_controller = InitSessionPerfilIdealController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllGet(request=req)
+
         else:
             context = {
                 "session": session,
@@ -67,6 +72,11 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
 
         elif type_technique == "napping":
             view_controller = InitSessionNappingController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllPost(request=req)
+
+        elif type_technique == "perfil_ideal":
+            view_controller = InitSessionPerfilIdealController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllPost(request=req)
 
