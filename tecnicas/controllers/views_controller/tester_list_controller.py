@@ -15,7 +15,7 @@ class TesterListController():
         if isinstance(res_tuple, dict):
             view_context["error"] = res_tuple["error"]
             return view_context
-        
+
         (testers, last_page) = res_tuple
 
         view_context["testers"] = testers
@@ -49,6 +49,8 @@ class TesterListController():
             testers_in_page = paginator.page(page)
         except PageNotAnInteger:
             return controller_error("índice inválido")
+        except EmptyPage:
+            return controller_error("Sin registros en este índice")
 
         if not testers_in_page.object_list:
             return controller_error("Sin registros de Catadores")

@@ -5,30 +5,30 @@
 
 {% block content %}
 <article class="cts-container-main">
-    <article class="cts-wrap-content">
+    <article class="cts-container-panel">
         <header class="text-center flex flex-row max-sm:flex-col gap-8 items-center w-full">
             <div class="bg-surface-card p-4 text-black shadow-lg rounded-xl flex-1">
                 <h1 class="font-bold text-2xl">Revisa los vocabularios existentes</h1>
             </div>
             <div class="flex-1 flex justify-end items-center">
                 <a href="{% url 'cata_system:panel_vocabulario' %}" class="w-fit">
-                    <button class="cts-btn-general cts-btn-error btn-push">
+                    <button class="cts-btn-general cts-btn-fourthy btn-push">
                         Panel Vocabulario
                     </button>
                 </a>
             </div>
         </header>
         {% if message %}
-        {% include "../components/error-message.html" with message=message %}
+        {% include "../components/error_message.html" with message=message %}
         {% endif %}
 
         {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+        {% include "../components/error_message.html" with message=error %}
 
         {% else %}
         <section class="grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 w-full gap-4 justify-center">
             {% for vocabu in vocabularies %}
-            {% include "../components/item_vocabulary.html" with vocabulary=vocabu %}
+            {% include "../components/elements_items/item_vocabulary.html" with vocabulary=vocabu %}
             {% endfor %}
         </section>
 
@@ -36,16 +36,16 @@
             <div class="join space-x-2">
                 {% if num_page != 1 %}
                 <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:-1 %}" class="w-fit">
-                    <button class="join-item btn bg-btn-secondary py-1">
-                        <img class="h-full" src="{% static 'img/less-than.svg' %}" alt="menor que">
+                    <button class="join-item btn bg-cts-secondary py-1">
+                        <img class="h-full" src="{% static 'img/icons/less_than.svg' %}" alt="menor que">
                     </button>
                 </a>
                 {% endif %}
-                <button class="join-item btn bg-btn-secondary">Page {{ num_page }}</button>
+                <button class="join-item btn bg-cts-secondary">Page {{ num_page }}</button>
                 {% if not last_page %}
                 <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:1 %}" class="w-fit">
-                    <button class="join-item btn bg-btn-secondary py-1">
-                        <img class="h-full" src="{% static 'img/greater-than.svg' %}" alt="mayor que">
+                    <button class="join-item btn bg-cts-secondary py-1">
+                        <img class="h-full" src="{% static 'img/icons/greater_than.svg' %}" alt="mayor que">
                     </button>
                 </a>
                 {% endif %}

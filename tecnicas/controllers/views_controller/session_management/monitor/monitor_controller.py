@@ -4,6 +4,8 @@ from django.urls import reverse
 from tecnicas.models import SesionSensorial, Producto, EsAtributo, EsVocabulario, Participacion
 
 
+from tecnicas.controllers import ParticipacionController
+
 class MonitorController():
     url_view: str
     previus_view: str
@@ -24,6 +26,8 @@ class MonitorController():
         return (False, "Función sin implementar")
 
     def setContext(self):
+        ParticipacionController.checkStaleParticipations(self.sensorial_session.tecnica, 600)
+
         self.participations = Participacion.objects.filter(
             tecnica=self.sensorial_session.tecnica)
 

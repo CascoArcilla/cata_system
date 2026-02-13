@@ -1,256 +1,79 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/details_layout.html' %}
 {% load static %}
 
-{% block title %}Detalles Sesion{% endblock %}
+{% block more_details %}
+{% include "../components/details_fields/basic_field.html" with field_name="Repetición actual:" field_value=technique.current_repetition %}
+{% include "../components/details_fields/basic_field.html" with field_name="Repeticiones máximas:" field_value=technique.max_repetitions %}
+{% include "../components/details_fields/basic_field.html" with field_name="Catadores máximos:" field_value=technique.max_catadores %}
+{% endblock %}
 
-{% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content relative max-w-4xl">
-        <header class="text-center flex-row max-sm:flex-col w-full flex justify-around items-center flex-wrap gap-10">
-            <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
-                Detalles de la sesión
-            </h1>
-            <a href="{% url 'cata_system:panel_sesiones' page=1 %}">
-                <button class="cts-btn-general cts-btn-error btn-push">
-                    Volver a las Sesiones
-                </button>
-            </a>
+{% block available_actions %}
+{% include "../components/details_fields/actions_rep.html" with end_collection=finished code_session=session.session_code start_message="Iniciar fase o repetición" end_message="Recolección finalizada" %}
+{% endblock %}
+
+{% block data_obtained %}
+<article class="bg-surface-card p-4 max-sm:px-2 text-black rounded space-y-4">
+    <section class="">
+        <header class="text-center">
+            <h3 class="text-xl font-bold">Prmera fase</h3>
+            <p class="text-lg">Listas iniciales de Catadores</p>
         </header>
 
-        {% if message %}
-        {% include "../components/error-message.html" with message=message %}
+        {% if fisrt_phase %}
+        <article class="flex gap-4 overflow-x-auto py-2">
+            {% for list_tester in fisrt_phase %}
+            {% include "../components/elements_items/item_list_words.html" with list_tester=list_tester %}
+            {% endfor %}
+        </article>
+        {% else %}
+        {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
-        {% if error %}
-        {% include "../components/error-message.html" with message=error %}
+    </section>
+
+
+    <section class="">
+        <header class="text-center">
+            <h3 class="text-xl font-bold">Segunda fase</h3>
+            <p class="text-lg">Listas finales de Catadores</p>
+        </header>
+
+        {% if second_phase %}
+        <article class="flex gap-4 overflow-x-auto py-2">
+            {% for list_tester in second_phase %}
+            {% include "../components/elements_items/item_list_words.html" with list_tester=list_tester %}
+            {% endfor %}
+        </article>
+        {% else %}
+        {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
+    </section>
 
-        <p class="text-black font-bold text-2xl border-b-2">
-            Información general
-        </p>
-        <article
-            class="text-black rounded-xl grid grid-cols-2 max-sm:grid-cols-1 gap-3 max-sm:gap-1  text-xl max-sm:text-base">
-            <section
-                class="col-span-2 max-sm:col-span-1 bg-surface-ligt flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-bold">
-                    Código:
-                </p>
-                <p class="font-sans">
-                    {{ sesion.codigo_sesion }}
-                </p>
-            </section>
+    <section class="">
+        <header class="text-center">
+            <h3 class="text-xl font-bold">Tercera fase</h3>
+            <p class="text-lg">Califiaciones de Catadores</p>
+        </header>
 
-            <section
-                class="col-span-2 max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-bold">
-                    Nombre:
-                </p>
-                <p class="antialiased">
-                    {% if sesion.nombre_sesion %}
-                    {{ sesion.nombre_sesion }}
-                    {% else %}
-                    Sin nombre
-                    {% endif %}
-                </p>
-            </section>
-
-            <section
-                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-bold">
-                    Fecha creación:
-                </p>
-                <p class="font-sans font-normal uppercase">
-                    {{ sesion.fechaCreacion }}
-                </p>
-            </section>
-
-            <section
-                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-bold">
-                    Estado:
-                </p>
-                <p class="font-sans text-lg max-sm:text-base font-normal">
-                    {{ estado }}
-                </p>
-            </section>
-
-            <section
-                class="bg-surface-ligt flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-bold">
-                    Técnica:
-                </p>
-                <p class="font-sans text-lg max-sm:text-base font-normal uppercase">
-                    {{ sesion.tecnica.tipo_tecnica }}
-                </p>
-            </section>
-
-            <section
-                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-sans">
-                    <b>Catadores Max.</b> {{ use_technique.limite_catadores }}
-                </p>
-            </section>
-
-            <section
-                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-sans">
-                    <b>Repetición Actual</b> {{ repeticion }}
-                </p>
-            </section>
-
-            <section
-                class="bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-sans">
-                    <b>Repeticiones Max.</b> {{ repeticiones_max }}
-                </p>
-            </section>
-
-            <section
-                class="col-span-2 max-sm:col-span-1 bg-surface-card flex flex-wrap items-center justify-center max-sm:justify-normal gap-x-2 p-4 rounded-2xl">
-                <p class="font-bold">
-                    Instrucciones:
-                </p>
-                <p class="font-sans text-xl max-sm:text-base font-normal">
-                    {{ sesion.tecnica.instrucciones }}
-                </p>
-            </section>
+        <article class="text-xl space-y-4 space-x-4 mb-4">
+            <p class="inline italic underline font-semibold">
+                Se usa una escala <b>Ordinaria</b> para calificar
+            </p>
+            <p class="inline italic underline font-semibold">
+                El valor máximo por calificación es <b>{{ valor_max }}</b>
+            </p>
         </article>
 
-        <p class="text-black font-bold text-2xl border-b-2">
-            Acciones disponibles
-        </p>
-        <article class="flex flex-wrap gap-10 max-sm:gap-2">
-            {% if not sesion.activo %}
-            {% if finished %}
-            <div
-                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none text-center">
-                <p class=" text-black">
-                    Sesión finalizada
-                </p>
-            </div>
+        {% if repeticion == 1 %}
+            {% if data_ratings %}
+                {% include "../components/tables/table_pf_all.html" with second_phase=second_phase data_ratings=data_ratings session_name=session.session_name session_code=session.session_code %}
             {% else %}
-            <button
-                class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
-                onclick="startRepetition()">
-                Iniciar fase o repetición
-                <figure class="w-10">
-                    <img src="{% static 'img/giro.svg' %}" alt="flechas girando" class="invert">
-                </figure>
-            </button>
+                {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
             {% endif %}
-            {% else %}
-            <a href="{% url 'cata_system:monitor_sesion' session_code=sesion.codigo_sesion %}" class="flex-1 w-fit">
-                <button
-                    class="ct-btn-start-repition w-full uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-orange-500 border-orange-800  transition-all rounded-xl bg-orange-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2">
-                    Monitorear repetición
-                    <figure class="w-10">
-                        <img src="{% static 'img/monitor.svg' %}" alt="flechas girando" class="invert">
-                    </figure>
-                </button>
-            </a>
-            {% endif %}
-            <button
-                class="flex-1 uppercase text-lg cts-btn-general cts-btn-error btn-push flex flex-col justify-center items-center gap-2"
-                onclick="showWarningDialog('cts-warnig-dialog')">
-                borrar
-                <figure class="w-10">
-                    <img src="{% static 'img/basura.svg' %}" alt="bote de basura" class="invert">
-                </figure>
-            </button>
-        </article>
-
-        <section
-            class="absolute w-full h-full flex justify-center items-center bg-surface-alter-card/70 top-0 left-0 p-6 rounded-xl cts-warnig-dialog hidden">
-            <article class="bg-surface-card p-4 space-y-6 rounded-xl">
-                <h2 class="text-4xl text-black text-center">
-                    ¡¡¡Cuidado!!!
-                </h2>
-                <p class="text-2xl text-black text-center">
-                    Esta acción no es reversible, si la continua también borrara todos los datos recopilados
-                    relacionados a esta sesión y no podrá volver a recuperarlos
-                </p>
-                <section class="text-black font-bold text-xl space-y-4">
-                    <p class="text-center">
-                        ¿Estás seguro de continuar?
-                    </p>
-                    <div class="flex max-sm:flex-col gap-4 justify-center">
-                        <button class="cts-btn-general cts-btn-error btn-push" onclick="deleteSession()">
-                            Estoy seguro
-                        </button>
-                        <button class="cts-btn-general cts-btn-primary btn-push"
-                            onclick="hiddenWarningDialog('cts-warnig-dialog')">
-                            No, cancelar
-                        </button>
-                    </div>
-                </section>
-            </article>
-        </section>
-
-        <p class="text-black font-bold text-2xl border-b-2">
-            Datos obtenidos
-        </p>
-
-        <article class="bg-surface-card p-4 max-sm:px-2 text-black rounded space-y-4">
-            <section class="">
-                <header class="text-center">
-                    <h3 class="text-xl font-bold">Prmera fase</h3>
-                    <p class="text-lg">Listas iniciales de Catadores</p>
-                </header>
-
-                {% if fisrt_phase %}
-                <article class="flex gap-4 overflow-x-auto py-2">
-                    {% for list_tester in fisrt_phase %}
-                    {% include "../components/item-list-words.html" with list_tester=list_tester %}
-                    {% endfor %}
-                </article>
-                {% else %}
-                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
-                {% endif %}
-            </section>
-
-
-            <section class="">
-                <header class="text-center">
-                    <h3 class="text-xl font-bold">Segunda fase</h3>
-                    <p class="text-lg">Listas finales de Catadores</p>
-                </header>
-
-                {% if second_phase %}
-                <article class="flex gap-4 overflow-x-auto py-2">
-                    {% for list_tester in second_phase %}
-                    {% include "../components/item-list-words.html" with list_tester=list_tester %}
-                    {% endfor %}
-                </article>
-                {% else %}
-                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
-                {% endif %}
-            </section>
-
-            <section class="">
-                <header class="text-center">
-                    <h3 class="text-xl font-bold">Tercera fase</h3>
-                    <p class="text-lg">Califiaciones de Catadores</p>
-                </header>
-
-                <article class="text-xl space-y-4 space-x-4 mb-4">
-                    <p class="inline italic underline font-semibold">
-                        Se usa una escala <b>{{ tipo_escala }}</b> para calificar
-                    </p>
-                    <p class="inline italic underline font-semibold">
-                        El valor máximo por calificación es <b>{{ valor_max }}</b>
-                    </p>
-                </article>
-
-                {% if repeticion == 1 %}
-                {% if data_ratings %}
-                {% include "../components/table_pf_all.html" with second_phase=second_phase data_ratings=data_ratings %}
-                {% else %}
-                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
-                {% endif %}
-                {% else %}
-                {% if data_ratings %}
+        {% else %}
+            {% if data_ratings %}
                 <article class="overflow-x-auto py-2 space-y-4">
                     {% for data_tester in data_ratings %}
-                    {% include "../components/table_pf.html" with data=data_tester session_name=sesion.nombre_sesion session_code=sesion.codigo_sesion %}
+                        {% include "../components/tables/table_pf.html" with data=data_tester session_name=session.session_name session_code=session.session_code %}
                     {% endfor %}
                 </article>
                 <div class="flex justify-end mt-3 gap-4 flex-wrap">
@@ -263,27 +86,19 @@
                 </div>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
                 <script src="{% static 'js/download-table-xlsx.js' %}"></script>
-                {% else %}
-                {% include "../components/error-message.html" with message='Sin datos por mostrar aún' %}
-                {% endif %}
-                {% endif %}
-            </section>
-        </article>
-
-        <form action="" method="post" class="form-action-session hidden">
-            <input type="hidden" name="action" class="action-option">
-            {% csrf_token %}
-        </form>
-    </article>
+            {% else %}
+                {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
+            {% endif %}
+        {% endif %}
+    </section>
 </article>
 {% endblock %}
 
-{% block extra_js %}
+{% block details_js %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" crossorigin="anonymous"
     referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js" crossorigin="anonymous"
     referrerpolicy="no-referrer"></script>
 <script src="{% static 'js/download-table-zip.js' %}"></script>
-<script src="{% static 'js/details-session.js' %}"></script>
-<script src="{% static 'js/showHiddenElement.js' %}"></script>
+<script src="{% static 'js/download-pf-all-csv.js' %}"></script>
 {% endblock %}

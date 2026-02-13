@@ -14,7 +14,7 @@ class ListWordsForm(forms.Form):
                 max_length=255,
                 widget=forms.TextInput(attrs={
                     'placeholder': 'Escribe una palabra',
-                    'class': 'cts-input-list-word bg-surface-ligt p-1 border-b-1 text-center w-full',
+                    'class': 'cts-input-list-word bg-white p-1 border-b-1 text-center w-full',
                     'pattern': self.regex.pattern,
                     'title': 'Solo letras minúsculas y la letra ñ, no poner acentos. No se permiten mayúsculas ni caracteres especiales. Mínimo 3 letras',
                 })
@@ -27,7 +27,7 @@ class ListWordsForm(forms.Form):
                     initial=name,
                     widget=forms.TextInput(attrs={
                         'placeholder': 'Escribe una palabra',
-                        'class': 'cts-input-list-word bg-surface-ligt p-1 border-b-1 text-center w-full',
+                        'class': 'cts-input-list-word bg-white p-1 border-b-1 text-center w-full',
                         'pattern': self.regex.pattern,
                         'title': 'Solo letras minúsculas y la letra ñ. No se permiten mayúsculas ni caracteres especiales.'
                     })

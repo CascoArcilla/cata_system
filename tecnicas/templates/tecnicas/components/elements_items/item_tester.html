@@ -1,0 +1,39 @@
+<div
+    class="card w-full min-w-2xs max-w-sm bg-surface-card shadow-md hover:shadow-lg transition-shadow duration-300 text-black">
+    <div class="card-body">
+        <h2 class="text-center text-lg font-bold bg-cts-enfasis rounded">
+            {{ tester.user.first_name }} {{ tester.user.last_name }}
+        </h2>
+        <p class="text-lg text-center bg-cts-enfasis rounded px-2">
+            <span class="font-bold">Usuario: </span>
+            {{ tester.user.username }}
+        </p>
+
+        <div class="w-full text-base flex gap-2 flex-wrap text-center">
+            <p class="font-semibold bg-surface-sweet rounded p-1">
+                <span class="font-bold">Genero:</span>
+                {{ tester.genero }}
+            </p>
+            <p class="font-semibold bg-surface-sweet rounded p-1">
+                <span class="font-bold">Teléfono: </span>
+                {{ tester.telefono }}
+            </p>
+            <p class="font-semibold bg-surface-sweet rounded p-1">
+                <span class="font-bold">Email: </span>
+                {{ tester.user.email }}
+            </p>
+            <p class="font-semibold bg-surface-sweet rounded p-1">
+                <span class="font-bold">Nacimiento: </span>
+                {{ tester.nacimiento|date:"d/m/Y" }}
+            </p>
+        </div>
+
+        <div class="card-actions justify-end mt-3">
+            <a href="{% url 'cata_system:buscar_catador' %}?user={{ tester.user.username }}" class="w-full">
+                <button class="cts-btn-general-compress px-4 py-1 w-full cts-btn-primary btn-push">
+                    Actualizar datos
+                </button>
+            </a>
+        </div>
+    </div>
+</div>

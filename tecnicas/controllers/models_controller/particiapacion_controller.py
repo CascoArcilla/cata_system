@@ -1,3 +1,5 @@
+from django.utils import timezone
+from datetime import timedelta
 from ...models import Participacion, Tecnica, SesionSensorial, Catador
 from ...utils import controller_error
 
@@ -10,6 +12,7 @@ class ParticipacionController():
                 catador=tester, tecnica=session.tecnica)
             participation.finalizado = False
             participation.activo = True
+            participation.last_activity = timezone.now()
             participation.save()
             return participation
         except Participacion.DoesNotExist:
@@ -33,6 +36,37 @@ class ParticipacionController():
             return participation
         except Participacion.DoesNotExist:
             return controller_error("No se ha encontrado la participación")
+    
+    @staticmethod
+    def updateActivity(tester: Catador, session: SesionSensorial):
+        try:
+            participation = Participacion.objects.get(
+                catador=tester, tecnica=session.tecnica)
+            participation.activo = True
+            participation.last_activity = timezone.now()
+            participation.save(update_fields=['activo', 'last_activity'])
+            return participation
+        except Participacion.DoesNotExist:
+            return controller_error("No se ha encontrado la participación")
+
+    @staticmethod
+    def checkStaleParticipations(technique: Tecnica, timeout_seconds: int = 600):
+        """
+        Checks for participations that have been inactive for longer than timeout_seconds
+        and marks them as inactive.
+        """
+        threshold = timezone.now() - timedelta(seconds=timeout_seconds)
+        stale_participations = Participacion.objects.filter(
+            tecnica=technique,
+            activo=True,
+            last_activity__lt=threshold
+        )
+        
+        count = stale_participations.count()
+        if count > 0:
+            stale_participations.update(activo=False)
+            
+        return count
 
     @staticmethod
     def outAllInSession(session: SesionSensorial):
@@ -40,7 +74,7 @@ class ParticipacionController():
             participations = Participacion.objects.filter(
                 tecnica=session.tecnica)
 
-            participations.update(finalizado=False)
+            participations.update(finalizado=False, activo=False)
 
             message = "Participaciones actualizadas a finalizadas como falso"
             return (True, message)

@@ -32,8 +32,8 @@ class TestNappingController(GenetalTestController):
         name_mode_activate = TecnicaModalidad.objects.get(
             tecnica=technique).modalidad.nombre
 
-        if name_mode_activate == "sin modalidad":
-            self.context["mode"] = "sin modalidad"
+        if name_mode_activate == "posicionamiento":
+            self.context["mode"] = "posicionamiento"
             return self.nappingTest(request)
 
         if name_mode_activate == "perfil ultra flash":
@@ -184,7 +184,7 @@ class TestNappingController(GenetalTestController):
 
             if validation_error:
                 # Return to the appropriate template with error
-                if name_mode_activate == "sin modalidad":
+                if name_mode_activate == "posicionamiento":
                     return self.nappingTest(request)
                 elif name_mode_activate == "perfil ultra flash":
                     return self.nappingPufTest(request)

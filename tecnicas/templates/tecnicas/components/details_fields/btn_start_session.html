@@ -1,0 +1,13 @@
+{% load static %}
+<button
+    class="ct-btn-start-repition flex-1 uppercase text-lg max-sm:text-base tracking-wider p-4 border-b-2 active:border-b-0 active:border-t-2 active:border-green-500 border-green-800  transition-all rounded-xl bg-green-600 text-white font-bold disabled:bg-amber-600 flex flex-col justify-center items-center gap-2"
+    onclick="startRepetition()">
+    {% if start_message %}
+        {{ start_message }}
+    {% else %}
+        Iniciar repetición
+    {% endif %}
+    <figure class="w-10">
+        <img src="{% static 'img/icons/giro.svg' %}" alt="flechas girando" class="invert">
+    </figure>
+</button>

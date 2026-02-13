@@ -1,60 +1,48 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/conf_create_session.html' %}
 {% load static %}
 
-{% block content %}
-<article class="cts-container-main">
-    <article class="cts-wrap-content text-black lg:w-4xl">
-        <h2 class="text-2xl font-bold text-center bg-surface-card p-4 rounded-lg">
-            Elegir vocabulario
-        </h2>
+{% block title %}Panel de palabras{% endblock %}
+{% block title_form %}Panel de palabras{% endblock %}
 
-        <form method="get" id="form-vocabulario" class="bg-surface-card rounded-lg p-6">
-            <label for="{{ form.vocabulario.id_for_label }}"
-                class="text-lg w-fit font-medium tracking-wide w-full space-y-4">
-                <p class="tracking-normal text-xl font-bold">Seleccione un vocabulario</p>
-                {{ form.vocabulario }}
-            </label>
-        </form>
+{% block content_main_form %}
+<form method="get" id="form-vocabulario">
+    <label for="{{ form.vocabulario.id_for_label }}" class="text-lg font-medium tracking-wide w-full space-y-4">
+        <h2 class="text-2xl mb-2 font-bold">Seleccione un vocabulario</h2>
+        {{ form.vocabulario }}
+    </label>
+</form>
 
-        {% if error %}
-        {% include "../components/error-message.html" with message=error %}
-        {% endif %}
-        {% if message %}
-        {% include "../components/error-message.html" with message=message %}
-        {% endif %}
+<div id="palabras-container" class="overflow-y-auto w-full">
+    <h2 class="text-2xl mb-2 font-bold">Palabras asociadas:</h2>
+    <ul id="palabras-lista" class="flex flex-wrap gap-4 w-full">
+        <li class="text-center font-bold tracking-wide text-xl bg-surface-card px-3 py-3 pb-4 rounded w-full">
+            Selecciona un vocabulario para ver sus palabras
+        </li>
+    </ul>
+</div>
+{% endblock %}
 
-        <div id="palabras-container" class="rounded-lg p-3 min-h-24 max-h-64 overflow-y-auto bg-surface-card">
-            <h3 class="text-xl font-semibold">Palabras asociadas:</h3>
-            <ul id="palabras-lista" class="flex flex-wrap gap-4">
-                <li class="text-center text-lg">Selecciona un vocabulario para ver sus palabras</li>
-            </ul>
-        </div>
-
-        <section>
-            <form action="" method="post" id="cts-create-session" class="flex justify-center mt-4">
-                {% csrf_token %}
-                <article class="cs-escalas-radio w-full flex flex-col gap-4">
-                    <section class="flex max-sm:flex-col flex-wrap items-center justify-center gap-4">
-                        <button type="submit" name="start"
-                            class="cts-btn-general cts-btn-primary btn-push flex-1 w-full">
-                            Crear sesión
-                        </button>
-                        <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1 w-full">
-                            <button type="button" class="cts-btn-general cts-btn-secondary btn-push w-full">
-                                Paso anterior
-                            </button>
-                        </a>
-                    </section>
-                    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1 w-full">
-                        <button type="button" class="cts-btn-general cts-btn-error btn-push w-full">
-                            Cancelar la creación
-                        </button>
-                    </a>
-                </article>
-            </form>
+{% block extra_content %}
+<form action="" method="post" class="cts-create-session mt-4">
+    {% csrf_token %}
+    <article class="cs-escalas-radio max-lg:flex-col justify-center flex gap-4">
+        <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
+            <a href="{% url 'cata_system:panel_configuracion_codes' %}" class="flex-1 w-full">
+                <button type="button" class="cts-btn-general cts-btn-fifthy btn-push w-full">
+                    Paso anterior
+                </button>
+            </a>
+            <button type="submit" name="start" class="cts-btn-general cts-btn-primary btn-push w-fit max-lg:w-full">
+                Crear sesión
+            </button>
         </section>
+        <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
+            <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-fit max-lg:w-full">
+                Cancelar la creación
+            </button>
+        </a>
     </article>
-</article>
+</form>
 {% endblock %}
 
 {% block extra_js %}

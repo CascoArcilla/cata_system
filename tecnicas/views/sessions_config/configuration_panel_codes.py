@@ -18,7 +18,7 @@ def configurationPanelCodes(req: HttpRequest):
         if name_technique == "escalas":
             response = PanelCodesController.controllGetEscalas(
                 req, data_basic)
-        elif name_technique in ["rata", "cata", "perfil flash", "sort", "napping"]:
+        elif name_technique in ["rata", "cata", "perfil flash", "sort", "napping", "perfil_ideal"]:
             response = PanelCodesController.controllGetWithoutOrders(
                 request=req, data=data_basic, name_technique=name_technique)
         else:
@@ -30,11 +30,11 @@ def configurationPanelCodes(req: HttpRequest):
         if name_technique == "escalas":
             response = PanelCodesController.controllPostEscalas(
                 req, data_basic)
-        elif name_technique in ["rata", "cata"]:
-            response = PanelCodesController.controllPostWithWords(
+        elif name_technique in ["rata", "cata", "perfil_ideal"]:
+            response = PanelCodesController.controllPostNoOrdersWithWords(
                 request=req, name_technique=name_technique)
         elif name_technique in ["perfil flash", "sort", "napping"]:
-            response = PanelCodesController.controllPostWithoutOrdersWords(
+            response = PanelCodesController.controllPostNoOrdersNoWords(
                 request=req, name_technique=name_technique)
         else:
             response = redirect(

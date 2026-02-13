@@ -1,11 +1,15 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
-from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController, InitSessionNappingController
+from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController, InitSessionNappingController, InitSessionPerfilIdealController
 from tecnicas.models import SesionSensorial
-
+from tecnicas.utils import noValidTechnique
 
 def initTesterForm(req: HttpRequest, code_sesion: str):
-    session = SesionSensorial.objects.get(codigo_sesion=code_sesion)
+    try:
+        session = SesionSensorial.objects.get(codigo_sesion=code_sesion)
+    except SesionSensorial.DoesNotExist:
+        return noValidTechnique(params={"num_page": 1}, query_params={"message": "Codigo de sesión no encontrado"}, name_view="cata_system:catador_list_sessions")
+
     type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
     template_url = "tecnicas/forms_tester/init_scales_test.html"
 
@@ -32,6 +36,11 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
 
         elif type_technique == "napping":
             view_controller = InitSessionNappingController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllGet(request=req)
+
+        elif type_technique == "perfil_ideal":
+            view_controller = InitSessionPerfilIdealController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllGet(request=req)
 
@@ -63,6 +72,11 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
 
         elif type_technique == "napping":
             view_controller = InitSessionNappingController(
+                sensorial_session=session, user_tester=req.user.user_catador)
+            response = view_controller.controllPost(request=req)
+
+        elif type_technique == "perfil_ideal":
+            view_controller = InitSessionPerfilIdealController(
                 sensorial_session=session, user_tester=req.user.user_catador)
             response = view_controller.controllPost(request=req)
 

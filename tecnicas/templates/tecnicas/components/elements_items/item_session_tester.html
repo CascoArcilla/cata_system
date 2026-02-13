@@ -1,0 +1,41 @@
+<div class="card {{ session.activo|yesno:'bg-surface-ligt border-red-300 border-t,bg-surface-card' }} shadow-lg text-black w-full hover:shadow-xl transition">
+    <div class="card-body flex flex-col justify-between w-full space-y-4">
+        <div class="flex flex-col gap-1 [&>*]:first:text-xl [&>*]:first:font-bold [&>*]:first:border-b">
+            {% if session.nombre_sesion %}
+            <h2>{{ session.nombre_sesion }}</h2>
+            {% else %}
+            <span class="italic text-gray-500">Sin nombre</span>
+            {% endif %}
+        </div>
+
+        <ul class="text-sm space-y-2">
+            <li><span class="font-bold">Código:</span> {{ session.codigo_sesion }}</li>
+            <li class="uppercase"><span class="font-bold">Técnica:</span> {{ session.tecnica.tipo_tecnica }}</li>
+            <li><span class="font-bold">Fecha:</span> {{ session.fechaCreacion }}</li>
+            <li class="flex items-center gap-2">
+                <span class="font-bold">Finalizado:</span>
+                {% if session.participacion_finalizado %}
+                <span class="badge badge-success text-white">Se ha concluido</span>
+                {% else %}
+                <span class="badge badge-warning text-white">Sin concluir</span>
+                {% endif %}
+            </li>
+            <li class="flex items-center gap-2">
+                <span class="font-bold">Estatus:</span>
+                {% if session.activo %}
+                <span class="badge badge-success text-white">En proceso</span>
+                {% else %}
+                <span class="badge badge-error text-white">No activo</span>
+                {% endif %}
+            </li>
+        </ul>
+
+        <div class="mt-2">
+            <a href="{% url 'cata_system:catador_init_session' code_sesion=session.codigo_sesion %}">
+                <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
+                    Inspeccionar
+                </button>
+            </a>
+        </div>
+    </div>
+</div>

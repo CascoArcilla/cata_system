@@ -24,6 +24,9 @@ from .calificacion import Calificacion
 from .dato import Dato
 from .dato_valor import ValorDecimal
 from .dato_valor import ValorBooleano
+from .dato_hedonico import DatoHedonico
+
+from .calificacion_escala import CalificacionEscala
 
 from .orden import Orden
 from .orden import Posicion

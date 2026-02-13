@@ -1,0 +1,84 @@
+<form action="" method="post" class="form-rating-{{ word }} w-full">
+    {% csrf_token %}
+    <article class="bg-surface-card p-6 rounded-lg mb-3">
+        <h3 class="text-xl font-bold tracking-wide block mb-6 first-letter:uppercase text-center">{{ word }}</h3>
+        <span class="hidden id-word">{{ word.id }}</span>
+
+        <section class="flex max-lg:flex-col gap-4">
+            <div class="bg-blue-100 p-4 rounded-lg flex-1">
+                <label class="text-lg font-bold text-blue-800 block mb-4">
+                    Escala de Intensidad
+                </label>
+
+                <div class="flex flex-col items-center">
+                    <aside class="flex justify-between w-full">
+                        <span class="text-sm font-medium text-gray-600 min-w-[60px]">(Nulo)</span>
+                        <span class="text-sm font-medium text-gray-600 min-w-[80px] text-right">(Máximo)</span>
+                    </aside>
+                    <div class="w-full">
+                        <input type="range" autocomplete="off" min="1" max="{{ scale_size }}" value="5" step="1"
+                            name="rating-intensity"
+                            class="w-full range range-md text-blue-400 [--range-bg:orange] [--range-thumb:blue] [--range-fill:0] intensity-scale-{{ word }}"
+                            data-word="{{ word }}">
+                        <div class="flex justify-between mt-2 text-xs text-gray-600">
+                            {% for i in "123456789" %}
+                            <span>{{ i }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2 text-center">
+                    <span class="text-lg font-bold text-blue-800">Valor: <span
+                            class="intensity-value-{{ word }}">5</span></span>
+                </div>
+            </div>
+
+            <div class="bg-green-100 p-4 rounded-lg flex-1">
+                <label class="text-lg font-bold text-green-800 block mb-4">
+                    Escala Ideal
+                </label>
+
+                <div class="flex flex-col items-center">
+                    <aside class="flex justify-between w-full">
+                        <span class="text-sm font-medium text-gray-600 min-w-[60px]">(Nulo)</span>
+                        <span class="text-sm font-medium text-gray-600 min-w-[80px] text-right">(Máximo)</span>
+                    </aside>
+                    <div class="w-full">
+                        <input type="range" autocomplete="off" min="1" max="{{ scale_size }}" value="5" step="1"
+                            name="rating-ideal"
+                            class="w-full range range-md text-blue-400 [--range-bg:orange] [--range-thumb:blue] [--range-fill:0] ideal-scale-{{ word }}"
+                            data-word="{{ word }}">
+                        <div class="flex justify-between mt-2 text-xs text-gray-600">
+                            {% for i in "123456789" %}
+                            <span>{{ i }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-2 text-center">
+                    <span class="text-lg font-bold text-green-800">Valor: <span
+                            class="ideal-value-{{ word }}">5</span></span>
+                </div>
+            </div>
+        </section>
+    </article>
+
+    <article class="flex flex-col justify-center gap-2 items-end actions-{{ word }}">
+        <section class="flex justify-end items-center gap-2 btns-container">
+            <button type="button" onclick="checkSendRatingDual('{{ word }}')"
+                class="ct-btn-check-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-fifthy btn-push">
+                ¿Guardar calificaciones?
+            </button>
+            <button type="button" onclick="sendRatingDual('{{ word }}')"
+                class="ct-btn-submit-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-primary btn-push hidden">
+                Estoy seguro
+            </button>
+            <button type="button" onclick="cancelSendRatingDual('{{ word }}')"
+                class="ct-btn-cancel-{{ word }} cts-btn-general-compress py-2 px-4 cts-btn-fourthy btn-push hidden">
+                Cancelar
+            </button>
+        </section>
+    </article>
+</form>
