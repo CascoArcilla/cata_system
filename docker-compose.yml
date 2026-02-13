@@ -21,12 +21,12 @@ services: # Definicion de servicios. Se convertiran en contendores [Requerido]
     volumes: # Monta volúmenes para persistir o compartir datos entre el host y el contenedor. Las carpetas o archivos deben existir primero en el repositorio para mapearlos. Crear un index en la carpeta webapp para que el ejemplo funcione.
         - ${SENSORIAL_BIND_BASE_PATH}/webapp:/var/www/html # sintaxis ${SENSORIAL_BIND_BASE_PATH}/ruta_a_carpeta_o_archivo_en_el_repositorio:ruta_a_carpeta_o_archivo_en_el_contenedor
 
-  app-django-sensorial:
-    hostname: app-django-sensorial
-    container_name: app-django-sensorial
-    build: .
-    ports:
-      - "7576:7860"
-    restart: unless-stopped
-    volumes:
-        - ${SENSORIAL_BIND_BASE_PATH}/django-sensorial-system:/cata_system
+  # app-django-sensorial:
+  #   hostname: app-django-sensorial
+  #   container_name: app-django-sensorial
+  #   build: .
+  #   ports:
+  #     - "7576:7860"
+  #   restart: unless-stopped
+  #   volumes:
+  #       - ${SENSORIAL_BIND_BASE_PATH}/django-sensorial-system:/cata_system
