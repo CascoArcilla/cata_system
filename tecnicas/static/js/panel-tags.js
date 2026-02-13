@@ -2,15 +2,6 @@ const itemsSelects = document.getElementsByClassName("ct-select-op");
 const options = itemsSelects.item(0).getElementsByTagName("option");
 const values = [];
 
-const extraPanel = document.getElementsByClassName("ct-new-tags")[0];
-function showHiddeExtraTags() {
-  if (extraPanel.classList.contains("hidden")) {
-    extraPanel.classList.remove("hidden");
-  } else {
-    extraPanel.classList.add("hidden");
-  }
-}
-
 const formNewTag = document.getElementsByClassName("ct-form-new-tag")[0];
 if (formNewTag) {
   formNewTag.addEventListener("submit", postNewTag);
@@ -20,7 +11,7 @@ async function postNewTag(e) {
   e.preventDefault();
 
   const dataForm = new FormData(this);
-  const url = "/cata/nueva-etiqueta";
+  const url = "/cata/presenter/api/nueva-etiqueta";
 
   try {
     const respone = await fetch(url, {
@@ -34,20 +25,18 @@ async function postNewTag(e) {
     const jsonResponse = await respone.json();
 
     if (jsonResponse.error) {
-      const errorp = document.getElementsByClassName("ct-error-tag")[0];
-      errorp.textContent = `error: ${jsonResponse.error}`;
-      errorp.classList.remove("hidden");
+      spanNotifaction(jsonResponse.error)
       return;
     }
 
     const inputTag = document.getElementsByName("nueva_etiqueta")[0];
     inputTag.value = "";
-    showHiddeExtraTags();
 
     const newTag = jsonResponse["new_tag"];
     addNewOptionToSelect(newTag);
+    spanNotifaction("Etiqueta agregada correctamente", false)
   } catch (error) {
-    console.log("Error:", error);
+    spanNotifaction("Error en proceso de creación de etiqueta")
   }
 }
 

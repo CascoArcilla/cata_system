@@ -1,0 +1,35 @@
+{% extends 'tecnicas/layouts/init_sessiones_tester.html' %}
+{% load static %}
+
+{% block title %}Detalles Sesion{% endblock %}
+
+{% block session_info %}
+{% if use_technique == "escalas" or use_technique == "rata" or use_technique == "cata" %}
+{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Estilo de palabras:" value=session_info.style value_style="capitalize" %}
+{% endif %}
+
+{% if use_technique == "escalas" or use_technique == "rata" %}
+{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Tipo de Escalas:" value=session_info.type_scale value_style="capitalize" %}
+{% endif %}
+
+{% if use_technique == "escalas" %}
+{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Repetición actual:" value=session_info.repeticion %}
+{% endif %}
+
+{% if use_technique == "napping" %}
+{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Información:" value=session_info.status %}
+{% endif %}
+
+{% if use_technique == "perfil flash" %}
+{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Actividad:" value=session_info.activity %}
+{% if session_info.repetition >= 1 %}
+{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Repetición de la calificación:" value=session_info.repetition %}
+{% endif %}
+{% endif %}
+
+{% if use_technique == "rata" or use_technique == "cata" or use_technique == "sort" or use_technique == "napping" %}
+{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Sesión:" value="Unica" %}
+{% endif %}
+
+
+{% endblock %}

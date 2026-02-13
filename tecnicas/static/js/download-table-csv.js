@@ -3,8 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!btn) return;
 
   btn.addEventListener("click", function () {
-    // Try set the table in the page
-    let table = document.getElementById("convencional-table");
+    let table = document.getElementById("generic-donwload-table");
     if (!table) {
       const section = btn.closest("section");
       if (section) table = section.querySelector("table");

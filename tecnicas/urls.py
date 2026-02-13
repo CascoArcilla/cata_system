@@ -53,6 +53,10 @@ urlpatterns = [
          views.createVocabulary,
          name="crear_vocabulario"),
 
+    path("presenter/ver-vocabulario/<str:nombre_vocabulario>",
+         views.viewVocabulary,
+         name="ver_vocabulario"),
+
     path("presenter/lista-vocabulario/<int:num_page>",
          views.listVocabulary,
          name="lista_vocabulario"),
@@ -98,9 +102,9 @@ urlpatterns = [
          views.sessionsListTester,
          name="catador_list_sessions"),
 
-    path("testers/log-in-session",
-         views.loginSessionTester,
-         name="catador_in_session"),
+    path("testers/subscribe-session",
+         views.subscribeSessionTester,
+         name="catador_subscribe_session"),
 
     path("testers/init-session/<str:code_sesion>",
          views.initTesterForm,
@@ -109,6 +113,30 @@ urlpatterns = [
     path("testers/init-session/<str:code_sesion>/convencional",
          views.convencionalScales,
          name="session_convencional"),
+
+    path("testers/init-session/<str:code_sesion>/cata",
+         views.cataTest,
+         name="session_cata"),
+
+    path("testers/init-session/<str:code_sesion>/perfil-flash",
+         views.pfTest,
+         name="session_pf"),
+
+    path("testers/init-session/<str:code_sesion>/sort",
+         views.sortTest,
+         name="session_sort"),
+
+    path("testers/init-session/<str:code_sesion>/nappping",
+         views.nappingTest,
+         name="session_napping"),
+
+    path("testers/init-session/<str:code_sesion>/perfil-ideal/fase1",
+         views.perfilIdealPhase1,
+         name="session_perfil_ideal_phase1"),
+
+    path("testers/init-session/<str:code_sesion>/perfil-ideal/fase2",
+         views.perfilIdealPhase2,
+         name="session_perfil_ideal_phase2"),
 
 
     # APIs
@@ -124,7 +152,35 @@ urlpatterns = [
          views.wordsVocabulary,
          name="api_palabras_vocabulary"),
 
-    path("testers/api/ratingword",
-         views.reatingWord,
-         name="api_rating_word"),
+    path("testers/api/ratingword/escalas",
+         views.ratingWordScales,
+         name="api_rating_word_scalas"),
+
+    path("testers/api/ratingword/cata",
+         views.ratingWordCata,
+         name="api_rating_word_cata"),
+
+    path("testers/api/ratingword/pf/list",
+         views.apiListWordsPF,
+         name="api_rating_word_pf_list"),
+
+    path("testers/api/rating-sort",
+         views.ratingSort,
+         name="api_rating_sort"),
+
+    path("testers/api/rating-napping",
+         views.ratingNapping,
+         name="api_rating_napping"),
+
+    path("testers/api/ratingword/perfil-ideal/fase1",
+         views.ratingPerfilIdealPhase1,
+         name="api_rating_perfil_ideal_phase1"),
+
+    path("testers/api/ratingword/perfil-ideal/fase2",
+         views.ratingPerfilIdealPhase2,
+         name="api_rating_perfil_ideal_phase2"),
+
+    path("testers/api/activity",
+         views.UserActivityApi.as_view(),
+         name="api_user_activity"),
 ]

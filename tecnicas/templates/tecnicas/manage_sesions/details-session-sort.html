@@ -1,0 +1,19 @@
+{% extends 'tecnicas/layouts/details_layout.html' %}
+{% load static %}
+
+{% block more_details %}
+{% include "../components/details_fields/basic_field.html" with field_name="Catadores máximos:" field_value=technique.max_catadores %}
+{% include "../components/details_fields/basic_field.html" with field_value="La técnica usada en la sesión solo permite una única repetición" %}
+{% endblock %}
+
+{% block available_actions %}
+{% include "../components/details_fields/actions_rep.html" with end_collection=end_collection code_session=session.session_code end_message="Se ha finalizado la recolección de datos" start_message="Iniciar sesión" %}
+{% endblock %}
+
+{% block data_obtained %}
+{% if there_data %}
+    {% include "../components/tables/table-sort.html" with data_groups=data_groups session=session %}
+{% else %}
+    {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
+{% endif %}
+{% endblock %}

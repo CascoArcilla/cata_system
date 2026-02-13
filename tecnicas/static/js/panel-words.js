@@ -6,7 +6,7 @@ const imgList = document.querySelector(".ct-img-list");
 const listWordsSelect = [];
 const wordsSelectContainer = document.querySelector(".ct-palabras-usadas");
 
-const errorp = document.getElementsByClassName("ct-error-words")[0];
+const errorp = document.getElementsByClassName("cts-fourthy-words")[0];
 const foundWordsContainer = document.getElementsByClassName(
   "ct-palabras-encontradas"
 )[0];
@@ -25,7 +25,7 @@ async function getWordsByName(e) {
 
   const dataForm = new FormData(this);
   const params = new URLSearchParams({
-    palabra: dataForm.get("search").trim(),
+    palabra: dataForm.get("search").trim().toLowerCase(),
   });
 
   const url = `api/palabras?${params}`;
@@ -69,9 +69,10 @@ function createWordElement({ word, add = true, callback = null }) {
     "flex-row",
     "flex-1",
     "min-w-fit",
-    "justify-center",
+    "justify-left",
     "items-center",
-    "gap-3"
+    "gap-3",
+    "capitalize"
   );
 
   const pName = document.createElement("p");
@@ -84,24 +85,22 @@ function createWordElement({ word, add = true, callback = null }) {
     callButton = () => callback(word);
   }
 
-  li.appendChild(pName);
   li.appendChild(createButton(add, callButton));
+  li.appendChild(pName);
 
   return li;
 }
 
 function createButton(add = true, callback = null) {
   const button = document.createElement("button");
-  button.textContent = add ? "➕" : "➖";
+  button.textContent = add ? "+" : "-";
   button.classList.add(
-    "px-4",
+    "cts-btn-general-compress",
+    "cts-btn-fifthy",
     "border-b-2",
     "active:border-b-0",
     "active:border-t-2",
-    "transition-all",
-    "rounded-xl",
-    "font-black",
-    "w-fit",
+    "px-4",
     "capitalize"
   );
 

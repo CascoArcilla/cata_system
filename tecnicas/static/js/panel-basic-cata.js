@@ -10,6 +10,7 @@ let radiosStyleWords;
 
 function initRadiosStyleWords() {
   radiosStyleWords = document.getElementsByName("estilo_palabras");
+  console.log(radiosStyleWords);
 
   for (let index = 0; index < radiosStyleWords.length; index++) {
     const radio = radiosStyleWords[index];

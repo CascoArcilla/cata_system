@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator, EmailValidator
 
 
 class CatadorForm(forms.Form):
-    styles_input = "ct-inputs-pos-cata bg-surface-ligt text-center w-full p-1 rounded-lg text-black disabled:bg-surface-alter-card"
+    styles_input = "ct-inputs-pos-cata bg-white text-center w-full p-1 rounded-lg text-black disabled:bg-gray-500"
 
     nombre_usuario = forms.CharField(
         label="Nombre de usuario",
@@ -122,7 +122,7 @@ class CatadorForm(forms.Form):
         choices=GENERO_OPCIONES,
         widget=forms.RadioSelect(
             attrs={
-                "class": "ct-inputs-pos-cata radio radio-warning checked:bg-btn-secondary mx-2 bg-surface-ligt disabled:bg-ct-error"
+                "class": "ct-inputs-pos-cata radio radio-primary checked:bg-cts-secondary mx-2 bg-surface-ligt disabled:bg-cts-fourthy"
             }
         )
     )
@@ -137,8 +137,6 @@ class CatadorForm(forms.Form):
         cleaned_data = super().clean()
         username = cleaned_data.get("nombre_usuario")
         is_update = cleaned_data.get("is_update")
-
-        print(username, is_update)
 
         if not is_update:
             if User.objects.filter(username__iexact=username).exists():

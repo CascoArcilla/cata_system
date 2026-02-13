@@ -1,4 +1,4 @@
-from django.core.paginator import Paginator, PageNotAnInteger
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import OuterRef, Subquery, BooleanField
 from tecnicas.models import Catador, SesionSensorial, Participacion
 from tecnicas.utils import controller_error
@@ -66,6 +66,8 @@ class ListSessionsTesterController():
             sessions_in_page = paginator.page(page)
         except PageNotAnInteger:
             return controller_error("índice inválido")
+        except EmptyPage:
+            return controller_error("Sin registros en este índice")
 
         if not sessions_in_page.object_list:
             return controller_error("Sin registros de Participaciones")

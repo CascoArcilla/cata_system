@@ -1,0 +1,52 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Lista de Catadores{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-container-panel">
+        <header class="text-center flex flex-row max-sm:flex-col gap-8 items-center w-full">
+            <div class="bg-surface-card p-4 text-black shadow-lg rounded-xl flex-1">
+                <h1 class="font-bold text-2xl">Lista de Catadores</h1>
+            </div>
+            <div class="flex-1 flex justify-end items-center">
+                <a href="{% url 'cata_system:panel_catadores' %}" class="w-fit">
+                    <button class="cts-btn-general cts-btn-fourthy btn-push">
+                        Rresegar al panel anterior
+                    </button>
+                </a>
+            </div>
+        </header>
+
+        {% if error %}
+        {% include "../components/error_message.html" with message=error %}
+        {% else %}
+        <div class="grid  gap-4 md:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
+            {% for tester in testers %}
+            {% include "../components/elements_items/item_tester.html" with tester=tester %}
+            {% endfor %}
+        </div>
+        <section class="flex justify-center items-center gap-2">
+            <div class="join space-x-2">
+                {% if num_page != 1 %}
+                <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:-1 %}" class="w-fit">
+                    <button class="join-item btn bg-cts-primary py-1">
+                        <img class="h-full" src="{% static 'img/icons/less_than.svg' %}" alt="menor que">
+                    </button>
+                </a>
+                {% endif %}
+                <button class="join-item btn bg-cts-primary">Page {{ num_page }}</button>
+                {% if not last_page %}
+                <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:1 %}" class="w-fit">
+                    <button class="join-item btn bg-cts-primary py-1">
+                        <img class="h-full" src="{% static 'img/icons/greater_than.svg' %}" alt="mayor que">
+                    </button>
+                </a>
+                {% endif %}
+            </div>
+        </section>
+        {% endif %}
+    </article>
+</article>
+{% endblock %}

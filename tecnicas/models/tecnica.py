@@ -2,6 +2,7 @@ from django.db import models
 
 from .estilo_palabra import EstiloPalabra
 from .tipo_tecnica import TipoTecnica
+from .modalidad import Modalidad
 
 
 class Tecnica(models.Model):

@@ -1,6 +1,4 @@
-let inWords = document
-  .getElementsByClassName("ct-codes-form")[0]
-  .getElementsByClassName("ct-code");
+let inWords = document.getElementsByClassName("ct-code");
 let codes = [];
 let numCata = document.getElementsByClassName("ct-num-cata")[0].value;
 
@@ -31,7 +29,7 @@ function initIU() {
   definePermutations();
   addIUPermutations();
 
-  const formWords = document.getElementsByClassName("ct-codes-form")[0];
+  const formWords = document.getElementsByClassName("cts-main-form")[0];
   formWords.addEventListener("submit", submitData);
 }
 
@@ -161,7 +159,7 @@ function addIUPermutations() {
 
     const section = document.createElement("section");
     section.classList.add(
-      "bg-surface-card",
+      "bg-surface-sweet",
       "py-2",
       "sm:max-w-80",
       "w-full",

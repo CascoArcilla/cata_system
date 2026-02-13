@@ -8,17 +8,21 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "surface-general": "#B95E82",
-        "surface-alter": "#F39F9F",
+        "surface-general": "#FFFFFF",
+        "surface-alter": "#FFE0AD",
         "surface-sweet": "#FFC29B",
         "surface-ligt": "#FFECC0",
         "surface-card": "#FFF3E0",
-        "surface-alter-card": "#91C4C3",
-        "btn-primary": "#4CAF50",
-        "btn-secondary": "#E45A92",
-        "btn-tertiary": "#88EE88",
-        "ct-success": "#2E7D32",
-        "ct-error": "#E62727",
+        "cts-enfasis": "#91C4C3",
+
+        "cts-primary": "#FF9D00",
+        "cts-secondary": "#E6E6E6",
+        "cts-tertiary": "#88EE88",
+        "cts-fourthy": "#D18100",
+        "cts-fifthy": "#696969",
+
+        "cts-border": "#969696",
+        "cts-radius-ring-color": "#79E785",
       },
     },
   },

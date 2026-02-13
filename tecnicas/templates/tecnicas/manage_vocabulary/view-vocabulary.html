@@ -1,0 +1,85 @@
+{% extends 'tecnicas/layouts/base.html' %}
+{% load static %}
+
+{% block title %}Ver Vocabulario{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-container-panel">
+        <header class="text-center flex flex-row max-sm:flex-col gap-8 items-center w-full mb-6">
+            <div class="bg-surface-card p-4 text-black shadow-lg rounded-xl flex-1">
+                <h1 class="font-bold text-2xl">Detalles del Vocabulario</h1>
+            </div>
+            <div class="flex-1 flex justify-end items-center">
+                <a href="{% url 'cata_system:lista_vocabulario' num_page=1 %}" class="w-fit">
+                    <button class="cts-btn-general cts-btn-secondary btn-push">
+                        Volver a la Lista
+                    </button>
+                </a>
+            </div>
+        </header>
+
+        {% if error %}
+        {% include "../components/error_message.html" with message=error %}
+        
+        <div class="flex justify-center mt-6">
+            <a href="{% url 'cata_system:lista_vocabulario' num_page=1 %}">
+                <button class="cts-btn-general cts-btn-primary btn-push">
+                    Ir a Lista de Vocabularios
+                </button>
+            </a>
+        </div>
+
+        {% else %}
+        <section class="bg-surface-card p-6 rounded-lg shadow-lg space-y-6 text-black">
+            <!-- Información del Vocabulario -->
+            <div class="space-y-4">
+                <div class="bg-cts-enfasis p-4 rounded-lg">
+                    <p class="font-bold text-xl mb-2">Nombre del Vocabulario:</p>
+                    <p class="text-2xl font-semibold text-cts-primary">{{ vocabulary.nombre_vocabulario }}</p>
+                </div>
+
+                <div class="bg-cts-enfasis p-4 rounded-lg">
+                    <p class="font-bold text-lg mb-2">Fecha de Creación:</p>
+                    <p class="text-lg">{{ vocabulary.creado|date:"d/m/Y H:i" }}</p>
+                </div>
+
+                <div class="bg-cts-enfasis p-4 rounded-lg">
+                    <p class="font-bold text-lg mb-2">Total de Palabras:</p>
+                    <p class="text-lg">{{ words|length }}</p>
+                </div>
+            </div>
+
+            <!-- Lista de Palabras -->
+            <div class="mt-6">
+                <h2 class="font-bold text-2xl mb-4 text-center">Palabras del Vocabulario</h2>
+                <hr class="mb-4">
+                
+                {% if words %}
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {% for word in words %}
+                    <div class="bg-gray-200 text-black rounded-lg font-medium text-lg px-4 py-3 text-center shadow">
+                        {{ word.nombre_palabra }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center py-8">
+                    <p class="text-xl text-gray-500">Este vocabulario no tiene palabras asociadas</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+
+        <!-- Botón adicional para volver -->
+        <div class="flex justify-center mt-6">
+            <a href="{% url 'cata_system:lista_vocabulario' num_page=1 %}" class="w-full max-w-md">
+                <button class="cts-btn-general cts-btn-fourthy btn-push w-full">
+                    Volver a la Lista
+                </button>
+            </a>
+        </div>
+        {% endif %}
+    </article>
+</article>
+{% endblock %}

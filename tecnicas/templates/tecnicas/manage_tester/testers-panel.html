@@ -1,0 +1,51 @@
+{% extends 'tecnicas/layouts/base_analist.html' %}
+{% load static %}
+
+{% block title %}Gestionar Catadores{% endblock %}
+
+{% block content_analist %}
+<article class="cts-container-panel">
+    <article class="grid min-sm:grid-cols-2 gap-4 p-5 rounded-2xl">
+        <header class="flex-1 flex flex-col gap-4">
+            <div class="bg-surface-card p-8 text-2xl text-black font-bold rounded-2xl text-center">
+                <h1>Adiministra los<br>catadores aquí</h1>
+            </div>
+            <a href="{% url 'cata_system:index' %}">
+                <button
+                    class="text-white w-full bg-cts-fourthy font-bold rounded-lg text-xl p-4 text-center border-pink-800 btn-push">
+                    Ir al Panel principal
+                </button>
+            </a>
+            <div class="w-full h-60 bg-gray-200 rounded-2xl relative">
+                <img src="{% static 'img/pn_gc_test.webp' %}" alt="un hombre en smokin probando vino"
+                    class="h-full w-full object-cover rounded-xl">
+            </div>
+        </header>
+        <section class="flex-1 flex flex-col gap-7">
+            <div class="w-full h-40 rounded-2xl max-sm:hidden">
+                <img src="{% static 'img/pn_gc_people.webp' %}" alt="varias personas en fila"
+                    class="w-full h-full object-cover rounded-xl">
+            </div>
+            <a href="{% url 'cata_system:crear_catador' %}" class="flex-1">
+                <button class="w-full h-full cts-btn-general-compress cts-btn-primary btn-push">
+                    Crear Cadator
+                </button>
+            </a>
+            <a href="{% url 'cata_system:buscar_catador' %}" class="flex-1">
+                <button class="w-full h-full cts-btn-general-compress cts-btn-primary btn-push">
+                    Buscar/Actualizar Catador
+                </button>
+            </a>
+            <a href="{% url 'cata_system:listar_catador' num_page=1 %}" class="flex-1">
+                <button class="w-full h-full cts-btn-general-compress cts-btn-primary btn-push">
+                    Listar Catadores
+                </button>
+            </a>
+            <div class="w-full h-40 rounded-2xl min-sm:hidden">
+                <img src="{% static 'img/pn_gc_people.webp' %}" alt="varias personas en fila"
+                    class="w-full h-full object-cover rounded-xl">
+            </div>
+        </section>
+    </article>
+</article>
+{% endblock %}

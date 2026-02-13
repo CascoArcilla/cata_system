@@ -1,0 +1,65 @@
+{% load custom_filters %}
+{% load static %}
+<section>
+    <div class="overflow-x-auto rounded-lg border border-surface-general">
+        <table id="generic-donwload-table" class="min-w-max w-full text-sm text-center border-collapse">
+            <thead class="bg-surface-sweet text-black font-semibold">
+                <tr>
+                    <th class="py-2 px-3 border border-surface-general">Producto</th>
+                    <th class="py-2 px-3 border border-surface-general">Catador</th>
+                    {% for word in palabras %}
+                    <th class="py-2 px-3 border border-surface-general">
+                        {{ word }}_Intensidad
+                    </th>
+                    <th class="py-2 px-3 border border-surface-general">
+                        {{ word }}_Ideal
+                    </th>
+                    {% endfor %}
+                    <th class="py-2 px-3 border border-surface-general">agrado</th>
+                </tr>
+            </thead>
+            <tbody class="bg-surface-ligt divide-y divide-gray-200">
+                {% for username, products_ratings in ratings.items %}
+                    {% for product_code, product_data in products_ratings.items %}
+                    <tr>
+                        <td class="py-2 px-3 border border-surface-general font-medium">{{ product_code }}</td>
+                        <td class="py-2 px-3 border border-surface-general">{{ username }}</td>
+                        
+                        {% with struct=product_data|get_item:"estructurada" ideal=product_data|get_item:"ideal" %}
+                            {% for word in palabras %}
+                                <td class="py-2 px-3 border border-surface-general">
+                                    {% if struct %}
+                                        {{ struct|get_item:word|default:"-" }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                                <td class="py-2 px-3 border border-surface-general">
+                                    {% if ideal %}
+                                        {{ ideal|get_item:word|default:"-" }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                        {% endwith %}
+
+                        <td class="py-2 px-3 border border-surface-general">
+                            {{ product_data|get_item:"hedonica"|default:"-" }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="flex justify-end mt-4">
+        <button id="download-csv-btn"
+                class="cts-btn-general cts-btn-primary btn-push"
+                data-session-name="{{ session.session_name }}"
+                data-session-code="{{ session.session_code }}">
+            Descargar tabla CSV
+        </button>
+    </div>
+</section>
+<script src="{% static 'js/download-table-csv.js' %}"></script>

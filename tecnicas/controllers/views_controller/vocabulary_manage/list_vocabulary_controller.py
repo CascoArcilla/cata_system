@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpRequest
-from django.core.paginator import Paginator, PageNotAnInteger
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from tecnicas.models import Vocabulario
 from tecnicas.utils import controller_error
 
@@ -38,9 +38,11 @@ class ListVocabularyController():
             vocabularies_in_page = paginator.page(num_page)
         except PageNotAnInteger:
             return controller_error("índice inválido")
+        except EmptyPage:
+            return controller_error("Sin registros en este índice")
 
         if not vocabularies_in_page.object_list:
-            return controller_error("Sin registros de Participaciones")
+            return controller_error("Sin registros de Vocabularios")
 
         current_page = vocabularies_in_page.number
         is_last_page = not current_page < paginator.num_pages

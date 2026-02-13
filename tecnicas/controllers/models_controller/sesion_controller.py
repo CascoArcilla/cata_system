@@ -65,9 +65,10 @@ class SesionController():
                 "fechaCreacion",
                 "activo",
                 "tecnica__tipo_tecnica__nombre_tecnica",
+                "tecnica__tipo_tecnica__descripcion",
                 "tecnica__id_estilo__nombre_estilo"
             )
-            .order_by("-fechaCreacion")
+            .order_by("-activo", "-fechaCreacion")
         )
 
         paginator = Paginator(queryset, elements_by_page)
@@ -75,6 +76,8 @@ class SesionController():
             sessions_in_page = paginator.page(page)
         except PageNotAnInteger:
             return controller_error("índice inválido")
+        except EmptyPage:
+            return controller_error("Sin registros en este índice")
 
         if not sessions_in_page.object_list:
             return controller_error("Sin registros de sesiones")
@@ -125,12 +128,7 @@ class SesionController():
             return controller_error("Presentador invalido")
 
     @staticmethod
-    def finishRepetion(session: SesionSensorial | str):
-        if isinstance(session, str):
-            use_session = SesionSensorial.objects.get(codigo_sesion=session)
-        else:
-            use_session = session
-
-        use_session.activo = False
-        use_session.save()
+    def finishRepetion(session: SesionSensorial):
+        session.activo = False
+        session.save()
         return session
