@@ -32,10 +32,17 @@ class CreateVocabularyController():
             return render(request, self.current_url, self.context)
 
         new_vocabulary_name = request.POST.get("nombre_vocabulario").strip()
+        new_vocabulary_desc = request.POST.get("descripcion", "").strip()
 
         try:
-            new_vocababulary = Vocabulario.objects.create(
-                nombre_vocabulario=new_vocabulary_name)
+            if new_vocabulary_desc:
+                new_vocababulary = Vocabulario.objects.create(
+                    nombre_vocabulario=new_vocabulary_name,
+                    descripcion=new_vocabulary_desc
+                )
+            else:
+                new_vocababulary = Vocabulario.objects.create(
+                    nombre_vocabulario=new_vocabulary_name)
         except IntegrityError:
             self.context["error"] = "Ya existe un vocabulario con ese nombre"
             return render(request, self.current_url, self.context)

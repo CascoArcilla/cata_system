@@ -61,6 +61,7 @@ def wordsVocabulary(req: HttpRequest, vocab_id: int):
         response_json = {
             "ok": True,
             "data": {
+                "descripcion": vocabulary.descripcion,
                 "words": list(palabras)
             }
         }
