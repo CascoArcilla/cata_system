@@ -13,6 +13,11 @@ document.addEventListener("DOMContentLoaded", () => {
             Selecciona un vocabulario para ver sus palabras
         </li>`;
     }
+    const descContainer = document.getElementById("vocabulario-descripcion-container");
+    if (descContainer) {
+        descContainer.classList.add("hidden");
+        document.getElementById("vocabulario-descripcion").textContent = "";
+    }
   };
 
   window.addEventListener("pageshow", () => {
@@ -30,8 +35,13 @@ document.addEventListener("DOMContentLoaded", () => {
           Cargando...
       </li>`;
 
+          
+      const descContainer = document.getElementById("vocabulario-descripcion-container");
+      const descText = document.getElementById("vocabulario-descripcion");
+
       if (!vocabularyId) {
         resetToDefault();
+        if (descContainer) descContainer.classList.add("hidden");
         return;
       }
 
@@ -42,7 +52,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!response.ok) throw new Error("Error en la petición");
         const json_response = await response.json();
 
-        const words = json_response.data.words;
+        const data = json_response.data;
+        const words = data.words;
+        const description = data.descripcion;
+
+        if (descContainer && descText) {
+             descText.textContent = description || "Sin descripción disponible";
+             descContainer.classList.remove("hidden");
+        }
 
         if (words.length === 0) {
           wordsList.innerHTML =
