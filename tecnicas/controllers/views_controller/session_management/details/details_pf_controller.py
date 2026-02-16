@@ -18,7 +18,7 @@ class DetallesPFController(DetallesController):
 
         self.context = {
             "use_technique": technique.tipo_tecnica.nombre_tecnica,
-            "tipo_escala": technique.escala_tecnica.id_tipo_escala.nombre_escala,
+            "tipo_escala": "Ordinal",
             "repeticiones_max": technique.repeticiones_max - self.skip_repetition,
             "session": {
                 "session_code": self.session.codigo_sesion,
