@@ -1,0 +1,35 @@
+FROM debian:12.1
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=America/Mexico_City
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
+
+RUN apt update && apt install -y \
+    cron \
+    git \
+    apache2 \
+    iproute2 \
+    php \
+    php-curl \
+    php-zip \
+    php-mysqli \
+    php-xml \
+    php-mbstring \
+    php-gd \
+    php-intl \
+    php-soap \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN sed -i 's/^;max_input_vars *= *1000/max_input_vars = 5000/' /etc/php/8.2/apache2/php.ini
+
+RUN a2enmod proxy proxy_http rewrite headers
+
+RUN a2dissite 000-default.conf
+COPY django-app.conf /etc/apache2/sites-available/django-app.conf
+RUN a2ensite django-app.conf
+
+EXPOSE 80
+
+CMD ["apachectl", "-D", "FOREGROUND"]
