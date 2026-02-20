@@ -8,7 +8,7 @@ from tecnicas.models import (
     Participacion, DatoPunto, Calificacion, GrupoProducto, ValorBooleano,
     ValorDecimal, Producto, Escala, EsVocabulario, Vocabulario
 )
-from tecnicas.utils import defaultdict_to_dict
+from utils import defaultdict_to_dict
 from collections import defaultdict
 
 

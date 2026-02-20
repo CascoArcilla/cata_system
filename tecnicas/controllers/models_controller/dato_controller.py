@@ -1,5 +1,5 @@
 from tecnicas.models import Calificacion, Dato, Palabra, ValorDecimal, ValorBooleano, Tecnica, Catador
-from tecnicas.utils import controller_error, getId
+from utils import controller_error, getId
 from django.core.exceptions import ValidationError
 from django.db.models import F
 

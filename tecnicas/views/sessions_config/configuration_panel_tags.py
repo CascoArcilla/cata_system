@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.controllers import PanelTagsController
-from tecnicas.utils import deleteDataSession
+from utils import deleteDataSession
 
 
 def configurationPanelTags(req: HttpRequest):

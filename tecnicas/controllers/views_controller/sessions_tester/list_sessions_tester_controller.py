@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import OuterRef, Subquery, BooleanField
 from tecnicas.models import Catador, SesionSensorial, Participacion
-from tecnicas.utils import controller_error
+from utils import controller_error
 
 
 class ListSessionsTesterController():

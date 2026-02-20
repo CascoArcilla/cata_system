@@ -47,7 +47,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'tecnicas.apps.TecnicasConfig',
+    'analist.apps.AnalistConfig',
+    'scales.apps.ScalesConfig',
 
     'tailwind',
     'theme',
@@ -82,7 +85,7 @@ ROOT_URLCONF = 'cata_system.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

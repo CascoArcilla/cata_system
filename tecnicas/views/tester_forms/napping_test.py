@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
 from tecnicas.controllers import TestNappingController
-from tecnicas.utils import noValidTechnique
+from utils import noValidTechnique
 
 
 def nappingTest(req: HttpRequest, code_sesion: str):

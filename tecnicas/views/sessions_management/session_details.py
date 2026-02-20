@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
-from tecnicas.utils import noValidTechnique
+from utils import noValidTechnique
 from tecnicas.controllers import DetallesController, DetallesEscalasController, DetallesCATAController, DetallesPFController, DetallesSortController, DetallesNappingController, DetallesIdealController
 
 

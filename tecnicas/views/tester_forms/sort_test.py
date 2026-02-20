@@ -1,7 +1,7 @@
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
 from tecnicas.controllers import TestSortController
-from tecnicas.utils import noValidTechnique
+from utils import noValidTechnique
 
 
 def sortTest(req: HttpRequest, code_sesion: str):

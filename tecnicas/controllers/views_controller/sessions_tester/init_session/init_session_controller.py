@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db import transaction
 from tecnicas.models import Catador, SesionSensorial, Orden, Participacion, Producto, EsAtributo, EsVocabulario, Dato, ListaPalabras
-from tecnicas.utils import controller_error, shuffleArray
+from utils import controller_error, shuffleArray
 
 
 class InitSessionController():

@@ -2,7 +2,7 @@ from .panel_create_controller import PanelCreateController
 from django.http import HttpRequest, JsonResponse
 from tecnicas.models import Tecnica, TipoTecnica, EstiloPalabra, Producto, SesionSensorial, Modalidad, TecnicaModalidad
 from django.db import transaction
-from tecnicas.utils import deleteDataSession
+from utils import deleteDataSession
 
 
 class PanelCreateNappingController(PanelCreateController):

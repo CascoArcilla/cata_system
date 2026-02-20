@@ -14,7 +14,7 @@ Encabezados de como deben de aparecer los datos juntos
 from tecnicas.models import SesionSensorial, Calificacion, Escala
 from tecnicas.controllers import DatoController, PalabrasController
 from .details_controller import DetallesController
-from tecnicas.utils import defaultdict_to_dict
+from utils import defaultdict_to_dict
 from collections import defaultdict
 
 

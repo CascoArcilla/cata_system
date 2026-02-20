@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.db import transaction
 from tecnicas.models import Catador, SesionSensorial, Participacion
-from tecnicas.utils import controller_error
+from utils import controller_error
 
 
 class LoginSessionTesterController():

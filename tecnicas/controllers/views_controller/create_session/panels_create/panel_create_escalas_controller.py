@@ -3,7 +3,7 @@ from django.http import HttpRequest, JsonResponse
 from django.db import transaction
 from tecnicas.controllers import TecnicaController, EscalaController, ProductosController, OrdenesController, PalabrasController, EstiloPalabrasController, SesionController
 from tecnicas.models import EsVocabulario, Vocabulario
-from tecnicas.utils import deleteDataSession, general_error
+from utils import deleteDataSession, general_error
 
 
 class PanelCreateEscalasController(PanelCreateController):

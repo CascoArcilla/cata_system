@@ -2,7 +2,7 @@ from .panel_create_controller import PanelCreateController
 from django.http import HttpRequest, JsonResponse
 from django.db import transaction
 from tecnicas.models import Tecnica, TipoTecnica, EstiloPalabra, SesionSensorial, Producto
-from tecnicas.utils import deleteDataSession, general_error
+from utils import deleteDataSession, general_error
 
 
 class PanelCreateSortController(PanelCreateController):

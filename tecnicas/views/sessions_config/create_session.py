@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from tecnicas.controllers import PanelCreateEscalasController, PanelCreateRataController, PanelCreateCataController, PanelCreatePFController, PanelCreateSortController, PanelCreateNappingController, PanelCreateIdealController
-from tecnicas.utils import deleteDataSession
+from utils import deleteDataSession
 
 
 def createSession(req: HttpRequest):

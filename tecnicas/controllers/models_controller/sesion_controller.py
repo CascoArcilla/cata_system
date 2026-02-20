@@ -1,7 +1,7 @@
 from django.db import DatabaseError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from tecnicas.models import Tecnica, Presentador, SesionSensorial
-from tecnicas.utils import controller_error
+from utils import controller_error
 from ..models_controller.particiapacion_controller import ParticipacionController
 
 

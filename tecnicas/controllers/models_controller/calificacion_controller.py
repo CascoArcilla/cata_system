@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from collections import defaultdict
 from tecnicas.models import Calificacion, Tecnica, Posicion, Producto, Catador
-from tecnicas.utils import controller_error, getId
+from utils import controller_error, getId
 
 
 class CalificacionController():

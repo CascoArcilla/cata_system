@@ -2,7 +2,7 @@ from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from tecnicas.forms import CodesForm
-from tecnicas.utils import generarCodigos
+from utils import generarCodigos
 import json
 
 

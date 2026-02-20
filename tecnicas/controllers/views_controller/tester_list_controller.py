@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from tecnicas.models import Catador
-from tecnicas.utils import controller_error
+from utils import controller_error
 
 
 class TesterListController():

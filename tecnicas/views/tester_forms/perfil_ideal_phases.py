@@ -3,7 +3,7 @@ from tecnicas.models import SesionSensorial, Producto, Tecnica, Escala, Califica
 from tecnicas.controllers import CalificacionController, DatoController
 from tecnicas.controllers import TestPerfilIdealPhase1Controller, TestPerfilIdealPhase2Controller
 from tecnicas.controllers import RatingPerfilIdealPhase1Controller, RatingPerfilIdealPhase2Controller
-from tecnicas.utils import general_error
+from utils import general_error
 
 
 def perfilIdealPhase1(request: HttpRequest, code_sesion: str):

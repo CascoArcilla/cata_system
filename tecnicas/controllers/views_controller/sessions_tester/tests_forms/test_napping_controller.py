@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.db.models import F
 from tecnicas.models import Participacion, Producto, TecnicaModalidad, DatoPunto, Calificacion, Modalidad, Palabra, GrupoProducto
 from tecnicas.forms import ListWordsForm
-from tecnicas.utils import noValidTechnique
+from utils import noValidTechnique
 from tecnicas.controllers import ParticipacionController
 from .general_test_controller import GenetalTestController
 

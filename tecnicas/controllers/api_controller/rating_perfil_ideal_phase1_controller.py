@@ -1,7 +1,7 @@
 from django.db import transaction
 from tecnicas.models import Calificacion, Escala, CalificacionEscala, ValorDecimal
 from tecnicas.controllers import DatoController
-from tecnicas.utils import controller_error
+from utils import controller_error
 
 
 class RatingPerfilIdealPhase1Controller():

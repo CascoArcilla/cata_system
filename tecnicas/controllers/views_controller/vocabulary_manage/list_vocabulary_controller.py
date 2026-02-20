@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from tecnicas.models import Vocabulario
-from tecnicas.utils import controller_error
+from utils import controller_error
 
 
 class ListVocabularyController():

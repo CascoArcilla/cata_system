@@ -1,6 +1,6 @@
 from tecnicas.models import SesionSensorial, ListaPalabras, Calificacion, Catador, Producto
 from tecnicas.controllers import DatoController
-from tecnicas.utils import defaultdict_to_dict
+from utils import defaultdict_to_dict
 from .details_controller import DetallesController
 from collections import defaultdict
 

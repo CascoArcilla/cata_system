@@ -29,7 +29,7 @@
 '''
 from django.http import HttpRequest, JsonResponse
 from tecnicas.controllers import RatingScalesController, CalificacionController, DatoController
-from tecnicas.utils import general_error
+from utils import general_error
 import json
 
 
