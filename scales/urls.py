@@ -6,7 +6,7 @@ app_name = "scales"
 urlpatterns = [
     path("",
          views.main,
-         name="main_scales"),
+         name="main_escalas"),
 #     path("conf-basic",
 #          views.main,
 #          name="scales_confi_basic"),

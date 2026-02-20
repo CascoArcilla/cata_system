@@ -9,7 +9,7 @@ def autentication(req: HttpRequest):
     context_view = {}
 
     if req.method == "GET":
-        return render(req, "tecnicas/auth.html")
+        return render(req, "analist/login.html")
     elif req.method == "POST":
         username = req.POST.get("username")
         password = req.POST.get("password")
@@ -21,6 +21,6 @@ def autentication(req: HttpRequest):
             return redirect("cata_system:index")
         else:
             context_view["error"] = "Credenciales inválidas o no es un Presentador"
-            return render(req, "tecnicas/auth.html", context_view)
+            return render(req, "analist/login.html", context_view)
     else:
         return general_error("Método no permitido")
