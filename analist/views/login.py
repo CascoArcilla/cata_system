@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from utils import general_error
 
 @csrf_exempt
-def login(req: HttpRequest):
+def login_analist(req: HttpRequest):
     context_view = {}
 
     if req.method == "GET":
@@ -19,7 +19,7 @@ def login(req: HttpRequest):
 
         if user is not None and hasattr(user, "user_presentador"):
             login(req, user)
-            return redirect("cata_system:index")
+            return redirect("analist:scales:main_scales")
         else:
             context_view["error"] = "Credenciales inválidas o no es un Presentador"
             return render(req, "tecnicas/auth.html", context_view)

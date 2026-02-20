@@ -1,0 +1,10 @@
+{% load static %}
+<a href="{% url url_name %}"
+    class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
+    <img src="{% static icon %}" alt="{{ title }}"
+        class="w-10 group-hover:scale-110 transition-transform {{ icon_class }}">
+    <div class="text-left">
+        <span class="text-2xl font-bold block">{{ title }}</span>
+        <span class="text-sm opacity-80 font-normal">{{ description }}</span>
+    </div>
+</a>
