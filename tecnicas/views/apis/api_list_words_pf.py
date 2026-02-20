@@ -1,6 +1,6 @@
 from django.http import HttpRequest, JsonResponse
 from utils import general_error
-from tecnicas.controllers import RatingPFListController
+from controllers import RatingPFListController
 import json
 
 

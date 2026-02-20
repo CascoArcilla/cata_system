@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 from django.shortcuts import render
-from tecnicas.controllers import TesterListController
+from controllers import TesterListController
 from utils import general_error
 
 

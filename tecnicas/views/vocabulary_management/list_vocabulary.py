@@ -1,5 +1,5 @@
 from django.http import HttpRequest
-from tecnicas.controllers import ListVocabularyController
+from controllers import ListVocabularyController
 
 
 def listVocabulary(req: HttpRequest, num_page: int):

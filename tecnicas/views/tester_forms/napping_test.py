@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import TestNappingController
+from controllers import TestNappingController
 from utils import noValidTechnique
 
 

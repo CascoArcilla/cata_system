@@ -56,7 +56,7 @@
 '''
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import TestRataController, TestScalesController
+from controllers import TestRataController, TestScalesController
 from utils import noValidTechnique
 
 

@@ -1,5 +1,5 @@
 from django.http import HttpRequest, JsonResponse
-from tecnicas.controllers import RatingSortController
+from controllers import RatingSortController
 import json
 
 

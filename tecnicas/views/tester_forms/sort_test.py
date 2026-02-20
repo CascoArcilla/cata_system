@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import TestSortController
+from controllers import TestSortController
 from utils import noValidTechnique
 
 

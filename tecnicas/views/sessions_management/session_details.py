@@ -3,7 +3,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
 from utils import noValidTechnique
-from tecnicas.controllers import DetallesController, DetallesEscalasController, DetallesCATAController, DetallesPFController, DetallesSortController, DetallesNappingController, DetallesIdealController
+from controllers import DetallesController, DetallesEscalasController, DetallesCATAController, DetallesPFController, DetallesSortController, DetallesNappingController, DetallesIdealController
 
 
 def sessionDetails(req: HttpRequest, session_code: str):

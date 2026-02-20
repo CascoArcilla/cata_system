@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.http import HttpRequest, JsonResponse
 from django.urls import reverse
-from tecnicas.controllers import PanelBasicController
+from controllers import PanelBasicController
 from utils import deleteDataSession
 
 
