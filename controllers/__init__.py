@@ -42,6 +42,8 @@ from .views_controller.session_management.monitor.monitor_sort_controller import
 from .views_controller.session_management.monitor.monitor_napping_controller import MonitorNappingController
 from .views_controller.session_management.monitor.monitor_ideal_controller import MonitorIdealController
 
+from .views_controller.session_management.list_sessions_controller import ListSessionsController
+
 from .views_controller.sessions_tester.login_session_tester_controller import LoginSessionTesterController
 from .views_controller.sessions_tester.list_sessions_tester_controller import ListSessionsTesterController
 

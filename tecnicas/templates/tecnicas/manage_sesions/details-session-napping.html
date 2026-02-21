@@ -2,25 +2,25 @@
 {% load static %}
 
 {% block more_details %}
-{% include "../components/details_fields/basic_field.html" with field_name="Modalidad:" field_value=session.mod_tech value_class="capitalize" %}
-{% include "../components/details_fields/basic_field.html" with field_name="Catadores Maximos:" field_value=technique.max_catadores %}
+{% include "components/details_fields/basic_field.html" with field_name="Modalidad:" field_value=session.mod_tech value_class="capitalize" %}
+{% include "components/details_fields/basic_field.html" with field_name="Catadores Maximos:" field_value=technique.max_catadores %}
 {% endblock %}
 
 {% block available_actions %}
-{% include "../components/details_fields/actions_rep.html" with end_message="Sesión finalizada" start_message="Iniciar Sesión" code_session=session.session_code end_collection=finished %}
+{% include "components/details_fields/actions_rep.html" with end_message="Sesión finalizada" start_message="Iniciar Sesión" code_session=session.session_code end_collection=finished %}
 {% endblock %}
 
 {% block data_obtained %}
 {% if there_data %}
     {% if session.mod_tech == "perfil ultra flash" %}
-        {% include "../components/tables/table-napping-puf.html" with testers=testers coordinates_no_mode=coordinates_no_mode word_frequencies=word_frequencies all_words=all_words session=session %}
+        {% include "components/tables/table-napping-puf.html" with testers=testers coordinates_no_mode=coordinates_no_mode word_frequencies=word_frequencies all_words=all_words session=session %}
     {% elif session.mod_tech == "sorting" %}
-        {% include "../components/tables/table-napping-sorting.html" with testers=testers sorting_data=sorting_data session=session %}
+        {% include "components/tables/table-napping-sorting.html" with testers=testers sorting_data=sorting_data session=session %}
     {% else %}
-        {% include "../components/tables/table-napping-no-mode.html" with testers=testers coordinates_no_mode=coordinates_no_mode session=session %}
+        {% include "components/tables/table-napping-no-mode.html" with testers=testers coordinates_no_mode=coordinates_no_mode session=session %}
     {% endif %}
 {% else %}
-    {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
+    {% include "components/error_message.html" with message='Sin datos por mostrar aún' %}
 {% endif %}
 
 {% if session.mod_tech == "posicionamiento" and finished %}
@@ -81,6 +81,6 @@
     <p class="text-black font-bold text-2xl border-b-2 mt-8">
         Datos Combinados (Napping + {{ session_b_technique_type }})
     </p>
-    {% include "../components/tables/table-napping-combined.html" with session=session session_b=session_b technique_type=session_b_technique_type combined_data=combined_data testers=testers coordinates_no_mode=coordinates_no_mode %}
+    {% include "components/tables/table-napping-combined.html" with session=session session_b=session_b technique_type=session_b_technique_type combined_data=combined_data testers=testers coordinates_no_mode=coordinates_no_mode %}
 {% endif %}
 {% endblock %}

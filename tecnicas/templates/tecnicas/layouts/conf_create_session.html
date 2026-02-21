@@ -13,10 +13,10 @@
     </header>
 
     {% if error %}
-    {% include "../components/error_message.html" with message=error %}
+    {% include "components/error_message.html" with message=error %}
     {% endif %}
     {% if message %}
-    {% include "../components/error_message.html" with message=message %}
+    {% include "components/error_message.html" with message=message %}
     {% endif %}
 
     <form method="post" action="" class="space-y-4 cts-main-form">
@@ -31,6 +31,6 @@
     {% block extra_content %}
     {% endblock %}
 
-    {%include "../components/toast_container.html"%}
+    {%include "components/toast_container.html"%}
 </article>
 {% endblock %}

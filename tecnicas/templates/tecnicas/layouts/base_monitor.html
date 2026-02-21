@@ -43,11 +43,11 @@
     </form>
 
     {% if error %}
-    {% include "tecnicas/components/error_message.html" with message=error %}
+    {% include "components/error_message.html" with message=error %}
     {% endif %}
 
     {% if message %}
-    {% include "tecnicas/components/error_message.html" with message=message %}
+    {% include "components/error_message.html" with message=message %}
     {% endif %}
 
     <section aria-labelledby="catadores-titulo">
@@ -86,7 +86,7 @@
             {% endblock %}
         </article>
 
-        {% include "tecnicas/components/tables/table_monitor.html" with participations=participations %}
+        {% include "components/tables/table_monitor.html" with participations=participations %}
     </section>
 </article>
 {% endblock %}

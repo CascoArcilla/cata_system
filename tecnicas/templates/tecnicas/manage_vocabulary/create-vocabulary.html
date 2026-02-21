@@ -16,10 +16,10 @@
         <h1 class="w-full text-center font-bold text-4xl bg-surface-card py-8 rounded-lg">Crear vocabulario</h1>
 
         {% if error %}
-        {% include "../components/error_message.html" with message=error %}
+        {% include "components/error_message.html" with message=error %}
         {% endif %}
         {% if message %}
-        {% include "../components/error_message.html" with message=message %}
+        {% include "components/error_message.html" with message=message %}
         {% endif %}
 
         <article class="rounded-lg space-y-4 w-full">

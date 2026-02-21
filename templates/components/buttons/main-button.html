@@ -1,5 +1,5 @@
 {% load static %}
-<a href="{% url url_name %}"
+<a href="{% if url_param %}{% url url_name url_param %}{% elif url_resolved %}{{ url_resolved }}{% else %}{% url url_name %}{% endif %}"
     class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
     <img src="{% static icon %}" alt="{{ title }}"
         class="w-10 group-hover:scale-110 transition-transform {{ icon_class }}">

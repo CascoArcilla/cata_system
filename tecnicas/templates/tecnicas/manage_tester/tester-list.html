@@ -20,11 +20,11 @@
         </header>
 
         {% if error %}
-        {% include "../components/error_message.html" with message=error %}
+        {% include "components/error_message.html" with message=error %}
         {% else %}
         <div class="grid  gap-4 md:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
             {% for tester in testers %}
-            {% include "../components/elements_items/item_tester.html" with tester=tester %}
+            {% include "components/elements_items/item_tester.html" with tester=tester %}
             {% endfor %}
         </div>
         <section class="flex justify-center items-center gap-2">

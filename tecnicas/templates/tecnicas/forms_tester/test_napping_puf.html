@@ -30,7 +30,7 @@
 </section>
 
 {% if error %}
-{% include "../components/error_message.html" with message=error %}
+{% include "components/error_message.html" with message=error %}
 {% endif %}
 
 <article class="rounded flex flex-col gap-4">
@@ -157,9 +157,9 @@
     </section>
 </article>
 
-{% include "../components/dialog_nap_puf.html" %}
+{% include "components/dialog_nap_puf.html" %}
 
-{% include "../components/toast_container.html" %}
+{% include "components/toast_container.html" %}
 {% endblock %}
 
 {% block extra_js %}
