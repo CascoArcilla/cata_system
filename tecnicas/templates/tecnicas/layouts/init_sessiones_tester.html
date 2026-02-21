@@ -14,27 +14,27 @@
 </header>
 
 {% if error %}
-{% include "../components/error_message.html" with message=error %}
+{% include "components/error_message.html" with message=error %}
 {% endif %}
 {% if message %}
-{% include "../components/error_message.html" with message=message %}
+{% include "components/error_message.html" with message=message %}
 {% endif %}
 
 <article class="grid grid-cols-2 max-sm:grid-cols-1 gap-2 text-center bg-surface-card p-4 rounded">
-    {% include "../components/details_fields/detail_init_test.html" with title="Código:" value=session_info.code %}
+    {% include "components/details_fields/detail_init_test.html" with title="Código:" value=session_info.code %}
 
     {% if session_info.name %}
-        {% include "../components/details_fields/detail_init_test.html" with title="Nombre:" value=session_info.name %}
+        {% include "components/details_fields/detail_init_test.html" with title="Nombre:" value=session_info.name %}
     {% else %}
-        {% include "../components/details_fields/detail_init_test.html" with title="Nombre:" value="Sin nombre de proyecto" %}
+        {% include "components/details_fields/detail_init_test.html" with title="Nombre:" value="Sin nombre de proyecto" %}
     {% endif %}
 
-    {% include "../components/details_fields/detail_init_test.html" with title="Técnica:" value=use_technique value_style="uppercase" %}
+    {% include "components/details_fields/detail_init_test.html" with title="Técnica:" value=use_technique value_style="uppercase" %}
 
     {% block session_info %}
     {% endblock %}
 
-    {% include "../components/details_fields/detail_init_test.html" with title="Instrucciones:" value=session_info.instructions %}
+    {% include "components/details_fields/detail_init_test.html" with title="Instrucciones:" value=session_info.instructions %}
 </article>
 
 {% block session_actions %}

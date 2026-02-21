@@ -1,13 +1,13 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
-from tecnicas.controllers import SesionController
+from controllers import SesionController
 
 
 def sesionsPanel(req: HttpRequest, page: int):
     context = {"num_page": page}
 
     if req.method == "GET":
-        response = SesionController.getSessionsSavesByCretor(
+        response = SesionController.getSessionsByCretor(
             user_name=req.user.username, page=page)
 
         if isinstance(response, dict):

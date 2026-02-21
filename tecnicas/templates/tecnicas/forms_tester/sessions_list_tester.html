@@ -20,12 +20,12 @@
 </header>
 
 {% if error %}
-{% include "../components/error_message.html" with message=error %}
+{% include "components/error_message.html" with message=error %}
 {% else %}
 <div class="space-y-4">
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {% for session in sessions %}
-        {% include "../components/elements_items/item_session_tester.html" with session=session %}
+        {% include "components/elements_items/item_session_tester.html" with session=session %}
         {% empty %}
         <div class="col-span-full text-center text-gray-500">
             No hay sesiones registradas.

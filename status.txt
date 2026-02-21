@@ -1,0 +1,66 @@
+On branch moduls
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   controllers/__init__.py
+	modified:   tecnicas/controllers/__init__.py
+	modified:   tecnicas/controllers/api_controller/rating_perfil_ideal_phase1_controller.py
+	modified:   tecnicas/controllers/api_controller/rating_perfil_ideal_phase2_controller.py
+	modified:   tecnicas/controllers/api_controller/rating_sacales_controller.py
+	deleted:    tecnicas/controllers/models_controller/calificacion_controller.py
+	deleted:    tecnicas/controllers/models_controller/catador_controller.py
+	deleted:    tecnicas/controllers/models_controller/dato_controller.py
+	deleted:    tecnicas/controllers/models_controller/escala_controller.py
+	deleted:    tecnicas/controllers/models_controller/estilo_palabras_controller.py
+	deleted:    tecnicas/controllers/models_controller/ordenes_controller.py
+	deleted:    tecnicas/controllers/models_controller/palabras_controller.py
+	deleted:    tecnicas/controllers/models_controller/particiapacion_controller.py
+	deleted:    tecnicas/controllers/models_controller/posicion_controller.py
+	deleted:    tecnicas/controllers/models_controller/presentador_controller.py
+	deleted:    tecnicas/controllers/models_controller/productos_controller.py
+	deleted:    tecnicas/controllers/models_controller/sesion_controller.py
+	deleted:    tecnicas/controllers/models_controller/tecnica_controller.py
+	modified:   tecnicas/controllers/views_controller/create_session/panels_create/panel_create_escalas_controller.py
+	modified:   tecnicas/controllers/views_controller/create_session/panels_create/panel_create_ideal_cotroller.py
+	modified:   tecnicas/controllers/views_controller/create_session/panels_create/panel_create_rata_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/details/details_cata_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/details/details_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/details/details_escala_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/details/details_ideal_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/details/details_pf_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/monitor/monitor_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/monitor/monitor_escalas_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/monitor/monitor_ideal_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/monitor/monitor_pf_controller.py
+	modified:   tecnicas/controllers/views_controller/session_management/monitor/monitor_rata_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/init_session/init_session_escalas_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/init_session/init_session_napping_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/init_session/init_session_perfil_ideal_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/init_session/init_session_pf_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/init_session/init_session_sort_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/general_test_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/test_cata_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/test_napping_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/test_perfil_ideal_phase1_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/test_perfil_ideal_phase2_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/test_pf_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/test_rata_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/test_scales_controller.py
+	modified:   tecnicas/controllers/views_controller/sessions_tester/tests_forms/test_sort_controller.py
+	modified:   tecnicas/views/apis/rating_word_scales.py
+	modified:   tecnicas/views/apis/user_activity_api.py
+	modified:   tecnicas/views/sessions_config/seleccion_tecnica.py
+	modified:   tecnicas/views/sessions_management/sessions_panel.py
+	modified:   tecnicas/views/tester_forms/perfil_ideal_phases.py
+	modified:   tecnicas/views/tester_forms/pf_test.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	check_err.txt
+	check_err2.txt
+	controllers/models_controller/
+	fix_imports.py
+	scales/views/list_sessions.py
+	status.txt
+
+no changes added to commit (use "git add" and/or "git commit -a")

@@ -1,6 +1,6 @@
 from django.http import HttpRequest, JsonResponse
-from tecnicas.utils import general_error
-from tecnicas.controllers import RatingCataController
+from utils import general_error
+from controllers import RatingCataController
 import json
 
 

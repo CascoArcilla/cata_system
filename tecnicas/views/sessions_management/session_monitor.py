@@ -7,8 +7,8 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import MonitorEscalasController, MonitorRATAController, MonitorPFController, MonitorSortController, MonitorNappingController, MonitorIdealController
-from tecnicas.utils import noValidTechnique
+from controllers import MonitorEscalasController, MonitorRATAController, MonitorPFController, MonitorSortController, MonitorNappingController, MonitorIdealController
+from utils import noValidTechnique
 
 
 def sessionMonitor(req: HttpRequest, session_code: str):

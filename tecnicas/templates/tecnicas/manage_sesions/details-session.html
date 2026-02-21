@@ -4,20 +4,20 @@
 {% block title %}Detalles Sesion{% endblock %}
 
 {% block more_details %}
-{% include "../components/details_fields/basic_field.html" with field_name="Estilo de palabras:" field_value=technique.words_style value_class="capitalize" %}
-{% include "../components/details_fields/basic_field.html" with field_name="Tipo de escala:" field_value=scale.type value_class="capitalize" %}
+{% include "components/details_fields/basic_field.html" with field_name="Estilo de palabras:" field_value=technique.words_style value_class="capitalize" %}
+{% include "components/details_fields/basic_field.html" with field_name="Tipo de escala:" field_value=scale.type value_class="capitalize" %}
 
-{% include "../components/details_fields/basic_field.html" with field_name="Repetición actual:" field_value=technique.current_repetition %}
-{% include "../components/details_fields/basic_field.html" with field_name="Repeticiones máximas:" field_value=technique.max_repetitions %}
-{% include "../components/details_fields/basic_field.html" with field_name="Catadores máximos:" field_value=technique.max_catadores %}
+{% include "components/details_fields/basic_field.html" with field_name="Repetición actual:" field_value=technique.current_repetition %}
+{% include "components/details_fields/basic_field.html" with field_name="Repeticiones máximas:" field_value=technique.max_repetitions %}
+{% include "components/details_fields/basic_field.html" with field_name="Catadores máximos:" field_value=technique.max_catadores %}
 {% endblock %}
 
 {% block extra_sections %}
-{% include "../components/details_fields/list_words.html" with palabras=palabras %}
+{% include "components/details_fields/list_words.html" with palabras=palabras %}
 {% endblock %}
 
 {% block available_actions %}
-{% include "../components/details_fields/actions_rep.html" with end_collection=fin_repeticiones code_session=session.session_code %}
+{% include "components/details_fields/actions_rep.html" with end_collection=fin_repeticiones code_session=session.session_code %}
 {% endblock %}
 
 {% block data_obtained %}
@@ -31,9 +31,9 @@
         </p>
     </section>
     {% if existen_calificaciones %}
-        {% include "../components/tables/table-scales.html" with calificaciones=calificaciones palabras=palabras session=session %}
+        {% include "components/tables/table-scales.html" with calificaciones=calificaciones palabras=palabras session=session %}
     {% else %}
-        {% include "../components/error_message.html" with message='Sin calificaciones que mostrar aún' %}
+        {% include "components/error_message.html" with message='Sin calificaciones que mostrar aún' %}
     {% endif %}
 </article>
 {% endblock %}

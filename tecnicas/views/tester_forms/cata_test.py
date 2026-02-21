@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import TestCataController
+from controllers import TestCataController
 
 
 def cataTest(req: HttpRequest, code_sesion: str):
