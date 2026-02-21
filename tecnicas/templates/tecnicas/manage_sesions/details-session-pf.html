@@ -2,13 +2,13 @@
 {% load static %}
 
 {% block more_details %}
-{% include "../components/details_fields/basic_field.html" with field_name="Repetición actual:" field_value=technique.current_repetition %}
-{% include "../components/details_fields/basic_field.html" with field_name="Repeticiones máximas:" field_value=technique.max_repetitions %}
-{% include "../components/details_fields/basic_field.html" with field_name="Catadores máximos:" field_value=technique.max_catadores %}
+{% include "components/details_fields/basic_field.html" with field_name="Repetición actual:" field_value=technique.current_repetition %}
+{% include "components/details_fields/basic_field.html" with field_name="Repeticiones máximas:" field_value=technique.max_repetitions %}
+{% include "components/details_fields/basic_field.html" with field_name="Catadores máximos:" field_value=technique.max_catadores %}
 {% endblock %}
 
 {% block available_actions %}
-{% include "../components/details_fields/actions_rep.html" with end_collection=finished code_session=session.session_code start_message="Iniciar fase o repetición" end_message="Recolección finalizada" %}
+{% include "components/details_fields/actions_rep.html" with end_collection=finished code_session=session.session_code start_message="Iniciar fase o repetición" end_message="Recolección finalizada" %}
 {% endblock %}
 
 {% block data_obtained %}
@@ -22,11 +22,11 @@
         {% if fisrt_phase %}
         <article class="flex gap-4 overflow-x-auto py-2">
             {% for list_tester in fisrt_phase %}
-            {% include "../components/elements_items/item_list_words.html" with list_tester=list_tester %}
+            {% include "components/elements_items/item_list_words.html" with list_tester=list_tester %}
             {% endfor %}
         </article>
         {% else %}
-        {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
+        {% include "components/error_message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
     </section>
 
@@ -40,11 +40,11 @@
         {% if second_phase %}
         <article class="flex gap-4 overflow-x-auto py-2">
             {% for list_tester in second_phase %}
-            {% include "../components/elements_items/item_list_words.html" with list_tester=list_tester %}
+            {% include "components/elements_items/item_list_words.html" with list_tester=list_tester %}
             {% endfor %}
         </article>
         {% else %}
-        {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
+        {% include "components/error_message.html" with message='Sin datos por mostrar aún' %}
         {% endif %}
     </section>
 
@@ -65,15 +65,15 @@
 
         {% if repeticion == 1 %}
             {% if data_ratings %}
-                {% include "../components/tables/table_pf_all.html" with second_phase=second_phase data_ratings=data_ratings session_name=session.session_name session_code=session.session_code %}
+                {% include "components/tables/table_pf_all.html" with second_phase=second_phase data_ratings=data_ratings session_name=session.session_name session_code=session.session_code %}
             {% else %}
-                {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
+                {% include "components/error_message.html" with message='Sin datos por mostrar aún' %}
             {% endif %}
         {% else %}
             {% if data_ratings %}
                 <article class="overflow-x-auto py-2 space-y-4">
                     {% for data_tester in data_ratings %}
-                        {% include "../components/tables/table_pf.html" with data=data_tester session_name=session.session_name session_code=session.session_code %}
+                        {% include "components/tables/table_pf.html" with data=data_tester session_name=session.session_name session_code=session.session_code %}
                     {% endfor %}
                 </article>
                 <div class="flex justify-end mt-3 gap-4 flex-wrap">
@@ -87,7 +87,7 @@
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
                 <script src="{% static 'js/download-table-xlsx.js' %}"></script>
             {% else %}
-                {% include "../components/error_message.html" with message='Sin datos por mostrar aún' %}
+                {% include "components/error_message.html" with message='Sin datos por mostrar aún' %}
             {% endif %}
         {% endif %}
     </section>

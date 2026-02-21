@@ -57,7 +57,7 @@
 </section>
 
 {% if error %}
-{% include "../components/error_message.html" with message=error %}
+{% include "components/error_message.html" with message=error %}
 {% endif %}
 
 <article class="rounded flex flex-col gap-4">
@@ -100,7 +100,7 @@
 
 <article class="scales-container space-y-4">
     {% for word in words %}
-    {% include "../components/form-dual-scale.html" with word=word scale_size=scale_size %}
+    {% include "components/form-dual-scale.html" with word=word scale_size=scale_size %}
     {% endfor %}
 </article>
 {% endblock %}

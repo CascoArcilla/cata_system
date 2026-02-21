@@ -29,7 +29,7 @@
 </section>
 
 {% if error %}
-{% include "../components/error_message.html" with message=error %}
+{% include "components/error_message.html" with message=error %}
 {% endif %}
 
 <article class="rounded flex flex-col gap-4">
@@ -112,7 +112,7 @@
     </section>
 </article>
 
-{% include "../components/toast_container.html" %}
+{% include "components/toast_container.html" %}
 {% endblock %}
 
 {% block extra_js %}

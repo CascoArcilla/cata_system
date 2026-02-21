@@ -28,10 +28,10 @@
 </section>
 
 {% if error %}
-{% include "../components/error_message.html" with message=error %}
+{% include "components/error_message.html" with message=error %}
 {% endif %}
 {% if message %}
-{% include "../components/error_message.html" with message=message %}
+{% include "components/error_message.html" with message=message %}
 {% endif %}
 
 <article class="rounded flex flex-col gap-4">

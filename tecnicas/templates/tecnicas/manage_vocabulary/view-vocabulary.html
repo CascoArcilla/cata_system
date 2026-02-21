@@ -1,4 +1,4 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'layouts/base.html' %}
 {% load static %}
 
 {% block title %}Ver Vocabulario{% endblock %}
@@ -20,7 +20,7 @@
         </header>
 
         {% if error %}
-        {% include "../components/error_message.html" with message=error %}
+        {% include "components/error_message.html" with message=error %}
         
         <div class="flex justify-center mt-6">
             <a href="{% url 'cata_system:lista_vocabulario' num_page=1 %}">

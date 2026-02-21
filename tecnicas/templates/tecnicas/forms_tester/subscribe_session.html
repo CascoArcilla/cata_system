@@ -21,10 +21,10 @@
     </header>
 
     {% if error %}
-    {% include "../components/error_message.html" with message=error %}
+    {% include "components/error_message.html" with message=error %}
     {% endif %}
     {% if message %}
-    {% include "../components/error_message.html" with message=message %}
+    {% include "components/error_message.html" with message=message %}
     {% endif %}
 
     <div class="card bg-surface-card shadow-lg mx-auto w-full">

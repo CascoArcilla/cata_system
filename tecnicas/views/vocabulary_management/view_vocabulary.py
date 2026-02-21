@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpRequest
-from tecnicas.controllers import ViewVocabularyController
+from controllers import ViewVocabularyController
 
 
 def viewVocabulary(req: HttpRequest, nombre_vocabulario: str):

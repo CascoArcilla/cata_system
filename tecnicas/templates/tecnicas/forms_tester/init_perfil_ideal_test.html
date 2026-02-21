@@ -4,9 +4,9 @@
 {% block title %}Detalles Sesion{% endblock %}
 
 {% block session_info %}
-{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Estilo de palabras:" value=session_info.style value_style="capitalize" %}
+{% include "components/details_fields/detail_init_test.html" with title="Estilo de palabras:" value=session_info.style value_style="capitalize" %}
 
-{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Actividad:" value=session_info.activity %}
+{% include "components/details_fields/detail_init_test.html" with title="Actividad:" value=session_info.activity %}
 
-{% include "tecnicas/components/details_fields/detail_init_test.html" with title="Sesión:" value="Única" %}
+{% include "components/details_fields/detail_init_test.html" with title="Sesión:" value="Única" %}
 {% endblock %}

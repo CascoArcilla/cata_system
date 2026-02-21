@@ -56,8 +56,8 @@
 '''
 from django.http import HttpRequest
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import TestRataController, TestScalesController
-from tecnicas.utils import noValidTechnique
+from controllers import TestRataController, TestScalesController
+from utils import noValidTechnique
 
 
 def convencionalScales(req: HttpRequest, code_sesion: str):

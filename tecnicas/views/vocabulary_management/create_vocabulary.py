@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 from tecnicas.forms import WordForm
-from tecnicas.controllers import CreateVocabularyController
+from controllers import CreateVocabularyController
 
 
 def createVocabulary(req: HttpRequest):

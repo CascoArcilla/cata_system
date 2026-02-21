@@ -29,7 +29,7 @@
 </section>
 
 {% if error %}
-{% include "../components/error_message.html" with message=error %}
+{% include "components/error_message.html" with message=error %}
 {% endif %}
 
 <section class="bg-surface-card p-2 rounded-lg space-y-4">
@@ -135,7 +135,7 @@
         <span id="loading-data-save" class="loading loading-spinner loading-xl text-accent hidden"></span>
     </section>
 </article>
-{% include "../components/toast_container.html" %}
+{% include "components/toast_container.html" %}
 {% endblock %}
 
 {% block extra_js %}
