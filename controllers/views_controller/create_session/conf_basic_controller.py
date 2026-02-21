@@ -17,6 +17,9 @@ class ConfBasicController():
             "use_technique": name_tecnica
         }
 
+        if request.GET.get("error"):
+            view_context["error"] = request.GET.get("error")
+
         response = render(request, self.template_name, view_context)
         return response
 

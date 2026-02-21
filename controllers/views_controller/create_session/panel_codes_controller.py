@@ -6,22 +6,19 @@ from utils import generarCodigos
 import json
 
 
-class PanelCodesController():
-    url_current_panel = "tecnicas/create_sesion/conf-panel-codes.html"
-    url_words = "cata_system:panel_configuracion_words"
-    url_create_session = "cata_system:creando_sesion"
+class ConfCodesController():
+    def __init__(self, template: str = "views/conf-panel-codes.html", next_url: str = "cata_system:panel_configuracion_words", data: dict = {}):
+        self.template = template
+        self.next_url = next_url
+        self.data = data
 
-    def __init__(self):
-        pass
-
-    @staticmethod
-    def controllGetEscalas(request: HttpRequest, data):
+    def getOrders(self, request: HttpRequest):
         """
         Obtain codes for scales technique
         Include orders for Catadores
         """
-        num_products = data["numero_productos"]
-        num_tester = data["numero_catadores"]
+        num_products = self.data["numero_productos"]
+        num_tester = self.data["numero_catadores"]
 
         codes_products = generarCodigos(num_products)
 
@@ -33,15 +30,14 @@ class PanelCodesController():
             "use_technique": "escalas"
         }
 
-        return render(request, PanelCodesController.url_current_panel, context_codes_form)
+        return render(request, self.template, context_codes_form)
 
-    @staticmethod
-    def controllPostEscalas(request: HttpRequest, data):
+    def postOrders(self, request: HttpRequest):
         """
         Post codes for scales technique
         Save orders for Catadores
         """
-        num_tester = data["numero_catadores"]
+        num_tester = self.data["numero_catadores"]
 
         sorts_code = json.loads(request.POST.get("sort_codes"))
         codes = []
@@ -67,18 +63,17 @@ class PanelCodesController():
 
             codes_sort["sort_codes"] = sorts_code
             request.session["form_codes"] = codes_sort
-            return redirect(reverse(PanelCodesController.url_words))
+            return redirect(reverse(self.next_url))
         else:
             context_codes_form["error"] = "error en los datos recibidos"
 
-        return render(request, PanelCodesController.url_current_panel, context_codes_form)
+        return render(request, self.template, context_codes_form)
 
-    @staticmethod
-    def controllGetWithoutOrders(request: HttpRequest, data, name_technique: str):
+    def getNoOrders(self, request: HttpRequest, name_technique: str):
         """
         Obtain codes for techniques without orders for Catadores
         """
-        num_products = data["numero_productos"]
+        num_products = self.data["numero_productos"]
         codes_products = generarCodigos(num_products)
         form_codes = CodesForm(codes=codes_products)
 
@@ -88,10 +83,9 @@ class PanelCodesController():
             "use_technique": name_technique
         }
 
-        return render(request, PanelCodesController.url_current_panel, context_codes_form)
+        return render(request, self.template, context_codes_form)
 
-    @staticmethod
-    def controllPostNoOrdersWithWords(request: HttpRequest, name_technique: str):
+    def postNoOrders(self, request: HttpRequest, name_technique: str):
         """
         Post codes for techniques without orders for Catadores
         Save codes and redirect to words panel or vocabulary panel
@@ -112,41 +106,11 @@ class PanelCodesController():
 
         if form_codes.is_valid():
             # Extract codes from cleaned_data to ensure uppercase conversion
-            cleaned_codes = [value for name, value in form_codes.cleaned_data.items() if name.startswith('producto_')]
+            cleaned_codes = [value for name, value in form_codes.cleaned_data.items(
+            ) if name.startswith('producto_')]
             request.session["form_codes"] = cleaned_codes
-            return redirect(reverse(PanelCodesController.url_words))
+            return redirect(reverse(self.next_url))
         else:
             context_codes_form["error"] = "error en los datos recibidos"
 
-        return render(request, PanelCodesController.url_current_panel, context_codes_form)
-
-    @staticmethod
-    def controllPostNoOrdersNoWords(request: HttpRequest, name_technique: str):
-        """
-        Post codes for techniques without orders for Catadores
-        Save codes and redirect to create session panel
-        For techniqes without style words
-        """
-        codes = []
-        context_codes_form = {}
-
-        for name, value in request.POST.items():
-            if name.__contains__("producto_"):
-                codes.append(value)
-
-        form_codes = CodesForm(request.POST, codes=codes)
-
-        context_codes_form = {
-            "form_codes": form_codes,
-            "use_technique": name_technique
-        }
-
-        if form_codes.is_valid():
-            # Extract codes from cleaned_data to ensure uppercase conversion
-            cleaned_codes = [value for name, value in form_codes.cleaned_data.items() if name.startswith('producto_')]
-            request.session["form_codes"] = cleaned_codes
-            return redirect(reverse(PanelCodesController.url_create_session))
-        else:
-            context_codes_form["error"] = "error en los datos recibidos"
-
-        return render(request, PanelCodesController.url_current_panel, context_codes_form)
+        return render(request, self.template, context_codes_form)

@@ -6,7 +6,7 @@ class ConfBasicScalesController(ConfBasicController):
     def __init__(self):
         super().__init__(
             template_name="scales/conf-basic-scales.html",
-            next_url="cata_system:panel_configuracion_tags",
+            next_url="analist:scales:conf_tags_scales",
             form_class=ConfBasicScalesForm,
         )
 

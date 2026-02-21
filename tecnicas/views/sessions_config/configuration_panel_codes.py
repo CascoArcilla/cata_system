@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
-from controllers import PanelCodesController
+from controllers import ConfCodesController
 from utils import deleteDataSession
 
 
@@ -16,11 +16,14 @@ def configurationPanelCodes(req: HttpRequest):
 
     if req.method == "GET":
         if name_technique == "escalas":
-            response = PanelCodesController.controllGetEscalas(
-                req, data_basic)
+            conf_codes_controller = ConfCodesController(data=data_basic)
+            response = conf_codes_controller.getOrders(req)
+
         elif name_technique in ["rata", "cata", "perfil flash", "sort", "napping", "perfil_ideal"]:
-            response = PanelCodesController.controllGetWithoutOrders(
-                request=req, data=data_basic, name_technique=name_technique)
+            conf_codes_controller = ConfCodesController(data=data_basic)
+            response = conf_codes_controller.getNoOrders(
+                req, name_technique)
+
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
@@ -28,14 +31,22 @@ def configurationPanelCodes(req: HttpRequest):
         return response
     elif req.method == "POST":
         if name_technique == "escalas":
-            response = PanelCodesController.controllPostEscalas(
-                req, data_basic)
+            conf_codes_controller = ConfCodesController(data=data_basic)
+            response = conf_codes_controller.postOrders(req)
+
         elif name_technique in ["rata", "cata", "perfil_ideal"]:
-            response = PanelCodesController.controllPostNoOrdersWithWords(
-                request=req, name_technique=name_technique)
+            conf_codes_controller = ConfCodesController(data=data_basic)
+            response = conf_codes_controller.postNoOrders(
+                req, name_technique)
+
         elif name_technique in ["perfil flash", "sort", "napping"]:
-            response = PanelCodesController.controllPostNoOrdersNoWords(
-                request=req, name_technique=name_technique)
+            conf_codes_controller = ConfCodesController(
+                next_url="cata_system:creando_sesion",
+                data=data_basic
+            )
+            response = conf_codes_controller.postNoOrders(
+                req, name_technique)
+
         else:
             response = redirect(
                 reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")

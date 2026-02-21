@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
-from controllers import PanelTagsController
+from controllers import ConfTagsController
 from utils import deleteDataSession
 
 
@@ -16,7 +16,7 @@ def configurationPanelTags(req: HttpRequest):
 
     if req.method == "GET":
         if name_technique == "escalas" or name_technique == "rata" or name_technique == "perfil flash":
-            response = PanelTagsController.controllGetEscalas(
+            response = ConfTagsController.get(
                 request=req, data=basic_data)
         else:
             response = redirect(
@@ -25,7 +25,7 @@ def configurationPanelTags(req: HttpRequest):
         return response
     elif req.method == "POST":
         if name_technique == "escalas" or name_technique == "rata" or name_technique == "perfil flash":
-            response = PanelTagsController.controllPostEscalas(
+            response = ConfTagsController.post(
                 request=req, data=basic_data)
         else:
             response = redirect(

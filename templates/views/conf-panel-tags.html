@@ -40,11 +40,13 @@
             Continuar
         </button>
     </section>
+    {% block cancel_button %}
     <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
         <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-fit max-lg:w-full">
             Cancelar la creación
         </button>
     </a>
+    {% endblock %}
 </article>
 {% endblock %}
 

@@ -5,17 +5,17 @@ from tecnicas.forms import SesionTagsForm, EtiquetaForm
 from tecnicas.models import TipoEscala
 
 
-class PanelTagsController():
+class ConfTagsController():
     def __init__(self):
         pass
 
     @staticmethod
-    def controllGetEscalas(request: HttpRequest, data):
+    def get(request: HttpRequest, data, template_name: str = "views/conf-panel-tags.html"):
         (
             type_scale,
             tamano_escala,
             form_new_etiqueta
-        ) = PanelTagsController.defineInfoScale(data)
+        ) = ConfTagsController.defineInfoScale(data)
 
         form_etiqutas = SesionTagsForm(
             longitud=tamano_escala, tipo_escala=type_scale.nombre_escala)
@@ -25,15 +25,15 @@ class PanelTagsController():
             "form_new_tag": form_new_etiqueta
         }
 
-        return render(request, "tecnicas/create_sesion/conf-panel-tags.html", context_tags)
+        return render(request, template_name, context_tags)
 
     @staticmethod
-    def controllPostEscalas(request: HttpRequest, data):
+    def post(request: HttpRequest, data, next_url: str = "cata_system:panel_configuracion_codes", template_name: str = "views/conf-panel-tags.html"):
         (
             type_scale,
             tamano_escala,
             form_new_etiqueta
-        ) = PanelTagsController.defineInfoScale(data)
+        ) = ConfTagsController.defineInfoScale(data)
 
         values = {}
         form = SesionTagsForm(request.POST, longitud=tamano_escala,
@@ -49,12 +49,10 @@ class PanelTagsController():
                 values[name] = value.id
 
             request.session["form_tags"] = values
-            response = redirect(
-                reverse("cata_system:panel_configuracion_codes"))
+            response = redirect(reverse(next_url))
         else:
             context_tags["error"] = "ha ocurrido un error"
-            response = render(
-                request, "tecnicas/create_sesion/conf-panel-tags.html", context_tags)
+            response = render(request, template_name, context_tags)
 
         return response
 

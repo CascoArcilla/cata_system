@@ -20,26 +20,8 @@
     </article>
 </article>
 
-{% if use_technique == 'escalas' %}
-<article class="w-full space-y-4 p-4 rounded bg-surface-card">
-    <h2 class="text-2xl mb-2 font-bold">Órdenes</h2>
-    <p class="text-center font-bold tracking-wide text-xl">
-        Estas ordenes serán asignadas a los Catadores de forma aleatoria al entrar a la sesión
-    </p>
-
-    <section class="flex justify-center">
-        <article
-            class="ct-orden-list grid grid-cols-3 max-lg:grid-cols-2 max-sm:grid-cols-1 gap-4 px-3 py-4 justify-center items-center capitalize text-lg">
-        </article>
-    </section>
-
-    <div class="flex justify-center">
-        <button type="button" class="cts-btn-general cts-btn-fifthy btn-push" onclick="setPermutations()">
-            Volver a ordenar
-        </button>
-    </div>
-</article>
-{% endif %}
+{% block extra_sections %}
+{% endblock %}
 
 <article class="cs-escalas-radio max-lg:flex-col justify-center flex gap-4">
     <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
@@ -52,20 +34,16 @@
             Continuar
         </button>
     </section>
+    {% block cancel_button %}
     <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
         <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-fit max-lg:w-full">
             Cancelar la creación
         </button>
     </a>
+    {% endblock %}
 </article>
 
-{% if use_technique == 'escalas' %}
-<input type="number" value="{{ num_tester }}" class="ct-num-cata hidden" disabled>
-{% endif %}
+{% block extra_inputs %}
 {% endblock %}
 
-{% block extra_js %}
-{% if use_technique == 'escalas' %}
-<script src="{% static 'js/panel-codes.js' %}"></script>
-{% endif %}
 {% endblock %}
