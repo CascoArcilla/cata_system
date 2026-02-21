@@ -58,7 +58,7 @@ class DatoController():
             self.value_data = ValorBooleano(valor=self.value_rating)
 
         else:
-            type_scale = self.data.id_calificacion.id_tecnica.escala_tecnica.id_tipo_escala.nombre_escala
+            type_scale = self.data.id_calificacion.id_tecnica.escala_tecnica.all()[0].id_tipo_escala.nombre_escala
 
             if type_scale == "continua":
                 decimal_value = self.value_rating/100
