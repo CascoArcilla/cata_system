@@ -1,4 +1,5 @@
-from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm, SesionBasicRATAForm, SesionBasicIdealForm
+from tecnicas.forms import SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm, SesionBasicRATAForm, SesionBasicIdealForm
+from scales.forms import ConfBasicScalesForm
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -22,7 +23,7 @@ class PanelBasicController():
 
     @staticmethod
     def controllGetEscalas(request: HttpRequest):
-        form_sesion = SesionBasicForm()
+        form_sesion = ConfBasicScalesForm()
 
         view_context = {
             "form_sesion": form_sesion,
@@ -36,7 +37,7 @@ class PanelBasicController():
     @staticmethod
     def controllPostEscalas(request: HttpRequest, name_tecnica: str):
         try:
-            form = SesionBasicForm(request.POST)
+            form = ConfBasicScalesForm(request.POST)
 
             if form.is_valid():
                 values = {}

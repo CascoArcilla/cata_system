@@ -11,42 +11,20 @@
     <h2 class="text-2xl mb-2 font-bold">Información Basica</h2>
     {% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
 
-    {% if use_technique == 'escalas' or use_technique == 'perfil flash' %}
     {% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True use_max_reps=True %}
-    {% endif %}
-
-    {% if use_technique == 'rata' or use_technique == 'cata' %}
-    {% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True %}
-    {% endif %}
-
-    {% if use_technique == 'sort' or use_technique == 'napping' or use_technique == 'perfil_ideal' %}
-    {% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True %}
-    {% endif %}
 
     {% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
 </section>
 
-{% if use_technique == 'escalas' or use_technique == 'rata' or use_technique == 'cata' or use_technique == "perfil_ideal" %}
 {% include "components/fields_config/style_words.html" with form_sesion=form_sesion %}
-{% endif %}
 
-{% if use_technique == 'escalas' or use_technique == 'rata' %}
 {% include "components/fields_config/scales.html" with form_sesion=form_sesion %}
-{% endif %}
-
-{% if use_technique == "perfil_ideal" %}
-{% include "components/fields_config/explain_scales_ideal.html" %}
-{% endif %}
-
-{% if use_technique == 'napping' %}
-{% include "components/fields_config/mode_napping.html" with form_sesion=form_sesion %}
-{% endif %}
 
 <article class="w-full flex max-sm:flex-col flex-wrap items-center justify-center gap-4">
     <button type="submit" class="cts-btn-general cts-btn-primary btn-push flex-1/4 w-full">
         Continuar
     </button>
-    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="flex-1/4 w-full">
+    <a href="{% url 'analist:scales:main_escalas' %}" class="flex-1/4 w-full">
         <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-full">
             Cancelar la creación
         </button>

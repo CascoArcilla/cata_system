@@ -1,1 +1,2 @@
 from .list_sessions_scales_controllers import ListSessionsScalesController
+from .conf_basic_scales_controller import ConfBasicScalesController
