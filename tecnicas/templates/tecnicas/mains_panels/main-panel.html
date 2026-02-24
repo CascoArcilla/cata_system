@@ -6,6 +6,7 @@
     <header class="flex flex-col flex-wrap justify-center items-center space-y-8">
         <section class="bg-surface-card p-8 rounded-md w-full shadow-lg">
             <h1 class="text-black text-4xl font-bold text-center max-sm:text-2xl">Panel Principal</h1>
+            <h2 class="text-black text-3xl font-bold text-center max-sm:text-xl capitalize">{{ technique|default:"General" }}</h2>
         </section>
 
         <section
@@ -64,7 +65,7 @@
         <h2 class="text-2xl font-bold text-black mb-6 px-2 border-l-4 border-cts-primary pl-4">Acciones Rápidas</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-full">
+            <a href="{% block url_create_session %}{% url 'cata_system:seleccion_tecnica' %}{% endblock %}" class="w-full">
                 <button
                     class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
                     <img src="{% static 'img/icons/configuration.svg' %}" alt="Icono configuración"
@@ -76,7 +77,7 @@
                 </button>
             </a>
 
-            <a href="{% url 'cata_system:panel_sesiones' page=1 %}" class="w-full">
+            <a href="{% block url_sessions %}{% url 'cata_system:panel_sesiones' page=1 %}{% endblock %}" class="w-full">
                 <button
                     class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
                     <img src="{% static 'img/icons/graphic.svg' %}" alt="Icono gráficas"

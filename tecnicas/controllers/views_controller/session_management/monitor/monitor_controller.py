@@ -6,12 +6,14 @@ from tecnicas.models import SesionSensorial, Producto, EsAtributo, EsVocabulario
 
 from tecnicas.controllers import ParticipacionController
 
+
 class MonitorController():
     url_view: str
     previus_view: str
 
-    def __init__(self, session: SesionSensorial):
+    def __init__(self, session: SesionSensorial, url_home = "cata_system:index"):
         self.sensorial_session = session
+        self.url_home = url_home
 
     def controllPostFinishSession(self, request: HttpRequest):
         (is_all_end, message) = self.checkAllFinish()
@@ -26,7 +28,8 @@ class MonitorController():
         return (False, "Función sin implementar")
 
     def setContext(self):
-        ParticipacionController.checkStaleParticipations(self.sensorial_session.tecnica, 600)
+        ParticipacionController.checkStaleParticipations(
+            self.sensorial_session.tecnica, 600)
 
         self.participations = Participacion.objects.filter(
             tecnica=self.sensorial_session.tecnica)
@@ -38,7 +41,8 @@ class MonitorController():
             "current_testers": len(self.participations),
             "active_testers": len([part for part in self.participations if part.activo]),
             "participations": self.participations,
-            "use_technique": self.sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
+            "use_technique": self.sensorial_session.tecnica.tipo_tecnica.nombre_tecnica,
+            "url_home": reverse(self.url_home)
         }
 
     def controllGetResponse(self, request: HttpRequest,  error: str = "", message: str = ""):

@@ -10,7 +10,7 @@
             <h1 class="font-bold text-2xl">Administra las<br>sesiones sensoriales</h1>
         </div>
         <div class="flex-1 flex justify-end items-center">
-            <a href="{% url 'cata_system:index' %}" class="w-fit">
+            <a href="{% block url_main_panel %}{% url 'cata_system:index' %}{% endblock %}" class="w-fit">
                 <button class="cts-btn-general cts-btn-fourthy btn-push">
                     Ir al Panel principal
                 </button>
@@ -35,7 +35,7 @@
     <section class="flex justify-center items-center gap-2">
         <div class="join space-x-2">
             {% if num_page != 1 %}
-            <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:-1 %}" class="w-fit">
+            <a href="{% block url_sessions_back %}{% url 'cata_system:panel_sesiones' page=num_page|add:-1 %}{% endblock %}" class="w-fit">
                 <button class="join-item btn bg-cts-primary py-1">
                     <img class="h-full" src="{% static 'img/icons/less_than.svg' %}" alt="menor que">
                 </button>
@@ -43,7 +43,7 @@
             {% endif %}
             <button class="join-item btn bg-cts-primary">Page {{ num_page }}</button>
             {% if not last_page %}
-            <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:1 %}" class="w-fit">
+            <a href="{% block url_sessions_next %}{% url 'cata_system:panel_sesiones' page=num_page|add:1 %}{% endblock %}" class="w-fit">
                 <button class="join-item btn bg-cts-primary py-1">
                     <img class="h-full" src="{% static 'img/icons/greater_than.svg' %}" alt="mayor que">
                 </button>

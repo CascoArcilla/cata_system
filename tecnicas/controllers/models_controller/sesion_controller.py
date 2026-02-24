@@ -43,7 +43,7 @@ class SesionController():
             return controller_error("Error al crear la sesión sensorial")
 
     @staticmethod
-    def getSessionsSavesByCretor(user_name: str, page: int):
+    def getSessionsSavesByCretor(user_name: str, page: int, more_filter: dict = {}):
         elements_by_page = 6
 
         try:
@@ -53,7 +53,7 @@ class SesionController():
 
         queryset = (
             SesionSensorial.objects
-            .filter(creadoPor=creator)
+            .filter(creadoPor=creator, **more_filter)
             .select_related(
                 "tecnica",
                 "tecnica__tipo_tecnica",
@@ -74,8 +74,10 @@ class SesionController():
         paginator = Paginator(queryset, elements_by_page)
         try:
             sessions_in_page = paginator.page(page)
+
         except PageNotAnInteger:
             return controller_error("índice inválido")
+
         except EmptyPage:
             return controller_error("Sin registros en este índice")
 
@@ -86,49 +88,3 @@ class SesionController():
         is_last_page = not current_page < paginator.num_pages
 
         return (sessions_in_page, is_last_page, current_page)
-
-    @staticmethod
-    def getSessionByCodePanelTester(code: str):
-        try:
-            session = SesionSensorial.objects.select_related(
-                "tecnica",
-                "tecnica__tipo_tecnica",
-                "tecnica__id_estilo"
-            ).only(
-                "codigo_sesion",
-                "nombre_sesion",
-                "tecnica__repeticion",
-                "tecnica__instrucciones",
-                "tecnica__tipo_tecnica__nombre_tecnica",
-                "tecnica__id_estilo__nombre_estilo"
-            ).get(codigo_sesion=code)
-
-            return session
-        except SesionSensorial.DoesNotExist:
-            return controller_error("La sesión ya no existe")
-
-    @staticmethod
-    def getSessionByCode(code: str):
-        try:
-            session = SesionSensorial.objects.get(codigo_sesion=code)
-            return session
-        except SesionSensorial.DoesNotExist:
-            return controller_error("La sesión ya no existe")
-
-    @staticmethod
-    def getNumberSessionsByCreator(user_name: str):
-        try:
-            creator = Presentador.objects.get(user__username=user_name)
-
-            number_sessions = SesionSensorial.objects.filter(
-                creadoPor=creator).count()
-
-            return number_sessions/9
-        except Presentador.DoesNotExist:
-            return controller_error("Presentador invalido")
-
-    @staticmethod
-    def finishRepetion(session: SesionSensorial):
-        session.activo = False
-        session.save()
-        return session

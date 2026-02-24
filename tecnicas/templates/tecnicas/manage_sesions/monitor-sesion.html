@@ -1,6 +1,9 @@
 {% extends 'tecnicas/layouts/base_monitor.html' %}
 {% load static %}
 
+{% block url_home %}{{ url_home }}{% endblock %}
+{% block url_home_icon %}{{ url_home }}{% endblock %}
+
 {% block finish_button %}
 <button class="uppercase cts-btn-general-compress cts-btn-fifthy py-2 px-6 btn-push w-full"
 {% if use_technique == "escalas" %}

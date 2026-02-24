@@ -7,6 +7,13 @@ from tecnicas.controllers import DetallesController, DetallesEscalasController, 
 
 
 def sessionDetails(req: HttpRequest, session_code: str):
+    urls_list_sessiones = {
+        "escalas": "cata_system:panel_sesiones_escalas",
+        "general": "cata_system:panel_sesiones",
+    }
+
+    technique_selected = req.session.get("technique_selected") or "general"
+
     if req.method == "GET":
         if "message" in req.GET:
             message = req.GET.get("message")
@@ -17,7 +24,11 @@ def sessionDetails(req: HttpRequest, session_code: str):
             sensorial_session = SesionSensorial.objects.get(
                 codigo_sesion=session_code)
         except SesionSensorial.DoesNotExist:
-            return noValidTechnique(params={"page": 1}, query_params={"message": "Sesión no encontrada"}, name_view="cata_system:panel_sesiones")
+            return noValidTechnique(
+                params={"page": 1},
+                query_params={"message": "Sesión no encontrada"},
+                name_view=urls_list_sessiones.get(technique_selected)
+            )
 
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
@@ -63,7 +74,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
                 },
                 name_view="cata_system:panel_sesiones"
             )
-            
+
         return response
 
     elif req.method == "POST":
@@ -71,7 +82,11 @@ def sessionDetails(req: HttpRequest, session_code: str):
             sensorial_session = SesionSensorial.objects.get(
                 codigo_sesion=session_code)
         except SesionSensorial.DoesNotExist:
-            return noValidTechnique(params={"page": 1}, query_params={"message": "Sesión no encontrada"}, name_view="cata_system:panel_sesiones")
+            return noValidTechnique(
+                params={"page": 1},
+                query_params={"message": "Sesión no encontrada"},
+                name_view=urls_list_sessiones.get(technique_selected)
+            )
 
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
         controller_view = DetallesController(sensorial_session)
@@ -86,7 +101,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
             elif action == "delete_session":
                 controller_view.deleteSesorialSession()
                 response = redirect(
-                    reverse("cata_system:panel_sesiones", kwargs={"page": 1}))
+                    reverse(urls_list_sessiones.get(technique_selected), kwargs={"page": 1}))
 
         elif use_techinique == "napping":
             controller_view = DetallesNappingController(

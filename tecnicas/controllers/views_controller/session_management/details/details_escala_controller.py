@@ -16,14 +16,21 @@ from tecnicas.controllers import DatoController, PalabrasController
 from .details_controller import DetallesController
 from tecnicas.utils import defaultdict_to_dict
 from collections import defaultdict
+from django.urls import reverse
 
 
 class DetallesEscalasController(DetallesController):
     def __init__(self, session: SesionSensorial, type_technique: str):
         super().__init__(session)
         self.url_template = "tecnicas/manage_sesions/details-session.html"
+        self.name_view_back = reverse(
+            "cata_system:panel_sesiones_escalas", kwargs={"page": 1})
+
         if type_technique == "rata":
             self.url_template = "tecnicas/manage_sesions/details-session-rata.html"
+            self.name_view_back = reverse(
+                "cata_system:panel_sesiones", kwargs={"page": 1})
+
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):
@@ -31,6 +38,7 @@ class DetallesEscalasController(DetallesController):
 
         self.context = {
             "use_technique": technique.tipo_tecnica.nombre_tecnica,
+            "back_url": self.name_view_back,
             "session": {
                 "session_code": self.session.codigo_sesion,
                 "session_name": self.session.nombre_sesion or "Sin nombre asignado",
