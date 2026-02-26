@@ -14,13 +14,11 @@ class PanelCreateController():
         self.url_template = 'tecnicas/create_sesion/creating_session.html'
 
     def controllGet(self, request: HttpRequest):
-        send_url_main = self.url_main
-
         if request.session.get("technique_selected") == "general":
-            send_url_main = "cata_system:seleccion_tecnica"
+            self.url_main = "cata_system:index"
 
         context = {
-            "url_main": reverse(send_url_main)
+            "url_main": reverse(self.url_main)
         }
 
         return render(request, self.url_template, context)

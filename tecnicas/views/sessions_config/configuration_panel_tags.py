@@ -19,8 +19,9 @@ def configurationPanelTags(req: HttpRequest):
         if name_technique in ["escalas", "rata", "perfil flash"]:
             response = PanelTagsController(
                 technique_name=name_technique,
-                url_main=url_main
-            ).controllGetEscalas(
+                url_main=url_main,
+                url_home=url_main
+            ).controllGet(
                 request=req, data=basic_data
             )
         else:
@@ -32,8 +33,9 @@ def configurationPanelTags(req: HttpRequest):
         if name_technique in ["escalas", "rata", "perfil flash"]:
             response = PanelTagsController(
                 technique_name=name_technique,
-                url_main=url_main
-            ).controllPostEscalas(
+                url_main=url_main,
+                url_home=url_main
+            ).controllPost(
                 request=req, data=basic_data
             )
         else:

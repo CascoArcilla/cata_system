@@ -7,12 +7,23 @@ import json
 
 
 class PanelWordsController():
-    def __init__(self, url_main: str = "cata_system:seleccion_tecnica"):
+    def __init__(self, url_main: str = "cata_system:seleccion_tecnica", url_home: str = "cata_system:index"):
         self.template_atributes = "tecnicas/create_sesion/conf-panel-words.html"
         self.template_vocabulary = "tecnicas/create_sesion/conf-panel-vocabulary.html"
-        self.context = {
-            "url_main": reverse(url_main)
+        self.url_main = url_main
+        self.url_home = url_home
+
+    def getContext(self, request: HttpRequest):
+        if request.session.get("technique_selected") == "general":
+            self.url_main = "cata_system:seleccion_tecnica"
+            self.url_home = "cata_system:index"
+
+        context = {
+            "url_main": reverse(self.url_main),
+            "home_url": reverse(self.url_home)
         }
+
+        return context
 
     def controllGetAtributes(self, request: HttpRequest):
         """
@@ -20,12 +31,10 @@ class PanelWordsController():
         For techniques with style words "atributos"
         """
         form = WordForm()
-        self.context["form_word"] = form
+        context = self.getContext(request)
+        context["form_word"] = form
 
-        if request.session.get("technique_selected") == "general":
-            self.context["url_main"] = reverse("cata_system:seleccion_tecnica")
-
-        return render(request, self.template_atributes, self.context)
+        return render(request, self.template_atributes, context)
 
     def controllGetVocabulary(self, request: HttpRequest):
         """
@@ -33,12 +42,10 @@ class PanelWordsController():
         For techniques with style words "vocabulario"
         """
         form = VocabularioSelectForm()
-        self.context["form"] = form
+        context = self.getContext(request)
+        context["form"] = form
 
-        if request.session.get("technique_selected") == "general":
-            self.context["url_main"] = reverse("cata_system:seleccion_tecnica")
-
-        return render(request, self.template_vocabulary, self.context)
+        return render(request, self.template_vocabulary, context)
 
     def controllPostAtributes(self, request: HttpRequest):
         """
@@ -46,29 +53,27 @@ class PanelWordsController():
         For techniques with style words "atributos"
         """
         form = WordForm()
-        self.context["form_word"] = form
-
-        if request.session.get("technique_selected") == "general":
-            self.context["url_main"] = reverse("cata_system:seleccion_tecnica")
+        context = self.getContext(request)
+        context["form_word"] = form
 
         if not request.POST.get("words"):
-            return render(request, self.template_atributes, self.context)
+            return render(request, self.template_atributes, context)
 
         words = json.loads(request.POST.get("words"))
-        self.context["words"] = words
+        context["words"] = words
 
         ids_words = [word["id"] for word in words]
 
         if len(ids_words) != len(set(ids_words)):
-            self.context["error"] = "existen palabras duplicadas"
-            return render(request, self.template_atributes, self.context)
+            context["error"] = "existen palabras duplicadas"
+            return render(request, self.template_atributes, context)
 
         exist_words = Palabra.objects.filter(
             id__in=ids_words).count() == len(ids_words)
 
         if not exist_words:
-            self.context["error"] = "algunas palabras no existen"
-            return render(request, self.template_atributes, self.context)
+            context["error"] = "algunas palabras no existen"
+            return render(request, self.template_atributes, context)
 
         request.session["form_words"] = ids_words
         return redirect(reverse("cata_system:creando_sesion"))
@@ -79,23 +84,20 @@ class PanelWordsController():
         For techniques with style words "vocabulario"
         """
         if not request.POST.get("vocabulario"):
-            self.context["form"] = VocabularioSelectForm()
-            self.context["error"] = "No hay un vocabulario seleccionado"
-            return render(request, self.template_vocabulary, self.context)
+            context["form"] = VocabularioSelectForm()
+            context["error"] = "No hay un vocabulario seleccionado"
+            return render(request, self.template_vocabulary, context)
 
         form = VocabularioSelectForm(request.POST)
         vocabulary: int
-
-        if request.session.get("technique_selected") == "general":
-            self.context["url_main"] = reverse("cata_system:seleccion_tecnica")
 
         if form.is_valid():
             vocabulary = form.cleaned_data["vocabulario"]
 
         else:
-            self.context["form"] = VocabularioSelectForm()
-            self.context["error"] = "Erro al validar el vocabulario"
-            return render(request, self.template_vocabulary, self.context)
+            context["form"] = VocabularioSelectForm()
+            context["error"] = "Erro al validar el vocabulario"
+            return render(request, self.template_vocabulary, context)
 
         request.session["form_words"] = vocabulary.nombre_vocabulario
         return redirect(reverse("cata_system:creando_sesion"))

@@ -10,21 +10,36 @@ class PanelBasicController():
         "numero_repeticiones": 1
     }
 
-    def __init__(self):
+    def __init__(self, url_main: str = "cata_system:seleccion_tecnica", url_home: str = "cata_system:index"):
         self.template = "tecnicas/create_sesion/conf-panel-basic.html"
         self.url_conf_tags = "cata_system:panel_configuracion_tags"
         self.url_conf_codes = "cata_system:panel_configuracion_codes"
-        self.url_main = "cata_system:seleccion_tecnica"
-        self.default_url_main = "cata_system:seleccion_tecnica"
+        self.url_main = url_main
+        self.url_home = url_home
+
+    def getContext(self, form_sesion, use_technique, select_technique):
+        if select_technique == "general":
+            url_main = "cata_system:seleccion_tecnica"
+            url_home = "cata_system:index"
+        else:
+            url_main = self.url_main
+            url_home = self.url_home
+
+        return {
+            "form_sesion": form_sesion,
+            "use_technique": use_technique,
+            "url_main":  reverse(url_main),
+            "home_url": reverse(url_home)
+        }
 
     def controllGetEscalas(self, request: HttpRequest):
         form_sesion = SesionBasicForm()
 
-        view_context = {
-            "form_sesion": form_sesion,
-            "use_technique": "escalas",
-            "url_main":  reverse(self.default_url_main) if request.session.get("technique_selected") != "escalas" else reverse("cata_system:index_escalas")
-        }
+        view_context = self.getContext(
+            form_sesion=form_sesion,
+            use_technique="escalas",
+            select_technique=request.session.get("select_technique")
+        )
 
         response = render(
             request, self.template, view_context)
@@ -46,26 +61,33 @@ class PanelBasicController():
                 request.session['form_basic'] = values
                 response = redirect(
                     reverse(self.url_conf_tags))
+
             else:
-                response = render(request, self.template, {
-                    "form_sesion": form,
-                    "error": "Información no valida",
-                    "use_technique": "escalas",
-                    "url_main": reverse(self.default_url_main) if request.session.get("technique_selected") != "escalas" else reverse("cata_system:index_escalas")
-                })
+                view_context = self.getContext(
+                    form_sesion=form,
+                    use_technique="escalas",
+                    select_technique=request.session.get("select_technique")
+                )
+
+                view_context["error"] = "Información no valida"
+                response = render(request, self.template, view_context)
+
         except KeyError:
-            url_main = reverse(self.default_url_main) if request.session.get("technique_selected") != "escalas" else reverse("cata_system:index_escalas")
-            response = redirect(url_main + "?error=error en datos de configuracion")
+            url_main = reverse(self.default_url_main) if request.session.get(
+                "technique_selected") != "escalas" else reverse("cata_system:index_escalas")
+            response = redirect(
+                url_main + "?error=error en datos de configuracion")
 
         return response
 
     def controllGetRATA(self, request: HttpRequest):
         form_sesion = SesionBasicRATAForm()
 
-        view_context = {
-            "form_sesion": form_sesion,
-            "use_technique": "rata"
-        }
+        view_context = self.getContext(
+            form_sesion=form_sesion,
+            use_technique="rata",
+            select_technique=request.session.get("select_technique")
+        )
 
         response = render(
             request, self.template, view_context)
@@ -92,8 +114,15 @@ class PanelBasicController():
                     response = redirect(
                         reverse(self.url_conf_tags))
             else:
-                response = render(request, self.template, {
-                    "form_sesion": form, "error": "Información no valida", "use_technique": "rata"})
+                view_context = self.getContext(
+                    form_sesion=form,
+                    use_technique="rata",
+                    select_technique=request.session.get("select_technique")
+                )
+
+                view_context["error"] = "Información no valida"
+                response = render(request, self.template, view_context)
+
         except KeyError:
             response = redirect(reverse(
                 self.url_main) + "?error=error en datos de configuracion")
@@ -103,10 +132,11 @@ class PanelBasicController():
     def controllGetCATA(self, request: HttpRequest):
         form_sesion = SesionBasicCATAForm()
 
-        view_context = {
-            "form_sesion": form_sesion,
-            "use_technique": "cata"
-        }
+        view_context = self.getContext(
+            form_sesion=form_sesion,
+            use_technique="cata",
+            select_technique=request.session.get("select_technique")
+        )
 
         return render(
             request, self.template, view_context)
@@ -124,18 +154,25 @@ class PanelBasicController():
             response = redirect(
                 reverse(self.url_conf_codes))
         else:
-            response = render(request, self.template, {
-                "form_sesion": form, "error": "Información no valida", "use_technique": "cata"})
+            view_context = self.getContext(
+                form_sesion=form,
+                use_technique="cata",
+                select_technique=request.session.get("select_technique")
+            )
+
+            view_context["error"] = "Información no valida"
+            response = render(request, self.template, view_context)
 
         return response
 
     def controllGetPF(self, request: HttpRequest):
         form_sesion = SesionBasicPFForm()
 
-        view_context = {
-            "form_sesion": form_sesion,
-            "use_technique": "perfil flash"
-        }
+        view_context = self.getContext(
+            form_sesion=form_sesion,
+            use_technique="perfil flash",
+            select_technique=request.session.get("select_technique")
+        )
 
         return render(
             request, self.template, view_context)
@@ -153,18 +190,25 @@ class PanelBasicController():
             response = redirect(
                 reverse(self.url_conf_codes))
         else:
-            response = render(request, self.template, {
-                "form_sesion": form, "error": "Información no valida", "use_technique": "perfil flash"})
+            view_context = self.getContext(
+                form_sesion=form,
+                use_technique="perfil flash",
+                select_technique=request.session.get("select_technique")
+            )
+
+            view_context["error"] = "Información no valida"
+            response = render(request, self.template, view_context)
 
         return response
 
     def controllGetSort(self, request: HttpRequest):
         form_sesion = SesionBasicSortForm()
 
-        view_context = {
-            "form_sesion": form_sesion,
-            "use_technique": "sort"
-        }
+        view_context = self.getContext(
+            form_sesion=form_sesion,
+            use_technique="sort",
+            select_technique=request.session.get("select_technique")
+        )
 
         return render(
             request, self.template, view_context)
@@ -182,18 +226,25 @@ class PanelBasicController():
             response = redirect(
                 reverse(self.url_conf_codes))
         else:
-            response = render(request, self.template, {
-                "form_sesion": form, "error": "Información no valida", "use_technique": "sort"})
+            view_context = self.getContext(
+                form_sesion=form,
+                use_technique="sort",
+                select_technique=request.session.get("select_technique")
+            )
+
+            view_context["error"] = "Información no valida"
+            response = render(request, self.template, view_context)
 
         return response
 
     def controllGetNapping(self, request: HttpRequest):
         form_sesion = SesionBasicNappingForm()
 
-        view_context = {
-            "form_sesion": form_sesion,
-            "use_technique": "napping"
-        }
+        view_context = self.getContext(
+            form_sesion=form_sesion,
+            use_technique="napping",
+            select_technique=request.session.get("select_technique")
+        )
 
         return render(
             request, self.template, view_context)
@@ -211,18 +262,25 @@ class PanelBasicController():
             response = redirect(
                 reverse(self.url_conf_codes))
         else:
-            response = render(request, self.template, {
-                "form_sesion": form, "error": "Información no valida", "use_technique": "napping"})
+            view_context = self.getContext(
+                form_sesion=form,
+                use_technique="napping",
+                select_technique=request.session.get("select_technique")
+            )
+
+            view_context["error"] = "Información no valida"
+            response = render(request, self.template, view_context)
 
         return response
 
     def controllGetIdeal(self, request: HttpRequest):
         form_sesion = SesionBasicIdealForm()
 
-        view_context = {
-            "form_sesion": form_sesion,
-            "use_technique": "perfil_ideal"
-        }
+        view_context = self.getContext(
+            form_sesion=form_sesion,
+            use_technique="perfil_ideal",
+            select_technique=request.session.get("select_technique")
+        )
 
         return render(
             request, self.template, view_context)
@@ -240,7 +298,13 @@ class PanelBasicController():
             response = redirect(
                 reverse(self.url_conf_codes))
         else:
-            response = render(request, self.template, {
-                "form_sesion": form, "error": "Información no valida", "use_technique": "perfil_ideal"})
+            view_context = self.getContext(
+                form_sesion=form,
+                use_technique="perfil_ideal",
+                select_technique=request.session.get("select_technique")
+            )
+
+            view_context["error"] = "Información no valida"
+            response = render(request, self.template, view_context)
 
         return response

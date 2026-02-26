@@ -7,11 +7,36 @@ import json
 
 
 class PanelCodesController():
-    def __init__(self, url_next: str = "cata_system:panel_configuracion_words", url_main: str = "cata_system:seleccion_tecnica"):
+    def __init__(
+        self,
+        url_next: str = "cata_system:panel_configuracion_words",
+        url_main: str = "cata_system:seleccion_tecnica",
+        url_home: str = "cata_system:index"
+    ):
         self.template = "tecnicas/create_sesion/conf-panel-codes.html"
         self.url_next = url_next
         self.url_main = url_main
-        self.context = {}
+        self.url_home = url_home
+
+    def getContext(
+        self, form_codes, use_technique,
+        select_technique, num_tester: int = None
+    ):
+        if select_technique == "general":
+            self.url_main = "cata_system:seleccion_tecnica"
+            self.url_home = "cata_system:index"
+
+        context = {
+            "form_codes": form_codes,
+            "use_technique": use_technique,
+            "url_main": reverse(self.url_main),
+            "home_url": reverse(self.url_home)
+        }
+
+        if num_tester:
+            context["num_tester"] = num_tester
+
+        return context
 
     def controllGetEscalas(self, request: HttpRequest, data):
         """
@@ -25,15 +50,14 @@ class PanelCodesController():
 
         form_codes = CodesForm(codes=codes_products)
 
-        if request.session.get("technique_selected") == "general":
-            self.url_main = "cata_system:seleccion_tecnica"
+        context = self.getContext(
+            form_codes=form_codes,
+            use_technique="escalas",
+            select_technique=request.session.get("technique_selected"),
+            num_tester=num_tester
+        )
 
-        self.context["url_main"] = reverse(self.url_main)
-        self.context["form_codes"] = form_codes
-        self.context["num_tester"] = num_tester
-        self.context["use_technique"] = "escalas"
-
-        return render(request, self.template, self.context)
+        return render(request, self.template, context)
 
     def controllPostEscalas(self, request: HttpRequest, data):
         """
@@ -51,13 +75,12 @@ class PanelCodesController():
 
         form_codes = CodesForm(request.POST, codes=codes)
 
-        if request.session.get("technique_selected") == "general":
-            self.url_main = "cata_system:seleccion_tecnica"
-
-        self.context["form_codes"] = form_codes
-        self.context["num_tester"] = num_tester
-        self.context["use_technique"] = "escalas"
-        self.context["url_main"] = reverse(self.url_main)
+        context = self.getContext(
+            form_codes=form_codes,
+            use_technique="escalas",
+            select_technique=request.session.get("technique_selected"),
+            num_tester=num_tester
+        )
 
         if form_codes.is_valid():
             codes_sort = {"product_codes": []}
@@ -81,15 +104,13 @@ class PanelCodesController():
         codes_products = generarCodigos(num_products)
         form_codes = CodesForm(codes=codes_products)
 
-        if request.session.get("technique_selected") == "general":
-            self.url_main = "cata_system:seleccion_tecnica"
+        context = self.getContext(
+            form_codes=form_codes,
+            use_technique=name_technique,
+            select_technique=request.session.get("technique_selected")
+        )
 
-        self.context["url_main"] = reverse(self.url_main)
-        self.context["form_codes"] = form_codes
-        self.context["num_tester"] = 0
-        self.context["use_technique"] = name_technique
-
-        return render(request, self.template, self.context)
+        return render(request, self.template, context)
 
     def controllPostNoOrders(self, request: HttpRequest, name_technique: str):
         """
@@ -104,21 +125,19 @@ class PanelCodesController():
 
         form_codes = CodesForm(request.POST, codes=codes)
 
-        self.context["form_codes"] = form_codes
-        self.context["use_technique"] = name_technique
-
-        if request.session.get("technique_selected") == "general":
-            self.url_main = reverse("cata_system:seleccion_tecnica")
-
-        self.context["url_main"] = reverse(self.url_main)
-
         if form_codes.is_valid():
             # Extract codes from cleaned_data to ensure uppercase conversion
             cleaned_codes = [value for name, value in form_codes.cleaned_data.items(
             ) if name.startswith('producto_')]
             request.session["form_codes"] = cleaned_codes
             return redirect(reverse(self.url_next))
-        else:
-            self.context["error"] = "error en los datos recibidos"
 
-        return render(request, self.template, self.context)
+        else:
+            context = self.getContext(
+                form_codes=form_codes,
+                use_technique=name_technique,
+                select_technique=request.session.get("technique_selected")
+            )
+            context["error"] = "error en los datos recibidos"
+
+        return render(request, self.template, context)

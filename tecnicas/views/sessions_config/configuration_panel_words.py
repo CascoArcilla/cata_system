@@ -20,32 +20,52 @@ def configurationPanelWords(req: HttpRequest):
     if req.method == "GET":
         if name_technique in ["escalas", "rata", "cata", "perfil_ideal"]:
             if style_words == "atributos":
-                response = PanelWordsController(url_main=url_main).controllGetAtributes(req)
+                response = PanelWordsController(
+                    url_main=url_main,
+                    url_home=url_main
+                ).controllGetAtributes(req)
 
             elif style_words == "vocabulario":
-                response = PanelWordsController(url_main=url_main).controllGetVocabulary(req)
+                response = PanelWordsController(
+                    url_main=url_main,
+                    url_home=url_main
+                ).controllGetVocabulary(req)
 
             else:
-                response = redirect(reverse(url_main) + "?error=Estilo de palabras no valida")
+                response = redirect(reverse(url_main) +
+                                    "?error=Estilo de palabras no valida")
 
         else:
-            response = redirect(reverse(url_main) + "?error=Técnica no valida o sin implementar")
+            response = redirect(reverse(url_main) +
+                                "?error=Técnica no valida o sin implementar")
 
         return response
 
     elif req.method == "POST":
         if name_technique in ["escalas", "rata", "cata", "perfil_ideal"]:
             if style_words == "atributos":
-                response = PanelWordsController(url_main=url_main).controllPostAtributes(req)
+                response = PanelWordsController(
+                    url_main=url_main,
+                    url_home=url_main
+                ).controllPostAtributes(req)
 
             elif style_words == "vocabulario":
-                response = PanelWordsController(url_main=url_main).controllPostVocabulary(req)
+                response = PanelWordsController(
+                    url_main=url_main,
+                    url_home=url_main
+                ).controllPostVocabulary(req)
 
             else:
-                response = redirect(reverse(url_main) + "?error=Estilo de palabras no valida")
+                response = redirect(
+                    reverse(url_main) +
+                    "?error=Estilo de palabras no valida"
+                )
 
         else:
-            response = redirect(reverse(url_main) + "?error=Técnica no valida o sin implementar")
+            response = redirect(
+                reverse(url_main) +
+                "?error=Técnica no valida o sin implementar"
+            )
 
         return response
 

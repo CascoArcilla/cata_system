@@ -11,10 +11,16 @@ def configurationPanelBasic(req: HttpRequest):
 
     if req.method == "GET":
         if name_tecnica == "escalas":
-            response = PanelBasicController().controllGetEscalas(request=req)
+            response = PanelBasicController(
+                url_main="cata_system:index_escalas",
+                url_home="cata_system:index_escalas"
+            ).controllGetEscalas(request=req)
 
         elif name_tecnica == "rata":
-            response = PanelBasicController().controllGetRATA(request=req)
+            response = PanelBasicController(
+                url_main="cata_system:index_rata",
+                url_home="cata_system:index_rata"
+            ).controllGetRATA(request=req)
 
         elif name_tecnica == "cata":
             response = PanelBasicController().controllGetCATA(request=req)
