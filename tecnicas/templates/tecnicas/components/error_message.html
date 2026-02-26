@@ -1,5 +1,13 @@
-<article class="bg-surface-card border-b-2 border-orange-600 p-4 text-black rounded cts-message shadow-lg">
-    <p class="font-sans text-xl text-center">
+<article
+    class="bg-surface-card border-b-2 border-orange-600 p-4 text-black rounded cts-message shadow-lg flex justify-between">
+    <p class="font-sans text-xl text-center first-letter:uppercase">
         {{ message }}
     </p>
+
+
+    {% if close_button %}
+    <button type="button" class="text-xl font-bold cursor-pointer" onclick="this.parentElement.style.display='none'">
+        X
+    </button>
+    {% endif %}
 </article>

@@ -156,7 +156,7 @@ async function sendWordsToSave() {
     words: WORDS,
   };
 
-  const URL = "/cata/testers/api/ratingword/pf/list";
+  const URL = "/sensorial/testers/api/ratingword/pf/list";
 
   try {
     const response = await fetch(URL, {

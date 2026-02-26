@@ -10,31 +10,27 @@ class PanelBasicController():
         "numero_repeticiones": 1
     }
 
-    url_panel_basic = "tecnicas/create_sesion/conf-panel-basic.html"
-
-    url_next_panel_tags = "cata_system:panel_configuracion_tags"
-    url_next_panel_codes = "cata_system:panel_configuracion_codes"
-
-    url_select_technique = "cata_system:seleccion_tecnica"
-
     def __init__(self):
-        pass
+        self.template = "tecnicas/create_sesion/conf-panel-basic.html"
+        self.url_conf_tags = "cata_system:panel_configuracion_tags"
+        self.url_conf_codes = "cata_system:panel_configuracion_codes"
+        self.url_main = "cata_system:seleccion_tecnica"
+        self.default_url_main = "cata_system:seleccion_tecnica"
 
-    @staticmethod
-    def controllGetEscalas(request: HttpRequest):
+    def controllGetEscalas(self, request: HttpRequest):
         form_sesion = SesionBasicForm()
 
         view_context = {
             "form_sesion": form_sesion,
-            "use_technique": "escalas"
+            "use_technique": "escalas",
+            "url_main":  reverse(self.default_url_main) if request.session.get("technique_selected") != "escalas" else reverse("cata_system:index_escalas")
         }
 
         response = render(
-            request, PanelBasicController.url_panel_basic, view_context)
+            request, self.template, view_context)
         return response
 
-    @staticmethod
-    def controllPostEscalas(request: HttpRequest, name_tecnica: str):
+    def controllPostEscalas(self, request: HttpRequest, name_tecnica: str):
         try:
             form = SesionBasicForm(request.POST)
 
@@ -49,18 +45,21 @@ class PanelBasicController():
                 values["name_tecnica"] = name_tecnica
                 request.session['form_basic'] = values
                 response = redirect(
-                    reverse(PanelBasicController.url_next_panel_tags))
+                    reverse(self.url_conf_tags))
             else:
-                response = render(request, PanelBasicController.url_panel_basic, {
-                    "form_sesion": form, "error": "Información no valida", "use_technique": "escalas"})
+                response = render(request, self.template, {
+                    "form_sesion": form,
+                    "error": "Información no valida",
+                    "use_technique": "escalas",
+                    "url_main": reverse(self.default_url_main) if request.session.get("technique_selected") != "escalas" else reverse("cata_system:index_escalas")
+                })
         except KeyError:
-            response = redirect(reverse(
-                PanelBasicController.url_select_technique) + "?error=error en datos de configuracion")
+            url_main = reverse(self.default_url_main) if request.session.get("technique_selected") != "escalas" else reverse("cata_system:index_escalas")
+            response = redirect(url_main + "?error=error en datos de configuracion")
 
         return response
 
-    @staticmethod
-    def controllGetRATA(request: HttpRequest):
+    def controllGetRATA(self, request: HttpRequest):
         form_sesion = SesionBasicRATAForm()
 
         view_context = {
@@ -69,11 +68,10 @@ class PanelBasicController():
         }
 
         response = render(
-            request, PanelBasicController.url_panel_basic, view_context)
+            request, self.template, view_context)
         return response
 
-    @staticmethod
-    def controllPostRATA(request: HttpRequest, name_tecnica: str):
+    def controllPostRATA(self, request: HttpRequest, name_tecnica: str):
         try:
             form = SesionBasicRATAForm(request.POST)
 
@@ -86,24 +84,23 @@ class PanelBasicController():
                         values[name] = value
 
                 if form.errors:
-                    response = render(request, PanelBasicController.url_panel_basic, {
+                    response = render(request, self.template, {
                         "form_sesion": form, "error": "No puedes modificar el número de catadores o repeticiones", "use_technique": "rata"})
                 else:
                     values["name_tecnica"] = name_tecnica
                     request.session['form_basic'] = values
                     response = redirect(
-                        reverse(PanelBasicController.url_next_panel_tags))
+                        reverse(self.url_conf_tags))
             else:
-                response = render(request, PanelBasicController.url_panel_basic, {
+                response = render(request, self.template, {
                     "form_sesion": form, "error": "Información no valida", "use_technique": "rata"})
         except KeyError:
             response = redirect(reverse(
-                PanelBasicController.url_select_technique) + "?error=error en datos de configuracion")
+                self.url_main) + "?error=error en datos de configuracion")
 
         return response
 
-    @staticmethod
-    def controllGetCATA(request: HttpRequest):
+    def controllGetCATA(self, request: HttpRequest):
         form_sesion = SesionBasicCATAForm()
 
         view_context = {
@@ -112,10 +109,9 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic, view_context)
+            request, self.template, view_context)
 
-    @staticmethod
-    def controllPostCATA(request: HttpRequest, name_tecnica: str):
+    def controllPostCATA(self, request: HttpRequest, name_tecnica: str):
         form = SesionBasicCATAForm(request.POST)
 
         if form.is_valid():
@@ -126,15 +122,14 @@ class PanelBasicController():
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values
             response = redirect(
-                reverse(PanelBasicController.url_next_panel_codes))
+                reverse(self.url_conf_codes))
         else:
-            response = render(request, PanelBasicController.url_panel_basic, {
+            response = render(request, self.template, {
                 "form_sesion": form, "error": "Información no valida", "use_technique": "cata"})
 
         return response
 
-    @staticmethod
-    def controllGetPF(request: HttpRequest):
+    def controllGetPF(self, request: HttpRequest):
         form_sesion = SesionBasicPFForm()
 
         view_context = {
@@ -143,10 +138,9 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic, view_context)
+            request, self.template, view_context)
 
-    @staticmethod
-    def controllPostPF(request: HttpRequest, name_tecnica: str):
+    def controllPostPF(self, request: HttpRequest, name_tecnica: str):
         form = SesionBasicPFForm(request.POST)
 
         if form.is_valid():
@@ -157,15 +151,14 @@ class PanelBasicController():
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values
             response = redirect(
-                reverse(PanelBasicController.url_next_panel_codes))
+                reverse(self.url_conf_codes))
         else:
-            response = render(request, PanelBasicController.url_panel_basic, {
+            response = render(request, self.template, {
                 "form_sesion": form, "error": "Información no valida", "use_technique": "perfil flash"})
 
         return response
 
-    @staticmethod
-    def controllGetSort(request: HttpRequest):
+    def controllGetSort(self, request: HttpRequest):
         form_sesion = SesionBasicSortForm()
 
         view_context = {
@@ -174,10 +167,9 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic, view_context)
+            request, self.template, view_context)
 
-    @staticmethod
-    def controllPostSort(request: HttpRequest, name_tecnica: str):
+    def controllPostSort(self, request: HttpRequest, name_tecnica: str):
         form = SesionBasicSortForm(request.POST)
 
         if form.is_valid():
@@ -188,15 +180,14 @@ class PanelBasicController():
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values
             response = redirect(
-                reverse(PanelBasicController.url_next_panel_codes))
+                reverse(self.url_conf_codes))
         else:
-            response = render(request, PanelBasicController.url_panel_basic, {
+            response = render(request, self.template, {
                 "form_sesion": form, "error": "Información no valida", "use_technique": "sort"})
 
         return response
 
-    @staticmethod
-    def controllGetNapping(request: HttpRequest):
+    def controllGetNapping(self, request: HttpRequest):
         form_sesion = SesionBasicNappingForm()
 
         view_context = {
@@ -205,10 +196,9 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic, view_context)
+            request, self.template, view_context)
 
-    @staticmethod
-    def controllPostNapping(request: HttpRequest, name_tecnica: str):
+    def controllPostNapping(self, request: HttpRequest, name_tecnica: str):
         form = SesionBasicNappingForm(request.POST)
 
         if form.is_valid():
@@ -219,15 +209,14 @@ class PanelBasicController():
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values
             response = redirect(
-                reverse(PanelBasicController.url_next_panel_codes))
+                reverse(self.url_conf_codes))
         else:
-            response = render(request, PanelBasicController.url_panel_basic, {
+            response = render(request, self.template, {
                 "form_sesion": form, "error": "Información no valida", "use_technique": "napping"})
 
         return response
 
-    @staticmethod
-    def controllGetIdeal(request: HttpRequest):
+    def controllGetIdeal(self, request: HttpRequest):
         form_sesion = SesionBasicIdealForm()
 
         view_context = {
@@ -236,10 +225,9 @@ class PanelBasicController():
         }
 
         return render(
-            request, PanelBasicController.url_panel_basic, view_context)
+            request, self.template, view_context)
 
-    @staticmethod
-    def controllPostIdeal(request: HttpRequest, name_tecnica: str):
+    def controllPostIdeal(self, request: HttpRequest, name_tecnica: str):
         form = SesionBasicIdealForm(request.POST)
 
         if form.is_valid():
@@ -250,9 +238,9 @@ class PanelBasicController():
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values
             response = redirect(
-                reverse(PanelBasicController.url_next_panel_codes))
+                reverse(self.url_conf_codes))
         else:
-            response = render(request, PanelBasicController.url_panel_basic, {
+            response = render(request, self.template, {
                 "form_sesion": form, "error": "Información no valida", "use_technique": "perfil_ideal"})
 
         return response

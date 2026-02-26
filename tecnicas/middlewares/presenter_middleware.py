@@ -5,7 +5,7 @@ class PresenterAccessMiddleware:
     def __call__(self, request):
         path = request.path_info
 
-        if path.startswith('/cata/presenter/'):
+        if path.startswith('/sensorial/presenter/'):
             technique = self.chechTypeTechnique(path)
 
             if not request.user.is_authenticated:
@@ -30,13 +30,13 @@ class PresenterAccessMiddleware:
         return redirect(base_url)
 
     def chechTypeTechnique(self, path):
-        if path.startswith('/cata/presenter/escalas'):
+        if path.startswith('/sensorial/presenter/escalas'):
             return "escalas"
-        elif path.startswith('/cata/presenter/rata'):
+        elif path.startswith('/sensorial/presenter/rata'):
             return "rata"
-        elif path.startswith('/cata/presenter/cata'):
+        elif path.startswith('/sensorial/presenter/cata'):
             return "cata"
-        elif path.startswith('/cata/presenter/perfil-ideal'):
+        elif path.startswith('/sensorial/presenter/perfil-ideal'):
             return "perfil-ideal"
         else:
             return None

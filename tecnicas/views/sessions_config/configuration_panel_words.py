@@ -1,15 +1,16 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
-from tecnicas.models import EstiloPalabra
 from tecnicas.controllers import PanelWordsController
 from tecnicas.utils import deleteDataSession
 
 
 def configurationPanelWords(req: HttpRequest):
+    url_main = req.session["sensorial_url_main"]
+
     if not req.session.get("form_basic"):
         deleteDataSession(req)
-        return redirect(reverse("cata_system:seleccion_tecnica") +
+        return redirect(reverse(url_main) +
                         "?error=datos requeridos no encontrados")
 
     basic_data = req.session["form_basic"]
@@ -19,33 +20,32 @@ def configurationPanelWords(req: HttpRequest):
     if req.method == "GET":
         if name_technique in ["escalas", "rata", "cata", "perfil_ideal"]:
             if style_words == "atributos":
-                response = PanelWordsController.controllGetAtributes(
-                    req)
+                response = PanelWordsController(url_main=url_main).controllGetAtributes(req)
+
             elif style_words == "vocabulario":
-                response = PanelWordsController.controllGetVocabulary(
-                    req)
+                response = PanelWordsController(url_main=url_main).controllGetVocabulary(req)
+
             else:
-                response = redirect(
-                    reverse("cata_system:seleccion_tecnica") + "?error=Estilo de palabras no valida")
+                response = redirect(reverse(url_main) + "?error=Estilo de palabras no valida")
+
         else:
-            response = redirect(
-                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
+            response = redirect(reverse(url_main) + "?error=Técnica no valida o sin implementar")
+
         return response
 
     elif req.method == "POST":
         if name_technique in ["escalas", "rata", "cata", "perfil_ideal"]:
             if style_words == "atributos":
-                response = PanelWordsController.controllPostAtributes(
-                    req)
+                response = PanelWordsController(url_main=url_main).controllPostAtributes(req)
+
             elif style_words == "vocabulario":
-                response = PanelWordsController.controllPostVocabulary(
-                    req)
+                response = PanelWordsController(url_main=url_main).controllPostVocabulary(req)
+
             else:
-                response = redirect(
-                    reverse("cata_system:seleccion_tecnica") + "?error=Estilo de palabras no valida")
+                response = redirect(reverse(url_main) + "?error=Estilo de palabras no valida")
+
         else:
-            response = redirect(
-                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
+            response = redirect(reverse(url_main) + "?error=Técnica no valida o sin implementar")
 
         return response
 

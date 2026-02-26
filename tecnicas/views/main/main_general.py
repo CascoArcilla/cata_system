@@ -47,6 +47,9 @@ def get_context_main(req: HttpRequest, more_filter: dict = {}):
         "active_sessions": active_sessions,
     }
 
+    if req.GET.get("error"):
+        context["error"] = req.GET.get("error")
+
     return context
 
 
@@ -60,7 +63,7 @@ def post_main(
     if action == "exit_session":
         logout(req)
         base_url = reverse("cata_system:autenticacion")
-        
+
         technique_use = req.POST.get("technique")
 
         if technique:

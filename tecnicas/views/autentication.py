@@ -9,9 +9,6 @@ def autentication(req: HttpRequest):
     context_view = {}
     urls_technique = {
         "escalas": "cata_system:index_escalas",
-        "rata": "cata_system:index_rata",
-        "cata": "cata_system:index_cata",
-        "perfil-ideal": "cata_system:index_perfil_ideal",
         "general": "cata_system:index",
     }
 
@@ -20,13 +17,14 @@ def autentication(req: HttpRequest):
     elif req.method == "POST":
         username = req.POST.get("username")
         password = req.POST.get("password")
-        technique = req.POST.get("technique") or "escalas"
+        technique = req.GET.get("technique") or "escalas"
 
         user = authenticate(username=username, password=password)
 
         if user is not None and hasattr(user, "user_presentador"):
             login(req, user)
             req.session["technique_selected"] = technique
+            req.session["sensorial_url_main"] = urls_technique[technique]
             return redirect(urls_technique[technique])
 
         else:

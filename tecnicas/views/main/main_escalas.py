@@ -1,8 +1,6 @@
-from django.contrib.auth import logout
 from django.http import HttpRequest
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from tecnicas.utils import general_error
-from tecnicas.models import Presentador, SesionSensorial
 from .main_general import get_context_main, post_main
 
 

@@ -478,7 +478,7 @@ async function saveData() {
         return false
     }
 
-    const URL = "/cata/testers/api/rating-sort"
+    const URL = "/sensorial/testers/api/rating-sort"
     const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
     try {

@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const modalContent = document.getElementById("confirmModalContent");
   const confirmBtn = document.getElementById("confirmBtn");
 
-  const URL = "/cata/testers/api/ratingword/cata";
+  const URL = "/sensorial/testers/api/ratingword/cata";
 
   const checkboxes = form.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach((cb) => (cb.checked = false));

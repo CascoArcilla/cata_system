@@ -8,10 +8,9 @@ from tecnicas.utils import deleteDataSession, general_error
 
 class PanelCreateEscalasController(PanelCreateController):
     def __init__(self):
-        super().__init__()
+        super().__init__(url_main="cata_system:index_escalas")
 
-    @staticmethod
-    def controllPost(request: HttpRequest):
+    def controllPost(self, request: HttpRequest):
         if request.POST.get('action') == 'create_session':
             if not request.session.get("form_tags") or not request.session.get("form_codes") or not request.session.get("form_words"):
                 deleteDataSession(request)

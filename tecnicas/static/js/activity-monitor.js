@@ -1,7 +1,7 @@
 const MONITOR_CONFIG = {
     heartbeatInterval: 30000, // 30 seconds
     inactivityThreshold: 600000, // 10 minutes
-    apiEndpoint: '/cata/testers/api/activity',
+    apiEndpoint: '/sensorial/testers/api/activity',
     csrfToken: document.querySelector('[name=csrfmiddlewaretoken]')?.value
 };
 

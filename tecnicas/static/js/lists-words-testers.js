@@ -1,5 +1,5 @@
 async function getListWordsTesters() {
-  const URL = "/cata/testers/api/ratingword/pf/list";
+  const URL = "/sensorial/testers/api/ratingword/pf/list";
   try {
     const response = await fetch(URL, {
       method: "GET",

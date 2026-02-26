@@ -6,30 +6,38 @@ from tecnicas.utils import deleteDataSession
 
 
 def configurationPanelTags(req: HttpRequest):
+    url_main = req.session["sensorial_url_main"]
+
     if not req.session.get("form_basic"):
         deleteDataSession(req)
-        return redirect(reverse('cata_system:panel_configuracion_basic') +
-                        "?error=datos requeridos no encontrados")
+        return redirect(reverse(url_main) + "?error=datos requeridos no encontrados")
 
     basic_data = req.session.get("form_basic")
     name_technique = basic_data["name_tecnica"]
 
     if req.method == "GET":
-        if name_technique == "escalas" or name_technique == "rata" or name_technique == "perfil flash":
-            response = PanelTagsController.controllGetEscalas(
-                request=req, data=basic_data)
+        if name_technique in ["escalas", "rata", "perfil flash"]:
+            response = PanelTagsController(
+                technique_name=name_technique,
+                url_main=url_main
+            ).controllGetEscalas(
+                request=req, data=basic_data
+            )
         else:
-            response = redirect(
-                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
+            response = redirect(reverse(url_main))
 
         return response
+
     elif req.method == "POST":
-        if name_technique == "escalas" or name_technique == "rata" or name_technique == "perfil flash":
-            response = PanelTagsController.controllPostEscalas(
-                request=req, data=basic_data)
+        if name_technique in ["escalas", "rata", "perfil flash"]:
+            response = PanelTagsController(
+                technique_name=name_technique,
+                url_main=url_main
+            ).controllPostEscalas(
+                request=req, data=basic_data
+            )
         else:
-            response = redirect(
-                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
+            response = redirect(reverse(url_main))
         return response
     else:
         return JsonResponse({"message": "Método no permitido"})
