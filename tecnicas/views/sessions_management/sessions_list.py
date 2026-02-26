@@ -5,12 +5,12 @@ from tecnicas.controllers import SesionController
 
 def sesionsList(req: HttpRequest, page: int):
     if req.method == "GET":
-        return get_sessions_list_scales(req, page)
+        return get_sessions_list(req, page)
     else:
         return JsonResponse({"message": "Método no permitido"})
 
 
-def get_sessions_list_scales(
+def get_sessions_list(
     req: HttpRequest, page: int, filters: dict = {},
     template: str = "tecnicas/list_sessions/sessions-panel.html"
 ):

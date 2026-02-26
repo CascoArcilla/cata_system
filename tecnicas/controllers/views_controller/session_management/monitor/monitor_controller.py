@@ -11,7 +11,7 @@ class MonitorController():
     url_view: str
     previus_view: str
 
-    def __init__(self, session: SesionSensorial, url_home = "cata_system:index"):
+    def __init__(self, session: SesionSensorial, url_home="cata_system:index"):
         self.sensorial_session = session
         self.url_home = url_home
 
@@ -19,8 +19,12 @@ class MonitorController():
         (is_all_end, message) = self.checkAllFinish()
         if not is_all_end:
             self.setContext()
+            if request.session.get("technique_selected") == "general":
+                self.context["url_home"] = reverse("cata_system:index")
+
             self.context["error"] = message
             return render(request, self.url_view, self.context)
+
         self.finishSession()
         return redirect(reverse(self.previus_view, kwargs={"session_code": self.sensorial_session.codigo_sesion}))
 
@@ -52,6 +56,9 @@ class MonitorController():
             self.context["error"] = error
         if message != "" or message:
             self.context["message"] = message
+
+        if request.session.get("technique_selected") == "general":
+            self.context["url_home"] = reverse("cata_system:index")
 
         return render(request, self.url_view, self.context)
 

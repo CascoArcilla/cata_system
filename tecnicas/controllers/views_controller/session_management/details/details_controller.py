@@ -9,8 +9,15 @@ class DetallesController():
     url_template: str
     url_next = "cata_system:monitor_sesion"
 
-    def __init__(self, session: SesionSensorial):
+    def __init__(
+        self,
+        session: SesionSensorial,
+        back_url: str = "cata_system:panel_sesiones",
+        home_url: str = "cata_system:index"
+    ):
         self.session = session
+        self.back_url = back_url
+        self.home_url = home_url
 
     def controllGetResponse(self, request: HttpRequest, error: str = "", message: str = ""):
         context = self.getContext()
@@ -19,6 +26,13 @@ class DetallesController():
             context["error"] = error
         if message != "" or message:
             context["message"] = message
+
+        context["back_url"] = reverse(self.back_url, kwargs={"page": 1})
+        context["home_url"] = reverse(self.home_url)
+
+        if request.session.get("technique_selected") == "general":
+            context["back_url"] = reverse("cata_system:panel_sesiones", kwargs={"page": 1})
+            context["home_url"] = reverse("cata_system:index")
 
         return render(
             request, self.url_template, context)

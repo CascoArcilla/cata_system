@@ -1,6 +1,12 @@
 {% extends 'tecnicas/layouts/details_layout.html' %}
 {% load static %}
 
+{% block url_home %}{{ home_url }}{% endblock %}
+{% block url_home_icon %}{{ home_url }}{% endblock %}
+
+{% block title %}Detalles Sesion{% endblock %}
+{% block url_back %}{{ back_url }}{% endblock %}
+
 {% block more_details %}
 {% include "../components/details_fields/basic_field.html" with field_name="Estilo de Palabras:" field_value=technique.words_style value_class="capitalize" %}
 {% include "../components/details_fields/basic_field.html" with field_value="Pueden ingresar un número ilimitado de Catadores" %}

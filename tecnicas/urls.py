@@ -13,9 +13,7 @@ urlpatterns = [
     # Pantalla principal Presetador
     path("presenter/", views.mainPanel, name="index"),
     path("presenter/escalas", views.mainEscalas, name="index_escalas"),
-    path("presenter/rata", views.mainPanel, name="index_rata"),
-    path("presenter/cata", views.mainPanel, name="index_cata"),
-    path("presenter/perfil-ideal", views.mainPanel, name="index_perfil_ideal"),
+    path("presenter/rata", views.mainRata, name="index_rata"),
 
 
     # Creacion de sessiones sensoriales
@@ -75,9 +73,8 @@ urlpatterns = [
     # Gestion de sesiones sensoriales
     path("presenter/panel-sesiones/<int:page>", views.sesionsList, name="panel_sesiones"),
     path("presenter/escalas/panel-sesiones/<int:page>", views.sesionsListScales, name="panel_sesiones_escalas"),
-    path("presenter/rata/panel-sesiones/<int:page>", views.sesionsList, name="panel_sesiones_rata"),
-    path("presenter/cata/panel-sesiones/<int:page>", views.sesionsList, name="panel_sesiones_cata"),
-    path("presenter/perfil-ideal/panel-sesiones/<int:page>", views.sesionsList, name="panel_sesiones_perfil_ideal"),
+    path("presenter/rata/panel-sesiones/<int:page>", views.sesionsListRata, name="panel_sesiones_rata"),
+
 
     path("presenter/detalles-sesion/<str:session_code>", views.sessionDetails, name="detalles_sesion"),
 

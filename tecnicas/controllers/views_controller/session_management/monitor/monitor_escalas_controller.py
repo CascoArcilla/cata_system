@@ -4,8 +4,8 @@ from .monitor_controller import MonitorController
 
 
 class MonitorEscalasController(MonitorController):
-    def __init__(self, session: SesionController):
-        super().__init__(session=session, url_home="cata_system:index_escalas")
+    def __init__(self, session: SesionController, url_home="cata_system:index_escalas"):
+        super().__init__(session=session, url_home=url_home)
         self.url_view = "tecnicas/manage_sesions/monitor-sesion.html"
         self.previus_view = "cata_system:detalles_sesion"
 

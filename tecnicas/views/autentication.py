@@ -9,6 +9,7 @@ def autentication(req: HttpRequest):
     context_view = {}
     urls_technique = {
         "escalas": "cata_system:index_escalas",
+        "rata": "cata_system:index_rata",
         "general": "cata_system:index",
     }
 
@@ -19,13 +20,19 @@ def autentication(req: HttpRequest):
         password = req.POST.get("password")
         technique = req.GET.get("technique") or "escalas"
 
+        if technique not in urls_technique:
+            technique = "escalas"
+            url_main = urls_technique.get(technique)
+        else:
+            url_main = urls_technique.get(technique)
+
         user = authenticate(username=username, password=password)
 
         if user is not None and hasattr(user, "user_presentador"):
             login(req, user)
             req.session["technique_selected"] = technique
-            req.session["sensorial_url_main"] = urls_technique[technique]
-            return redirect(urls_technique[technique])
+            req.session["sensorial_url_main"] = url_main
+            return redirect(url_main)
 
         else:
             context_view["error"] = "Credenciales inválidas o no es un Presentador"

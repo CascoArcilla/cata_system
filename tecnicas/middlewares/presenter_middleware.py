@@ -34,9 +34,5 @@ class PresenterAccessMiddleware:
             return "escalas"
         elif path.startswith('/sensorial/presenter/rata'):
             return "rata"
-        elif path.startswith('/sensorial/presenter/cata'):
-            return "cata"
-        elif path.startswith('/sensorial/presenter/perfil-ideal'):
-            return "perfil-ideal"
         else:
             return None

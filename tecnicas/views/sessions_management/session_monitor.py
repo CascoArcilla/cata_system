@@ -17,12 +17,29 @@ def sessionMonitor(req: HttpRequest, session_code: str):
             sensorial_session = SesionSensorial.objects.get(
                 codigo_sesion=session_code)
         except SesionSensorial.DoesNotExist:
-            return noValidTechnique(params={"page": 1}, query_params={"message": "Sesión no encontrada para monitorear"}, name_view="cata_system:panel_sesiones")
+            return noValidTechnique(
+                params={"page": 1},
+                query_params={
+                    "message": "Sesión no encontrada para monitorear"},
+                name_view="cata_system:panel_sesiones"
+            )
 
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
 
-        if use_techinique in ["escalas", "rata", "cata"]:
+        if use_techinique == "escalas":
             controll_view = MonitorEscalasController(sensorial_session)
+            response = controll_view.controllGetResponse(request=req)
+
+        elif use_techinique == "rata":
+            controll_view = MonitorRATAController(sensorial_session)
+            response = controll_view.controllGetResponse(request=req)
+
+        elif use_techinique == "cata":
+            controll_view = MonitorEscalasController(
+                sensorial_session,
+                url_home="cata_system:index"
+            )
+
             response = controll_view.controllGetResponse(request=req)
 
         elif use_techinique == "perfil flash":
@@ -40,7 +57,6 @@ def sessionMonitor(req: HttpRequest, session_code: str):
         elif use_techinique == "perfil_ideal":
             controll_view = MonitorIdealController(sensorial_session)
             response = controll_view.controllGetResponse(request=req)
-
 
         else:
             response = noValidTechnique(
@@ -127,7 +143,6 @@ def sessionMonitor(req: HttpRequest, session_code: str):
             else:
                 response = controll_view.controlGetResponse(
                     request=req, error="No se ha definido la acción a realizar")
-
 
         else:
             response = noValidTechnique(
