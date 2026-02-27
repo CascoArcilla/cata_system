@@ -7,6 +7,8 @@ from .main.main_rata import mainRata
 from .main.main_cata import mainCata
 from .main.main_flash import mainFlash
 from .main.main_sort import mainSort
+from .main.main_napping import mainNapping
+from .main.main_ideal import mainIdeal
 
 
 
@@ -19,6 +21,8 @@ from .sessions_management.sessions_list_rata import sesionsListRata
 from .sessions_management.sessions_list_cata import sesionsListCata
 from .sessions_management.sessions_list_flash import sesionsListFlash
 from .sessions_management.sessions_list_sort import sesionsListSort
+from .sessions_management.sessions_list_napping import sesionsListNapping
+from .sessions_management.sessions_list_ideal import sesionsListIdeal
 
 
 

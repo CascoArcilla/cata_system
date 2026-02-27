@@ -9,7 +9,8 @@ from tecnicas.constants import URLS_LIST_SESSIONES
 
 def sessionDetails(req: HttpRequest, session_code: str):
     technique_selected = req.session.get("technique_selected") or "general"
-    back_url = URLS_LIST_SESSIONES.get(technique_selected) or URLS_LIST_SESSIONES["general"]
+    back_url = URLS_LIST_SESSIONES.get(
+        technique_selected) or URLS_LIST_SESSIONES["general"]
 
     if req.method == "GET":
         if "message" in req.GET:
@@ -116,7 +117,11 @@ def sessionDetails(req: HttpRequest, session_code: str):
             )
 
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
-        controller_view = DetallesController(sensorial_session)
+        controller_view = DetallesController(
+            session=sensorial_session,
+            back_url=back_url,
+            home_url=req.session.get("sensorial_url_main")
+        )
 
         action = req.POST.get("action")
 
@@ -133,7 +138,8 @@ def sessionDetails(req: HttpRequest, session_code: str):
         elif use_techinique == "napping":
             controller_view = DetallesNappingController(
                 session=sensorial_session,
-                back_url=back_url
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
             )
 
             response = controller_view.controllPostResponse(

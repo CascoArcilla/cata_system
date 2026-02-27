@@ -59,15 +59,6 @@ class DetallesNappingController(DetallesController):
             self.context["finished"] = True
 
     def controllPostResponse(self, request: HttpRequest, action: str):
-        # if action == "start_sin_modalidad":
-        #     response = self.startNapping(request=request)
-
-        # elif action == "start_perfil_ultra_flash":
-        #     response = self.startNapping(request=request)
-
-        # elif action == "start_sorting":
-        #     response = self.startNapping(request=request)
-
         if action == "start_session":
             response = self.startNapping(request=request)
 
@@ -77,7 +68,7 @@ class DetallesNappingController(DetallesController):
         elif action == "delete_session":
             self.deleteSesorialSession()
             response = redirect(
-                reverse("cata_system:panel_sesiones", kwargs={"page": 1}))
+                reverse(self.back_url, kwargs={"page": 1}))
 
         else:
             response = self.controllGetResponse(

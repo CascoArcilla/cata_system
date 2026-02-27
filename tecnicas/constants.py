@@ -11,5 +11,7 @@ URLS_LIST_SESSIONES = {
     "cata": "cata_system:panel_sesiones_cata",
     "perfil-flash": "cata_system:panel_sesiones_flash",
     "sort": "cata_system:panel_sesiones_sort",
+    "napping": "cata_system:panel_sesiones_napping",
+    "perfil-ideal": "cata_system:panel_sesiones_ideal",
     "general": "cata_system:panel_sesiones",
 }

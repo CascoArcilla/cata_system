@@ -16,11 +16,14 @@ urlpatterns = [
 
     # Pantalla principal Presetador
     path("presenter/", views.mainPanel, name="index"),
+
     path("presenter/escalas", views.mainEscalas, name="index_escalas"),
     path("presenter/rata", views.mainRata, name="index_rata"),
     path("presenter/cata", views.mainCata, name="index_cata"),
     path("presenter/perfil-flash", views.mainFlash, name="index_perfil_flash"),
     path("presenter/sort", views.mainSort, name="index_sort"),
+    path("presenter/napping", views.mainNapping, name="index_napping"),
+    path("presenter/perfil-ideal", views.mainIdeal, name="index_ideal"),
 
 
 
@@ -97,6 +100,10 @@ urlpatterns = [
          views.sesionsListFlash, name="panel_sesiones_flash"),
     path("presenter/sorting/panel-sesiones/<int:page>",
          views.sesionsListSort, name="panel_sesiones_sort"),
+    path("presenter/napping/panel-sesiones/<int:page>",
+         views.sesionsListNapping, name="panel_sesiones_napping"),
+    path("presenter/perfil-ideal/panel-sesiones/<int:page>",
+         views.sesionsListIdeal, name="panel_sesiones_ideal"),
 
 
     path("presenter/detalles-sesion/<str:session_code>",
