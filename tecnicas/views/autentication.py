@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from tecnicas.utils import general_error
 
 @csrf_exempt
-def autentication(req: HttpRequest):
+def autentication(req: HttpRequest, name_tecnica:str = None):
     context_view = {}
     urls_technique = {
         "escalas": "cata_system:index_escalas",
@@ -19,7 +19,11 @@ def autentication(req: HttpRequest):
     elif req.method == "POST":
         username = req.POST.get("username")
         password = req.POST.get("password")
-        technique = req.GET.get("technique") or "escalas"
+
+        if name_tecnica:
+            technique = name_tecnica
+        else:
+            technique = req.GET.get("technique") or "escalas"
 
         if technique not in urls_technique:
             technique = "escalas"

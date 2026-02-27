@@ -7,6 +7,9 @@ app_name = "cata_system"
 urlpatterns = [
     # Atentificacion
     path("autenticacion", views.autentication, name="autenticacion"),
+    path("autenticacion/<str:name_tecnica>", views.autentication, name="autenticacion_tecnica"),
+
+
     path("catador-login", views.loginTester, name="catador_login"),
 
 
