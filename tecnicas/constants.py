@@ -4,3 +4,11 @@ FORMS_TO_CREATE_SESSION = [
     "form_codes",
     "form_words"
 ]
+
+URLS_LIST_SESSIONES = {
+    "escalas": "cata_system:panel_sesiones_escalas",
+    "rata": "cata_system:panel_sesiones_rata",
+    "cata": "cata_system:panel_sesiones_cata",
+    "perfil-flash": "cata_system:panel_sesiones_flash",
+    "general": "cata_system:panel_sesiones",
+}

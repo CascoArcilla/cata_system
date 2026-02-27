@@ -4,18 +4,12 @@ from django.urls import reverse
 from tecnicas.models import SesionSensorial
 from tecnicas.utils import noValidTechnique
 from tecnicas.controllers import DetallesController, DetallesEscalasController, DetallesCATAController, DetallesPFController, DetallesSortController, DetallesNappingController, DetallesIdealController
+from tecnicas.constants import URLS_LIST_SESSIONES
 
 
 def sessionDetails(req: HttpRequest, session_code: str):
-    urls_list_sessiones = {
-        "escalas": "cata_system:panel_sesiones_escalas",
-        "rata": "cata_system:panel_sesiones_rata",
-        "cata": "cata_system:panel_sesiones_cata",
-        "general": "cata_system:panel_sesiones",
-    }
-
     technique_selected = req.session.get("technique_selected") or "general"
-    back_url = urls_list_sessiones.get(technique_selected)
+    back_url = URLS_LIST_SESSIONES.get(technique_selected) or URLS_LIST_SESSIONES["general"]
 
     if req.method == "GET":
         if "message" in req.GET:
@@ -66,7 +60,8 @@ def sessionDetails(req: HttpRequest, session_code: str):
         elif use_techinique == "perfil flash":
             controller_view = DetallesPFController(
                 session=sensorial_session,
-                back_url=back_url
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
             )
             response = controller_view.controllGetResponse(
                 request=req, message=message)
@@ -74,7 +69,8 @@ def sessionDetails(req: HttpRequest, session_code: str):
         elif use_techinique == "sort":
             controller_view = DetallesSortController(
                 session=sensorial_session,
-                back_url=back_url
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
             )
             response = controller_view.controllGetResponse(
                 request=req, message=message)
@@ -82,7 +78,8 @@ def sessionDetails(req: HttpRequest, session_code: str):
         elif use_techinique == "napping":
             controller_view = DetallesNappingController(
                 session=sensorial_session,
-                back_url=back_url
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
             )
             response = controller_view.controllGetResponse(
                 request=req, message=message)
@@ -90,7 +87,8 @@ def sessionDetails(req: HttpRequest, session_code: str):
         elif use_techinique == "perfil_ideal":
             controller_view = DetallesIdealController(
                 session=sensorial_session,
-                back_url=back_url
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
             )
             response = controller_view.controllGetResponse(
                 request=req, message=message)

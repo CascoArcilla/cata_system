@@ -4,8 +4,12 @@ from .monitor_controller import MonitorController
 
 
 class MonitorPFController(MonitorController):
-    def __init__(self, session: SesionController):
-        super().__init__(session)
+    def __init__(
+        self,
+        session: SesionController,
+        url_home: str = "cata_system:index_perfil_flash"
+    ):
+        super().__init__(session=session, url_home=url_home)
         self.url_view = "tecnicas/manage_sesions/monitor-sesion.html"
         self.previus_view = "cata_system:detalles_sesion"
 

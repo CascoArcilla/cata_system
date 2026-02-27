@@ -50,10 +50,10 @@
                 </div>
 
                 {% if error %}
-                {% include "../components/error_message.html" with message=error %}
+                    {% include "../components/error_message.html" with message=error close_button=True %}
                 {% endif %}
                 {% if message %}
-                {% include "../components/error_message.html" with message=message %}
+                    {% include "../components/error_message.html" with message=message close_button=True %}
                 {% endif %}
 
                 {% block more_fields %}

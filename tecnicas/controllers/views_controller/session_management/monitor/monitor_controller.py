@@ -9,7 +9,11 @@ class MonitorController():
     url_view: str
     previus_view: str
 
-    def __init__(self, session: SesionSensorial, url_home="cata_system:index"):
+    def __init__(
+        self,
+        session: SesionSensorial,
+        url_home: str = "cata_system:index"
+    ):
         self.sensorial_session = session
         self.url_home = url_home
 

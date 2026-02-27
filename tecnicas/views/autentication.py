@@ -11,6 +11,7 @@ def autentication(req: HttpRequest, name_tecnica:str = None):
         "escalas": "cata_system:index_escalas",
         "rata": "cata_system:index_rata",
         "cata": "cata_system:index_cata",
+        "perfil-flash": "cata_system:index_perfil_flash",
         "general": "cata_system:index",
     }
 
@@ -26,8 +27,8 @@ def autentication(req: HttpRequest, name_tecnica:str = None):
             technique = req.GET.get("technique") or "escalas"
 
         if technique not in urls_technique:
-            technique = "escalas"
-            url_main = urls_technique.get(technique)
+            context_view["error"] = "Técnica no válida"
+            return render(req, "tecnicas/auth.html", context_view)
         else:
             url_main = urls_technique.get(technique)
 
