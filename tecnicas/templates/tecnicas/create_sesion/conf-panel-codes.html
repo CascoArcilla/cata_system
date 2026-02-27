@@ -47,7 +47,7 @@
 <article class="cs-escalas-radio max-lg:flex-col justify-center flex gap-4">
     <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
         {% url 'cata_system:panel_configuracion_tags' as def_url_tags %}
-        <a href="{{ url_tags|default:def_url_tags }}" class="flex-1 w-full">
+        <a href="{{ back_url|default:def_url_tags }}" class="flex-1 w-full">
             <button type="button" class="cts-btn-general cts-btn-fifthy btn-push w-full">
                 Paso anterior
             </button>

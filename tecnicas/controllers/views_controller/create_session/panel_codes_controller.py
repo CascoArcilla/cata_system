@@ -104,11 +104,26 @@ class PanelCodesController():
         codes_products = generarCodigos(num_products)
         form_codes = CodesForm(codes=codes_products)
 
+        conf_basic = "cata_system:panel_configuracion_basic"
+
+        technique_without_tags = {
+            "perfil-flash": "?name_tecnica=perfil flash",
+            "sort": "?name_tecnica=sort",
+            "napping": "?name_tecnica=napping",
+            "perfil-ideal": "?name_tecnica=perfil_ideal",
+            "cata": "?name_tecnica=cata"
+        }
+
+        technique_select = request.session.get("technique_selected")
+
         context = self.getContext(
             form_codes=form_codes,
             use_technique=name_technique,
-            select_technique=request.session.get("technique_selected")
+            select_technique=technique_select
         )
+
+        if technique_select in technique_without_tags:
+            context["back_url"] = reverse(conf_basic) + technique_without_tags[technique_select]
 
         return render(request, self.template, context)
 
