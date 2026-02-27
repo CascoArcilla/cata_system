@@ -6,6 +6,7 @@ from .main.main_escalas import mainEscalas
 from .main.main_rata import mainRata
 from .main.main_cata import mainCata
 from .main.main_flash import mainFlash
+from .main.main_sort import mainSort
 
 
 
@@ -17,6 +18,7 @@ from .sessions_management.sessions_list_scales import sesionsListScales
 from .sessions_management.sessions_list_rata import sesionsListRata
 from .sessions_management.sessions_list_cata import sesionsListCata
 from .sessions_management.sessions_list_flash import sesionsListFlash
+from .sessions_management.sessions_list_sort import sesionsListSort
 
 
 

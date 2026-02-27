@@ -4,25 +4,25 @@ from tecnicas.utils import general_error
 from .main_general import get_context_main, post_main
 
 
-def mainFlash(req: HttpRequest):
-    template = "tecnicas/mains_panels/main-panel-flash.html"
-    filters = {"tecnica__tipo_tecnica__nombre_tecnica": "perfil flash"}
+def mainSort(req: HttpRequest):
+    template = "tecnicas/mains_panels/main-panel-sort.html"
+    filters = {"tecnica__tipo_tecnica__nombre_tecnica": "sort"}
 
     if req.method == "GET":
         context = get_context_main(
             req,
             more_filter=filters,
-            name_technique="perfil flash"
+            name_technique="sort"
         )
-
-        return render(req, template, context=context)
+        return render(req, template, context)
 
     elif req.method == "POST":
         return post_main(
             req=req,
             current_template=template,
             more_filter=filters,
-            name_technique="perfil flash"
+            name_technique="sort"
         )
+
     else:
-        general_error("Método no permitido")
+        return general_error(req, "Método no permitido")

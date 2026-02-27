@@ -11,19 +11,18 @@ def mainRata(req: HttpRequest):
     if req.method == "GET":
         context = get_context_main(
             req,
-            more_filter=filters
+            more_filter=filters,
+            name_technique="rata"
         )
-
-        context["technique"] = "rata"
 
         return render(req, template, context=context)
 
     elif req.method == "POST":
         return post_main(
             req=req,
-            technique="rata",
             current_template=template,
-            more_filter=filters
+            more_filter=filters,
+            name_technique="rata"
         )
     else:
         general_error("Método no permitido")

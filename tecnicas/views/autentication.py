@@ -12,6 +12,7 @@ def autentication(req: HttpRequest, name_tecnica:str = None):
         "rata": "cata_system:index_rata",
         "cata": "cata_system:index_cata",
         "perfil-flash": "cata_system:index_perfil_flash",
+        "sort": "cata_system:index_sort",
         "general": "cata_system:index",
     }
 

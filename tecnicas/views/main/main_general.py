@@ -2,7 +2,7 @@ from django.contrib.auth import logout
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from tecnicas.utils import general_error
-from tecnicas.models import Presentador, SesionSensorial
+from tecnicas.models import Presentador, SesionSensorial, TipoTecnica
 from django.urls import reverse
 from django.utils.http import urlencode
 
@@ -19,7 +19,7 @@ def mainPanel(req: HttpRequest):
         return general_error("Método no permitido")
 
 
-def get_context_main(req: HttpRequest, more_filter: dict = {}):
+def get_context_main(req: HttpRequest, more_filter: dict = {}, name_technique: str = "general"):
     user = req.user
 
     try:
@@ -38,6 +38,12 @@ def get_context_main(req: HttpRequest, more_filter: dict = {}):
         total_sessions = 0
         active_sessions = 0
 
+    try:
+        tipo_tecnica = TipoTecnica.objects.get(
+            nombre_tecnica=name_technique).descripcion
+    except TipoTecnica.DoesNotExist:
+        tipo_tecnica = "general"
+
     context = {
         "name": f"{user.first_name} {user.last_name}",
         "username": f"{user.username}",
@@ -45,6 +51,7 @@ def get_context_main(req: HttpRequest, more_filter: dict = {}):
         "telefono": telefono,
         "total_sessions": total_sessions,
         "active_sessions": active_sessions,
+        "technique": tipo_tecnica
     }
 
     if req.GET.get("error"):
@@ -55,22 +62,24 @@ def get_context_main(req: HttpRequest, more_filter: dict = {}):
 
 def post_main(
     req: HttpRequest,
-    technique=None,
     current_template: str = "tecnicas/mains_panels/main-panel.html",
-    more_filter: dict = {}
+    more_filter: dict = {},
+    name_technique: str = "general"
 ):
     action = req.POST.get("action")
     if action == "exit_session":
-        logout(req)
+        technique_use = req.session.get("technique_selected")
         base_url = reverse("cata_system:autenticacion")
 
-        technique_use = req.POST.get("technique")
+        logout(req)
 
-        if technique:
-            query_string = urlencode({"technique": technique})
+        if technique_use != "general":
+            query_string = urlencode({"technique": technique_use})
             return redirect(f"{base_url}?{query_string}")
 
         return redirect("cata_system:autenticacion")
+
     else:
-        context = get_context_main(req, more_filter=more_filter)
+        context = get_context_main(
+            req, more_filter=more_filter, name_technique=name_technique)
         return render(req, current_template, context=context)

@@ -7,7 +7,8 @@ app_name = "cata_system"
 urlpatterns = [
     # Atentificacion
     path("autenticacion", views.autentication, name="autenticacion"),
-    path("autenticacion/<str:name_tecnica>", views.autentication, name="autenticacion_tecnica"),
+    path("autenticacion/<str:name_tecnica>",
+         views.autentication, name="autenticacion_tecnica"),
 
 
     path("catador-login", views.loginTester, name="catador_login"),
@@ -19,6 +20,7 @@ urlpatterns = [
     path("presenter/rata", views.mainRata, name="index_rata"),
     path("presenter/cata", views.mainCata, name="index_cata"),
     path("presenter/perfil-flash", views.mainFlash, name="index_perfil_flash"),
+    path("presenter/sort", views.mainSort, name="index_sort"),
 
 
 
@@ -84,6 +86,7 @@ urlpatterns = [
     # Gestion de sesiones sensoriales
     path("presenter/panel-sesiones/<int:page>",
          views.sesionsList, name="panel_sesiones"),
+
     path("presenter/escalas/panel-sesiones/<int:page>",
          views.sesionsListScales, name="panel_sesiones_escalas"),
     path("presenter/rata/panel-sesiones/<int:page>",
@@ -92,6 +95,8 @@ urlpatterns = [
          views.sesionsListCata, name="panel_sesiones_cata"),
     path("presenter/perfil-flash/panel-sesiones/<int:page>",
          views.sesionsListFlash, name="panel_sesiones_flash"),
+    path("presenter/sorting/panel-sesiones/<int:page>",
+         views.sesionsListSort, name="panel_sesiones_sort"),
 
 
     path("presenter/detalles-sesion/<str:session_code>",

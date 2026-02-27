@@ -11,19 +11,18 @@ def mainCata(req: HttpRequest):
     if req.method == "GET":
         context = get_context_main(
             req,
-            more_filter=filters
+            more_filter=filters,
+            name_technique="cata"
         )
-
-        context["technique"] = "cata"
 
         return render(req, template, context=context)
 
     elif req.method == "POST":
         return post_main(
             req=req,
-            technique="cata",
             current_template=template,
-            more_filter=filters
+            more_filter=filters,
+            name_technique="cata"
         )
     else:
         general_error("Método no permitido")
