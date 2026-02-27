@@ -1,8 +1,5 @@
 {% extends "tecnicas/list_sessions/sessions-panel.html" %}
 
-{% block url_home %}{% url 'cata_system:index_cata' %}{% endblock %}
-{% block url_home_icon %}{% url 'cata_system:index_cata' %}{% endblock %}
-
 {% block url_main_panel %}{% url 'cata_system:index_cata' %}{% endblock %}
 
 {% block url_sessions_back %}{% url 'cata_system:panel_sesiones_cata' page=num_page|add:-1 %}{% endblock %}

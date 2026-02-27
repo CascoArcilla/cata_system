@@ -1,5 +1,6 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
+from django.urls import reverse
 from tecnicas.controllers import SesionController
 
 
@@ -12,10 +13,16 @@ def sesionsList(req: HttpRequest, page: int):
 
 def get_sessions_list(
     req: HttpRequest, page: int, filters: dict = {},
-    template: str = "tecnicas/list_sessions/sessions-panel.html"
+    template: str = "tecnicas/list_sessions/sessions-panel.html",
+    url_home: str = "cata_system:index"
 ):
+    home = url_home or req.session.get("sensorial_url_main")
+    if req.session.get("technique_selected") == "general":
+        home = "cata_system:index"
+
     context = {
-        "num_page": page
+        "num_page": page,
+        "url_home": reverse(home)
     }
 
     response = SesionController.getSessionsSavesByCretor(
