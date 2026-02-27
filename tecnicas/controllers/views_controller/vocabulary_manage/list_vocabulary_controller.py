@@ -3,13 +3,14 @@ from django.http import HttpRequest
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from tecnicas.models import Vocabulario
 from tecnicas.utils import controller_error
+from django.urls import reverse
 
 
 class ListVocabularyController():
     current_url = "tecnicas/manage_vocabulary/list-vocabulary.html"
 
-    def __init__(self):
-        pass
+    def __init__(self, url_home: str = "cata_system:index"):
+        self.url_home = url_home
 
     def controllGet(self, request: HttpRequest, page: int):
         context = {}
@@ -25,6 +26,7 @@ class ListVocabularyController():
         context["vocabularies"] = vocabularies_in_page
         context["last_page"] = is_last_page
         context["num_page"] = current_page
+        context["url_home"] = reverse(self.url_home)
 
         return render(request, self.current_url, context)
 

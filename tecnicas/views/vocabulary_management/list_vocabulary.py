@@ -1,11 +1,14 @@
 from django.http import HttpRequest
 from tecnicas.controllers import ListVocabularyController
+from tecnicas.utils import general_error
 
 
 def listVocabulary(req: HttpRequest, num_page: int):
-    controll_view = ListVocabularyController()
+    url_home = req.session.get("sensorial_url_main")
+    controll_view = ListVocabularyController(url_home=url_home)
     if req.method == "GET":
         response = controll_view.controllGet(req, num_page)
         return response
     else:
-        pass
+        get_response = general_error("Método no permitido")
+        

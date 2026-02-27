@@ -1,13 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 from tecnicas.controllers import ViewVocabularyController
+from tecnicas.utils import general_error
 
 
 def viewVocabulary(req: HttpRequest, nombre_vocabulario: str):
-    view_controller = ViewVocabularyController()
+    url_home = req.session.get("sensorial_url_main")
+    view_controller = ViewVocabularyController(url_home=url_home)
+
     if req.method == "GET":
         response = view_controller.controllGet(req, nombre_vocabulario)
         return response
     else:
-        context = {"error": "Método no permitido"}
-        return render(req, "tecnicas/manage_vocabulary/view-vocabulary.html", context)
+        return general_error("Método no permitido")

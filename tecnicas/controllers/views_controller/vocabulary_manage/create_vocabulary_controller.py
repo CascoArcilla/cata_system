@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.db import IntegrityError
 from django.http import HttpRequest
+from django.urls import reverse
 from tecnicas.forms import WordForm
 from tecnicas.models import Vocabulario, Palabra
 import json
@@ -10,14 +11,16 @@ class CreateVocabularyController():
     context = {}
     current_url = "tecnicas/manage_vocabulary/create-vocabulary.html"
 
-    def __init__(self, form_word: WordForm = WordForm(), list_words: list = []):
+    def __init__(self, form_word: WordForm = WordForm(), list_words: list = [], url_home: str = "cata_system:index"):
         self.context["form_word"] = form_word
         self.context["words"] = list_words
+        self.url_home = url_home
 
     def controllGet(self, request: HttpRequest):
         self.context = {
             "form_word": WordForm(),
-            "words": []
+            "words": [],
+            "url_home": reverse(self.url_home),
         }
         return render(request, self.current_url, self.context)
 
@@ -25,6 +28,7 @@ class CreateVocabularyController():
         self.context = {
             "form_word": self.context["form_word"],
             "words": self.context["words"],
+            "url_home": reverse(self.url_home),
         }
 
         if "nombre_vocabulario" not in request.POST:

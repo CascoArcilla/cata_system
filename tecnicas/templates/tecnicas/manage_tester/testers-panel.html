@@ -1,6 +1,9 @@
 {% extends 'tecnicas/layouts/base_analist.html' %}
 {% load static %}
 
+{% block url_home %}{{ url_home }}{% endblock %}
+{% block url_home_icon %}{{ url_home }}{% endblock %}
+
 {% block title %}Gestionar Catadores{% endblock %}
 
 {% block content_analist %}
@@ -10,7 +13,7 @@
             <div class="bg-surface-card p-8 text-2xl text-black font-bold rounded-2xl text-center">
                 <h1>Adiministra los<br>catadores aquí</h1>
             </div>
-            <a href="{% url 'cata_system:index' %}">
+            <a href="{% if not url_home %}{% url 'cata_system:index' %}{% else %}{{ url_home }}{% endif %}">
                 <button
                     class="text-white w-full bg-cts-fourthy font-bold rounded-lg text-xl p-4 text-center border-pink-800 btn-push">
                     Ir al Panel principal

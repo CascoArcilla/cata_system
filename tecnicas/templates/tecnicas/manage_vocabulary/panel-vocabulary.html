@@ -1,6 +1,9 @@
 {% extends 'tecnicas/layouts/base_analist.html' %}
 {% load static %}
 
+{% block url_home %}{{ url_home }}{% endblock %}
+{% block url_home_icon %}{{ url_home }}{% endblock %}
+
 {% block title %}Gestionar Catadores{% endblock %}
 
 {% block content_analist %}
@@ -10,7 +13,7 @@
             <h1 class="font-bold text-2xl">Menu para vocabularios</h1>
         </div>
         <div class="flex-1 flex justify-end items-center">
-            <a href="{% url 'cata_system:index' %}" class="w-fit">
+            <a href="{% if not url_home %}{% url 'cata_system:index' %}{% else %}{{ url_home }}{% endif %}" class="w-fit">
                 <button class="cts-btn-general cts-btn-fourthy btn-push">
                     Ir al Panel principal
                 </button>

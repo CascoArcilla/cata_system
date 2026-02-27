@@ -5,7 +5,9 @@ from tecnicas.controllers import CreateVocabularyController
 
 
 def createVocabulary(req: HttpRequest):
-    view_controller = CreateVocabularyController()
+    url_home = req.session.get("sensorial_url_main")
+    view_controller = CreateVocabularyController(url_home=url_home)
+
     if req.method == "GET":
         response = view_controller.controllGet(req)
         return response
