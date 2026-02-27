@@ -25,7 +25,7 @@ def configurationPanelCodes(req: HttpRequest):
                 url_home=url_main
             ).controllGetEscalas(
                 request=req,
-                data_basic=data_basic
+                data=data_basic
             )
 
         elif name_technique in ["rata", "cata", "perfil flash", "sort", "napping", "perfil_ideal"]:
@@ -53,7 +53,7 @@ def configurationPanelCodes(req: HttpRequest):
                 url_home=url_main
             ).controllPostEscalas(
                 request=req,
-                data_basic=data_basic
+                data=data_basic
             )
 
         elif name_technique in ["rata", "cata", "perfil_ideal"]:

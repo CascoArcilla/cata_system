@@ -10,6 +10,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
     urls_list_sessiones = {
         "escalas": "cata_system:panel_sesiones_escalas",
         "rata": "cata_system:panel_sesiones_rata",
+        "cata": "cata_system:panel_sesiones_cata",
         "general": "cata_system:panel_sesiones",
     }
 
@@ -56,9 +57,9 @@ def sessionDetails(req: HttpRequest, session_code: str):
 
         elif use_techinique == "cata":
             controller_view = DetallesCATAController(
-                session=sensorial_session,
-                back_url=back_url
+                session=sensorial_session
             )
+
             response = controller_view.controllGetResponse(
                 request=req, message=message)
 

@@ -11,13 +11,14 @@ from tecnicas.models import Catador
 def testerSearch(req: HttpRequest):
     url_template = "tecnicas/manage_tester/tester-search.html"
     url_home = req.session.get("sensorial_url_main")
+
     if req.method == "GET":
         context = {"url_home": reverse(url_home)}
 
         if "user" in req.GET:
             username = req.GET["user"]
         else:
-            return render(req, url_template)
+            return render(req, url_template, context)
 
         try:
             tester = Catador.objects.get(user__username=username)
@@ -34,6 +35,7 @@ def testerSearch(req: HttpRequest):
             context["error"] = "usuario no encontrado"
 
         return render(req, url_template, context)
+
     elif req.method == "POST":
         context = {"url_home": reverse(url_home)}
 

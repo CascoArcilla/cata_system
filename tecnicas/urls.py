@@ -14,6 +14,8 @@ urlpatterns = [
     path("presenter/", views.mainPanel, name="index"),
     path("presenter/escalas", views.mainEscalas, name="index_escalas"),
     path("presenter/rata", views.mainRata, name="index_rata"),
+    path("presenter/cata", views.mainCata, name="index_cata"),
+
 
 
     # Creacion de sessiones sensoriales
@@ -35,6 +37,8 @@ urlpatterns = [
     path("presenter/creando-sesion", views.createSession,
          name="creando_sesion"),
 
+
+
     # Gestion de Vocabularios
     path("presenter/panel-vocabulario",
          views.vocabularyMenu,
@@ -51,6 +55,8 @@ urlpatterns = [
     path("presenter/lista-vocabulario/<int:num_page>",
          views.listVocabulary,
          name="lista_vocabulario"),
+
+
 
     # Gestion de catadores
     path("presenter/panel-catadores",
@@ -70,15 +76,24 @@ urlpatterns = [
          name="listar_catador"),
 
 
+
     # Gestion de sesiones sensoriales
-    path("presenter/panel-sesiones/<int:page>", views.sesionsList, name="panel_sesiones"),
-    path("presenter/escalas/panel-sesiones/<int:page>", views.sesionsListScales, name="panel_sesiones_escalas"),
-    path("presenter/rata/panel-sesiones/<int:page>", views.sesionsListRata, name="panel_sesiones_rata"),
+    path("presenter/panel-sesiones/<int:page>",
+         views.sesionsList, name="panel_sesiones"),
+    path("presenter/escalas/panel-sesiones/<int:page>",
+         views.sesionsListScales, name="panel_sesiones_escalas"),
+    path("presenter/rata/panel-sesiones/<int:page>",
+         views.sesionsListRata, name="panel_sesiones_rata"),
+    path("presenter/cata/panel-sesiones/<int:page>",
+         views.sesionsListCata, name="panel_sesiones_cata"),
 
 
-    path("presenter/detalles-sesion/<str:session_code>", views.sessionDetails, name="detalles_sesion"),
+    path("presenter/detalles-sesion/<str:session_code>",
+         views.sessionDetails, name="detalles_sesion"),
 
-    path("presenter/monitor/<str:session_code>", views.sessionMonitor, name="monitor_sesion"),
+    path("presenter/monitor/<str:session_code>",
+         views.sessionMonitor, name="monitor_sesion"),
+
 
 
     # Vistas para catadores
@@ -125,6 +140,7 @@ urlpatterns = [
     path("testers/init-session/<str:code_sesion>/perfil-ideal/fase2",
          views.perfilIdealPhase2,
          name="session_perfil_ideal_phase2"),
+
 
 
     # APIs

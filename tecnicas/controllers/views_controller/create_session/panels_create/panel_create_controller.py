@@ -6,19 +6,19 @@ from django.urls import reverse
 class PanelCreateController():
     def __init__(
             self,
-            url_main: str = "cata_system:index",
+            url_home: str = "cata_system:index",
             url_details: str = "cata_system:detalles_sesion"
     ):
-        self.url_main = url_main
+        self.url_home = url_home
         self.url_details = url_details
         self.url_template = 'tecnicas/create_sesion/creating_session.html'
 
     def controllGet(self, request: HttpRequest):
         if request.session.get("technique_selected") == "general":
-            self.url_main = "cata_system:index"
+            self.url_home = "cata_system:index"
 
         context = {
-            "url_main": reverse(self.url_main)
+            "url_home": reverse(self.url_home)
         }
 
         return render(request, self.url_template, context)

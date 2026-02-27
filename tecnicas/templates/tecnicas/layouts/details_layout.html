@@ -1,6 +1,9 @@
 {% extends 'tecnicas/layouts/base_analist.html' %}
 {% load static %}
 
+{% block url_home %}{{ home_url }}{% endblock %}
+{% block url_home_icon %}{{ home_url }}{% endblock %}
+
 {% block title %}Detalles Sesión{% endblock %}
 
 {% block content_analist %}
@@ -9,7 +12,7 @@
         <h1 class="text-black rounded-xl font-bold text-2xl bg-surface-card shadow-lg p-4 flex-1">
             Detalles de la sesión
         </h1>
-        <a href="{% block url_back %}{% url 'cata_system:panel_sesiones' page=1 %}{% endblock %}">
+        <a href="{{ back_url }}">
             <button class="cts-btn-general cts-btn-fourthy btn-push">
                 Volver a las Sesiones
             </button>

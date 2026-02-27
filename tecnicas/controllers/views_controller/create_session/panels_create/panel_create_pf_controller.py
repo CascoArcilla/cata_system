@@ -6,8 +6,8 @@ from tecnicas.utils import deleteDataSession, general_error
 
 
 class PanelCreatePFController(PanelCreateController):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, url_home="cata_system:index_pf"):
+        super().__init__(url_home=url_home)
 
     def controllPost(self, request: HttpRequest):
         if request.POST.get('action') == 'create_session':

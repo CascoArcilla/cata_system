@@ -4,6 +4,8 @@ from .login_tester import loginTester
 from .main.main_general import mainPanel
 from .main.main_escalas import mainEscalas
 from .main.main_rata import mainRata
+from .main.main_cata import mainCata
+
 
 
 from .sessions_management.session_details import sessionDetails
@@ -12,6 +14,8 @@ from .sessions_management.session_monitor import sessionMonitor
 from .sessions_management.sessions_list import sesionsList
 from .sessions_management.sessions_list_scales import sesionsListScales
 from .sessions_management.sessions_list_rata import sesionsListRata
+from .sessions_management.sessions_list_cata import sesionsListCata
+
 
 
 from .sessions_config.seleccion_tecnica import selecionTecnica

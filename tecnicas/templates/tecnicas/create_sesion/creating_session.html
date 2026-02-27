@@ -1,11 +1,10 @@
-{% extends 'tecnicas/layouts/base.html' %}
+{% extends 'tecnicas/layouts/base_analist.html' %}
 {% load static %}
 
 {% block title %}Creando sesion{% endblock %}
 
-{% block content %}
-<article class="cts-container-main">
-    <article class="cts-container-config">
+{% block content_analist %}
+    <article class="cts-container-panel">
         <h1 class="text-center font-bold text-4xl">Creando Sesion</h1>
         <hr>
         <section class="ct-load-create flex flex-col gap-4 bg-surface-card p-6 rounded-xl">
@@ -23,12 +22,11 @@
             <input type="hidden" name="action" value="create_session">
         </form>
     </article>
-</article>
 {% endblock %}
 
 {% block extra_js %}
 <script>
-    const urlMain = '{{ url_main }}'
+    const urlHome = '{{ url_home }}'
 </script>
 
 <script src="{% static 'js/create-session.js' %}"></script>

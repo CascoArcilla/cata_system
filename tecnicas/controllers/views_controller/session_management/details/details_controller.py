@@ -27,12 +27,12 @@ class DetallesController():
         if message != "" or message:
             context["message"] = message
 
+        if request.session.get("technique_selected") == "general":
+            self.back_url = "cata_system:panel_sesiones"
+            self.home_url = "cata_system:index"
+
         context["back_url"] = reverse(self.back_url, kwargs={"page": 1})
         context["home_url"] = reverse(self.home_url)
-
-        if request.session.get("technique_selected") == "general":
-            context["back_url"] = reverse("cata_system:panel_sesiones", kwargs={"page": 1})
-            context["home_url"] = reverse("cata_system:index")
 
         return render(
             request, self.url_template, context)

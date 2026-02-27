@@ -19,8 +19,8 @@ class PanelCreateIdealController(PanelCreateController):
         "me gusta muchísimo",
     ]
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, url_home="cata_system:index_ideal"):
+        super().__init__(url_home=url_home)
 
     def controllPost(self, request: HttpRequest):
         if request.POST.get('action') == 'create_session':

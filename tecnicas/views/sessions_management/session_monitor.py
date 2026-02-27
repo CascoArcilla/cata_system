@@ -36,10 +36,7 @@ def sessionMonitor(req: HttpRequest, session_code: str):
 
         elif use_techinique == "cata":
             controll_view = MonitorEscalasController(
-                sensorial_session,
-                url_home="cata_system:index"
-            )
-
+                sensorial_session, url_home="cata_system:index_cata")
             response = controll_view.controllGetResponse(request=req)
 
         elif use_techinique == "perfil flash":

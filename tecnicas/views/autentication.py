@@ -10,6 +10,7 @@ def autentication(req: HttpRequest):
     urls_technique = {
         "escalas": "cata_system:index_escalas",
         "rata": "cata_system:index_rata",
+        "cata": "cata_system:index_cata",
         "general": "cata_system:index",
     }
 

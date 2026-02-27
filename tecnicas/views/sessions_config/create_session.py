@@ -17,19 +17,19 @@ def createSession(req: HttpRequest):
 
     if req.method == "GET":
         if name_technique == "escalas":
-            response = PanelCreateEscalasController().controllGet(req)
+            response = PanelCreateEscalasController(url_home=url_main).controllGet(req)
         elif name_technique == "rata":
-            response = PanelCreateRataController().controllGet(req)
+            response = PanelCreateRataController(url_home=url_main).controllGet(req)
         elif name_technique == "cata":
-            response = PanelCreateCataController().controllGet(req)
+            response = PanelCreateCataController(url_home=url_main).controllGet(req)
         elif name_technique == "perfil flash":
-            response = PanelCreatePFController().controllGet(req)
+            response = PanelCreatePFController(url_home=url_main).controllGet(req)
         elif name_technique == "sort":
-            response = PanelCreateSortController().controllGet(req)
+            response = PanelCreateSortController(url_home=url_main).controllGet(req)
         elif name_technique == "napping":
-            response = PanelCreateNappingController().controllGet(req)
+            response = PanelCreateNappingController(url_home=url_main).controllGet(req)
         elif name_technique == "perfil_ideal":
-            response = PanelCreateIdealController().controllGet(req)
+            response = PanelCreateIdealController(url_home=url_main).controllGet(req)
         else:
             response = redirect(
                 reverse(url_main) + "?error=Técnica no valida")
@@ -37,19 +37,19 @@ def createSession(req: HttpRequest):
         return response
     if req.method == "POST":
         if name_technique == "escalas":
-            response = PanelCreateEscalasController().controllPost(req)
+            response = PanelCreateEscalasController(url_home=url_main).controllPost(req)
         elif name_technique == "rata":
-            response = PanelCreateRataController().controllPost(req)
+            response = PanelCreateRataController(url_home=url_main).controllPost(req)
         elif name_technique == "cata":
-            response = PanelCreateCataController().controllPost(req)
+            response = PanelCreateCataController(url_home=url_main).controllPost(req)
         elif name_technique == "perfil flash":
-            response = PanelCreatePFController().controllPost(req)
+            response = PanelCreatePFController(url_home=url_main).controllPost(req)
         elif name_technique == "sort":
-            response = PanelCreateSortController().controllPost(req)
+            response = PanelCreateSortController(url_home=url_main).controllPost(req)
         elif name_technique == "napping":
-            response = PanelCreateNappingController().controllPost(req)
+            response = PanelCreateNappingController(url_home=url_main).controllPost(req)
         elif name_technique == "perfil_ideal":
-            response = PanelCreateIdealController().controllPost(req)
+            response = PanelCreateIdealController(url_home=url_main).controllPost(req)
         else:
             response = redirect(
                 reverse(url_main) + "?error=Técnica no valida")

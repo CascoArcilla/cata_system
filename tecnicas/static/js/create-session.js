@@ -90,7 +90,7 @@ function renderElementsResponse({
   ];
 
   const aIndex = document.createElement("a");
-  aIndex.href = urlMain;
+  aIndex.href = urlHome || "/sensorial/presenter/";
   aIndex.textContent = "Volver al inicio";
 
   aIndex.classList.add(
