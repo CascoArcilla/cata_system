@@ -9,7 +9,7 @@ from .init_session_controller import InitSessionController
 class InitSessionNappingController(InitSessionController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_direction = "tecnicas/forms_tester/init_scales_test.html"
+        self.current_direction = "forms_tester/init_test_napping.html"
         self.napping_direction = "cata_system:session_napping"
         self.context = {}
 

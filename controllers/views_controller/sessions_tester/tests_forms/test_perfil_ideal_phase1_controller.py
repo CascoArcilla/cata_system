@@ -11,7 +11,7 @@ import random
 class TestPerfilIdealPhase1Controller(GenetalTestController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_directory = "tecnicas/forms_tester/test_perfil_ideal_phase1.html"
+        self.current_directory = "forms_tester/test_perfil_ideal_phase1.html"
 
     def controllGet(self, request: HttpRequest):
         technique = self.session.tecnica

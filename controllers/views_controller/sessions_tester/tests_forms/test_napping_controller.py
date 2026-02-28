@@ -12,9 +12,9 @@ from .general_test_controller import GenetalTestController
 class TestNappingController(GenetalTestController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.napping_test = "tecnicas/forms_tester/test_napping.html"
-        self.napping_puf_test = "tecnicas/forms_tester/test_napping_puf.html"
-        self.sort_direction = "tecnicas/forms_tester/test_napping_sort.html"
+        self.napping_test = "forms_tester/test_napping.html"
+        self.napping_puf_test = "forms_tester/test_napping_puf.html"
+        self.sort_direction = "forms_tester/test_napping_sort.html"
 
     def controllGet(self, request: HttpRequest):
         technique = self.session.tecnica

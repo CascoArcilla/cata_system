@@ -1,0 +1,12 @@
+{% extends 'layouts/init_sessiones_tester.html' %}
+{% load static %}
+
+{% block title %}Detalles Sesion{% endblock %}
+
+{% block session_info %}
+{% include "components/details_fields/detail_init_test.html" with title="Actividad:" value=session_info.activity %}
+
+{% if session_info.repetition >= 1 %}
+    {% include "components/details_fields/detail_init_test.html" with title="Repetición de la calificación:" value=session_info.repetition %}
+{% endif %}
+{% endblock %}

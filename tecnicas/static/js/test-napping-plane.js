@@ -204,7 +204,7 @@ window.saveData = async function (isFinishSession = false) {
     data.push(objData);
   })
 
-  const URL = "/cata/testers/api/rating-napping"
+  const URL = "/sensorial/testers/api/rating-napping"
   const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
   try {

@@ -1,0 +1,7 @@
+{% extends 'mains_panels/main-panel.html' %}
+
+{% block url_home %}{% url 'cata_system:index_rata' %}{% endblock %}
+{% block url_home_icon %}{% url 'cata_system:index_rata' %}{% endblock %}
+
+{% block url_create_session %}{% url 'cata_system:panel_configuracion_basic' %}?name_tecnica=rata{% endblock %}
+{% block url_sessions %}{% url 'cata_system:panel_sesiones_rata' page=1 %}{% endblock %}

@@ -7,7 +7,7 @@ from controllers import LoginSessionTesterController
 
 def subscribeSessionTester(req: HttpRequest):
     if req.method == "GET":
-        return render(req, "tecnicas/forms_tester/subscribe_session.html")
+        return render(req, "forms_tester/subscribe_session.html")
     elif req.method == "POST":
         tester_user = req.user.username
         session_code = req.POST.get("code_session")
@@ -20,7 +20,7 @@ def subscribeSessionTester(req: HttpRequest):
             tester_user, session_code)
         if isinstance(existCredentials, dict):
             context = {"error": existCredentials["error"]}
-            return render(req, "tecnicas/forms_tester/subscribe_session.html", context)
+            return render(req, "forms_tester/subscribe_session.html", context)
 
         tester = existCredentials[0]
         session = existCredentials[1]
@@ -41,7 +41,7 @@ def subscribeSessionTester(req: HttpRequest):
                 "error": "La técnica usada en esta sesión es invalida o no ha sido implementada para ingresar a ella"
             }
             response = render(
-                req, "tecnicas/forms_tester/subscribe_session.html", context)
+                req, "forms_tester/subscribe_session.html", context)
 
         return response
     else:

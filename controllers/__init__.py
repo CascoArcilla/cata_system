@@ -12,10 +12,9 @@ from .models_controller.posicion_controller import PosicionController
 from .models_controller.particiapacion_controller import ParticipacionController
 from .models_controller.dato_controller import DatoController
 
-from .views_controller.create_session.conf_basic_controller import ConfBasicController
 from .views_controller.create_session.panel_basic_controller import PanelBasicController
-from .views_controller.create_session.conf_tags_controller import ConfTagsController
-from .views_controller.create_session.panel_codes_controller import ConfCodesController
+from .views_controller.create_session.panel_tags_controller import PanelTagsController
+from .views_controller.create_session.panel_codes_controller import PanelCodesController
 from .views_controller.create_session.panel_words_controller import PanelWordsController
 
 from .views_controller.create_session.panels_create.panel_create_escalas_controller import PanelCreateEscalasController

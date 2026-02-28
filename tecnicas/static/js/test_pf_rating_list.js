@@ -68,7 +68,7 @@ document.getElementById("save-data").addEventListener("click", async () => {
 });
 
 async function saveData(dataToSend = []) {
-  const URL = "/cata/testers/api/ratingword/pf/list";
+  const URL = "/sensorial/testers/api/ratingword/pf/list";
 
   const csrfToken = document.querySelector("[name=csrfmiddlewaretoken]").value;
 

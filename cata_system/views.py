@@ -3,4 +3,4 @@ from django.shortcuts import redirect
 
 
 def home(req: HttpRequest):
-    return redirect('/cata/autenticacion')
+    return redirect('/sensorial/presenter/escalas')

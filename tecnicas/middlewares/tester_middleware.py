@@ -9,7 +9,7 @@ class TesterAccessMiddleware:
     def __call__(self, request):
         path = request.path_info
 
-        if path.startswith('/cata/testers/'):
+        if path.startswith('/sensorial/testers/'):
             if not request.user.is_authenticated:
                 from django.shortcuts import redirect
                 return redirect("cata_system:catador_login")

@@ -1,10 +1,30 @@
 from .autentication import autentication
 from .login_tester import loginTester
-from .main_panel import mainPanel
 
-from .sessions_management.sessions_panel import sesionsPanel
+from .main.main_general import mainPanel
+from .main.main_escalas import mainEscalas
+from .main.main_rata import mainRata
+from .main.main_cata import mainCata
+from .main.main_flash import mainFlash
+from .main.main_sort import mainSort
+from .main.main_napping import mainNapping
+from .main.main_ideal import mainIdeal
+
+
+
 from .sessions_management.session_details import sessionDetails
 from .sessions_management.session_monitor import sessionMonitor
+
+from .sessions_management.sessions_list import sesionsList
+from .sessions_management.sessions_list_scales import sesionsListScales
+from .sessions_management.sessions_list_rata import sesionsListRata
+from .sessions_management.sessions_list_cata import sesionsListCata
+from .sessions_management.sessions_list_flash import sesionsListFlash
+from .sessions_management.sessions_list_sort import sesionsListSort
+from .sessions_management.sessions_list_napping import sesionsListNapping
+from .sessions_management.sessions_list_ideal import sesionsListIdeal
+
+
 
 from .sessions_config.seleccion_tecnica import selecionTecnica
 from .sessions_config.configuration_panel_basic import configurationPanelBasic

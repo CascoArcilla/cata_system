@@ -12,7 +12,7 @@ class InitSessionPerfilIdealController(InitSessionController):
 
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_direction = "tecnicas/forms_tester/init_perfil_ideal_test.html"
+        self.current_direction = "forms_tester/init_perfil_ideal_test.html"
 
     def controllGet(self, request: HttpRequest, from_post: bool | str = False):
         context = {

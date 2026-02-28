@@ -6,11 +6,10 @@ from utils import deleteDataSession, general_error
 
 
 class PanelCreateSortController(PanelCreateController):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, url_home="cata_system:index_sort"):
+        super().__init__(url_home=url_home)
 
-    @staticmethod
-    def controllPost(request: HttpRequest):
+    def controllPost(self, request: HttpRequest):
         if request.POST.get('action') == 'create_session':
             if not request.session.get("form_basic") or not request.session.get("form_codes"):
                 deleteDataSession(request)

@@ -16,14 +16,23 @@ from controllers import DatoController, PalabrasController
 from .details_controller import DetallesController
 from utils import defaultdict_to_dict
 from collections import defaultdict
+from django.urls import reverse
 
 
 class DetallesEscalasController(DetallesController):
-    def __init__(self, session: SesionSensorial, type_technique: str):
-        super().__init__(session)
-        self.url_template = "tecnicas/manage_sesions/details-session.html"
-        if type_technique == "rata":
-            self.url_template = "tecnicas/manage_sesions/details-session-rata.html"
+    def __init__(
+        self,
+        session: SesionSensorial,
+        template: str = "manage_sesions/details-session.html",
+        back_url: str = "cata_system:panel_sesiones_escalas",
+        home_url: str = "cata_system:index_escalas"
+    ):
+        super().__init__(
+            session=session,
+            back_url=back_url,
+            home_url=home_url
+        )
+        self.url_template = template
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):

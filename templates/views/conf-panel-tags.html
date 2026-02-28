@@ -1,6 +1,9 @@
 {% extends 'layouts/conf_create_session.html' %}
 {% load static %}
 
+{% block url_home %}{{ url_home }}{% endblock %}
+{% block url_home_icon %}{{ url_home }}{% endblock %}
+
 {% block title %}Panel para etiquetas{% endblock %}
 {% block title_form %}Panel para etiquetas{% endblock %}
 
@@ -32,16 +35,16 @@
 
 <article class="max-lg:flex-col flex w-full justify-center gap-4">
     <section class="flex max-lg:flex-col flex-wrap items-center justify-center gap-4">
-        <button type="button" class="cts-btn-general cts-btn-fifthy btn-push w-fit max-lg:w-full"
-            onclick="window.history.back();">
+        <a href="{% url 'cata_system:panel_configuracion_basic' %}?name_tecnica={{ use_technique }}"
+            class="cts-btn-general cts-btn-fifthy btn-push w-fit max-lg:w-full">
             Paso anterior
-        </button>
+        </a>
         <button type="submit" class="cts-btn-general cts-btn-primary btn-push w-fit max-lg:w-full">
             Continuar
         </button>
     </section>
-    {% block cancel_button %}
-    <a href="{% url 'cata_system:seleccion_tecnica' %}" class="w-fit max-lg:w-full">
+    {% url 'cata_system:seleccion_tecnica' as def_url_main %}
+    <a href="{{ url_main|default:def_url_main }}" class="w-fit max-lg:w-full">
         <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-fit max-lg:w-full">
             Cancelar la creación
         </button>

@@ -1,6 +1,6 @@
 from django import forms
 
-from ..models import Palabra
+from tecnicas.models import Palabra
 
 
 class WordForm(forms.ModelForm):

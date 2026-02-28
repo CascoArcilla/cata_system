@@ -67,7 +67,7 @@ async function sendRatingDual(word) {
 
   const formRatingWord = document.querySelector(`.form-rating-${word}`);
   const dataForm = new FormData(formRatingWord);
-  const url = "/cata/testers/api/ratingword/perfil-ideal/fase1";
+  const url = "/sensorial/testers/api/ratingword/perfil-ideal/fase1";
 
   const codeProduct = document
     .querySelector(".ct-product-rating")

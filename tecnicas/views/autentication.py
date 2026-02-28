@@ -3,24 +3,39 @@ from django.http import HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from utils import general_error
+from tecnicas.constants import URLS_MAIN_TECHNIQUE
 
 @csrf_exempt
-def autentication(req: HttpRequest):
+def autentication(req: HttpRequest, name_tecnica:str = None):
     context_view = {}
 
     if req.method == "GET":
-        return render(req, "analist/login.html")
+        return render(req, "auth.html")
     elif req.method == "POST":
         username = req.POST.get("username")
         password = req.POST.get("password")
+
+        if name_tecnica:
+            technique = name_tecnica
+        else:
+            technique = req.GET.get("technique") or "escalas"
+
+        if technique not in URLS_MAIN_TECHNIQUE:
+            context_view["error"] = "Técnica no válida"
+            return render(req, "auth.html", context_view)
+        else:
+            url_main = URLS_MAIN_TECHNIQUE.get(technique)
 
         user = authenticate(username=username, password=password)
 
         if user is not None and hasattr(user, "user_presentador"):
             login(req, user)
-            return redirect("cata_system:index")
+            req.session["technique_selected"] = technique
+            req.session["sensorial_url_main"] = url_main
+            return redirect(url_main)
+
         else:
             context_view["error"] = "Credenciales inválidas o no es un Presentador"
-            return render(req, "analist/login.html", context_view)
+            return render(req, "auth.html", context_view)
     else:
         return general_error("Método no permitido")

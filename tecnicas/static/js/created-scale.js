@@ -44,7 +44,7 @@ async function sendRating(word) {
   const formRatingWord = document.querySelector(`.form-rating-${word}`);
 
   const dataForm = new FormData(formRatingWord);
-  const url = "/cata/testers/api/ratingword/escalas";
+  const url = "/sensorial/testers/api/ratingword/escalas";
 
   const codeProduct = document
     .querySelector(".ct-product-rating")

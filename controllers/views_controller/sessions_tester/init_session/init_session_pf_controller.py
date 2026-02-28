@@ -9,7 +9,7 @@ from .init_session_controller import InitSessionController
 class InitSessionPFController(InitSessionController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_direction = "tecnicas/forms_tester/init_scales_test.html"
+        self.current_direction = "forms_tester/init_pf_test.html"
         self.pf_direction = "cata_system:session_pf"
 
     def controllGet(self, request: HttpRequest):
@@ -69,15 +69,41 @@ class InitSessionPFController(InitSessionController):
         elif action == "exit_session":
             response = ParticipacionController.outSession(
                 tester=request.user.user_catador, session=self.session)
-            if isinstance(response, dict):
+            if isinstance(response, dict) and response.get("error"):
                 context["error"] = response["error"]
             return self.controllGet(request)
+
+        elif action == "finish_session":
+            try:
+                participation = Participacion.objects.get(
+                    tecnica=self.session.tecnica, catador=request.user.user_catador)
+            except Participacion.DoesNotExist:
+                # If participation doesn't exist, we can't finish it.
+                # Redirect with an error message in GET parameters.
+                params = {"code_sesion": self.session.codigo_sesion}
+                return redirect(reverse('cata_system:catador_init_session', kwargs=params) + '?error=No se ha encontrado la participación')
+
+            response = ParticipacionController.finishSession(participation)
+            if isinstance(response, dict) and response.get("error"):
+                context["error"] = response["error"]
+                return self.controllGet(request) # This will render with the error in context
+
+            return self.controllGet(request) # This will render the page, potentially showing session as ended
 
         else:
             context["error"] = "Acción sin especificar"
             return render(request, self.current_direction, context)
 
     def isEndedSession(self) -> tuple[bool, str, int]:
+        try:
+            participation = Participacion.objects.get(
+                catador=self.tester, tecnica=self.session.tecnica)
+        except Participacion.DoesNotExist:
+            return (False, "No se ha encontrado la participación", 0)
+
+        if participation.finalizado:
+            return (True, "Has finalizado con el proceso de evaluación", 0)
+
         rep = self.session.tecnica.repeticion
 
         is_end = False
@@ -86,15 +112,15 @@ class InitSessionPFController(InitSessionController):
 
         if rep == 1:
             is_end = self.endedSessionMakeList()
-            message = "Ya has creado la Lista de palabras inicial" if is_end else "Debes crear tu lista de palabras inicial"
+            message = "Debes crear tu lista de palabras inicial"
             repetitiom_show = 0
         elif rep == 2:
             is_end = self.endedSessionMakeList()
-            message = "Ya has creado la Lista de palabras final" if is_end else "Debes crear tu lista de palabras final"
+            message = "Debes crear tu lista de palabras final"
             repetitiom_show = 0
         elif rep >= 3:
             is_end = self.endedSessionRepetition()
-            message = "Has finalizado con el proceso de calificación" if is_end else "Debe hacer tu proceso de calificación"
+            message = "Debe hacer tu proceso de calificación"
             repetitiom_show = rep - 2
         else:
             message = "Parece que la repetición es cero, no es posible hacer algo ahora mismo"
@@ -124,30 +150,29 @@ class InitSessionPFController(InitSessionController):
             # ////////////////////////////////////////////////////////////// #
 
             if participation.finalizado:
-                num_products = Producto.objects.filter(
-                    id_tecnica=self.session.tecnica).count()
+                return True
 
-                num_words = ListaPalabras.objects.get(
-                    tecnica=self.session.tecnica,
-                    catador=self.tester,
-                    es_final=True
-                ).palabras.all().count()
+            num_products = Producto.objects.filter(
+                id_tecnica=self.session.tecnica).count()
 
-                expected_ratings_repetition = num_products * num_words
+            num_words = ListaPalabras.objects.get(
+                tecnica=self.session.tecnica,
+                catador=self.tester,
+                es_final=True
+            ).palabras.all().count()
 
-                technique = self.session.tecnica
-                num_ratings_now = Dato.objects.filter(
-                    id_calificacion__id_catador=self.tester,
-                    id_calificacion__id_tecnica=technique,
-                    id_calificacion__num_repeticion=technique.repeticion
-                ).count()
+            expected_ratings_repetition = num_products * num_words
 
-                is_end = num_ratings_now >= expected_ratings_repetition
+            technique = self.session.tecnica
+            num_ratings_now = Dato.objects.filter(
+                id_calificacion__id_catador=self.tester,
+                id_calificacion__id_tecnica=technique,
+                id_calificacion__num_repeticion=technique.repeticion
+            ).count()
 
-                return is_end
+            is_end = num_ratings_now >= expected_ratings_repetition
 
-            else:
-                return participation.finalizado
+            return is_end
 
         except Participacion.DoesNotExist:
             print("No se ha encontrado la participación")
