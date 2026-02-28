@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from tecnicas.decorators import required_presenter
 from tecnicas.models import Palabra, Vocabulario
-from tecnicas.utils import general_error
+from utils import general_error
 from tecnicas.forms.word_form import WordForm
 
 

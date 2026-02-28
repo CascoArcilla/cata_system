@@ -1,6 +1,6 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
-from tecnicas.controllers import ListSessionsTesterController
+from controllers import ListSessionsTesterController
 
 
 def sessionsListTester(req: HttpRequest, num_page: int):

@@ -1,6 +1,6 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
-from tecnicas.controllers import SesionController
+from controllers import SesionController
 from .sessions_list import get_sessions_list
 
 

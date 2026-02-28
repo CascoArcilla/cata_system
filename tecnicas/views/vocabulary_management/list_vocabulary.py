@@ -1,6 +1,6 @@
 from django.http import HttpRequest
-from tecnicas.controllers import ListVocabularyController
-from tecnicas.utils import general_error
+from controllers import ListVocabularyController
+from utils import general_error
 
 
 def listVocabulary(req: HttpRequest, num_page: int):

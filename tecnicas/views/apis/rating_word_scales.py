@@ -28,8 +28,8 @@
  * Calquier otro metodo que se maneje mandar un error
 '''
 from django.http import HttpRequest, JsonResponse
-from tecnicas.controllers import RatingScalesController, CalificacionController, DatoController
-from tecnicas.utils import general_error
+from controllers import RatingScalesController, CalificacionController, DatoController
+from utils import general_error
 import json
 
 

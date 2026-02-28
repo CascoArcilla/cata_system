@@ -1,7 +1,7 @@
 from django.contrib.auth import logout
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
-from tecnicas.utils import general_error
+from utils import general_error
 from tecnicas.models import Presentador, SesionSensorial, TipoTecnica
 from django.urls import reverse
 from django.utils.http import urlencode

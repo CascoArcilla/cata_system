@@ -1,6 +1,6 @@
 from django.http import HttpRequest
 from django.shortcuts import render
-from tecnicas.utils import general_error
+from utils import general_error
 from .main_general import get_context_main, post_main
 
 

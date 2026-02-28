@@ -1,8 +1,8 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
-from tecnicas.controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController, InitSessionNappingController, InitSessionPerfilIdealController
+from controllers import InitSessionEscalasController, InitSessionRATAController, InitSessionPFController, InitSessionSortController, InitSessionNappingController, InitSessionPerfilIdealController
 from tecnicas.models import SesionSensorial
-from tecnicas.utils import noValidTechnique
+from utils import noValidTechnique
 
 def initTesterForm(req: HttpRequest, code_sesion: str):
     try:

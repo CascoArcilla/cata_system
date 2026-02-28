@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views import View
 from tecnicas.models import SesionSensorial
-from tecnicas.controllers import ParticipacionController
+from controllers import ParticipacionController
 
 @method_decorator(csrf_exempt, name='dispatch')
 class UserActivityApi(View):

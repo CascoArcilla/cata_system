@@ -1,7 +1,7 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import render
 from django.urls import reverse
-from tecnicas.controllers import SesionController
+from controllers import SesionController
 
 
 def sesionsList(req: HttpRequest, page: int):

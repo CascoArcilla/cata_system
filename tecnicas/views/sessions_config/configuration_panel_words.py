@@ -1,8 +1,8 @@
 from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
-from tecnicas.controllers import PanelWordsController
-from tecnicas.utils import deleteDataSession
+from controllers import PanelWordsController
+from utils import deleteDataSession
 
 
 def configurationPanelWords(req: HttpRequest):

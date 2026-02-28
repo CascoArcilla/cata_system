@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
-from tecnicas.utils import general_error
+from utils import general_error
 
 @csrf_exempt
 def autentication(req: HttpRequest, name_tecnica:str = None):

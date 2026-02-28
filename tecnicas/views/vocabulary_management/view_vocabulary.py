@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
-from tecnicas.controllers import ViewVocabularyController
-from tecnicas.utils import general_error
+from controllers import ViewVocabularyController
+from utils import general_error
 
 
 def viewVocabulary(req: HttpRequest, nombre_vocabulario: str):
