@@ -183,11 +183,11 @@ async function sendWordsToSave() {
       return false;
     }
 
-    spanNotifaction(result.message, false);
     const addedWords = result.words;
     WORDS.length = 0;
     addedWords.forEach((word) => WORDS.push(word));
     renderWords();
+    spanNotifaction(result.message, false);
     return true;
   } catch (err) {
     console.error(err);

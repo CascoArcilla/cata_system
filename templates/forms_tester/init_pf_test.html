@@ -78,26 +78,26 @@
 
         <article class="flex flex-wrap gap-10">
             {% if has_ended %}
-            {% if repetition >= 1 %}
-            <div
-                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none">
-                <p class=" text-black">Finalizaste la repetición</p>
-            </div>
+                {% if repetition >= 1 %}
+                    <div
+                        class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none">
+                        <p class=" text-black">Finalizaste la repetición</p>
+                    </div>
+                {% else %}
+                    <div
+                        class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none">
+                        <p class=" text-black">Finalizaste la actividad</p>
+                    </div>
+                {% endif %}
             {% else %}
-            <div
-                class="text-2xl font-semibold flex-1 cts-btn-secondary p-4 flex justify-center items-center rounded-lg select-none">
-                <p class=" text-black">Finalizaste la actividad</p>
-            </div>
-            {% endif %}
-            {% else %}
-            <button
-                class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-primary btn-push flex flex-col justify-center items-center gap-2"
-                onclick="startTest()">
-                Entrar en fase o repetición
-                <figure class="w-10">
-                    <img src="{% static 'img/icons/check.svg' %}" alt="flechas girando" class="invert">
-                </figure>
-            </button>
+                <button
+                    class="ct-btn-start-repition flex-1 uppercase text-lg tracking-wider cts-btn-general cts-btn-primary btn-push flex flex-col justify-center items-center gap-2"
+                    onclick="startTest()">
+                    Entrar en fase o repetición
+                    <figure class="w-10">
+                        <img src="{% static 'img/icons/check.svg' %}" alt="flechas girando" class="invert">
+                    </figure>
+                </button>
             {% endif %}
             <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}">
                 <button

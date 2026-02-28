@@ -20,11 +20,15 @@ class ParticipacionController():
 
     @staticmethod
     def finishSession(participation: Participacion):
-        participation.refresh_from_db()
-        participation.finalizado = True
-        participation.activo = False
-        participation.save()
-        return participation
+        try:
+            participation.refresh_from_db()
+            participation.finalizado = True
+            participation.activo = False
+            participation.save()
+            return participation
+        except Exception as e:
+            print(f"Error al finalizar la participación: {str(e)}")
+            return controller_error(f"Error al finalizar la participación")
 
     @staticmethod
     def outSession(tester: Catador, session: SesionSensorial):
