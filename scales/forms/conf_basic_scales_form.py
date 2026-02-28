@@ -2,7 +2,7 @@ from django import forms
 from tecnicas.models import TipoEscala, EstiloPalabra
 
 
-class SesionBasicForm(forms.Form):
+class ConfBasicScalesForm(forms.Form):
     sizes_structure = [5, 7, 9]
     sizes_continue = [9, 13, 15]
     options = [

@@ -1,5 +1,4 @@
-from tecnicas.models import SesionSensorial
-from tecnicas.models import Participacion, TecnicaModalidad
+from tecnicas.models import SesionSensorial, Participacion, TecnicaModalidad
 from .monitor_controller import MonitorController
 
 

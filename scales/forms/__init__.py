@@ -1,0 +1,1 @@
+from .conf_basic_scales_form import ConfBasicScalesForm

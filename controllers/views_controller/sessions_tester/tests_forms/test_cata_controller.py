@@ -13,7 +13,7 @@ class TestCataController(GenetalTestController):
 
     def controllGet(self, request: HttpRequest):
         technique = self.session.tecnica
-        self.participation = Participacion.objects.get(
+        self.participation = Participacion.objects.get( 
             tecnica=technique, catador=request.user.user_catador)
 
         self.context["session"] = self.session

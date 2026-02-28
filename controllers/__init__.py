@@ -12,9 +12,10 @@ from .models_controller.posicion_controller import PosicionController
 from .models_controller.particiapacion_controller import ParticipacionController
 from .models_controller.dato_controller import DatoController
 
+from .views_controller.create_session.conf_basic_controller import ConfBasicController
 from .views_controller.create_session.panel_basic_controller import PanelBasicController
-from .views_controller.create_session.panel_tags_controller import PanelTagsController
-from .views_controller.create_session.panel_codes_controller import PanelCodesController
+from .views_controller.create_session.conf_tags_controller import ConfTagsController
+from .views_controller.create_session.panel_codes_controller import ConfCodesController
 from .views_controller.create_session.panel_words_controller import PanelWordsController
 
 from .views_controller.create_session.panels_create.panel_create_escalas_controller import PanelCreateEscalasController
@@ -41,6 +42,8 @@ from .views_controller.session_management.monitor.monitor_pf_controller import M
 from .views_controller.session_management.monitor.monitor_sort_controller import MonitorSortController
 from .views_controller.session_management.monitor.monitor_napping_controller import MonitorNappingController
 from .views_controller.session_management.monitor.monitor_ideal_controller import MonitorIdealController
+
+from .views_controller.session_management.list_sessions_controller import ListSessionsController
 
 from .views_controller.sessions_tester.login_session_tester_controller import LoginSessionTesterController
 from .views_controller.sessions_tester.list_sessions_tester_controller import ListSessionsTesterController
@@ -73,3 +76,5 @@ from .api_controller.rating_sort_controller import RatingSortController
 from .api_controller.rating_napping_controller import RatingNappingController
 from .api_controller.rating_perfil_ideal_phase1_controller import RatingPerfilIdealPhase1Controller
 from .api_controller.rating_perfil_ideal_phase2_controller import RatingPerfilIdealPhase2Controller
+
+from .main_panel_controller import PanelMainCotroller
