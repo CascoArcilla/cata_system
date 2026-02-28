@@ -2,8 +2,10 @@ from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from utils import general_error
 from .main_general import get_context_main, post_main
+from tecnicas.decorators import required_technique
 
 
+@required_technique("napping")
 def mainNapping(req: HttpRequest):
     template = "mains_panels/main-panel-napping.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "napping"}
