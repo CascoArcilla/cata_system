@@ -11,7 +11,7 @@ class InitSessionController():
     session: SesionSensorial
     order: Orden | dict
     current_direction: str
-    current_direction = "tecnicas/forms_tester/init_scales_test.html"
+    current_direction = "forms_tester/init_scales_test.html"
     escalas_direction = "cata_system:session_convencional"
 
     def __init__(self, sensorial_session: SesionSensorial, user_tester: Catador):

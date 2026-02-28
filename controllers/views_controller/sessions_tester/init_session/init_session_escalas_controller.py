@@ -13,7 +13,7 @@ class InitSessionEscalasController(InitSessionController):
 
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_direction = "tecnicas/forms_tester/init_scales_test.html"
+        self.current_direction = "forms_tester/init_scales_test.html"
         self.escalas_direction = "cata_system:session_convencional"
         self.cata_direction = "cata_system:session_cata"
 
@@ -24,7 +24,7 @@ class InitSessionEscalasController(InitSessionController):
                 "name": self.session.nombre_sesion,
                 "instructions": self.session.tecnica.instrucciones,
                 "style": self.session.tecnica.id_estilo.nombre_estilo,
-                "type_scale": self.session.tecnica.escala_tecnica.id_tipo_escala.nombre_escala,
+                "type_scale": self.session.tecnica.escala_tecnica.all()[0].id_tipo_escala.nombre_escala,
                 "repeticion": self.session.tecnica.repeticion
             },
             "use_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica

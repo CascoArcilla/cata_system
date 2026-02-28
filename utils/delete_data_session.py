@@ -1,6 +1,5 @@
 from django.http import HttpRequest
 from tecnicas.constants import FORMS_TO_CREATE_SESSION
-from .personal_errors import general_error
 
 
 def deleteDataSession(request: HttpRequest):

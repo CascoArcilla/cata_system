@@ -4,19 +4,29 @@ from django.urls import reverse
 from tecnicas.models import SesionSensorial, Producto, EsAtributo, EsVocabulario, Participacion
 from controllers import ParticipacionController
 
+
 class MonitorController():
     url_view: str
     previus_view: str
 
-    def __init__(self, session: SesionSensorial):
+    def __init__(
+        self,
+        session: SesionSensorial,
+        url_home: str = "cata_system:index"
+    ):
         self.sensorial_session = session
+        self.url_home = url_home
 
     def controllPostFinishSession(self, request: HttpRequest):
         (is_all_end, message) = self.checkAllFinish()
         if not is_all_end:
             self.setContext()
+            if request.session.get("technique_selected") == "general":
+                self.context["url_home"] = reverse("cata_system:index")
+
             self.context["error"] = message
             return render(request, self.url_view, self.context)
+
         self.finishSession()
         return redirect(reverse(self.previus_view, kwargs={"session_code": self.sensorial_session.codigo_sesion}))
 
@@ -24,7 +34,8 @@ class MonitorController():
         return (False, "Función sin implementar")
 
     def setContext(self):
-        ParticipacionController.checkStaleParticipations(self.sensorial_session.tecnica, 600)
+        ParticipacionController.checkStaleParticipations(
+            self.sensorial_session.tecnica, 600)
 
         self.participations = Participacion.objects.filter(
             tecnica=self.sensorial_session.tecnica)
@@ -36,7 +47,8 @@ class MonitorController():
             "current_testers": len(self.participations),
             "active_testers": len([part for part in self.participations if part.activo]),
             "participations": self.participations,
-            "use_technique": self.sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
+            "use_technique": self.sensorial_session.tecnica.tipo_tecnica.nombre_tecnica,
+            "url_home": reverse(self.url_home)
         }
 
     def controllGetResponse(self, request: HttpRequest,  error: str = "", message: str = ""):
@@ -46,6 +58,9 @@ class MonitorController():
             self.context["error"] = error
         if message != "" or message:
             self.context["message"] = message
+
+        if request.session.get("technique_selected") == "general":
+            self.context["url_home"] = reverse("cata_system:index")
 
         return render(request, self.url_view, self.context)
 

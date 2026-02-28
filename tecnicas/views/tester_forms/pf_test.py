@@ -2,7 +2,8 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial
-from controllers import TestPFController, ParticipacionController
+from controllers import TestPFController
+from utils import noValidTechnique
 
 
 def pfTest(req: HttpRequest, code_sesion: str):

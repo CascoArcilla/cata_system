@@ -24,13 +24,13 @@ class TestPFController(GenetalTestController):
         rep = self.session.tecnica.repeticion
 
         if rep == 1:
-            self.current_directory = "tecnicas/forms_tester/test_pf_list_words.html"
+            self.current_directory = "forms_tester/test_pf_list_words.html"
             response = self.getFirstPhase(request)
         elif rep == 2:
-            self.current_directory = "tecnicas/forms_tester/test_pf_list_words.html"
+            self.current_directory = "forms_tester/test_pf_list_words.html"
             response = self.getSecondPhase(request)
         elif rep >= 3:
-            self.current_directory = "tecnicas/forms_tester/test_pf_rating_list.html"
+            self.current_directory = "forms_tester/test_pf_rating_list.html"
             response = self.getRepetitionPhase(request)
         else:
             response = self.getErrorRepetition(request)
@@ -41,9 +41,17 @@ class TestPFController(GenetalTestController):
         action = request.POST["action"]
 
         if action == "finish_session":
-            self.participation = Participacion.objects.get(
-                tecnica=self.session.tecnica, catador=request.user.user_catador)
-            ParticipacionController.finishSession(self.participation)
+            try:
+                self.participation = Participacion.objects.get(
+                    tecnica=self.session.tecnica, catador=request.user.user_catador)
+            except Participacion.DoesNotExist:
+                return self.controllGet(request, error="No se ha encontrado la participación")
+
+            response = ParticipacionController.finishSession(
+                self.participation)
+            if isinstance(response, dict) and response.get("error"):
+                return self.controllGet(request, error=response["error"])
+
             params = {"code_sesion": self.session.codigo_sesion}
             return redirect(reverse(self.previus_directory, kwargs=params))
 

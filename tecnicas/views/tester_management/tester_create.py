@@ -4,17 +4,20 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.db import transaction, DatabaseError
 from tecnicas.models import Catador
+from django.urls import reverse
 from tecnicas.forms import CatadorForm
 
 
 def testerCreate(req: HttpRequest):
-    url_template = "tecnicas/manage_tester/tester-create.html"
+    url_template = "manage_tester/tester-create.html"
 
+    url_home = req.session.get("sensorial_url_main")
     if req.method == "GET":
         form_tester = CatadorForm()
 
         context = {
-            "form_cata": form_tester
+            "form_cata": form_tester,
+            "url_home": reverse(url_home)
         }
 
         return render(req, url_template, context)
@@ -28,7 +31,8 @@ def testerCreate(req: HttpRequest):
 
         form_tester = CatadorForm(new_values)
         context = {
-            "form_cata": form_tester
+            "form_cata": form_tester,
+            "url_home": reverse(url_home)
         }
 
         if form_tester.is_valid():

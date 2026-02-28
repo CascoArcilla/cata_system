@@ -43,7 +43,7 @@ async function sendRatingHedonic() {
 
   const formRatingHedonic = document.querySelector(".form-rating-hedonic");
   const dataForm = new FormData(formRatingHedonic);
-  const url = "/cata/testers/api/ratingword/perfil-ideal/fase2";
+  const url = "/sensorial/testers/api/ratingword/perfil-ideal/fase2";
 
   const codeProduct = document
     .querySelector(".ct-product-rating")

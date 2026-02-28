@@ -13,7 +13,7 @@ def mainPanelTester(req: HttpRequest):
             "genere": req.user.user_catador.genero,
             "birthday": req.user.user_catador.nacimiento
         }
-        return render(req, "tecnicas/forms_tester/main_panel_tester.html", view_context)
+        return render(req, "forms_tester/main_panel_tester.html", view_context)
     elif req.method == "POST":
         if req.POST["action"] == "exit_session":
             logout(req)

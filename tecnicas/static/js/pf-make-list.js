@@ -156,7 +156,7 @@ async function sendWordsToSave() {
     words: WORDS,
   };
 
-  const URL = "/cata/testers/api/ratingword/pf/list";
+  const URL = "/sensorial/testers/api/ratingword/pf/list";
 
   try {
     const response = await fetch(URL, {
@@ -183,11 +183,11 @@ async function sendWordsToSave() {
       return false;
     }
 
-    spanNotifaction(result.message, false);
     const addedWords = result.words;
     WORDS.length = 0;
     addedWords.forEach((word) => WORDS.push(word));
     renderWords();
+    spanNotifaction(result.message, false);
     return true;
   } catch (err) {
     console.error(err);
@@ -203,7 +203,6 @@ async function setUpFormAction() {
   }
 
   const input = FORM_ACTION.querySelector(".action-input");
-  FORM_ACTION.action = "";
   input.value = "finish_session";
   FORM_ACTION.submit();
 }

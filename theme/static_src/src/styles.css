@@ -14,10 +14,6 @@
   @apply container max-w-screen-xl text-black bg-surface-alter space-y-8 p-10 max-lg:p-6 max-sm:px-2 max-sm:w-full rounded-xl;
 }
 
-.cts-container-config {
-  @apply space-y-8 bg-surface-alter container text-black max-w-screen-lg p-10 max-lg:p-6 max-sm:px-2 rounded-xl;
-}
-
 .cts-btn-general {
   @apply font-bold rounded-lg text-xl p-4 text-center;
 }

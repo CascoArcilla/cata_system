@@ -6,52 +6,53 @@ from utils import deleteDataSession
 
 
 def createSession(req: HttpRequest):
+    url_main = req.session.get("sensorial_url_main")
+
     if not req.session.get("form_basic"):
         deleteDataSession(req)
-        return redirect(reverse("cata_system:seleccion_tecnica") +
-                        "?error=datos requeridos no encontrados")
+        return redirect(reverse(url_main) + "?error=datos requeridos no encontrados")
 
     basic_data = req.session["form_basic"]
     name_technique = basic_data["name_tecnica"]
 
     if req.method == "GET":
         if name_technique == "escalas":
-            response = PanelCreateEscalasController.controllGet(req)
+            response = PanelCreateEscalasController(url_home=url_main).controllGet(req)
         elif name_technique == "rata":
-            response = PanelCreateRataController.controllGet(req)
+            response = PanelCreateRataController(url_home=url_main).controllGet(req)
         elif name_technique == "cata":
-            response = PanelCreateCataController.controllGet(req)
+            response = PanelCreateCataController(url_home=url_main).controllGet(req)
         elif name_technique == "perfil flash":
-            response = PanelCreatePFController.controllGet(req)
+            response = PanelCreatePFController(url_home=url_main).controllGet(req)
         elif name_technique == "sort":
-            response = PanelCreateSortController.controllGet(req)
+            response = PanelCreateSortController(url_home=url_main).controllGet(req)
         elif name_technique == "napping":
-            response = PanelCreateNappingController.controllGet(req)
+            response = PanelCreateNappingController(url_home=url_main).controllGet(req)
         elif name_technique == "perfil_ideal":
-            response = PanelCreateIdealController.controllGet(req)
+            response = PanelCreateIdealController(url_home=url_main).controllGet(req)
         else:
             response = redirect(
-                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
+                reverse(url_main) + "?error=Técnica no valida")
 
         return response
     if req.method == "POST":
         if name_technique == "escalas":
-            response = PanelCreateEscalasController.controllPost(req)
+            response = PanelCreateEscalasController(url_home=url_main).controllPost(req)
         elif name_technique == "rata":
-            response = PanelCreateRataController.controllPost(req)
+            response = PanelCreateRataController(url_home=url_main).controllPost(req)
         elif name_technique == "cata":
-            response = PanelCreateCataController.controllPost(req)
+            response = PanelCreateCataController(url_home=url_main).controllPost(req)
         elif name_technique == "perfil flash":
-            response = PanelCreatePFController.controllPost(req)
+            response = PanelCreatePFController(url_home=url_main).controllPost(req)
         elif name_technique == "sort":
-            response = PanelCreateSortController.controllPost(req)
+            response = PanelCreateSortController(url_home=url_main).controllPost(req)
         elif name_technique == "napping":
-            response = PanelCreateNappingController.controllPost(req)
+            response = PanelCreateNappingController(url_home=url_main).controllPost(req)
         elif name_technique == "perfil_ideal":
-            response = PanelCreateIdealController.controllPost(req)
+            response = PanelCreateIdealController(url_home=url_main).controllPost(req)
         else:
             response = redirect(
-                reverse("cata_system:seleccion_tecnica") + "?error=Técnica no valida")
+                reverse(url_main) + "?error=Técnica no valida")
 
         return response
     else:

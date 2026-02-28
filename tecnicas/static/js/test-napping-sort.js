@@ -588,7 +588,7 @@ function initSortMode() {
             data.groups = groups;
         }
 
-        const URL = "/cata/testers/api/rating-napping";
+        const URL = "/sensorial/testers/api/rating-napping";
         const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         try {

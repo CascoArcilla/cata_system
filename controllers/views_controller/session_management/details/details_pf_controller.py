@@ -8,9 +8,14 @@ from collections import defaultdict
 class DetallesPFController(DetallesController):
     skip_repetition = 2
 
-    def __init__(self, session: SesionSensorial):
-        super().__init__(session)
-        self.url_template = "tecnicas/manage_sesions/details-session-pf.html"
+    def __init__(
+        self,
+        session: SesionSensorial,
+        back_url: str = "cata_system:panel_sesiones",
+        home_url: str = "cata_system:index"
+    ):
+        super().__init__(session, back_url, home_url)
+        self.url_template = "manage_sesions/details-session-pf.html"
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):

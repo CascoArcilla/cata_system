@@ -49,8 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'tecnicas.apps.TecnicasConfig',
-    'analist.apps.AnalistConfig',
-    'scales.apps.ScalesConfig',
+    # 'analist.apps.AnalistConfig',
+    # 'scales.apps.ScalesConfig',
 
     'tailwind',
     'theme',

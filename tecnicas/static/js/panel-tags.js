@@ -11,7 +11,7 @@ async function postNewTag(e) {
   e.preventDefault();
 
   const dataForm = new FormData(this);
-  const url = "/cata/presenter/api/nueva-etiqueta";
+  const url = "/sensorial/presenter/api/nueva-etiqueta";
 
   try {
     const respone = await fetch(url, {

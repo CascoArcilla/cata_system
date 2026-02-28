@@ -2,7 +2,6 @@ from django.db import DatabaseError
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from tecnicas.models import Tecnica, Presentador, SesionSensorial
 from utils import controller_error
-from .particiapacion_controller import ParticipacionController
 
 
 class SesionController():
@@ -43,19 +42,17 @@ class SesionController():
             return controller_error("Error al crear la sesión sensorial")
 
     @staticmethod
-    def getSessionsByCretor(user_name: str, page: int, filters: dict = None):
+    def getSessionsSavesByCretor(user_name: str, page: int, more_filter: dict = {}):
         elements_by_page = 6
 
-        if filters is None:
-            try:
-                creator = Presentador.objects.get(user__username=user_name)
-            except Presentador.DoesNotExist:
-                return controller_error("Presentador invalido")
-            filters = { "creadoPor":creator }
+        try:
+            creator = Presentador.objects.get(user__username=user_name)
+        except Presentador.DoesNotExist:
+            return controller_error("Presentador invalido")
 
         queryset = (
             SesionSensorial.objects
-            .filter(**filters)
+            .filter(creadoPor=creator, **more_filter)
             .select_related(
                 "tecnica",
                 "tecnica__tipo_tecnica",
@@ -76,8 +73,10 @@ class SesionController():
         paginator = Paginator(queryset, elements_by_page)
         try:
             sessions_in_page = paginator.page(page)
+
         except PageNotAnInteger:
             return controller_error("índice inválido")
+
         except EmptyPage:
             return controller_error("Sin registros en este índice")
 

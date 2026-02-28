@@ -27,7 +27,7 @@
 
 {% block content %}
 <article class="cts-container-main">
-    <article class="cts-container-config">
+    <article class="cts-container-panel">
         <form action="" method="post" class="text-black flex flex-col lg:flex-row items-center w-full">
             {% csrf_token %}
             <header class="text-center flex-col items-center justify-center hidden lg:flex lg:w-1/2">
@@ -50,10 +50,10 @@
                 </div>
 
                 {% if error %}
-                {% include "components/error_message.html" with message=error %}
+                    {% include "components/error_message.html" with message=error close_button=True %}
                 {% endif %}
                 {% if message %}
-                {% include "components/error_message.html" with message=message %}
+                    {% include "components/error_message.html" with message=message close_button=True %}
                 {% endif %}
 
                 {% block more_fields %}

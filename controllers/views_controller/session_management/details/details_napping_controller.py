@@ -13,9 +13,14 @@ from collections import defaultdict
 
 
 class DetallesNappingController(DetallesController):
-    def __init__(self, session: SesionSensorial):
-        super().__init__(session)
-        self.url_template = "tecnicas/manage_sesions/details-session-napping.html"
+    def __init__(
+        self,
+        session: SesionSensorial,
+        back_url: str = "cata_system:panel_sesiones",
+        home_url: str = "cata_system:index"
+    ):
+        super().__init__(session, back_url, home_url)
+        self.url_template = "manage_sesions/details-session-napping.html"
         self.url_next = "cata_system:monitor_sesion"
         self.context = {}
 
@@ -54,15 +59,6 @@ class DetallesNappingController(DetallesController):
             self.context["finished"] = True
 
     def controllPostResponse(self, request: HttpRequest, action: str):
-        # if action == "start_sin_modalidad":
-        #     response = self.startNapping(request=request)
-
-        # elif action == "start_perfil_ultra_flash":
-        #     response = self.startNapping(request=request)
-
-        # elif action == "start_sorting":
-        #     response = self.startNapping(request=request)
-
         if action == "start_session":
             response = self.startNapping(request=request)
 
@@ -72,7 +68,7 @@ class DetallesNappingController(DetallesController):
         elif action == "delete_session":
             self.deleteSesorialSession()
             response = redirect(
-                reverse("cata_system:panel_sesiones", kwargs={"page": 1}))
+                reverse(self.back_url, kwargs={"page": 1}))
 
         else:
             response = self.controllGetResponse(

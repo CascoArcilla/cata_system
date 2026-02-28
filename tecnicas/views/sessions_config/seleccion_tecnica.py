@@ -10,6 +10,6 @@ def selecionTecnica(req:HttpRequest):
         error = req.GET.get("error")
         error = error.replace("_", " ")
         error = error.capitalize()
-        return render(req, "tecnicas/create_sesion/select-tecnica.html", context={"tipos":tipos, "error":error})
+        return render(req, "create_sesion/select-tecnica.html", context={"tipos":tipos, "error":error})
 
-    return render(req, "tecnicas/create_sesion/select-tecnica.html", context={"tipos":tipos})
+    return render(req, "create_sesion/select-tecnica.html", context={"tipos":tipos})

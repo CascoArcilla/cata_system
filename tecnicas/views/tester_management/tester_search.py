@@ -3,19 +3,22 @@ from django.shortcuts import render, get_object_or_404
 from django.forms import ValidationError
 from django.db import transaction, DatabaseError
 from django.contrib.auth.models import User
+from django.urls import reverse
 from tecnicas.forms import CatadorForm
 from tecnicas.models import Catador
 
 
 def testerSearch(req: HttpRequest):
-    url_template = "tecnicas/manage_tester/tester-search.html"
+    url_template = "manage_tester/tester-search.html"
+    url_home = req.session.get("sensorial_url_main")
+
     if req.method == "GET":
-        context = {}
+        context = {"url_home": reverse(url_home)}
 
         if "user" in req.GET:
             username = req.GET["user"]
         else:
-            return render(req, url_template)
+            return render(req, url_template, context)
 
         try:
             tester = Catador.objects.get(user__username=username)
@@ -32,8 +35,9 @@ def testerSearch(req: HttpRequest):
             context["error"] = "usuario no encontrado"
 
         return render(req, url_template, context)
+
     elif req.method == "POST":
-        context = {}
+        context = {"url_home": reverse(url_home)}
 
         username = req.GET["user"]
         new_values = {}

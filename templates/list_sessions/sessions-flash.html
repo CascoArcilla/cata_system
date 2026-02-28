@@ -1,0 +1,4 @@
+{% extends "list_sessions/sessions-panel.html" %}
+
+{% block url_sessions_back %}{% url 'cata_system:panel_sesiones_flash' page=num_page|add:-1 %}{% endblock %}
+{% block url_sessions_next %}{% url 'cata_system:panel_sesiones_flash' page=num_page|add:1 %}{% endblock %}

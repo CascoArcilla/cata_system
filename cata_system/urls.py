@@ -21,12 +21,11 @@ from django.conf import settings
 
 urlpatterns = [
     path("", views.home, name="home"),
-    path('cata/', include("tecnicas.urls")),
-
-    path('analista/', include("analist.urls")),
-    path('catador/', include("analist.urls")),
-    
+    path('sensorial/', include("tecnicas.urls")),
     path('admin/', admin.site.urls),
+
+    # path('analista/', include("analist.urls")),
+    # path('catador/', include("analist.urls")),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 

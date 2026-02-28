@@ -7,9 +7,18 @@ from collections import defaultdict
 
 
 class DetallesCATAController(DetallesController):
-    def __init__(self, session: SesionSensorial):
-        super().__init__(session)
-        self.url_template = "tecnicas/manage_sesions/details-session-cata.html"
+    def __init__(
+        self,
+        session: SesionSensorial,
+        back_url: str = "cata_system:panel_sesiones_cata",
+        home_url: str = "cata_system:index_cata"
+    ):
+        super().__init__(
+            session=session,
+            back_url=back_url,
+            home_url=home_url
+        )
+        self.url_template = "manage_sesions/details-session-cata.html"
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):
