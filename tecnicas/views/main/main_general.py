@@ -5,8 +5,10 @@ from utils import general_error
 from tecnicas.models import Presentador, SesionSensorial, TipoTecnica
 from django.urls import reverse
 from django.utils.http import urlencode
+from tecnicas.decorators import required_technique
 
 
+@required_technique("general")
 def mainPanel(req: HttpRequest):
     if req.method == "GET":
         context = get_context_main(req)
@@ -72,12 +74,11 @@ def post_main(
         base_url = reverse("cata_system:autenticacion")
 
         logout(req)
-
         if technique_use != "general":
             query_string = urlencode({"technique": technique_use})
             return redirect(f"{base_url}?{query_string}")
 
-        return redirect("cata_system:autenticacion")
+        return redirect(base_url)
 
     else:
         context = get_context_main(

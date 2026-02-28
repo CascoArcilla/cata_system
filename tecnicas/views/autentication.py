@@ -3,20 +3,11 @@ from django.http import HttpRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render, redirect
 from utils import general_error
+from tecnicas.constants import URLS_MAIN_TECHNIQUE
 
 @csrf_exempt
 def autentication(req: HttpRequest, name_tecnica:str = None):
     context_view = {}
-    urls_technique = {
-        "escalas": "cata_system:index_escalas",
-        "rata": "cata_system:index_rata",
-        "cata": "cata_system:index_cata",
-        "perfil-flash": "cata_system:index_perfil_flash",
-        "sort": "cata_system:index_sort",
-        "napping": "cata_system:index_napping",
-        "perfil-ideal": "cata_system:index_ideal",
-        "general": "cata_system:index",
-    }
 
     if req.method == "GET":
         return render(req, "auth.html")
@@ -29,11 +20,11 @@ def autentication(req: HttpRequest, name_tecnica:str = None):
         else:
             technique = req.GET.get("technique") or "escalas"
 
-        if technique not in urls_technique:
+        if technique not in URLS_MAIN_TECHNIQUE:
             context_view["error"] = "Técnica no válida"
             return render(req, "auth.html", context_view)
         else:
-            url_main = urls_technique.get(technique)
+            url_main = URLS_MAIN_TECHNIQUE.get(technique)
 
         user = authenticate(username=username, password=password)
 
