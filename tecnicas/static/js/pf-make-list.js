@@ -203,7 +203,6 @@ async function setUpFormAction() {
   }
 
   const input = FORM_ACTION.querySelector(".action-input");
-  FORM_ACTION.action = "";
   input.value = "finish_session";
   FORM_ACTION.submit();
 }

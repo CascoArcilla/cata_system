@@ -49,7 +49,7 @@ class TestPFController(GenetalTestController):
 
             response = ParticipacionController.finishSession(
                 self.participation)
-            if response.get("error"):
+            if isinstance(response, dict) and response.get("error"):
                 return self.controllGet(request, error=response["error"])
 
             params = {"code_sesion": self.session.codigo_sesion}

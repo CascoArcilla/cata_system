@@ -37,6 +37,19 @@ class DetallesController():
         return render(
             request, self.url_template, context)
 
+    def controllPostResponse(self, request: HttpRequest, action: str):
+        if action == "start_session":
+            return self.startRepetition(
+                presenter=request.user.user_presentador, request=request)
+
+        elif action == "delete_session":
+            self.deleteSesorialSession()
+            return redirect(
+                reverse(self.back_url, kwargs={"page": 1}))
+
+        else:
+            return self.controllGetResponse(error="Acción no reconocida", request=request)
+
     def getContext(self):
         return {}
 

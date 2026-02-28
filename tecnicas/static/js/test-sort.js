@@ -118,7 +118,7 @@ function manageDropZone(zone) {
 
     // Add products if there en the page
     const products = []
-    const productsElements = zone.querySelectorAll(".draggable") || None;
+    const productsElements = zone.querySelectorAll(".draggable") || [];
 
     if (productsElements) {
         productsElements.forEach((proEle) => {
@@ -130,7 +130,7 @@ function manageDropZone(zone) {
     }
 
     const parentZone = zone.parentNode;
-    const wordsInGrup = parentZone.querySelectorAll(".item-word") || None
+    const wordsInGrup = parentZone.querySelectorAll(".item-word") || []
 
     // Add words if there en the page
     const words = []
@@ -548,7 +548,6 @@ async function finishSession() {
     const FORM_ACTION = document.querySelector(".form-actions")
 
     const inputAction = FORM_ACTION.querySelector(".action-input");
-    FORM_ACTION.action = "";
     inputAction.value = "finish_session";
     FORM_ACTION.submit();
 }

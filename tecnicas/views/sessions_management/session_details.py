@@ -117,23 +117,53 @@ def sessionDetails(req: HttpRequest, session_code: str):
             )
 
         use_techinique = sensorial_session.tecnica.tipo_tecnica.nombre_tecnica
-        controller_view = DetallesController(
-            session=sensorial_session,
-            back_url=back_url,
-            home_url=req.session.get("sensorial_url_main")
-        )
 
         action = req.POST.get("action")
 
-        if use_techinique in ["escalas", "rata", "cata", "perfil flash", "sort", "perfil_ideal"]:
-            if action == "start_session":
-                response = controller_view.startRepetition(
-                    presenter=req.user.user_presentador, request=req)
+        if use_techinique in ["escalas", "rata"]:
+            controller_view = DetallesEscalasController(
+                session=sensorial_session,
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
+            )
+            response = controller_view.controllPostResponse(
+                request=req, action=action)
 
-            elif action == "delete_session":
-                controller_view.deleteSesorialSession()
-                response = redirect(
-                    reverse(back_url, kwargs={"page": 1}))
+        elif use_techinique == "cata":
+            controller_view = DetallesCATAController(
+                session=sensorial_session,
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
+            )
+            response = controller_view.controllPostResponse(
+                request=req, action=action)
+
+        elif use_techinique == "perfil flash":
+            controller_view = DetallesPFController(
+                session=sensorial_session,
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
+            )
+            response = controller_view.controllPostResponse(
+                request=req, action=action)
+
+        elif use_techinique == "sort":
+            controller_view = DetallesSortController(
+                session=sensorial_session,
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
+            )
+            response = controller_view.controllPostResponse(
+                request=req, action=action)
+
+        elif use_techinique == "perfil_ideal":
+            controller_view = DetallesIdealController(
+                session=sensorial_session,
+                back_url=back_url,
+                home_url=req.session.get("sensorial_url_main")
+            )
+            response = controller_view.controllPostResponse(
+                request=req, action=action)
 
         elif use_techinique == "napping":
             controller_view = DetallesNappingController(
@@ -144,10 +174,6 @@ def sessionDetails(req: HttpRequest, session_code: str):
 
             response = controller_view.controllPostResponse(
                 request=req, action=action)
-
-        else:
-            response = controller_view.controllGetResponse(
-                error="No se reconoce la acción a realizar")
 
         return response
     else:
