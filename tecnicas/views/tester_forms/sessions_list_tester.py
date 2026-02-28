@@ -8,6 +8,6 @@ def sessionsListTester(req: HttpRequest, num_page: int):
         view_controller = ListSessionsTesterController()
         contex_view = view_controller.getContext(req.user.user_catador, num_page)
 
-        return render(req, "tecnicas/forms_tester/sessions_list_tester.html", contex_view)
+        return render(req, "forms_tester/sessions_list_tester.html", contex_view)
     else:
         return JsonResponse({"message": "Método no permitido"})

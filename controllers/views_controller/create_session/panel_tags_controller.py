@@ -7,7 +7,7 @@ from tecnicas.models import TipoEscala
 
 class PanelTagsController():
     def __init__(self, technique_name: str, url_main: str = "cata_system:seleccion_tecnica", url_home: str = "cata_system:index"):
-        self.template = "tecnicas/create_sesion/conf-panel-tags.html"
+        self.template = "create_sesion/conf-panel-tags.html"
         self.technique_name = technique_name
         self.url_main = url_main
         self.url_home = url_home

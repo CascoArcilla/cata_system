@@ -9,7 +9,7 @@ from tecnicas.forms import CatadorForm
 
 
 def testerCreate(req: HttpRequest):
-    url_template = "tecnicas/manage_tester/tester-create.html"
+    url_template = "manage_tester/tester-create.html"
 
     url_home = req.session.get("sensorial_url_main")
     if req.method == "GET":

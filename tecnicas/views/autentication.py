@@ -19,7 +19,7 @@ def autentication(req: HttpRequest, name_tecnica:str = None):
     }
 
     if req.method == "GET":
-        return render(req, "tecnicas/auth.html")
+        return render(req, "auth.html")
     elif req.method == "POST":
         username = req.POST.get("username")
         password = req.POST.get("password")
@@ -31,7 +31,7 @@ def autentication(req: HttpRequest, name_tecnica:str = None):
 
         if technique not in urls_technique:
             context_view["error"] = "Técnica no válida"
-            return render(req, "tecnicas/auth.html", context_view)
+            return render(req, "auth.html", context_view)
         else:
             url_main = urls_technique.get(technique)
 
@@ -45,6 +45,6 @@ def autentication(req: HttpRequest, name_tecnica:str = None):
 
         else:
             context_view["error"] = "Credenciales inválidas o no es un Presentador"
-            return render(req, "tecnicas/auth.html", context_view)
+            return render(req, "auth.html", context_view)
     else:
         return general_error("Método no permitido")

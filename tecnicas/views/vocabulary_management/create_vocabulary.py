@@ -18,4 +18,4 @@ def createVocabulary(req: HttpRequest):
 
     else:
         context = {"error": "Método no permitido"}
-        return render(req, "tecnicas/manage_vocabulary/create-vocabulary.html", context)
+        return render(req, "manage_vocabulary/create-vocabulary.html", context)

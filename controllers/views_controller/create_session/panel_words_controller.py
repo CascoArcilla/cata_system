@@ -8,8 +8,8 @@ import json
 
 class PanelWordsController():
     def __init__(self, url_main: str = "cata_system:seleccion_tecnica", url_home: str = "cata_system:index"):
-        self.template_atributes = "tecnicas/create_sesion/conf-panel-words.html"
-        self.template_vocabulary = "tecnicas/create_sesion/conf-panel-vocabulary.html"
+        self.template_atributes = "create_sesion/conf-panel-words.html"
+        self.template_vocabulary = "create_sesion/conf-panel-vocabulary.html"
         self.url_main = url_main
         self.url_home = url_home
 

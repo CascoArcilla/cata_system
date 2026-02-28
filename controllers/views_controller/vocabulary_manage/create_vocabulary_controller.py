@@ -9,7 +9,7 @@ import json
 
 class CreateVocabularyController():
     context = {}
-    current_url = "tecnicas/manage_vocabulary/create-vocabulary.html"
+    current_url = "manage_vocabulary/create-vocabulary.html"
 
     def __init__(self, form_word: WordForm = WordForm(), list_words: list = [], url_home: str = "cata_system:index"):
         self.context["form_word"] = form_word

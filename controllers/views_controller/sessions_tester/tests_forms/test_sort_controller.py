@@ -10,7 +10,7 @@ from .general_test_controller import GenetalTestController
 class TestSortController(GenetalTestController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_directory = "tecnicas/forms_tester/test_sort.html"
+        self.current_directory = "forms_tester/test_sort.html"
 
     def controllGet(self, request: HttpRequest):
         '''

@@ -13,7 +13,7 @@ def sesionsList(req: HttpRequest, page: int):
 
 def get_sessions_list(
     req: HttpRequest, page: int, filters: dict = {},
-    template: str = "tecnicas/list_sessions/sessions-panel.html",
+    template: str = "list_sessions/sessions-panel.html",
     url_home: str = "cata_system:index"
 ):
     home = url_home or req.session.get("sensorial_url_main")

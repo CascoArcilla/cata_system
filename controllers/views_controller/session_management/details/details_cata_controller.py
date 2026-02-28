@@ -18,7 +18,7 @@ class DetallesCATAController(DetallesController):
             back_url=back_url,
             home_url=home_url
         )
-        self.url_template = "tecnicas/manage_sesions/details-session-cata.html"
+        self.url_template = "manage_sesions/details-session-cata.html"
         self.url_next = "cata_system:monitor_sesion"
 
     def getContext(self):

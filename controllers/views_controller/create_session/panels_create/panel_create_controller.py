@@ -11,7 +11,7 @@ class PanelCreateController():
     ):
         self.url_home = url_home
         self.url_details = url_details
-        self.url_template = 'tecnicas/create_sesion/creating_session.html'
+        self.url_template = 'create_sesion/creating_session.html'
 
     def controllGet(self, request: HttpRequest):
         if request.session.get("technique_selected") == "general":

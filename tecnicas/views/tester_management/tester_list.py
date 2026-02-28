@@ -11,6 +11,6 @@ def testerList(req: HttpRequest, num_page: int):
         view_controller = TesterListController(page=num_page)
         view_context = view_controller.getContext()
         view_context["url_home"] = reverse(url_home)
-        return render(req, "tecnicas/manage_tester/tester-list.html", view_context)
+        return render(req, "manage_tester/tester-list.html", view_context)
     else:
         return general_error("Método no permitido")

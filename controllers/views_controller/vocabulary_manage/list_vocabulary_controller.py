@@ -7,7 +7,7 @@ from django.urls import reverse
 
 
 class ListVocabularyController():
-    current_url = "tecnicas/manage_vocabulary/list-vocabulary.html"
+    current_url = "manage_vocabulary/list-vocabulary.html"
 
     def __init__(self, url_home: str = "cata_system:index"):
         self.url_home = url_home

@@ -3,7 +3,7 @@ from .sessions_list import get_sessions_list
 
 
 def sesionsListRata(req: HttpRequest, page: int):
-    template = "tecnicas/list_sessions/sessions-rata.html"
+    template = "list_sessions/sessions-rata.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "rata"}
     url_home = req.session.get("session_url_home")
 

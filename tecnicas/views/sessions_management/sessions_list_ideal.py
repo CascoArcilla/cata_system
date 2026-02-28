@@ -3,7 +3,7 @@ from .sessions_list import get_sessions_list
 
 
 def sesionsListIdeal(req: HttpRequest, page: int):
-    template = "tecnicas/list_sessions/sessions-ideal.html"
+    template = "list_sessions/sessions-ideal.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "perfil_ideal"}
     url_home = req.session.get("sensorial_url_main")
 

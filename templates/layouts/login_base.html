@@ -1,0 +1,103 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block body_class %}h-screen bg-surface-general{% endblock %}
+
+{% block navbar %}
+<div class="navbar bg-surface-alter shadow-sm text-black border-b border-surface-sweet h-16 2xl:h-24">
+    <div class="navbar-start">
+    </div>
+
+    <div class="navbar-center">
+        <h2 class="font-bold text-3xl">Senso System</h2>
+    </div>
+
+    <div class="navbar-end pr-2 space-x-2 h-full py-2">
+        <img src="{% static 'img/logos/TecNM.webp' %}" alt="Logo TecNM" class="h-full object-contain max-lg:hidden">
+        <img src="{% static 'img/logos/itsz.webp' %}" alt="Logo ITSZ" class="h-full object-contain max-lg:hidden">
+        <img src="{% static 'img/logos/colpus_text.webp' %}" alt="Logo Colpus"
+            class="h-full object-contain max-lg:hidden">
+        <img src="{% static 'img/logos/tec_huatusco.webp' %}" alt="Logo Tec Huatusco"
+            class="h-full object-contain max-lg:hidden">
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<article class="cts-container-main">
+    <article class="cts-container-panel">
+        <form action="" method="post" class="text-black flex flex-col lg:flex-row items-center w-full">
+            {% csrf_token %}
+            <header class="text-center flex-col items-center justify-center hidden lg:flex lg:w-1/2">
+                <h1 class="text-5xl max-sm:text-3xl font-bold">Senso System</h1>
+                <div class="w-full">
+                    <img class="w-full h-full object-cover" alt="Logo Senso System"
+                        src="{% static 'img/sensory.webp' %}" />
+                </div>
+            </header>
+
+            <div class="hidden lg:flex divider lg:divider-horizontal"></div>
+
+            <section class="flex flex-col gap-6 items-center w-full lg:w-1/2 max-lg:px-6 relative">
+                {% block chain_user %}
+                {% endblock %}
+
+                <div class="flex flex-col items-center">
+                    {% block icon %}{% endblock %}
+                    <h2 class="text-2xl max-sm:text-xl font-semibold">{% block user_type %}{% endblock %}</h2>
+                </div>
+
+                {% if error %}
+                    {% include "components/error_message.html" with message=error close_button=True %}
+                {% endif %}
+                {% if message %}
+                    {% include "components/error_message.html" with message=message close_button=True %}
+                {% endif %}
+
+                {% block more_fields %}
+                {% endblock %}
+
+                <section class="flex flex-row flex-wrap gap-4 w-full justify-center">
+                    <button type="submit" class="cts-btn-general cts-btn-primary btn-push uppercase w-full">
+                        Ingresar
+                    </button>
+                </section>
+            </section>
+        </form>
+    </article>
+</article>
+{% endblock %}
+
+{% block footer %}
+<footer class="footer footer-horizontal footer-center bg-surface-alter text-black p-10">
+    <aside>
+        <p class="font-bold text-2xl">
+            ITSZ
+        </p>
+        <p class="font-bold">
+            Insituto Tecnológico Superior de Zongolica
+        </p>
+        <p>Copyright © 2026 - Todos los derechos reservados</p>
+    </aside>
+    <nav class="w-full">
+        <div class="flex flex-wrap justify-center items-center gap-2 max-lg:hidden">
+            <img src="{% static 'img/logos/isc.webp' %}" alt="Logo ISC" class="h-18">
+            <img src="{% static 'img/logos/itsz.webp' %}" alt="Logo ITSZ" class="h-18">
+            <img src="{% static 'img/logos/iias.webp' %}" alt="Logo IIAS" class="h-18">
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4 justify-items-center w-full lg:hidden">
+            <img src="{% static 'img/logos/itsz.webp' %}" alt="Logo ITSZ" class="h-15">
+            <img src="{% static 'img/logos/iias.webp' %}" alt="Logo IIAS" class="h-16">
+            
+            <img src="{% static 'img/logos/TecNM.webp' %}" alt="Logo TecNM" class="h-15">
+            <img src="{% static 'img/logos/isc.webp' %}" alt="Logo ISC" class="h-16">
+
+            <img src="{% static 'img/logos/colpus_text.webp' %}" alt="Logo Colpus" class="h-14">
+            <img src="{% static 'img/logos/tec_huatusco.webp' %}" alt="Logo Tec Huatusco" class="h-16">
+        </div>
+    </nav>
+</footer>
+{% endblock %}

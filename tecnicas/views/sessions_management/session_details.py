@@ -33,7 +33,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
         if use_techinique == "escalas":
             controller_view = DetallesEscalasController(
                 session=sensorial_session,
-                template="tecnicas/manage_sesions/details-session.html"
+                template="manage_sesions/details-session.html"
             )
 
             response = controller_view.controllGetResponse(
@@ -42,7 +42,7 @@ def sessionDetails(req: HttpRequest, session_code: str):
         elif use_techinique == "rata":
             controller_view = DetallesEscalasController(
                 session=sensorial_session,
-                template="tecnicas/manage_sesions/details-session-rata.html",
+                template="manage_sesions/details-session-rata.html",
                 back_url=back_url,
                 home_url=req.session.get("sensorial_url_main")
             )

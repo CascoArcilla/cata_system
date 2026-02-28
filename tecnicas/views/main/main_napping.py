@@ -5,7 +5,7 @@ from .main_general import get_context_main, post_main
 
 
 def mainNapping(req: HttpRequest):
-    template = "tecnicas/mains_panels/main-panel-napping.html"
+    template = "mains_panels/main-panel-napping.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "napping"}
 
     if req.method == "GET":

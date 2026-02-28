@@ -23,7 +23,7 @@ class DetallesEscalasController(DetallesController):
     def __init__(
         self,
         session: SesionSensorial,
-        template: str = "tecnicas/manage_sesions/details-session.html",
+        template: str = "manage_sesions/details-session.html",
         back_url: str = "cata_system:panel_sesiones_escalas",
         home_url: str = "cata_system:index_escalas"
     ):

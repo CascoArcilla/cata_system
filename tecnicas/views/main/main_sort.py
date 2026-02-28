@@ -5,7 +5,7 @@ from .main_general import get_context_main, post_main
 
 
 def mainSort(req: HttpRequest):
-    template = "tecnicas/mains_panels/main-panel-sort.html"
+    template = "mains_panels/main-panel-sort.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "sort"}
 
     if req.method == "GET":

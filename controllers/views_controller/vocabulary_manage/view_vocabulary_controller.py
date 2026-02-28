@@ -6,7 +6,7 @@ from django.urls import reverse
 
 class ViewVocabularyController():
     context = {}
-    current_url = "tecnicas/manage_vocabulary/view-vocabulary.html"
+    current_url = "manage_vocabulary/view-vocabulary.html"
 
     def __init__(self, url_home: str = "cata_system:index"):
         self.context = {}

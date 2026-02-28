@@ -24,13 +24,13 @@ class TestPFController(GenetalTestController):
         rep = self.session.tecnica.repeticion
 
         if rep == 1:
-            self.current_directory = "tecnicas/forms_tester/test_pf_list_words.html"
+            self.current_directory = "forms_tester/test_pf_list_words.html"
             response = self.getFirstPhase(request)
         elif rep == 2:
-            self.current_directory = "tecnicas/forms_tester/test_pf_list_words.html"
+            self.current_directory = "forms_tester/test_pf_list_words.html"
             response = self.getSecondPhase(request)
         elif rep >= 3:
-            self.current_directory = "tecnicas/forms_tester/test_pf_rating_list.html"
+            self.current_directory = "forms_tester/test_pf_rating_list.html"
             response = self.getRepetitionPhase(request)
         else:
             response = self.getErrorRepetition(request)

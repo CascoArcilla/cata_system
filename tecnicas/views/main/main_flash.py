@@ -5,7 +5,7 @@ from .main_general import get_context_main, post_main
 
 
 def mainFlash(req: HttpRequest):
-    template = "tecnicas/mains_panels/main-panel-flash.html"
+    template = "mains_panels/main-panel-flash.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "perfil flash"}
 
     if req.method == "GET":

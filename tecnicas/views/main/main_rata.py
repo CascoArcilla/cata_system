@@ -5,7 +5,7 @@ from .main_general import get_context_main, post_main
 
 
 def mainRata(req: HttpRequest):
-    template = "tecnicas/mains_panels/main-panel-rata.html"
+    template = "mains_panels/main-panel-rata.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "rata"}
 
     if req.method == "GET":

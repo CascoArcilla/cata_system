@@ -10,7 +10,7 @@ class MonitorIdealController(MonitorController):
         url_home: str = "cata_system:index"
     ):
         super().__init__(session=session, url_home=url_home)
-        self.url_view = "tecnicas/manage_sesions/monitor-sesion.html"
+        self.url_view = "manage_sesions/monitor-sesion.html"
         self.previus_view = "cata_system:detalles_sesion"
 
     def checkAllFinish(self) -> tuple[bool, str]:

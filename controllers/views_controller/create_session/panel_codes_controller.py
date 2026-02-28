@@ -13,7 +13,7 @@ class PanelCodesController():
         url_main: str = "cata_system:seleccion_tecnica",
         url_home: str = "cata_system:index"
     ):
-        self.template = "tecnicas/create_sesion/conf-panel-codes.html"
+        self.template = "create_sesion/conf-panel-codes.html"
         self.url_next = url_next
         self.url_main = url_main
         self.url_home = url_home

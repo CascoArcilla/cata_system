@@ -9,7 +9,7 @@ from .init_session_controller import InitSessionController
 class InitSessionPFController(InitSessionController):
     def __init__(self, sensorial_session, user_tester):
         super().__init__(sensorial_session, user_tester)
-        self.current_direction = "tecnicas/forms_tester/init_scales_test.html"
+        self.current_direction = "forms_tester/init_scales_test.html"
         self.pf_direction = "cata_system:session_pf"
 
     def controllGet(self, request: HttpRequest):

@@ -10,7 +10,7 @@ from django.utils.http import urlencode
 def mainPanel(req: HttpRequest):
     if req.method == "GET":
         context = get_context_main(req)
-        template = "tecnicas/mains_panels/main-panel.html"
+        template = "mains_panels/main-panel.html"
         return render(req, template, context=context)
 
     elif req.method == "POST":
@@ -62,7 +62,7 @@ def get_context_main(req: HttpRequest, more_filter: dict = {}, name_technique: s
 
 def post_main(
     req: HttpRequest,
-    current_template: str = "tecnicas/mains_panels/main-panel.html",
+    current_template: str = "mains_panels/main-panel.html",
     more_filter: dict = {},
     name_technique: str = "general"
 ):

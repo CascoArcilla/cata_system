@@ -3,7 +3,7 @@ from .sessions_list import get_sessions_list
 
 
 def sesionsListNapping(req: HttpRequest, page: int):
-    template = "tecnicas/list_sessions/sessions-napping.html"
+    template = "list_sessions/sessions-napping.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "napping"}
     url_home = req.session.get("sensorial_url_main")
 

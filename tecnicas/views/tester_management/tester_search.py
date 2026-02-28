@@ -9,7 +9,7 @@ from tecnicas.models import Catador
 
 
 def testerSearch(req: HttpRequest):
-    url_template = "tecnicas/manage_tester/tester-search.html"
+    url_template = "manage_tester/tester-search.html"
     url_home = req.session.get("sensorial_url_main")
 
     if req.method == "GET":

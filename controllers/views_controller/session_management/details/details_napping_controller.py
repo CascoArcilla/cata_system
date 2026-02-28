@@ -20,7 +20,7 @@ class DetallesNappingController(DetallesController):
         home_url: str = "cata_system:index"
     ):
         super().__init__(session, back_url, home_url)
-        self.url_template = "tecnicas/manage_sesions/details-session-napping.html"
+        self.url_template = "manage_sesions/details-session-napping.html"
         self.url_next = "cata_system:monitor_sesion"
         self.context = {}
 

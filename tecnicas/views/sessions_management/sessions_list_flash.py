@@ -3,7 +3,7 @@ from .sessions_list import get_sessions_list
 
 
 def sesionsListFlash(req: HttpRequest, page: int):
-    template = "tecnicas/list_sessions/sessions-flash.html"
+    template = "list_sessions/sessions-flash.html"
     filters = {"tecnica__tipo_tecnica__nombre_tecnica": "perfil flash"}
     url_home = req.session.get("session_url_home")
 

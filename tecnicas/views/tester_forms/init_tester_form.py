@@ -11,7 +11,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
         return noValidTechnique(params={"num_page": 1}, query_params={"message": "Codigo de sesión no encontrado"}, name_view="cata_system:catador_list_sessions")
 
     type_technique = session.tecnica.tipo_tecnica.nombre_tecnica
-    template_url = "tecnicas/forms_tester/init_scales_test.html"
+    template_url = "forms_tester/init_scales_test.html"
 
     if req.method == "GET":
         if type_technique == "escalas":

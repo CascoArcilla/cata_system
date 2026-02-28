@@ -1,7 +1,0 @@
-{% extends 'tecnicas/mains_panels/main-panel.html' %}
-
-{% block url_home %}{% url 'cata_system:index_perfil_flash' %}{% endblock %}
-{% block url_home_icon %}{% url 'cata_system:index_perfil_flash' %}{% endblock %}
-
-{% block url_create_session %}{% url 'cata_system:panel_configuracion_basic' %}?name_tecnica=perfil+flash{% endblock %}
-{% block url_sessions %}{% url 'cata_system:panel_sesiones_flash' page=1 %}{% endblock %}
