@@ -101,6 +101,7 @@ class CatadorForm(forms.Form):
         label="Fecha de nacimiento",
         required=True,
         widget=forms.DateInput(
+            format='%Y-%m-%d',
             attrs={
                 "type": "date",
                 "class": styles_input,

@@ -149,6 +149,11 @@
                 onclick="changeButtons(disableInputs)">
                 cancelar
             </button>
+            {% if url_list_tester %}
+                <a href="{{ url_list_tester }}" class="cts-btn-general-compress p-2 px-4 cts-btn-fourthy btn-push">
+                    Volver
+                </a>
+            {% endif %}
         </section>
     </form>
     {% endif %}

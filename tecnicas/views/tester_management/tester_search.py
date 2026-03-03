@@ -11,9 +11,12 @@ from tecnicas.models import Catador
 def testerSearch(req: HttpRequest):
     url_template = "manage_tester/tester-search.html"
     url_home = req.session.get("sensorial_url_main")
+    url_list_tester = "cata_system:listar_catador"
 
     if req.method == "GET":
-        context = {"url_home": reverse(url_home)}
+        context = {
+            "url_home": reverse(url_home)
+        }
 
         if "user" in req.GET:
             username = req.GET["user"]
@@ -22,7 +25,7 @@ def testerSearch(req: HttpRequest):
 
         try:
             tester = Catador.objects.get(user__username=username)
-            context["form_cata"] = CatadorForm({
+            context["form_cata"] = CatadorForm(initial={
                 'nombre_usuario': tester.user.username,
                 'nombre': tester.user.first_name,
                 'apellido': tester.user.last_name,
@@ -34,10 +37,16 @@ def testerSearch(req: HttpRequest):
         except Catador.DoesNotExist:
             context["error"] = "usuario no encontrado"
 
+        if "page" in req.GET:
+            context["url_list_tester"] = reverse(
+                url_list_tester, kwargs={"num_page": req.GET.get("page", 1)})
+
         return render(req, url_template, context)
 
     elif req.method == "POST":
-        context = {"url_home": reverse(url_home)}
+        context = {
+            "url_home": reverse(url_home)
+        }
 
         username = req.GET["user"]
         new_values = {}
@@ -51,8 +60,8 @@ def testerSearch(req: HttpRequest):
         form_tester = CatadorForm(new_values)
 
         if form_tester.is_valid():
-            with transaction.atomic():
-                try:
+            try:
+                with transaction.atomic():
                     user = User.objects.get(username=username)
                     user.username = form_tester.cleaned_data.get(
                         "nombre_usuario")
@@ -66,11 +75,16 @@ def testerSearch(req: HttpRequest):
                     tester.genero = form_tester.cleaned_data.get("genero")
                     tester.telefono = form_tester.cleaned_data.get("telefono")
                     tester.save()
-                except (ValidationError, DatabaseError):
-                    context["error"] = "nombre de usuario en uso"
-                    return render(req, url_template, context)
+            except (ValidationError, DatabaseError):
+                context["error"] = "nombre de usuario en uso"
+                return render(req, url_template, context)
+
             context["message"] = "Datos actualizados, consúltelo en Listar Catadores"
             context["form_cata"] = form_tester
+
+            if "page" in req.GET:
+                context["url_list_tester"] = reverse(
+                    url_list_tester, kwargs={"num_page": req.GET.get("page", 1)})
             return render(req, url_template, context)
         else:
             context["error"] = "Datos no validos"

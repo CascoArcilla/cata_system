@@ -26,7 +26,7 @@
     {% else %}
     <div class="grid  gap-4 md:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center">
         {% for tester in testers %}
-        {% include "components/elements_items/item_tester.html" with tester=tester %}
+        {% include "components/elements_items/item_tester.html" with tester=tester num_page=num_page %}
         {% endfor %}
     </div>
     <section class="flex justify-center items-center gap-2">
