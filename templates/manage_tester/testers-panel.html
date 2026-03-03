@@ -11,11 +11,10 @@
     <article class="grid min-sm:grid-cols-2 gap-4 p-5 rounded-2xl">
         <header class="flex-1 flex flex-col gap-4">
             <div class="bg-surface-card p-8 text-2xl text-black font-bold rounded-2xl text-center">
-                <h1>Adiministra los<br>catadores aquí</h1>
+                <h1>Menú Catadores</h1>
             </div>
             <a href="{% if not url_home %}{% url 'cata_system:index' %}{% else %}{{ url_home }}{% endif %}">
-                <button
-                    class="text-white w-full bg-cts-fourthy font-bold rounded-lg text-xl p-4 text-center border-pink-800 btn-push">
+                <button class="cts-btn-general cts-btn-fourthy btn-push w-full">
                     Ir al Panel principal
                 </button>
             </a>
@@ -30,17 +29,17 @@
                     class="w-full h-full object-cover rounded-xl">
             </div>
             <a href="{% url 'cata_system:crear_catador' %}" class="flex-1">
-                <button class="w-full h-full cts-btn-general-compress cts-btn-primary btn-push">
+                <button class="w-full h-full cts-btn-general cts-btn-primary btn-push">
                     Crear Cadator
                 </button>
             </a>
             <a href="{% url 'cata_system:buscar_catador' %}" class="flex-1">
-                <button class="w-full h-full cts-btn-general-compress cts-btn-primary btn-push">
+                <button class="w-full h-full cts-btn-general cts-btn-primary btn-push">
                     Buscar/Actualizar Catador
                 </button>
             </a>
             <a href="{% url 'cata_system:listar_catador' num_page=1 %}" class="flex-1">
-                <button class="w-full h-full cts-btn-general-compress cts-btn-primary btn-push">
+                <button class="w-full h-full cts-btn-general cts-btn-primary btn-push">
                     Listar Catadores
                 </button>
             </a>

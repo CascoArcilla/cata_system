@@ -11,4 +11,4 @@ class PresentadorController():
         try:
             presenter = Presentador.objects.get(nombre_usuario=username)
         except Presentador.DoesNotExist:
-            return controller_error("Presentador inexistente")
+            return controller_error("Analista inexistente")

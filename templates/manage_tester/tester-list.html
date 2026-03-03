@@ -32,15 +32,15 @@
     <section class="flex justify-center items-center gap-2">
         <div class="join space-x-2">
             {% if num_page != 1 %}
-            <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:-1 %}" class="w-fit">
+            <a href="{% url 'cata_system:listar_catador' num_page=num_page|add:-1 %}" class="w-fit">
                 <button class="join-item btn bg-cts-primary py-1">
                     <img class="h-full" src="{% static 'img/icons/less_than.svg' %}" alt="menor que">
                 </button>
             </a>
             {% endif %}
-            <button class="join-item btn bg-cts-primary">Page {{ num_page }}</button>
+            <button class="join-item btn bg-cts-primary">Página {{ num_page }}</button>
             {% if not last_page %}
-            <a href="{% url 'cata_system:panel_sesiones' page=num_page|add:1 %}" class="w-fit">
+            <a href="{% url 'cata_system:listar_catador' num_page=num_page|add:1 %}" class="w-fit">
                 <button class="join-item btn bg-cts-primary py-1">
                     <img class="h-full" src="{% static 'img/icons/greater_than.svg' %}" alt="mayor que">
                 </button>

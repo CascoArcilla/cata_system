@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator, EmailValidator
 
 
 class CatadorForm(forms.Form):
-    styles_input = "ct-inputs-pos-cata bg-white text-center w-full p-1 rounded-lg text-black disabled:bg-gray-500"
+    styles_input = "ct-inputs-pos-cata bg-white text-center w-full p-1 rounded-lg text-black disabled:bg-cts-secondary"
 
     nombre_usuario = forms.CharField(
         label="Nombre de usuario",

@@ -4,7 +4,7 @@
 {% block url_home %}{{ url_home }}{% endblock %}
 {% block url_home_icon %}{{ url_home }}{% endblock %}
 
-{% block title %}Crear vocabulario{% endblock %}
+{% block title %}Creación de vocabulario{% endblock %}
 
 {% block content_analist %}
 <article
@@ -15,7 +15,7 @@
 </article>
 
 <article class="cts-container-panel text-black lg:w-4xl space-y-4">
-    <h1 class="w-full text-center font-bold text-4xl bg-surface-card py-8 rounded-lg">Crear vocabulario</h1>
+    <h1 class="w-full text-center font-bold text-4xl bg-surface-card py-8 rounded-lg">Creación de vocabulario</h1>
 
     {% if error %}
     {% include "components/error_message.html" with message=error %}
@@ -36,7 +36,7 @@
             <textarea id="descripcion" name="descripcion" rows="3"
                 class="p-2 px-4 bg-white rounded-lg w-full text-lg font-medium resize-none"
                 placeholder="Ingrese una descripción para este vocabulario..."></textarea>
-            <p class="text-lg mt-2 font-semibold">Debajo puede buscar y seleccionar palabras para asignarlas a
+            <p class="text-lg mt-2 font-semibold">Debajo puede buscar y seleccionar atributos para asignarlos a
                 este vocabulario.</p>
         </form>
 
@@ -45,11 +45,11 @@
                 <form action="" method="get" class="ct-serach-words bg-surface-card p-4 rounded-lg">
                     {% csrf_token %}
                     <p class="text-lg font-semibold mb-2">
-                        Dejar en blaco para buscar las primeras 10 palabras
+                        Ingrese las letras iniciales del atributo que desea buscar
                     </p>
                     <section class="flex flex-row gap-2">
                         <label for="search" class="w-full">
-                            <input type="text" name="search" id="search" placeholder="Buscar palabra"
+                            <input type="text" name="search" id="search" placeholder="Buscar atributo"
                                 class="p-2 px-4 bg-white rounded-lg w-full text-lg font-medium">
                         </label>
                         <button type="submit"
@@ -70,7 +70,7 @@
             <section
                 class="flex-1/3 bg-surface-card p-4 rounded-lg text-center min-h-96 max-h-96 flex flex-col overflow-hidden">
                 <div>
-                    <p class="text-xl font-bold pb-3">Lista de palabras</p>
+                    <p class="text-xl font-bold pb-3">Lista de atributos</p>
                     <hr class="mb-3">
                 </div>
                 <ul class="ct-palabras-usadas flex flex-col gap-3 overflow-y-auto flex-1">
@@ -91,7 +91,7 @@
 
         <form method="post" action="" class="ct-form-new-word p-4 bg-surface-card rounded-lg">
             {% csrf_token %}
-            <p class="mb-2 font-bold text-2xl">¿No encuentras una palabra?</p>
+            <p class="mb-2 font-bold text-2xl">¿No encuentras un atributo?</p>
             <section class="flex gap-4 flex-wrap justify-center">
                 <label for="{{ form_word.nombre_palabra.id_for_label }}"
                     class="font-medium w-fit text-xl flex-1 *:w-full *:h-full">
@@ -119,6 +119,7 @@
         </article>
     </article>
 </article>
+{% include "components/toast_notification.html" %}
 {% endblock %}
 
 {% block extra_js %}

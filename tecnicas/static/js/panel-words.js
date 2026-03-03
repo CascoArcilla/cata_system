@@ -135,35 +135,12 @@ function showWordsFound(words) {
 
 function addWordToUse(word) {
   if (listWordsSelect.find((w) => w.id === word.id)) {
-    spanNotificationRed(
-      `La palabra "${word.nombre_palabra}" ya fue seleccionada`
-    );
-
+    spanNotifaction(`El atributo "${word.nombre_palabra}" ya fue seleccionado`, true)
     return;
   }
 
   listWordsSelect.push(word);
   updatelistWordsSelect();
-}
-
-function spanNotificationRed(errorMessage) {
-  const noti = document.querySelector(".ct-notification-red");
-  noti.textContent = errorMessage;
-  noti.classList.remove("hidden");
-
-  setTimeout(() => {
-    noti.classList.add("hidden");
-  }, 2500);
-}
-
-function spanNotificationGreen(message) {
-  const noti = document.querySelector(".ct-notification-green");
-  noti.textContent = message;
-  noti.classList.remove("hidden");
-
-  setTimeout(() => {
-    noti.classList.add("hidden");
-  }, 3000);
 }
 
 function removeWordToUse(word) {
@@ -220,17 +197,17 @@ async function postNewWord(e) {
     const jsonResponse = await respone.json();
 
     if (jsonResponse.error) {
-      spanNotificationRed(`Error: ${jsonResponse.error}`);
+      spanNotifaction(`Error: ${jsonResponse.error}`, true);
       return;
     }
 
     const word = jsonResponse["data"];
     addWordToUse(word);
-    spanNotificationGreen(jsonResponse["message"]);
+    spanNotifaction(jsonResponse["message"]);
 
     formNewWord.reset();
   } catch (error) {
-    spanNotificationRed(`Error: ${error}`);
+    spanNotifaction(`Error: ${error}`, true);
   }
 }
 
@@ -244,7 +221,7 @@ async function submitSelectWords(e) {
   e.preventDefault();
 
   if (listWordsSelect.length === 0) {
-    spanNotificationRed("Debe seleccionar al menos una palabra");
+    spanNotifaction("Debe seleccionar al menos un atributo", true);
     return;
   }
 

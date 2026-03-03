@@ -7,15 +7,16 @@ class WordForm(forms.ModelForm):
         min_length=3,
         max_length=255,
         error_messages={
-            "required": "parametros requeridos",
-            "unique": "palabra repetida",
-            "min_length": "la palabra es muy corta",
-            "max_length": "la palabra es muy larga",
+            "required": "Parametros requeridos",
+            "unique": "Palabra repetida",
+            "min_length": "La palabra es muy corta",
+            "max_length": "La palabra es muy larga",
         },
         widget=forms.TextInput(attrs={
             "class": "bg-white text-center text-black pb-1 rounded",
-            "placeholder": "Ingrese nueva palabra",
+            "placeholder": "Ingrese nuevo atributo",
             "oninput": "this.value = this.value.toLowerCase()",
+            "required": True,
         })
     )
 
@@ -28,6 +29,7 @@ class WordForm(forms.ModelForm):
 
         if nombre_palabra:
             nombre_palabra = nombre_palabra.lower().strip()
+            nombre_palabra = nombre_palabra.replace(" ", "_")
 
         if Palabra.objects.filter(nombre_palabra=nombre_palabra).exists():
             raise forms.ValidationError("palabra repetida")

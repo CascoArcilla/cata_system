@@ -32,7 +32,7 @@ class PanelCreateNappingController(PanelCreateController):
                             nombre_estilo="napping"),
                         repeticiones_max=data_basic["numero_repeticiones"],
                         limite_catadores=data_basic["numero_catadores"],
-                        instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Presentador",
+                        instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Analista",
                     )
 
                     if not technique:

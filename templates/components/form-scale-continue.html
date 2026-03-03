@@ -1,4 +1,4 @@
-<form action="" method="post" class="form-rating-{{word}} w-full">
+<form action="" method="post" class="form-rating-{{word}} w-full space-y-2">
     {% csrf_token %}
     <article class="overflow-x-scroll w-full">
         <article class="bg-surface-card p-6 rounded-lg mb-3 w-fit">
@@ -44,8 +44,8 @@
             </section>
         </article>
     </article>
-    <article class="flex flex-col justify-center gap-2 items-end actions-{{word}}">
-        <section class="flex justify-end items-center gap-2 btns-container">
+    <article class="flex gap-2 items-end actions-{{word}}">
+        <section class="flex gap-2 btns-container">
             <button type="button" onclick="checkSendRating('{{word}}')"
                 class="ct-btn-check-{{word}} cts-btn-general-compress py-2 px-4 cts-btn-fifthy btn-push">
                 ¿Guardar calificación?

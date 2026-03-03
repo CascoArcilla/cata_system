@@ -8,33 +8,31 @@
 
 {% block content_analist %}
 <article class="cts-container-panel">
-    <header class="flex-1 flex flex-col gap-7">
-        <div class="bg-surface-card p-8 text-black text-2xl font-bold rounded-2xl text-center capitalize">
-            <h1>buscando catatador</h1>
+    <header class="flex items-center md:flex-row flex-col gap-4">
+        <div class="flex-1 bg-surface-card p-8 text-black text-2xl font-bold rounded-2xl text-center capitalize">
+            <h1>buscar/actualizar catador</h1>
         </div>
+        <a href="{% url 'cata_system:panel_catadores' %}" class="">
+            <button type="button" class="cts-btn-general cts-btn-fourthy btn-push">
+                Ir al menú de catadores
+            </button>
+        </a>
     </header>
     <form action="" method="get" class="flex flex-col gap-5 text-black">
         <hr>
-        <h2 class="text-2xl mb-2 font-bold">Ingrese el nombre de usuario del catador</h2>
+        <h2 class="text-2xl mb-2 font-bold text-center">Ingrese el nombre de usuario del catador</h2>
         <section class="">
             <label for="usuario" class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
                 <div class="flex flex-wrap gap-4 justify-center items-center">
-                    <p class="capitalize font-bold">nombre de usuario:</p>
+                    <p class="first-letter:uppercase font-bold">nombre de usuario:</p>
                     <input id="usuario" type="text" class="bg-white text-center w-fit p-1 rounded-lg" name="user"
                         required>
-                    <button type="submit"
-                        class="w-fit text-black text-lg font-bold bg-cts-primary rounded-xl py-2 px-6 text-center border-b-green-800 btn-push">
+                    <button type="submit" class="cts-btn-general-compress cts-btn-primary btn-push px-6 py-2">
                         Buscar
                     </button>
-                    <a href="{% url 'cata_system:panel_catadores' %}">
-                        <button type="button"
-                            class="text-white w-fit bg-cts-fourthy font-bold rounded-lg text-xl py-2 px-6 text-center border-pink-800 btn-push">
-                            Regresar
-                        </button>
-                    </a>
                 </div>
                 {% if catador.errors %}
-                <small class="capitalize bg-red-400 px-5 tracking-wider rounded">
+                <small class="first-letter:uppercase bg-red-400 px-5 tracking-wider rounded">
                     {{ catador.errors }}
                 </small>
                 {% endif %}
@@ -61,7 +59,7 @@
         <section class="grid grid-cols-2 max-sm:grid-cols-1 [&>label]:px-6 max-sm:[&>label]:px-2">
             <label for="{{ form_cata.nombre_usuario.id_for_label }}"
                 class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                <p class="capitalize font-bold">Nombre de usuario:</p>
+                <p class="first-letter:uppercase font-bold">Nombre de usuario:</p>
                 {{ form_cata.nombre_usuario }}
                 {% if form_cata.nombre_usuario.errors %}
                 <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -71,7 +69,7 @@
             </label>
             <label for="{{ form_cata.nombre.id_for_label }}"
                 class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                <p class="capitalize font-bold">nombre del catador:</p>
+                <p class="first-letter:uppercase font-bold">nombre del catador:</p>
                 {{ form_cata.nombre }}
                 {% if form_cata.nombre.errors %}
                 <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -81,7 +79,7 @@
             </label>
             <label for="{{ form_cata.apellido.id_for_label }}"
                 class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                <p class="capitalize font-bold">apellido del catador:</p>
+                <p class="first-letter:uppercase font-bold">apellido del catador:</p>
                 {{ form_cata.apellido }}
                 {% if form_cata.apellido.errors %}
                 <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -91,7 +89,7 @@
             </label>
             <label for="{{ form_cata.telefono.id_for_label }}"
                 class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                <p class="capitalize font-bold">telefono:</p>
+                <p class="first-letter:uppercase font-bold">teléfono:</p>
                 {{ form_cata.telefono }}
                 {% if form_cata.telefono.errors %}
                 <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -101,7 +99,7 @@
             </label>
             <label for="{{ form_cata.correo.id_for_label }}"
                 class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                <p class="capitalize font-bold">correo:</p>
+                <p class="first-letter:uppercase font-bold">correo:</p>
                 {{ form_cata.correo }}
                 {% if form_cata.correo.errors %}
                 <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -111,7 +109,7 @@
             </label>
             <label for="{{ form_cata.fecha_nacimiento.id_for_label }}"
                 class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                <p class="capitalize font-bold">fecha de nacimiento:</p>
+                <p class="first-letter:uppercase font-bold">fecha de nacimiento:</p>
                 {{ form_cata.fecha_nacimiento }}
                 {% if form_cata.fecha_nacimiento.errors %}
                 <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -120,12 +118,12 @@
                 {% endif %}
             </label>
             <div class="text-lg flex flex-col px-6 w-full font-medium tracking-wide mb-4">
-                <p class="capitalize font-bold">Género:</p>
+                <p class="first-letter:uppercase font-bold">Género:</p>
                 <div class="flex items-center space-x-4">
                     {% for choice in form_cata.genero %}
                     <label class="flex items-center space-x-2 cursor-pointer">
                         {{ choice.tag }}
-                        <span class="capitalize font-semibold">{{ choice.choice_label }}</span>
+                        <span class="first-letter:uppercase font-semibold">{{ choice.choice_label }}</span>
                     </label>
                     {% endfor %}
                 </div>

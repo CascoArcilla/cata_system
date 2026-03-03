@@ -29,6 +29,6 @@ class InitSessionRATAController(InitSessionController):
         context["has_ended"] = is_end
 
         if is_end:
-            context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
+            context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del analista"
 
         return render(request, self.current_direction, context)

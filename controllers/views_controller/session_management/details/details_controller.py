@@ -62,7 +62,7 @@ class DetallesController():
         technique = self.session.tecnica
 
         if creator.user.username != self.session.creadoPor.user.username:
-            return self.controllGetResponse(error="Solo el presentador que crea la sesión puede iniciar la repetición", request=request)
+            return self.controllGetResponse(error="Solo el analista que crea la sesión puede iniciar la repetición", request=request)
         elif self.session.activo:
             return self.controllGetResponse(error="La sesión ya está activada", request=request)
         elif technique.repeticion >= technique.repeticiones_max:

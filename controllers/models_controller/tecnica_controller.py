@@ -22,7 +22,7 @@ class TecnicaController():
                 nombre_estilo=basic["estilo_palabras"]),
             repeticiones_max=basic["numero_repeticiones"] or 1,
             limite_catadores=basic["numero_catadores"],
-            instrucciones=basic["instrucciones"] or "Espere instrucciones del Presentador",
+            instrucciones=basic["instrucciones"] or "Espere instrucciones del Analista",
         )
 
     def getDataTechnique(self):

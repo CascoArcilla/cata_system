@@ -10,6 +10,6 @@ def required_presenter(view_func):
         
         if not hasattr(request.user, "user_presentador"):
             raise PermissionDenied(
-                "Solo los presentadores pueden acceder a esta vista")
+                "Solo los analistas pueden acceder a esta vista")
         return view_func(request, *args, **kwargs)
     return wrapper

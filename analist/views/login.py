@@ -27,7 +27,7 @@ def login_analist(req: HttpRequest):
             req.session["technique_use"] = technique
             return redirect(name_url)
         else:
-            context_view["error"] = "Credenciales inválidas o no es un Presentador"
+            context_view["error"] = "Credenciales inválidas o no es un Analista"
             return render(req, "analist/login.html", context_view)
     else:
         return general_error("Método no permitido")

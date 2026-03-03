@@ -41,7 +41,7 @@ class InitSessionEscalasController(InitSessionController):
         context["has_ended"] = is_end
 
         if is_end:
-            context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
+            context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del analista"
 
         if "error" in request.GET:
             context["error"] = request.GET["error"]
@@ -72,7 +72,7 @@ class InitSessionEscalasController(InitSessionController):
 
             is_end = self.isEndedSession()
             if is_end:
-                context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
+                context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del analista"
                 return render(request, self.current_direction, context)
 
             update_participation = ParticipacionController.enterSession(
