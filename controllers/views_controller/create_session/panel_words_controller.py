@@ -83,6 +83,8 @@ class PanelWordsController():
         Validate vocabulary
         For techniques with style words "vocabulario"
         """
+        context = self.getContext(request)
+
         if not request.POST.get("vocabulario"):
             context["form"] = VocabularioSelectForm()
             context["error"] = "No hay un vocabulario seleccionado"

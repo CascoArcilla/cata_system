@@ -1,6 +1,5 @@
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.shortcuts import render
 from utils import general_error
 from controllers import LoginSessionTesterController
 

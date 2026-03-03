@@ -2,7 +2,6 @@ from django.shortcuts import redirect
 from django.http import HttpRequest, JsonResponse
 from django.urls import reverse
 from controllers import PanelBasicController
-from utils import deleteDataSession
 
 
 def configurationPanelBasic(req: HttpRequest):

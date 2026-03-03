@@ -16,7 +16,6 @@ from controllers import DatoController, PalabrasController
 from .details_controller import DetallesController
 from utils import defaultdict_to_dict
 from collections import defaultdict
-from django.urls import reverse
 
 
 class DetallesEscalasController(DetallesController):
