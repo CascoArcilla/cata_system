@@ -1,5 +1,5 @@
 from django import forms
-from tecnicas.models import TipoEscala, EstiloPalabra
+from tecnicas.models import TipoEscala
 
 
 class SesionBasicRATAForm(forms.Form):

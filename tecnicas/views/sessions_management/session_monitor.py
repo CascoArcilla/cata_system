@@ -169,7 +169,7 @@ def sessionMonitor(req: HttpRequest, session_code: str):
                     "session_code": session_code,
                 },
                 query_params={
-                    "message": "La técnica usada en la sesión aun no se implementa para esta función"
+                    "message": "La técnica usada en la sesión aún no se implementa para esta función"
                 },
                 name_view=back_url
             )
