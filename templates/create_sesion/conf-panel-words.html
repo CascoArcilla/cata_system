@@ -7,10 +7,24 @@
 {% block title %}Generación de vocabulario{% endblock %}
 {% block title_form %}Generación de vocabulario{% endblock %}
 
+{% block extra_css %}
+<style>
+    @media screen and (max-width: 1024px) {
+        .cts-h-serach-words-desk {
+            height: auto;
+        }
+    }
+
+    .cts-h-serach-words-desk {
+        height: 35rem;
+    }
+</style>
+{% endblock %}
+
 {% block extra_content %}
 <article class="flex flex-col md:flex-row gap-5 justify-between">
-    <section class="flex-3/5 flex flex-col gap-4">
-        <form action="" method="get" class="ct-serach-words">
+    <section class="w-full md:w-3/5 flex flex-col cts-h-serach-words-desk max-lg:h-auto">
+        <form action="" method="get" class="ct-serach-words bg-surface-card p-4 rounded-lg">
             {% csrf_token %}
             <p class="text-lg font-bold text-center mb-2 bg-surface-card p-2 rounded">
                 Escriba las primeras letras del atributo para buscar coincidencias
@@ -20,23 +34,25 @@
                     <input type="text" name="search" id="search" placeholder="Buscar atributo"
                         class="p-2 px-4 bg-white rounded-lg w-full text-lg font-medium">
                 </label>
-                <button type="submit" class="font-bold rounded-lg text-xl px-3 text-center cts-btn-tertiary btn-push">
+                <button type="submit"
+                    class="font-bold rounded-lg text-xl px-3 text-center cts-btn-tertiary btn-push">
                     Buscar
                 </button>
             </section>
         </form>
         <p class="cts-fourthy-words hidden capitalize bg-red-600 text-center text-2xl p-1.5 rounded">
             error</p>
-        <ul class="ct-palabras-encontradas gap-2 grid-cols-2 max-h-96 overflow-y-auto">
-            <div class="flex justify-center items-center">
-                <img src="{% static 'img/icons/lupa.svg' %}" alt="lupa de busqueda" style="width: 50%;">
+        <ul class="ct-palabras-encontradas gap-2 grid-cols-2 py-4 overflow-y-scroll">
+            <div class="flex justify-center items-center h-full w-full">
+                <img src="{% static 'img/icons/lupa.svg' %}" alt="lupa de busqueda" class="h-full">
             </div>
         </ul>
     </section>
-    <section class="flex-1/3 bg-surface-card p-4 rounded-lg text-center min-h-96">
+
+    <section class="w-full max-lg:h-auto md:w-2/5 bg-surface-card p-4 rounded-lg cts-h-serach-words-desk flex flex-col">
         <p class="text-xl font-bold pb-3">Lista de atributos</p>
-        <hr class="mb-3">
-        <ul class="ct-palabras-usadas flex flex-col gap-3">
+        <hr class="mb-2">
+        <ul class="ct-palabras-usadas space-y-4 flex-1 overflow-y-scroll max-lg:min-h-96 max-lg:max-h-96">
             {% if not words %}
             <img src="{% static 'img/icons/list.svg' %}" alt="lista de palabras" class="ct-img-list">
             {% endif %}
@@ -52,28 +68,22 @@
     </section>
 </article>
 
-<article class="ct-new-tags bg-surface-card p-5 flex justify-center items-center rounded-2xl">
-    <form method="post" action="" class="ct-form-new-word p-3">
-        {% csrf_token %}
-        <p class="mb-4 text-2xl min-md:text-xl font-bold text-center">
-            ¿No encuentras un atributo?
-        </p>
+<form method="post" action="" class="ct-form-new-word p-4 bg-surface-card rounded-lg">
+    {% csrf_token %}
+    <p class="mb-2 font-bold text-2xl">¿No encuentras un atributo?</p>
+    <section class="flex gap-4 flex-wrap justify-center max-lg:flex-col">
         <label for="{{ form_word.nombre_palabra.id_for_label }}"
-            class="font-medium text-xl  flex flex-wrap justify-center items-center gap-3 mb-4">
+            class="font-medium w-fit text-xl flex-1 *:w-full *:h-full max-lg:w-full">
             {{ form_word.nombre_palabra }}
         </label>
-        <p class="cts-fourthy-word mb-4 font-bold bg-red-500 text-md capitalize text-center rounded hidden">
-            error
-        </p>
-        <article class="flex justify-center gap-8 mt-4 font-medium tracking-wide">
-            <button
-                class="font-bold rounded-lg text-xl text-center py-2 px-4 cts-btn-fifthy btn-push w-fit text-white flex justify-center items-center"
-                type="submit">
-                Crear y agregar a la lista
-            </button>
-        </article>
-    </form>
-</article>
+        <button class="cts-btn-general-compress cts-btn-fifthy btn-push p-2 flex-1 max-lg:w-full" type="submit">
+            Crear y agregar a la lista
+        </button>
+    </section>
+    <p class="cts-fourthy-word mb-4 font-bold bg-red-500 text-md capitalize text-center rounded hidden">
+        error
+    </p>
+</form>
 
 <form action="" method="post" class="ct-creat-session mt-4">
     {% csrf_token %}

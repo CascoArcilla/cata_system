@@ -10,12 +10,12 @@
 <style>
     @media screen and (max-width: 1024px) {
         .cts-h-serach-words-desk {
-            height: 35rem;
+            height: auto;
         }
     }
 
     .cts-h-serach-words-desk {
-        height: auto;
+        height: 35rem;
     }
 </style>
 {% endblock %}
@@ -55,7 +55,7 @@
         </form>
 
         <article class="flex flex-col md:flex-row gap-5 justify-between">
-            <section class="w-full md:w-3/5 flex flex-col cts-h-serach-words-desk">
+            <section class="w-full md:w-3/5 flex flex-col cts-h-serach-words-desk max-lg:h-auto">
                 <form action="" method="get" class="ct-serach-words bg-surface-card p-4 rounded-lg">
                     {% csrf_token %}
                     <p class="text-lg font-semibold mb-2">
@@ -75,14 +75,14 @@
                 <p class="cts-fourthy-words hidden capitalize bg-red-600 text-center text-2xl p-1.5 rounded">
                     error
                 </p>
-                <ul class="ct-palabras-encontradas gap-2 grid-cols-2 py-4 overflow-y-scroll max-lg:min-h-96 max-lg:max-h-96">
+                <ul class="ct-palabras-encontradas gap-2 grid-cols-2 py-4 overflow-y-scroll">
                     <div class="flex justify-center items-center h-full w-full">
                         <img src="{% static 'img/icons/lupa.svg' %}" alt="lupa de busqueda" class="h-full">
                     </div>
                 </ul>
             </section>
 
-            <section class="w-full md:w-2/5 bg-surface-card p-4 rounded-lg cts-h-serach-words-desk flex flex-col">
+            <section class="w-full max-lg:h-auto md:w-2/5 bg-surface-card p-4 rounded-lg cts-h-serach-words-desk flex flex-col">
                 <p class="text-xl font-bold pb-2">Lista de atributos</p>
                 <hr class="mb-2">
                 <ul class="ct-palabras-usadas space-y-4 flex-1 overflow-y-scroll max-lg:min-h-96 max-lg:max-h-96">
@@ -106,12 +106,12 @@
         <form method="post" action="" class="ct-form-new-word p-4 bg-surface-card rounded-lg">
             {% csrf_token %}
             <p class="mb-2 font-bold text-2xl">¿No encuentras un atributo?</p>
-            <section class="flex gap-4 flex-wrap justify-center">
+            <section class="flex gap-4 flex-wrap justify-center max-lg:flex-col">
                 <label for="{{ form_word.nombre_palabra.id_for_label }}"
-                    class="font-medium w-fit text-xl flex-1 *:w-full *:h-full">
+                    class="font-medium w-fit text-xl flex-1 *:w-full *:h-full max-lg:w-full">
                     {{ form_word.nombre_palabra }}
                 </label>
-                <button class="cts-btn-general-compress cts-btn-fifthy btn-push p-2 flex-1" type="submit">
+                <button class="cts-btn-general-compress cts-btn-fifthy btn-push p-2 flex-1 max-lg:w-full" type="submit">
                     Crear y agregar a la lista
                 </button>
             </section>
@@ -120,13 +120,13 @@
             </p>
         </form>
 
-        <article class="flex justify-center gap-4 mt-4">
-            <button type="button" name="start" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full"
+        <article class="flex justify-center gap-4 mt-4 max-lg:flex-col">
+            <button type="button" name="start" class="cts-btn-general cts-btn-primary btn-push flex-1 w-full max-lg:w-full"
                 onclick="submitSelectWords('cts-craed-vocabulary')">
                 Crear vocabulario
             </button>
-            <a href="{% url 'cata_system:panel_vocabulario' %}" class="flex-1 w-full">
-                <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-full">
+            <a href="{% url 'cata_system:panel_vocabulario' %}" class="flex-1 w-full max-lg:w-full">
+                <button type="button" class="cts-btn-general cts-btn-fourthy btn-push w-full max-lg:w-full">
                     Cancelar
                 </button>
             </a>

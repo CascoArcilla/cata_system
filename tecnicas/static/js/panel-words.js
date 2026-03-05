@@ -76,6 +76,7 @@ function createWordElement({ word, add = true, callback = null }) {
   );
 
   const pName = document.createElement("p");
+  pName.classList.add("max-lg:text-sm", "break-words");
   pName.textContent = word.nombre_palabra;
   pName.id = word.id;
 

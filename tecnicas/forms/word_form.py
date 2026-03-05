@@ -13,7 +13,7 @@ class WordForm(forms.ModelForm):
             "max_length": "La palabra es muy larga",
         },
         widget=forms.TextInput(attrs={
-            "class": "bg-white text-center text-black pb-1 rounded",
+            "class": "bg-white text-center text-black pb-1 rounded border",
             "placeholder": "Ingrese nuevo atributo",
             "oninput": "this.value = this.value.toLowerCase()",
             "required": True,
