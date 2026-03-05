@@ -6,11 +6,11 @@
 {% block more_details %}
 {% include "components/details_fields/basic_field.html" with field_name="Estilo de Palabras:" field_value=technique.words_style value_class="capitalize" %}
 {% include "components/details_fields/basic_field.html" with field_value="Pueden ingresar un número ilimitado de Catadores" %}
-{% include "components/details_fields/basic_field.html" with field_value="Esta Técnica solo puede realizarse una única vez (una repetición)" container_class="col-span-2" %}
+{% include "components/details_fields/basic_field.html" with field_value="Por la naturaleza de esta técnica solo se puede efectuarse una sola sesión" container_class="col-span-2" %}
 {% endblock %}
 
 {% block extra_sections %}
-{% include "components/details_fields/list_words.html" with palabras=palabras %}
+{% include "components/details_fields/list_words.html" with palabras=palabras name_vocabulary=name_vocabulary %}
 {% endblock %}
 
 {% block available_actions %}

@@ -34,6 +34,9 @@ class DetallesController():
         context["back_url"] = reverse(self.back_url, kwargs={"page": 1})
         context["home_url"] = reverse(self.home_url)
 
+        if context["technique"].get("words_style") == "vocabulario":
+            context["name_vocabulary"] = self.session.tecnica.tecnica_esvacabulario.id_vocabulario.nombre_vocabulario
+
         return render(
             request, self.url_template, context)
 

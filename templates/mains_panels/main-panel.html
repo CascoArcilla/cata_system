@@ -18,19 +18,19 @@
           <legend class="text-black fieldset-legend text-xl px-2 font-bold mb-2">Datos del Analista</legend>
           <div class="flex flex-col gap-3">
             <div class="border-b border-gray-100 pb-2">
-              <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Nombre</span>
+              <span class="text-xs text-gray-500 font-bold capitalize tracking-wider">Nombre completo</span>
               <p class="text-2xl font-medium text-gray-800">{{ name }}</p>
             </div>
             <div class="border-b border-gray-100 pb-2">
-              <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Usuario</span>
+              <span class="text-xs text-gray-500 font-bold capitalize tracking-wider">Nombre de usuario</span>
               <p class="text-xl font-medium text-gray-700">@{{ username }}</p>
             </div>
             <div class="border-b border-gray-100 pb-2">
-              <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Email</span>
+              <span class="text-xs text-gray-500 font-bold capitalize tracking-wider">Correo electrónico</span>
               <p class="text-lg font-medium text-gray-700">{{ email|default:"No registrado" }}</p>
             </div>
             <div>
-              <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Teléfono</span>
+              <span class="text-xs text-gray-500 font-bold capitalize tracking-wider">Teléfono</span>
               <p class="text-lg font-medium text-gray-700">{{ telefono }}</p>
             </div>
           </div>
