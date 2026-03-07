@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 @plugin "daisyui";
 
 
@@ -23,7 +24,7 @@
 }
 
 .cts-btn-primary {
-  @apply text-white bg-cts-primary border-orange-800;
+  @apply text-black bg-cts-primary border-orange-800;
 }
 
 .cts-btn-secondary {

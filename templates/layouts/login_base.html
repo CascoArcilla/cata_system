@@ -35,16 +35,13 @@
     <article class="cts-container-panel">
         <form action="" method="post" class="text-black flex flex-col lg:flex-row items-center w-full">
             {% csrf_token %}
-            <header class="text-center flex-col items-center justify-center hidden lg:flex lg:w-1/2">
-                <h1 class="text-5xl max-sm:text-3xl font-bold">SensoMX</h1>
+            <header class="text-center hidden lg:flex w-4/7">
                 <div class="w-full">
-                    <img class="w-full h-full object-cover" alt="Logo SensoMX" src="{% static 'img/sensory.webp' %}" />
+                    <img class="w-full h-full object-cover" alt="Logo SensoMX" src="{% static 'img/sensomx.webp' %}" />
                 </div>
             </header>
 
-            <div class="hidden lg:flex divider lg:divider-horizontal"></div>
-
-            <section class="flex flex-col gap-6 items-center w-full lg:w-1/2 max-lg:px-6 relative">
+            <section class="flex flex-col gap-6 items-center w-3/7 max-lg:px-6 relative">
                 {% block chain_user %}
                 {% endblock %}
 
