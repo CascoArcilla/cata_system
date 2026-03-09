@@ -1,4 +1,5 @@
 from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm, SesionBasicRATAForm, SesionBasicIdealForm
+from tecnicas.models import TipoTecnica
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -28,6 +29,7 @@ class PanelBasicController():
         return {
             "form_sesion": form_sesion,
             "use_technique": use_technique,
+            "description_technique": TipoTecnica.objects.get(nombre_tecnica=use_technique).descripcion,
             "url_main":  reverse(url_main),
             "home_url": reverse(url_home)
         }
@@ -251,11 +253,15 @@ class PanelBasicController():
 
     def controllPostNapping(self, request: HttpRequest, name_tecnica: str):
         form = SesionBasicNappingForm(request.POST)
+        placed_mode = "posicionamiento"
 
         if form.is_valid():
             values = {}
             for name, value in form.cleaned_data.items():
                 values[name] = value
+
+            if values["modalidad"] == "posicionamiento de productos":
+                values["modalidad"] = placed_mode
 
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values

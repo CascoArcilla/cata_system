@@ -2,9 +2,8 @@
 {% load static %}
 
 {% block more_details %}
-{% include "components/details_fields/basic_field.html" with field_name="Estilo de Palabras:" field_value=technique.words_style value_class="capitalize" %}
+{% include "components/details_fields/basic_field.html" with field_name="Estilo:" field_value=technique.words_style value_class="capitalize" %}
 {% include "components/details_fields/basic_field.html" with field_name="Cantidad de catadores:" field_value=technique.max_catadores %}
-{% include "components/details_fields/basic_field.html" with field_value="Por la naturaleza de esta técnica solo se puede efectuarse una sola sesión" container_class="col-span-2" %}
 {% endblock %}
 
 {% block extra_sections %}

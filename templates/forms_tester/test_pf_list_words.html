@@ -7,7 +7,7 @@
 <header class="text-center flex-row max-sm:flex-col w-full items-stretch flex justify-around flex-wrap gap-2">
     <h1 class="rounded font-bold text-2xl bg-surface-card p-4 flex-1">
         Sesión usando <br>técnica
-        <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+        <span class="uppercase">{{ session.tecnica.tipo_tecnica.descripcion }}</span>
         <span class="hidden code-sesion">{{ session.codigo_sesion }}</span>
     </h1>
     <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
@@ -39,8 +39,8 @@
             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
     </svg>
     <span class="text-lg">
-        Para poder compartir tu nueva lista de palabras con los demás Catadores, debes usar el botón de
-        <b>“Guardar y comprobar palabras actuales”</b>
+        Para poder compartir tu nueva lista de atributos con los demás Catadores, debes usar el botón de
+        <b>“Guardar y comprobar atributos actuales”</b>
     </span>
 </div>
 {% endif %}
@@ -72,62 +72,60 @@
 
 <div class="error-input-word toast toast-bottom toast-center"></div>
 
-<section class="cts-list-words space-y-4">
-    <article class="flex gap-4 flex-wrap">
-        <section class="bg-surface-card p-4 rounded-lg text-center space-y-4 sm:w-[300px] w-full flex-shrink-0">
-            <h3 class="text-xl font-bold border-b-1">Características sensoriales</h3>
+<section class="cts-list-words flex gap-4 flex-wrap">
+    <section class="bg-surface-card p-4 rounded-lg text-center space-y-4 sm:w-[300px] w-full flex-shrink-0">
+        <h3 class="text-xl font-bold border-b-1">Características sensoriales</h3>
 
-            <form action="" method="get" class="cts-form-pf-word flex gap-4 flex-col">
-                <label for="{{ form.nombre_palabra.id_for_label }}" class="text-left">
-                    {{ form.nombre_palabra }}
-                    <small>
-                        Solo letras minúsculas y la letra ñ, no poner acentos. No se permiten mayúsculas ni
-                        caracteres especiales. Mínimo 3 letras
-                    </small>
-                </label>
-                <button type="submit" class="cts-btn-general-compress cts-btn-primary btn-push w-full py-2">
-                    Agregar
+        <form action="" method="get" class="cts-form-pf-word flex gap-4 flex-col">
+            <label for="{{ form.nombre_palabra.id_for_label }}" class="text-left">
+                {{ form.nombre_palabra }}
+                <small>
+                    Solo letras minúsculas y la letra ñ, no poner acentos. No se permiten mayúsculas ni
+                    caracteres especiales. Mínimo 3 letras
+                </small>
+            </label>
+            <button type="submit" class="cts-btn-general-compress cts-btn-primary btn-push w-full py-2">
+                Agregar
+            </button>
+        </form>
+    </section>
+
+    <section
+        class="bg-surface-card p-4 rounded-lg text-center flex-1 h-[400px] min-h-[400px] max-h-[600px] flex-shrink-0 overflow-y-auto">
+        <div class="flex-1 h-[400px] min-h-[400px] max-h-[600px] flex flex-col">
+            <div>
+                <p class="text-xl font-bold pb-3">Lista de atributos</p>
+                <hr>
+            </div>
+
+        <ul class="cts-box-words flex flex-row flex-wrap gap-3 content-start overflow-y-auto mt-4 pr-1">
+            {% if not words %}
+            <img src="{% static 'img/icons/list.svg' %}" alt="lista de atributos" class="cts-img-list h-[300px] col-span-full mx-auto">
+            {% endif %}
+
+            {% for word in words %}
+            <img src="{% static 'img/icons/list.svg' %}" alt="lista de atributos"
+                class="cts-img-list h-[300px] hidden col-span-full mx-auto">
+
+            <li class="cts-item-words bg-gray-400 text-black rounded font-bold text-lg 
+            px-4 py-3 flex flex-wrap flex-row justify-center items-center gap-3 break-words w-fit">
+                <p class="ct-word-received">{{ word.nombre_palabra }}</p>
+
+                <button class="px-4 border-b-2 active:border-b-0 active:border-t-2 
+                transition-all rounded-xl font-black capitalize 
+                active:border-red-500 border-red-800 bg-red-500">
+                    ➖
                 </button>
-            </form>
-        </section>
-
-        <section
-            class="bg-surface-card p-4 rounded-lg text-center flex-1 h-[400px] min-h-[400px] max-h-[600px] flex-shrink-0 overflow-y-auto">
-            <div class="flex-1 h-[400px] min-h-[400px] max-h-[600px] flex flex-col">
-                <div>
-                    <p class="text-xl font-bold pb-3">Lista de palabras</p>
-                    <hr>
-                </div>
-
-                <ul class="cts-box-words grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 content-start overflow-y-auto mt-4 pr-1">
-                {% if not words %}
-                <img src="{% static 'img/icons/list.svg' %}" alt="lista de palabras" class="cts-img-list h-[300px] col-span-full mx-auto">
-                {% endif %}
-
-                {% for word in words %}
-                <img src="{% static 'img/icons/list.svg' %}" alt="lista de palabras"
-                    class="cts-img-list h-[300px] hidden col-span-full mx-auto">
-
-                <li class="cts-item-words bg-gray-400 text-black rounded font-bold text-lg 
-                px-4 py-3 flex flex-wrap flex-row justify-center items-center gap-3 break-words">
-                    <p class="ct-word-received">{{ word.nombre_palabra }}</p>
-
-                    <button class="px-4 border-b-2 active:border-b-0 active:border-t-2 
-                    transition-all rounded-xl font-black capitalize 
-                    active:border-red-500 border-red-800 bg-red-500">
-                        ➖
-                    </button>
-                </li>
-                {% endfor %}
-            </ul>
-        </section>
-    </article>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
 </section>
 
 <article class="flex max-sm:flex-col gap-4">
     <button type="button" class="cts-btn-general-compress cts-btn-primary btn-push py-2 px-4 flex-1"
         onclick="sendWordsToSave()">
-        Guardar y comprobar palabras actuales
+        Guardar y comprobar atributos actuales
     </button>
 
     <button type="button" class="cts-btn-general cts-btn-fifthy btn-push py-2 px-4 flex-1"
@@ -144,11 +142,11 @@
     </svg>
     <div class="flex-col">
         <span class="text-lg block">
-            Si usas el botón <b>“Salir de la sesión”</b> asegúrese de guardar las palabras de lo contrario las
-            palabras no se guardaran pero podrás ingresar otra vez
+            Si usas el botón <b>“Salir de la sesión”</b> asegúrese de guardar las atributos de lo contrario las
+            atributos no se guardaran pero podrás ingresar otra vez
         </span>
         <span class="text-lg block">
-            Con el botón <b>“Finalizar la sesión”</b>, se guardan las palabras, sales de la sesión y no podrás
+            Con el botón <b>“Finalizar la sesión”</b>, se guardan las atributos, sales de la sesión y no podrás
             ingresar otra vez
         </span>
     </div>

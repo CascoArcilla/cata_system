@@ -4,7 +4,7 @@ import re
 
 class ListWordsForm(forms.Form):
     # Regex para validar palabras: solo letras minúsculas y la letra ñ, mínimo 3 caracteres, con espacios
-    regex = re.compile(r'^[a-zñ ]{3,}$')
+    regex = re.compile(r'^[a-zñ_ ]{3,}$')
 
     def __init__(self, *args, new_words=None, **kwargs):
         super().__init__(*args, **kwargs)

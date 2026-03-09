@@ -14,13 +14,13 @@ class InitSessionRATAController(InitSessionController):
                 "code": self.session.codigo_sesion,
                 "name": self.session.nombre_sesion,
                 "instructions": self.session.tecnica.instrucciones,
-                "style": self.session.tecnica.id_estilo.nombre_estilo,
+                "style": self.session.tecnica.id_estilo.nombre_estilo
             },
             "use_technique": self.session.tecnica.tipo_tecnica.nombre_tecnica
         }
 
         try:
-            context["session_info"]["type_scale"] = self.session.tecnica.escala_tecnica.id_tipo_escala.nombre_escala
+            context["session_info"]["type_scale"] = self.session.tecnica.escala_tecnica.first().id_tipo_escala.nombre_escala
         except AttributeError:
             context["session_info"]["type_scale"] = None
 

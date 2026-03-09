@@ -7,7 +7,7 @@
 <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
     <h1 class="rounded font-bold text-2xl bg-surface-card p-4 flex-1">
         Sesión usando <br>técnica
-        <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+        <span class="uppercase">{{ session.tecnica.tipo_tecnica.descripcion }}</span>
         <span class="hidden code-sesion">{{ session.codigo_sesion }}</span>
     </h1>
     <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
