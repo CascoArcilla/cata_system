@@ -4,7 +4,7 @@
 {% block title %}Napping{% endblock %}
 
 {% block content_tester %}
-<header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
+<header class="text-center md:flex-row flex-col w-full items-stretch flex justify-around flex-wrap gap-2">
     <h1 class="rounded font-bold text-2xl bg-surface-card p-4 flex-1">
         Sesión usando <br>técnica
         <span class="uppercase">{{ session.tecnica.tipo_tecnica.descripcion }}</span>
@@ -41,6 +41,14 @@
     </p>
 </section>
 
+<div role="alert" class="alert alert-warning md:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+    <span><b>Advertencia:</b> Esta técnica es diseñada solo para dispositivos con una pantalla ancha, puede colocar el dispositivo en horizontal para visualizar mejor el ancho, pero se recomienda usar un dispositivo con una pantalla ancha para una mejor experiencia</span>
+</div>
+
 
 <article class="container-rating-word p-2 py-6 space-y-6 bg-surface-card rounded min-w-3xl">
     <h2 class="text-xl font-bold">Productos en la sesión</h2>
@@ -55,13 +63,13 @@
 
     <!-- Cartesian Plane Container -->
     <div class="flex justify-center w-full">
-        <div class="relative w-full max-w-[800px] aspect-[3/2] bg-white border-2 border-gray-400 shadow-inner cursor-crosshair"
+        <div class="relative w-full max-w-[800px] aspect-[3/2] bg-white border-2 border-gray-400 shadow-inner cursor-crosshair mb-8"
             id="napping-plane"
             style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
 
-            <span class="absolute bottom-1 right-2 text-xs text-gray-500 font-bold">60cm (X)</span>
-            <span class="absolute top-2 left-1 text-xs text-gray-500 font-bold">40cm (Y)</span>
-            <span class="absolute bottom-1 left-1 text-xs text-gray-500 font-bold">0</span>
+            <span class="absolute -bottom-6 right-0 text-xs text-gray-500 font-bold">60cm (X)</span>
+            <span class="absolute top-4 -left-12 text-xs text-gray-500 font-bold -rotate-90">40cm (Y)</span>
+            <span class="absolute -bottom-6 -left-2 text-xs text-gray-500 font-bold">0</span>
 
             {% for point in data_points %}
             <div id="point-{{ point.code }}"

@@ -1,10 +1,8 @@
 let dragged = null;
-
 const productsPlaceHolder = `
     <p class="text-products text-center text-lg font-medium">
         Agrupación de productos
     </p>`;
-
 const wordsPlaceHolder = `
     <p class="text-words text-center text-lg font-medium">
         Lista de atributos
@@ -12,20 +10,11 @@ const wordsPlaceHolder = `
 
 const products = document.querySelectorAll(".draggable");
 const zonesDrop = document.querySelectorAll(".dropzone");
-
 const DATA_GRUPS = {};
-
 products.forEach(manageDragables);
 zonesDrop.forEach(manageDropZone);
 
-
-/*
-////
-//////
-//////// Add new grups
-//////
-////
-*/
+/*//////// Add new grups ////////*/
 
 function addNewGrup() {
     const container = document.getElementById("containers");
@@ -63,24 +52,14 @@ function addNewGrup() {
 }
 
 
-/*
-////
-//////
-//////// Manage products' drags and remove drags
-//////
-////
-*/
+/* //// Manage products' drags and remove drags ////*/
 
 /**
  * 
  * @param {HTMLElement} zone 
  */
 function manageDropZone(zone) {
-    /*
-    ////
-    ////// Trash Zone product
-    ////
-    */
+    /*//// Trash Zone product ////*/
     if (zone.classList.contains("trash-products")) {
         zone.addEventListener("dragover", (e) => e.preventDefault());
 
@@ -107,11 +86,7 @@ function manageDropZone(zone) {
         return
     }
 
-    /*
-    ////
-    ////// Identificate grups and creata dinamic data
-    ////
-    */
+    /*//// Identificate grups and creata dinamic data ////*/
 
     // Create id for grup
     const idZone = generateSimpleID()
@@ -145,11 +120,7 @@ function manageDropZone(zone) {
         words: words
     }
 
-    /*
-    ////
-    ////// Drop Zone product
-    ////
-    */
+    /*//// Drop Zone product ////*/
 
     zone.setAttribute("id", idZone)
     zone.addEventListener("dragover", (e) => e.preventDefault());
@@ -207,13 +178,7 @@ function manageDropZone(zone) {
     }
 }
 
-/*
-////
-//////
-//////// Management Drags and FormWord
-//////
-////
-*/
+/*//// Management Drags and FormWord ////*/
 
 /**
  * 
@@ -273,13 +238,7 @@ function manageFormWord(form, containerWords, codeGrup) {
     });
 }
 
-/*
-////
-//////
-//////// Management Drags and FormWord
-//////
-////
-*/
+/*//// Management Drags and FormWord ////*/
 
 /**
  * 
@@ -354,13 +313,7 @@ function addListenersButtonQuestionGrup(grupContainer) {
     })
 }
 
-/*
-////
-//////
-//////// Management Options Save and remove groups
-//////
-////
-*/
+/*//// Management Options Save and remove groups ////*/
 
 /**
  * 
@@ -410,13 +363,7 @@ document
     .getElementById("cancel-save")
     .addEventListener("click", showQuestionSave);
 
-/*
-////
-//////
-//////// Save data
-//////
-////
-*/
+/*//// Save data ////*/
 
 async function saveData() {
     const keysDataGrups = Object.keys(DATA_GRUPS);
@@ -526,13 +473,7 @@ function symmetricDifference(setA, setB) {
     return _difference;
 }
 
-/*
-////
-//////
-//////// Finish session
-//////
-////
-*/
+/*//// Finish session //// */
 
 document
     .getElementById("finish-session")
