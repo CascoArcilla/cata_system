@@ -11,8 +11,13 @@ class PanelBasicController():
         "numero_repeticiones": 1
     }
 
-    def __init__(self, url_main: str = "cata_system:seleccion_tecnica", url_home: str = "cata_system:index"):
-        self.template = "create_sesion/conf-panel-basic.html"
+    def __init__(
+            self,
+            url_main: str = "cata_system:seleccion_tecnica",
+            url_home: str = "cata_system:index",
+            template: str = "create_sesion/conf-panel-basic-scales.html"
+    ):
+        self.template = template
         self.url_conf_tags = "cata_system:panel_configuracion_tags"
         self.url_conf_codes = "cata_system:panel_configuracion_codes"
         self.url_main = url_main

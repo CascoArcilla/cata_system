@@ -18,31 +18,36 @@ def configurationPanelBasic(req: HttpRequest):
         elif name_tecnica == "rata":
             response = PanelBasicController(
                 url_main=url_main,
-                url_home=url_main
+                url_home=url_main,
+                template="create_sesion/conf-panel-basic-rata.html"
             ).controllGetRATA(request=req)
 
         elif name_tecnica == "cata":
             response = PanelBasicController(
                 url_main=url_main,
-                url_home=url_main
+                url_home=url_main,
+                template="create_sesion/conf-panel-basic-cata.html"
             ).controllGetCATA(request=req)
 
         elif name_tecnica == "perfil flash":
             response = PanelBasicController(
                 url_main=url_main,
-                url_home=url_main
+                url_home=url_main,
+                template="create_sesion/conf-panel-basic-pf.html"
             ).controllGetPF(request=req)
 
         elif name_tecnica == "sort":
             response = PanelBasicController(
                 url_main=url_main,
-                url_home=url_main
+                url_home=url_main,
+                template="create_sesion/conf-panel-basic-sort.html"
             ).controllGetSort(request=req)
 
         elif name_tecnica == "napping":
             response = PanelBasicController(
                 url_main=url_main,
-                url_home=url_main
+                url_home=url_main,
+                template="create_sesion/conf-panel-basic-napping.html"
             ).controllGetNapping(request=req)
 
         elif name_tecnica == "perfil_ideal":
@@ -67,42 +72,48 @@ def configurationPanelBasic(req: HttpRequest):
         elif name_tecnica == "rata":
             response = PanelBasicController(
                 url_home=url_main,
-                url_main=url_main
+                url_main=url_main,
+                template="create_sesion/conf-panel-basic-rata.html"
             ).controllPostRATA(
                 request=req, name_tecnica=name_tecnica)
 
         elif name_tecnica == "cata":
             response = PanelBasicController(
                 url_home=url_main,
-                url_main=url_main
+                url_main=url_main,
+                template="create_sesion/conf-panel-basic-cata.html"
             ).controllPostCATA(
                 request=req, name_tecnica=name_tecnica)
 
         elif name_tecnica == "perfil flash":
             response = PanelBasicController(
                 url_home=url_main,
-                url_main=url_main
+                url_main=url_main,
+                template="create_sesion/conf-panel-basic-pf.html"
             ).controllPostPF(
                 request=req, name_tecnica=name_tecnica)
 
         elif name_tecnica == "sort":
             response = PanelBasicController(
                 url_home=url_main,
-                url_main=url_main
+                url_main=url_main,
+                template="create_sesion/conf-panel-basic-sort.html"
             ).controllPostSort(
                 request=req, name_tecnica=name_tecnica)
 
         elif name_tecnica == "napping":
             response = PanelBasicController(
                 url_home=url_main,
-                url_main=url_main
+                url_main=url_main,
+                template="create_sesion/conf-panel-basic-napping.html"
             ).controllPostNapping(
                 request=req, name_tecnica=name_tecnica)
 
         elif name_tecnica == "perfil_ideal":
             response = PanelBasicController(
                 url_home=url_main,
-                url_main=url_main
+                url_main=url_main,
+                template="create_sesion/conf-panel-basic-ideal.html"
             ).controllPostIdeal(
                 request=req, name_tecnica=name_tecnica)
 

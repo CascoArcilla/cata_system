@@ -1,0 +1,10 @@
+{% extends "create_sesion/conf-panel-basic-scales.html" %}
+
+{% block basic_fields %}
+    {% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
+    {% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True use_max_reps=True %}
+    {% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
+{% endblock %}
+
+{% block more_fields %}
+{% endblock %}
