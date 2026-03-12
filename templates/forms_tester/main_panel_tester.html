@@ -23,7 +23,7 @@
                     👤
                 </div>
                 <div class="grow min-w-0">
-                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Nombre completo</p>
+                    <p class="text-xs font-bold first-letter:uppercase text-gray-500 mb-0.5">Nombre completo</p>
                     <p class="text-lg font-medium truncate">{{ name }}</p>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     @
                 </div>
                 <div class="grow min-w-0">
-                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Nombre de usuario</p>
+                    <p class="text-xs font-bold first-letter:uppercase text-gray-500 mb-0.5">Nombre de usuario</p>
                     <p class="text-lg font-medium truncate">@{{ username }}</p>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                     ✉️
                 </div>
                 <div class="grow min-w-0">
-                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Email</p>
+                    <p class="text-xs font-bold first-letter:uppercase text-gray-500 mb-0.5">Correo electrónico</p>
                     <p class="text-lg font-medium truncate">{{ email }}</p>
                 </div>
             </div>
@@ -59,7 +59,7 @@
                     📞
                 </div>
                 <div class="grow min-w-0">
-                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Teléfono</p>
+                    <p class="text-xs font-bold first-letter:uppercase text-gray-500 mb-0.5">Teléfono</p>
                     <p class="text-lg font-medium truncate">{{ phone }}</p>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                     ⚧
                 </div>
                 <div class="grow min-w-0">
-                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Genero</p>
+                    <p class="text-xs font-bold first-letter:uppercase text-gray-500 mb-0.5">Género</p>
                     <p class="text-lg font-medium truncate">{{ genere }}</p>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                     🎂
                 </div>
                 <div class="grow min-w-0">
-                    <p class="text-xs font-bold uppercase text-gray-500 mb-0.5">Nacimiento</p>
+                    <p class="text-xs font-bold first-letter:uppercase text-gray-500 mb-0.5">Nacimiento</p>
                     <p class="text-lg font-medium truncate">{{ birthday }}</p>
                 </div>
             </div>
@@ -98,13 +98,15 @@
         <hr>
         <article class="flex flex-wrap gap-4 max-sm:flex-col justify-center">
             <a href="{% url 'cata_system:catador_subscribe_session' %}" class="w-fit max-sm:w-full grow">
-                <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
-                    ➕ Suscribirse a una sesión
+                <button class="cts-btn-general cts-btn-primary btn-push w-full flex items-center flex-col">
+                    <span class="cts-btn-icon md:text-2xl text-xl">➕ Suscribirse a una sesión</span>
+                    <span class="text-sm font-light">Usa un código para participar en una sesión</span>
                 </button>
             </a>
             <a href="{% url 'cata_system:catador_list_sessions' num_page=1 %}" class="w-fit max-sm:w-full grow">
-                <button class="cts-btn-general-compress px-4 py-2 cts-btn-primary btn-push w-full">
-                    🔍 Listar sesiones
+                <button class="cts-btn-general cts-btn-primary btn-push w-full flex items-center flex-col">
+                    <span class="cts-btn-icon md:text-2xl text-xl">🔍 Listar sesiones</span>
+                    <span class="text-sm font-light">Explora tus sesiones </span>
                 </button>
             </a>
         </article>

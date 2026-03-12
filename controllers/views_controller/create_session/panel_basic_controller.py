@@ -1,4 +1,5 @@
 from tecnicas.forms import SesionBasicForm, SesionBasicCATAForm, SesionBasicPFForm, SesionBasicSortForm, SesionBasicNappingForm, SesionBasicRATAForm, SesionBasicIdealForm
+from tecnicas.models import TipoTecnica
 from django.http import HttpRequest
 from django.shortcuts import redirect, render
 from django.urls import reverse
@@ -10,8 +11,13 @@ class PanelBasicController():
         "numero_repeticiones": 1
     }
 
-    def __init__(self, url_main: str = "cata_system:seleccion_tecnica", url_home: str = "cata_system:index"):
-        self.template = "create_sesion/conf-panel-basic.html"
+    def __init__(
+            self,
+            url_main: str = "cata_system:seleccion_tecnica",
+            url_home: str = "cata_system:index",
+            template: str = "create_sesion/conf-panel-basic-scales.html"
+    ):
+        self.template = template
         self.url_conf_tags = "cata_system:panel_configuracion_tags"
         self.url_conf_codes = "cata_system:panel_configuracion_codes"
         self.url_main = url_main
@@ -28,6 +34,7 @@ class PanelBasicController():
         return {
             "form_sesion": form_sesion,
             "use_technique": use_technique,
+            "description_technique": TipoTecnica.objects.get(nombre_tecnica=use_technique).descripcion,
             "url_main":  reverse(url_main),
             "home_url": reverse(url_home)
         }
@@ -251,11 +258,18 @@ class PanelBasicController():
 
     def controllPostNapping(self, request: HttpRequest, name_tecnica: str):
         form = SesionBasicNappingForm(request.POST)
+        placed_mode = "posicionamiento"
+        categorization_mode = "sorting"
 
         if form.is_valid():
             values = {}
             for name, value in form.cleaned_data.items():
                 values[name] = value
+
+            if values["modalidad"] == "posicionamiento de productos":
+                values["modalidad"] = placed_mode
+            elif values["modalidad"] == "categorización":
+                values["modalidad"] = categorization_mode
 
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values

@@ -22,7 +22,7 @@ class DetallesPFController(DetallesController):
         technique = self.session.tecnica
 
         self.context = {
-            "use_technique": technique.tipo_tecnica.nombre_tecnica,
+            "use_technique": technique.tipo_tecnica.descripcion,
             "tipo_escala": "Ordinal",
             "repeticiones_max": technique.repeticiones_max - self.skip_repetition,
             "session": {

@@ -6,7 +6,7 @@ class CodesForm(forms.Form):
         super().__init__(*args, **kwargs)
 
         for index, code in enumerate(codes):
-            self.fields[f'producto_{index+1}'] = forms.CharField(max_length=3, required=True, min_length=3, initial=code, label=f"codigo {index+1}", widget=forms.TextInput(attrs={
+            self.fields[f'producto_{index+1}'] = forms.CharField(max_length=3, required=True, min_length=3, initial=code, label=f"Código {index+1}", widget=forms.TextInput(attrs={
                 "class": "ct-code bg-white p-1 border-b-1 text-center w-full disabled:bg-surface-general uppercase"
             }))
 

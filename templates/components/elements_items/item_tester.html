@@ -11,7 +11,7 @@
 
         <div class="w-full text-base flex gap-2 flex-wrap text-center">
             <p class="font-semibold bg-surface-sweet rounded p-1">
-                <span class="font-bold">Genero:</span>
+                <span class="font-bold">Género:</span>
                 {{ tester.genero }}
             </p>
             <p class="font-semibold bg-surface-sweet rounded p-1">
@@ -29,7 +29,7 @@
         </div>
 
         <div class="card-actions justify-end mt-3">
-            <a href="{% url 'cata_system:buscar_catador' %}?user={{ tester.user.username }}" class="w-full">
+            <a href="{% url 'cata_system:buscar_catador' %}?user={{ tester.user.username }}&page={{ num_page }}" class="w-full">
                 <button class="cts-btn-general-compress px-4 py-1 w-full cts-btn-primary btn-push">
                     Actualizar datos
                 </button>

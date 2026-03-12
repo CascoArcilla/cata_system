@@ -16,7 +16,6 @@ from controllers import DatoController, PalabrasController
 from .details_controller import DetallesController
 from utils import defaultdict_to_dict
 from collections import defaultdict
-from django.urls import reverse
 
 
 class DetallesEscalasController(DetallesController):
@@ -39,7 +38,7 @@ class DetallesEscalasController(DetallesController):
         technique = self.session.tecnica
 
         self.context = {
-            "use_technique": technique.tipo_tecnica.nombre_tecnica,
+            "use_technique": technique.tipo_tecnica.descripcion,
             "session": {
                 "session_code": self.session.codigo_sesion,
                 "session_name": self.session.nombre_sesion or "Sin nombre asignado",

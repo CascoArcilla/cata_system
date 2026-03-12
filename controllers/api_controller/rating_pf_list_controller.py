@@ -94,7 +94,7 @@ class RatingPFListController():
                 list_words=words, list_tester=list_words_tester)
 
             response = JsonResponse({
-                "message": "Palabras guardadas con exito",
+                "message": "Palabras guardadas exitosamente",
                 "words": [word.nombre_palabra for word in added_words]
             })
         else:
@@ -214,7 +214,7 @@ class RatingPFListController():
 
                 ValorDecimal.objects.bulk_create(values_to_create)
 
-            return JsonResponse({"message": "Calificaciones guardadas con exito"})
+            return JsonResponse({"message": "Calificaciones guardadas exitosamente"})
         except ValueError as e:
             error_message = str(e)
             print(f"Error de calificacion: {error_message}")

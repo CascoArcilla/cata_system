@@ -1,15 +1,16 @@
-<hr>
-<h2 class="text-2xl font-bold">Elije Modalidad</h2>
-<article class="space-y-4">
-    <section class="flex flex-row gap-4 justify-around flex-wrap">
-        {% for choice in form_sesion.modalidad %}
-        <label for="{{choice.id_for_label}}"
-            class="cts-btn-general-compress cts-btn-fifthy btn-push px-4 py-2 uppercase flex-1 flex items-center justify-around gap-2">
-            {{ choice.tag }}
-            <p class="italic text-center flex-1">
-                {{ choice.choice_label }}
-            </p>
-        </label>
-        {% endfor %}
-    </section>
-</article>
+<section class="space-y-4 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl font-bold">Elije Modalidad</h2>
+    <article class="space-y-4">
+        <section class="flex flex-row gap-4 justify-around flex-wrap">
+            {% for choice in form_sesion.modalidad %}
+            <label for="{{choice.id_for_label}}"
+                class="cts-btn-general-compress cts-btn-fifthy btn-push px-4 py-2 uppercase flex-1 flex items-center justify-around gap-2">
+                {{ choice.tag }}
+                <p class="italic text-center flex-1">
+                    {{ choice.choice_label }}
+                </p>
+            </label>
+            {% endfor %}
+        </section>
+    </article>
+</section>

@@ -26,6 +26,12 @@
             Número de Repeticiones:
         </p>
         {{ form_sesion.numero_repeticiones }}
+        
+        {% if use_pf %}
+            <span class="text-sm font-bold">
+                Usado en fase 3 para la evaluación de los productos
+            </span>
+        {% endif %}
     </label>
     {% endif %}
 </section>

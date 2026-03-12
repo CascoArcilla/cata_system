@@ -1,0 +1,20 @@
+{% extends "create_sesion/conf-panel-basic-scales.html" %}
+
+{% block basic_fields %}
+{% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True %}
+{% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
+{% endblock %}
+
+{% block more_fields %}
+{% include "components/fields_config/style_words.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/scales.html" with form_sesion=form_sesion %}
+<section class="space-y-2 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl mb-2 font-bold">Características de la técnica</h2>
+    <p>
+        La tecnica Rate-All-That-Apply (RATA), una variante basada en la intensidad de Check-All-That-Apply (CATA), se
+        ha desarrollado recientemente para la caracterización sensorial. En este técnica los evaluadores usan escalas
+        para evaluar la intensidad de los términos sensoriales.
+    </p>
+</section>
+{% endblock %}

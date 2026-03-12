@@ -4,29 +4,29 @@
     <!-- Session B Information -->
     <div class="bg-surface-card p-4 rounded-lg space-y-2">
         <h3 class="font-bold text-lg">Información de la Sesión B</h3>
-        <div class="grid grid-cols-2 max-sm:grid-cols-1 gap-2 text-sm">
-            <p><span class="font-semibold">Código:</span> {{ session_b.codigo_sesion }}</p>
-            <p><span class="font-semibold">Técnica:</span> {{ technique_type }}</p>
-            <p><span class="font-semibold">Nombre:</span> {{ session_b.nombre_sesion|default:"Sin nombre" }}</p>
-            <p><span class="font-semibold">Catadores:</span> {{ testers|length }}</p>
+        <div class="grid grid-cols-2 max-sm:grid-cols-1 gap-2">
+            <p><span class="font-bold">Código:</span> {{ session_b.codigo_sesion }}</p>
+            <p><span class="font-bold">Técnica:</span> {{ technique_type }}</p>
+            <p><span class="font-bold">Nombre:</span> {{ session_b.nombre_sesion|default:"Sin nombre" }}</p>
+            <p><span class="font-bold">Catadores:</span> {{ testers|length }}</p>
             
             {% if combined_data.vocabulary_info %}
             <p class="col-span-2 max-sm:col-span-1">
-                <span class="font-semibold">Vocabulario:</span> {{ combined_data.vocabulary_info.nombre }}
+                <span class="font-bold">Vocabulario:</span> {{ combined_data.vocabulary_info.nombre }}
             </p>
             {% endif %}
             
             {% if combined_data.scale_info %}
-            <p><span class="font-semibold">Escala:</span> {{ combined_data.scale_info.type }}</p>
-            <p><span class="font-semibold">Longitud:</span> {{ combined_data.scale_info.size }}</p>
+            <p class="capitalize"><span class="font-bold">Escala:</span> {{ combined_data.scale_info.type }}</p>
+            <p class="capitalize"><span class="font-bold">Longitud:</span> {{ combined_data.scale_info.size }}</p>
             {% endif %}
             
             {% if combined_data.num_repetitions %}
-            <p><span class="font-semibold">Repeticiones:</span> {{ combined_data.num_repetitions }}</p>
+            <p><span class="font-bold">Repeticiones:</span> {{ combined_data.num_repetitions }}</p>
             {% endif %}
             
             <p class="col-span-2 max-sm:col-span-1">
-                <span class="font-semibold">Palabras utilizadas:</span> 
+                <span class="font-bold">Atributos sensoriales:</span>
                 {{ combined_data.all_words|join:", " }}
             </p>
         </div>
@@ -105,7 +105,7 @@
   btn.addEventListener("click", function () {
     const table = document.getElementById("combined-table-download");
     if (!table) {
-      console.warn("No se encontró la tabla combinada para descargar.");
+      spanNotification("No se encontró la tabla combinada para descargar.");
       return;
     }
 

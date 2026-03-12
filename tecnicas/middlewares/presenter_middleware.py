@@ -32,7 +32,24 @@ class PresenterAccessMiddleware:
     def chechTypeTechnique(self, path):
         if path.startswith('/sensorial/presenter/escalas'):
             return "escalas"
+        
         elif path.startswith('/sensorial/presenter/rata'):
             return "rata"
+        
+        elif path.startswith('/sensorial/presenter/cata'):
+            return "cata"
+        
+        elif path.startswith('/sensorial/presenter/perfil-flash'):
+            return "perfil-flash"
+        
+        elif path.startswith('/sensorial/presenter/sort'):
+            return "sort"
+        
+        elif path.startswith('/sensorial/presenter/napping'):
+            return "napping"
+        
+        elif path.startswith('/sensorial/presenter/perfil-ideal'):
+            return "perfil-ideal"
+        
         else:
             return None

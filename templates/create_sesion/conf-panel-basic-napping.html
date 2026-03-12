@@ -1,0 +1,29 @@
+{% extends "create_sesion/conf-panel-basic-scales.html" %}
+
+{% block basic_fields %}
+{% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True%}
+{% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
+{% endblock %}
+
+{% block more_fields %}
+{% include "components/fields_config/mode_napping.html" with form_sesion=form_sesion %}
+<section class="space-y-2 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl mb-2 font-bold">Características de la técnica</h2>
+    <p>
+        La tecnica mantel (Napping®) es un método donde cada evaluador posiciona todos los productos que se presentan
+        simultáneamente en una hoja de papel (normalmente una hoja rectangular de 40 x 60 cm), que representa un espacio
+        bidimensional.
+    </p>
+    <p>
+        En este proceso, los productos sensorialmente similares se colocan cerca y los productos diferentes se colocan
+        lejos.
+    </p>
+    <p>
+        Sin embargo, una etapa posterior en esta técnica puede ser usada para la caracterización de productos
+        combinandola con otras técnicas sensoriales (caracterización, perfil ultra-flash, perfil convencional, entre
+        otras).
+    </p>
+</section>
+{% endblock %}
+.

@@ -17,7 +17,7 @@ class SesionController():
 
     def setSession(self):
         if not self.presenter:
-            return controller_error("Se requiere presentador para crear sesión")
+            return controller_error("Se requiere analista para crear sesión")
         elif not self.technique:
             return controller_error("Se requiere técnica para crear sesión")
 
@@ -48,7 +48,7 @@ class SesionController():
         try:
             creator = Presentador.objects.get(user__username=user_name)
         except Presentador.DoesNotExist:
-            return controller_error("Presentador invalido")
+            return controller_error("Analista invalido")
 
         queryset = (
             SesionSensorial.objects

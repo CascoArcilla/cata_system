@@ -32,7 +32,7 @@ class PanelCreateCataController(PanelCreateController):
                             nombre_estilo=data_basic["estilo_palabras"]),
                         repeticiones_max=data_basic["numero_repeticiones"] or 1,
                         limite_catadores=data_basic["numero_catadores"],
-                        instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Presentador",
+                        instrucciones=data_basic["instrucciones"] or "Espere instrucciones del Analista",
                     )
 
                     if not technique:

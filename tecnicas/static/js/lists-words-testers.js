@@ -90,7 +90,7 @@ function createListWords(username, words, status = "indefinido") {
       "font-bold",
       "py-1",
       "px-2",
-      "truncate"
+      "break-words"
     );
     li.textContent = word.nombre_palabra;
     ul.appendChild(li);

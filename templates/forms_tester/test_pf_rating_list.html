@@ -2,13 +2,13 @@
 
 {% load static %}
 
-{% block title %}Convencional{% endblock %}
+{% block title %}Sesión Perfil Flash{% endblock %}
 
 {% block content_tester %}
 <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
     <h1 class="rounded font-bold text-2xl bg-surface-card p-4 flex-1">
         Sesión usando <br>técnica
-        <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+        <span class="uppercase">{{ session.tecnica.tipo_tecnica.descripcion }}</span>
         <span class="hidden code-sesion">{{ session.codigo_sesion }}</span>
     </h1>
     <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
@@ -37,6 +37,9 @@
         <p class="text-lg font-medium text-center">
             {{ session.tecnica.instrucciones }}
         </p>
+    </section>
+
+    <section class="bg-surface-card p-2 rounded-lg">
         <p class="text-lg text-center">
             <span class="font-bold">Fase <span class="cts-phase-pf" data-phase="3">3</span>:</span>
             <span>Evaluación de Atributos</span>
@@ -56,7 +59,7 @@
             <p class="text-lg font-bold text-center">
                 El atributo que se está evaluando:
             </p>
-            <p class="cts-word-rating text-2xl font-bold text-center" data-name-word="{{ word }}">
+            <p class="cts-word-rating text-2xl font-bold text-center first-letter:uppercase" data-name-word="{{ word }}">
                 "{{ word }}"
             </p>
         </div>
@@ -90,11 +93,11 @@
         <!-- Linea de menor a mayor -->
         <section>
             <div class="flex justify-center items-center gap-4">
-                <span class="text-2xl">➖</span>
-                <hr class="border-2 flex-1">
                 <SPan class="text-2xl">➕</SPan>
+                <hr class="border-2 flex-1">
+                <span class="text-2xl">➖</span>
             </div>
-            <p class="text-center text-sm">Valores de menor a mayor</p>
+            <p class="text-center text-sm">El valor mayor es 1</p>
         </section>
     </section>
 

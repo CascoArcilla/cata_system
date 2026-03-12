@@ -27,8 +27,8 @@ class SesionBasicNappingForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(SesionBasicNappingForm, self).__init__(*args, **kwargs)
         names_mod = [
-            ("posicionamiento", "posicionamiento"),
-            ("sorting", "sorting"),
+            ("posicionamiento de productos", "posicionamiento de productos"),
+            ("categorización", "categorización"),
             ("perfil ultra flash", "perfil ultra flash")
         ]
 

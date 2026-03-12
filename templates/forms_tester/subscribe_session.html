@@ -29,35 +29,57 @@
 
     <div class="card bg-surface-card shadow-lg mx-auto w-full">
         <div class="card-body items-center text-center space-y-4">
-            
-            <div class="w-24 h-24 rounded-full bg-surface-sweet border-4 border-pink-200 flex items-center justify-center text-5xl shadow-sm mb-2 animate-bounce-slow">
+
+            <div
+                class="w-24 h-24 rounded-full bg-surface-sweet border-4 border-pink-200 flex items-center justify-center text-5xl shadow-sm mb-2 animate-bounce-slow">
                 🎟️
             </div>
 
             <div class="space-y-2">
                 <h2 class="card-title justify-center text-2xl font-bold">¿Tienes un código?</h2>
-                <p class="text-gray-600 max-w-md">Ingresa el código de sesión proporcionado por el panelista para comenzar tu evaluación.</p>
+                <p class="text-gray-600 max-w-md">Ingresa el código de sesión proporcionado por el panelista para
+                    comenzar tu evaluación.</p>
             </div>
 
-            <form action="" method="post" class="w-full max-w-md space-y-6 mt-4">
+            <form id="form-susscribe-session" action="" method="post" class="w-full max-w-md space-y-6 mt-4">
                 {% csrf_token %}
-                
+
                 <div class="form-control w-full">
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                             <span class="text-gray-400 text-xl">#</span>
                         </div>
-                        <input type="text" name="code_session" id="code_session" placeholder="CÓDIGO DE SESIÓN" 
-                            class="input input-lg w-full bg-surface-ligt border-2 border-pink-200 focus:border-pink-500 focus:outline-none rounded-xl text-center text-xl font-bold tracking-widest uppercase placeholder:font-semibold placeholder:tracking-normal placeholder:normal-case pl-8" 
+                        <input type="text" name="code_session" id="code_session" placeholder="CÓDIGO DE SESIÓN"
+                            class="input input-lg w-full bg-surface-ligt border-2 border-pink-200 focus:border-pink-500 focus:outline-none rounded-xl text-center text-xl font-bold tracking-widest uppercase placeholder:font-semibold placeholder:tracking-normal placeholder:normal-case pl-8"
                             required />
                     </div>
                 </div>
 
-                <button type="submit" class="cts-btn-general-compress px-6 py-3 cts-btn-primary btn-push w-full text-lg font-bold shadow-md hover:shadow-lg transform transition hover:-translate-y-0.5">
-                   SOLICITAR ACCESO
+                <button type="submit"
+                    class="cts-btn-general-compress px-6 py-3 cts-btn-primary btn-push w-full text-lg font-bold shadow-md hover:shadow-lg transform transition hover:-translate-y-0.5">
+                    SOLICITAR ACCESO
                 </button>
             </form>
         </div>
     </div>
 </div>
+<script>
+    (function () {
+        const form = document.getElementById("form-susscribe-session");
+        const codeInput = document.getElementById("code_session");
+
+        if (codeInput) {
+            // Remover espacios mientras el usuario escribe
+            codeInput.addEventListener("input", function() {
+                this.value = this.value.replace(/\s+/g, '');
+            });
+        }
+
+        if (form && codeInput) {
+            form.addEventListener("submit", function() {
+                codeInput.value = codeInput.value.replace(/\s+/g, '').trim();
+            });
+        }
+    })();
+</script>
 {% endblock %}

@@ -4,8 +4,6 @@ Para finalizar la sesion se debe realizar lo siguiente
 
 '''
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render, redirect
-from django.urls import reverse
 from tecnicas.models import SesionSensorial
 from controllers import MonitorEscalasController, MonitorRATAController, MonitorPFController, MonitorSortController, MonitorNappingController, MonitorIdealController
 from utils import noValidTechnique
@@ -171,7 +169,7 @@ def sessionMonitor(req: HttpRequest, session_code: str):
                     "session_code": session_code,
                 },
                 query_params={
-                    "message": "La técnica usada en la sesión aun no se implementa para esta función"
+                    "message": "La técnica usada en la sesión aún no se implementa para esta función"
                 },
                 name_view=back_url
             )

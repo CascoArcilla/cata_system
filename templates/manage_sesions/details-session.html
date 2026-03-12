@@ -4,7 +4,7 @@
 {% block title %}Detalles Sesion{% endblock %}
 
 {% block more_details %}
-{% include "components/details_fields/basic_field.html" with field_name="Estilo de palabras:" field_value=technique.words_style value_class="capitalize" %}
+{% include "components/details_fields/basic_field.html" with field_name="Estilo:" field_value=technique.words_style value_class="capitalize" %}
 {% include "components/details_fields/basic_field.html" with field_name="Tipo de escala:" field_value=scale.type value_class="capitalize" %}
 
 {% include "components/details_fields/basic_field.html" with field_name="Repetición actual:" field_value=technique.current_repetition %}
@@ -13,7 +13,7 @@
 {% endblock %}
 
 {% block extra_sections %}
-{% include "components/details_fields/list_words.html" with palabras=palabras %}
+{% include "components/details_fields/list_words.html" with palabras=palabras name_vocabulary=name_vocabulary %}
 {% endblock %}
 
 {% block available_actions %}

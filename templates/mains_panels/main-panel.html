@@ -3,116 +3,117 @@
 
 {% block content_analist %}
 <article class="cts-container-panel">
-    <header class="flex flex-col flex-wrap justify-center items-center space-y-8">
-        <section class="bg-surface-card p-8 rounded-md w-full shadow-lg">
-            <h1 class="text-black text-4xl font-bold text-center max-sm:text-2xl">Panel Principal</h1>
-            <h2 class="text-black text-xl font-bold text-center max-sm:text-xl uppercase">{{ technique|default:"General" }}</h2>
-        </section>
+  <header class="flex flex-col flex-wrap justify-center items-center space-y-8">
+    <section class="bg-surface-card p-8 rounded-md w-full shadow-lg">
+      <h1 class="text-black text-4xl font-bold text-center max-sm:text-2xl">Panel Principal</h1>
+      <h2 class="text-black text-xl font-bold text-center max-sm:text-xl uppercase">{{ technique|default:"General" }}
+      </h2>
+    </section>
 
-        <section
-            class="flex max-lg:flex-col justify-center items-stretch p-8 w-full bg-surface-card rounded-md shadow-lg gap-8">
+    <section
+      class="flex max-lg:flex-col justify-center items-stretch p-8 w-full bg-surface-card rounded-md shadow-lg gap-8">
 
-            <section class="flex flex-col text-black flex-1 w-full">
-                <fieldset class="fieldset rounded-box border px-4 py-4 rounded-2xl bg-white h-full shadow-sm">
-                    <legend class="text-black fieldset-legend text-xl px-2 font-bold mb-2">Datos del Analista</legend>
-                    <div class="flex flex-col gap-3">
-                        <div class="border-b border-gray-100 pb-2">
-                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Nombre</span>
-                            <p class="text-2xl font-medium text-gray-800">{{ name }}</p>
-                        </div>
-                        <div class="border-b border-gray-100 pb-2">
-                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Usuario</span>
-                            <p class="text-xl font-medium text-gray-700">@{{ username }}</p>
-                        </div>
-                        <div class="border-b border-gray-100 pb-2">
-                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Email</span>
-                            <p class="text-lg font-medium text-gray-700">{{ email|default:"No registrado" }}</p>
-                        </div>
-                        <div>
-                            <span class="text-xs text-gray-500 font-bold uppercase tracking-wider">Teléfono</span>
-                            <p class="text-lg font-medium text-gray-700">{{ telefono }}</p>
-                        </div>
-                    </div>
-                </fieldset>
-            </section>
+      <section class="flex flex-col text-black flex-1 w-full">
+        <fieldset class="fieldset rounded-box border px-4 py-4 rounded-2xl bg-white h-full shadow-sm">
+          <legend class="text-black fieldset-legend text-xl px-2 font-bold mb-2">Datos del Analista</legend>
+          <div class="flex flex-col gap-3">
+            <div class="border-b border-gray-100 pb-2">
+              <span class="text-xs text-gray-500 font-bold first-letter:uppercase tracking-wider">Nombre completo</span>
+              <p class="text-2xl font-medium text-gray-800">{{ name }}</p>
+            </div>
+            <div class="border-b border-gray-100 pb-2">
+              <span class="text-xs text-gray-500 font-bold first-letter:uppercase tracking-wider">Nombre de usuario</span>
+              <p class="text-xl font-medium text-gray-700">@{{ username }}</p>
+            </div>
+            <div class="border-b border-gray-100 pb-2">
+              <span class="text-xs text-gray-500 font-bold first-letter:uppercase tracking-wider">Correo electrónico</span>
+              <p class="text-lg font-medium text-gray-700">{{ email|default:"No registrado" }}</p>
+            </div>
+            <div>
+              <span class="text-xs text-gray-500 font-bold first-letter:uppercase tracking-wider">Teléfono</span>
+              <p class="text-lg font-medium text-gray-700">{{ telefono }}</p>
+            </div>
+          </div>
+        </fieldset>
+      </section>
 
-            <section class="flex flex-col text-black flex-1 w-full">
-                <fieldset class="fieldset rounded-box border px-4 py-4 rounded-2xl bg-white h-full shadow-sm">
-                    <legend class="text-black fieldset-legend text-xl px-2 font-bold mb-2">Estadísticas</legend>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full content-center">
-                        <div
-                            class="bg-surface-general/50 rounded-xl p-6 text-center border-2 border-dashed border-gray-200 flex flex-col justify-center items-center hover:border-cts-primary transition-colors">
-                            <p class="text-6xl font-black text-cts-primary">{{ active_sessions }}</p>
-                            <p class="text-sm text-gray-600 font-bold uppercase mt-2 tracking-wide">Sesiones Activas</p>
-                        </div>
-                        <div
-                            class="bg-surface-general/50 rounded-xl p-6 text-center border-2 border-dashed border-gray-200 flex flex-col justify-center items-center hover:border-black transition-colors">
-                            <p class="text-6xl font-black text-gray-800">{{ total_sessions }}</p>
-                            <p class="text-sm text-gray-600 font-bold uppercase mt-2 tracking-wide">Total Sesiones</p>
-                        </div>
-                    </div>
-                </fieldset>
-            </section>
+      <section class="flex flex-col text-black flex-1 w-full">
+        <fieldset class="fieldset rounded-box border px-4 py-4 rounded-2xl bg-white h-full shadow-sm">
+          <legend class="text-black fieldset-legend text-xl px-2 font-bold mb-2">Estadísticas</legend>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 h-full content-center">
+            <div
+              class="bg-surface-general/50 rounded-xl p-6 text-center border-2 border-dashed border-gray-200 flex flex-col justify-center items-center hover:border-cts-primary transition-colors">
+              <p class="text-6xl font-black text-cts-primary">{{ active_sessions }}</p>
+              <p class="text-sm text-gray-600 font-bold uppercase mt-2 tracking-wide">Sesiones Activas</p>
+            </div>
+            <div
+              class="bg-surface-general/50 rounded-xl p-6 text-center border-2 border-dashed border-gray-200 flex flex-col justify-center items-center hover:border-black transition-colors">
+              <p class="text-6xl font-black text-gray-800">{{ total_sessions }}</p>
+              <p class="text-sm text-gray-600 font-bold uppercase mt-2 tracking-wide">Total Sesiones</p>
+            </div>
+          </div>
+        </fieldset>
+      </section>
 
-        </section>
-    </header>
+    </section>
+  </header>
 
-    {% if error %}
-        {% include "components/error_message.html" with message=error close_button=True %}
-    {% endif %}
+  {% if error %}
+    {% include "components/error_message.html" with message=error close_button=True %}
+  {% endif %}
 
-    <article class="w-full py-6 p-2 sm:p-4 md:p-8 bg-surface-card rounded-lg shadow-lg mt-8">
-        <h2 class="text-2xl font-bold text-black mb-6 px-2 border-l-4 border-cts-primary pl-4">Acciones Rápidas</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <article class="w-full py-6 p-2 sm:p-4 md:p-8 bg-surface-card rounded-lg shadow-lg mt-8">
+    <h2 class="text-2xl font-bold text-black mb-6 px-2 border-l-4 border-cts-primary pl-4">Acciones Rápidas</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <a href="{% block url_create_session %}{% url 'cata_system:seleccion_tecnica' %}{% endblock %}" class="w-full">
-                <button
-                    class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
-                    <img src="{% static 'img/icons/configuration.svg' %}" alt="Icono configuración"
-                        class="w-10 group-hover:scale-110 transition-transform invert">
-                    <div class="text-left">
-                        <span class="text-2xl font-bold block">Crear Sesión</span>
-                        <span class="text-sm opacity-80 font-normal">Iniciar una nueva prueba sensorial</span>
-                    </div>
-                </button>
-            </a>
+      <a href="{% block url_create_session %}{% url 'cata_system:seleccion_tecnica' %}{% endblock %}" class="w-full">
+        <button
+          class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
+          <img src="{% static 'img/icons/configuration.svg' %}" alt="Icono configuración"
+            class="w-10 group-hover:scale-110 transition-transform">
+          <div class="text-left">
+            <span class="text-2xl font-bold block">Crear Sesión</span>
+            <span class="text-sm opacity-80 font-normal">Iniciar una nueva prueba sensorial</span>
+          </div>
+        </button>
+      </a>
 
-            <a href="{% block url_sessions %}{% url 'cata_system:panel_sesiones' page=1 %}{% endblock %}" class="w-full">
-                <button
-                    class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
-                    <img src="{% static 'img/icons/graphic.svg' %}" alt="Icono gráficas"
-                        class="w-10 group-hover:scale-110 transition-transform">
-                    <div class="text-left">
-                        <span class="text-2xl font-bold block">Sesiones</span>
-                        <span class="text-sm opacity-80 font-normal">Gestionar y analizar resultados</span>
-                    </div>
-                </button>
-            </a>
+      <a href="{% block url_sessions %}{% url 'cata_system:panel_sesiones' page=1 %}{% endblock %}" class="w-full">
+        <button
+          class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
+          <img src="{% static 'img/icons/graphic.svg' %}" alt="Icono gráficas"
+            class="w-10 group-hover:scale-110 transition-transform">
+          <div class="text-left">
+            <span class="text-2xl font-bold block">Sesiones</span>
+            <span class="text-sm opacity-80 font-normal">Gestionar y analizar resultados</span>
+          </div>
+        </button>
+      </a>
 
-            <a href="{% url 'cata_system:panel_catadores' %}" class="w-full">
-                <button
-                    class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
-                    <img src="{% static 'img/icons/people.svg' %}" alt="Icono personas"
-                        class="w-10 group-hover:scale-110 transition-transform invert">
-                    <div class="text-left">
-                        <span class="text-2xl font-bold block">Catadores</span>
-                        <span class="text-sm opacity-80 font-normal">Administrar panel de jueces</span>
-                    </div>
-                </button>
-            </a>
+      <a href="{% url 'cata_system:panel_catadores' %}" class="w-full">
+        <button
+          class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
+          <img src="{% static 'img/icons/people.svg' %}" alt="Icono personas"
+            class="w-10 group-hover:scale-110 transition-transform">
+          <div class="text-left">
+            <span class="text-2xl font-bold block">Catadores</span>
+            <span class="text-sm opacity-80 font-normal">Administrar panel de jueces</span>
+          </div>
+        </button>
+      </a>
 
-            <a href="{% url 'cata_system:panel_vocabulario' %}" class="w-full">
-                <button
-                    class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
-                    <img src="{% static 'img/icons/library.svg' %}" alt="Icono librería"
-                        class="w-10 group-hover:scale-110 transition-transform invert">
-                    <div class="text-left">
-                        <span class="text-2xl font-bold block">Vocabularios</span>
-                        <span class="text-sm opacity-80 font-normal">Editar listas de términos</span>
-                    </div>
-                </button>
-            </a>
-        </div>
-    </article>
+      <a href="{% url 'cata_system:panel_vocabulario' %}" class="w-full">
+        <button
+          class="w-full text-black cts-btn-general cts-btn-primary btn-push py-8 flex flex-row items-center justify-start px-8 gap-6 group hover:brightness-105">
+          <img src="{% static 'img/icons/library.svg' %}" alt="Icono librería"
+            class="w-10 group-hover:scale-110 transition-transform">
+          <div class="text-left">
+            <span class="text-2xl font-bold block">Vocabularios</span>
+            <span class="text-sm opacity-80 font-normal">Editar listas de términos</span>
+          </div>
+        </button>
+      </a>
+    </div>
+  </article>
 </article>
 {% endblock %}

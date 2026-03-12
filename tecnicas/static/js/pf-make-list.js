@@ -12,13 +12,11 @@ const STYLES_LI = [
   "rounded",
   "font-bold",
   "text-lg",
-  "px-4",
-  "py-3",
+  "px-3",
+  "py-2",
   "flex",
   "flex-wrap",
   "flex-row",
-  "flex-1",
-  "min-w-fit",
   "justify-left",
   "items-center",
   "gap-3",
@@ -108,7 +106,7 @@ function setupDescribeFormToAddWord() {
     const input = FORM_DESCRIBE.querySelector('input[type="text"]');
     if (!input) return;
 
-    const value = input.value.trim().toLowerCase().replace(/\s+/g, '');
+    const value = input.value.trim().toLowerCase().replaceAll(" ", "_");
     if (!value) return;
 
     if (WORDS.includes(value)) {

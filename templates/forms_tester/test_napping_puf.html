@@ -8,7 +8,7 @@
 <header class="text-center flex-row w-full items-stretch flex justify-around flex-wrap gap-2">
     <h1 class="rounded font-bold text-2xl bg-surface-card p-4 flex-1">
         Sesión usando <br>técnica
-        <span class="uppercase">{{ session.tecnica.tipo_tecnica }}</span>
+        <span class="uppercase">{{ session.tecnica.tipo_tecnica.descripcion }}</span>
         <span class="hidden code-sesion">{{ session.codigo_sesion }}</span>
     </h1>
     <button class="cts-btn-general cts-btn-fourthy btn-push" onclick="exit_sesion('form-actions')">
@@ -33,13 +33,24 @@
 {% include "components/error_message.html" with message=error %}
 {% endif %}
 
-<article class="rounded flex flex-col gap-4">
-    <section class="flex items-center justify-center flex-wrap gap-4 bg-surface-card p-2 rounded-lg">
-        <p class="text-xl font-bold text-center capitalize" data-mode="{{ mode }}">
-            Modalidad: {% if mode != "sin modalidad" %}{{ mode }} {% else %} Nappging {% endif %}
-        </p>
-    </section>
-</article>
+<section class="bg-surface-card p-2 rounded-lg space-y-4">
+    <p class="text-lg font-medium text-center">
+        {{ session.tecnica.instrucciones }}
+    </p>
+    <p class="text-xl font-bold text-center capitalize" data-mode="{{ mode }}">
+        Modalidad: {% if mode != "sin modalidad" %}{{ mode }} {% else %} Napping {% endif %}
+    </p>
+</section>
+
+<div role="alert" class="alert alert-warning md:hidden">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+    </svg>
+    <span><b>Advertencia:</b> Esta técnica es diseñada solo para dispositivos con una pantalla ancha, puede colocar el
+        dispositivo en horizontal para visualizar mejor el ancho, pero se recomienda usar un dispositivo con una
+        pantalla ancha para una mejor experiencia</span>
+</div>
 
 <article class="container-rating-word p-2 py-6 space-y-6 bg-surface-card rounded min-w-3xl">
     <section class="flex items-center justify-around flex-wrap gap-4 bg-surface-card p-2 rounded-lg">
@@ -51,25 +62,31 @@
             </p>
         </div>
     </section>
-    <div id="items" class="original-products flex gap-4 flex-wrap justify-center"
-        data-original-products="original">
-        {% for product in products %}
-        <div class="item-product bg-cts-secondary text-black font-bold px-4 py-2 rounded cursor-grab transition-all"
-            data-id-product="{{ product.id }}" data-code="{{ product.codigoProducto }}">
-            {{ product.codigoProducto }}
+
+    <section class="flex max-sm:flex-col gap-2 justify-around">
+        <div id="items" class="original-products flex gap-4 flex-wrap justify-center" data-original-products="original">
+            {% for product in products %}
+            <div class="item-product bg-cts-secondary text-black font-bold px-4 py-2 rounded cursor-grab transition-all"
+                data-id-product="{{ product.id }}" data-code="{{ product.codigoProducto }}">
+                {{ product.codigoProducto }}
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </div>
+
+        <button id="continue-description" class="cts-btn-general-compress py-1 px-4 cts-btn-primary btn-push">
+            Continuar a descripción
+        </button>
+    </section>
 
     <!-- Cartesian Plane Container -->
     <div class="flex justify-center w-full">
-        <div class="relative w-full max-w-[800px] aspect-[3/2] bg-white border-2 border-gray-400 shadow-inner cursor-crosshair"
+        <div class="relative w-full max-w-[800px] aspect-[3/2] bg-white border-2 border-gray-400 shadow-inner cursor-crosshair mb-8"
             id="napping-plane"
             style="background-image: linear-gradient(#e5e7eb 1px, transparent 1px), linear-gradient(90deg, #e5e7eb 1px, transparent 1px); background-size: 20px 20px;">
 
-            <span class="absolute bottom-1 right-2 text-xs text-gray-500 font-bold">60cm (X)</span>
-            <span class="absolute top-2 left-1 text-xs text-gray-500 font-bold">40cm (Y)</span>
-            <span class="absolute bottom-1 left-1 text-xs text-gray-500 font-bold">0</span>
+            <span class="absolute -bottom-6 right-0 text-xs text-gray-500 font-bold">60cm (X)</span>
+            <span class="absolute top-4 -left-12 text-xs text-gray-500 font-bold -rotate-90">40cm (Y)</span>
+            <span class="absolute -bottom-6 -left-2 text-xs text-gray-500 font-bold">0</span>
 
             {% for point in data_points %}
             <div id="point-{{ point.code }}"
@@ -91,8 +108,7 @@
     </div>
 
     <section role="alert" class="alert alert-info">
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-            class="h-6 w-6 shrink-0 stroke-current">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="h-6 w-6 shrink-0 stroke-current">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 0 0118 0z"></path>
         </svg>
@@ -103,8 +119,7 @@
     </section>
 
     <section role="alert" class="alert alert-warning">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
-            viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
@@ -117,8 +132,7 @@
     </section>
 
     <section role="alert" class="alert alert-warning">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none"
-            viewBox="0 0 24 24">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0 stroke-current" fill="none" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                 d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
         </svg>
@@ -137,9 +151,6 @@
     <section class="flex justify-end gap-4 max-sm:flex-col">
         <button id="save-progress" class="cts-btn-general cts-btn-primary btn-push">
             Guardar progreso
-        </button>
-        <button id="continue-description" class="cts-btn-general cts-btn-primary btn-push hidden">
-            Continuar a descripción
         </button>
         <div class="flex gap-2">
             <button id="question-save" class="cts-btn-general cts-btn-fifthy btn-push flex-1">
