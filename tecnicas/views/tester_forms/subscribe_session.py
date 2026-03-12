@@ -9,7 +9,8 @@ def subscribeSessionTester(req: HttpRequest):
         return render(req, "forms_tester/subscribe_session.html")
     elif req.method == "POST":
         tester_user = req.user.username
-        session_code = req.POST.get("code_session")
+        # Remover espacios al principio y al final
+        session_code = req.POST.get("code_session").strip()
         if not tester_user or not session_code:
             return general_error("Se esperan credenciales")
 

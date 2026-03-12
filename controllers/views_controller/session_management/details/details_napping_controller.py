@@ -177,6 +177,7 @@ class DetallesNappingController(DetallesController):
         all_words_sorted = sorted(all_words_set)
 
         self.context["word_frequencies"] = word_frequencies_dict
+        print(word_frequencies_dict)
         self.context["all_words"] = all_words_sorted
 
     def setSortingData(self):

@@ -345,7 +345,7 @@ class RatingNappingController:
                 rating = existing_ratings_map.get(product_id)
 
                 if rating:
-                    words_to_set = [word_objects[word_name.strip().lower().replace(" ", "")]
+                    words_to_set = [word_objects[word_name.strip().lower().replace(" ", "_")]
                                     for word_name in words]
                     rating.palabras.set(words_to_set)
 
