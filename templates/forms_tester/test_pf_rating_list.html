@@ -37,6 +37,9 @@
         <p class="text-lg font-medium text-center">
             {{ session.tecnica.instrucciones }}
         </p>
+    </section>
+
+    <section class="bg-surface-card p-2 rounded-lg">
         <p class="text-lg text-center">
             <span class="font-bold">Fase <span class="cts-phase-pf" data-phase="3">3</span>:</span>
             <span>Evaluación de Atributos</span>
@@ -56,7 +59,7 @@
             <p class="text-lg font-bold text-center">
                 El atributo que se está evaluando:
             </p>
-            <p class="cts-word-rating text-2xl font-bold text-center" data-name-word="{{ word }}">
+            <p class="cts-word-rating text-2xl font-bold text-center first-letter:uppercase" data-name-word="{{ word }}">
                 "{{ word }}"
             </p>
         </div>
@@ -90,11 +93,11 @@
         <!-- Linea de menor a mayor -->
         <section>
             <div class="flex justify-center items-center gap-4">
-                <span class="text-2xl">➖</span>
-                <hr class="border-2 flex-1">
                 <SPan class="text-2xl">➕</SPan>
+                <hr class="border-2 flex-1">
+                <span class="text-2xl">➖</span>
             </div>
-            <p class="text-center text-sm">Valores de menor a mayor</p>
+            <p class="text-center text-sm">El valor mayor es 1</p>
         </section>
     </section>
 
