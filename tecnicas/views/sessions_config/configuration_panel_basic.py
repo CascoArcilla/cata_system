@@ -53,7 +53,8 @@ def configurationPanelBasic(req: HttpRequest):
         elif name_tecnica == "perfil_ideal":
             response = PanelBasicController(
                 url_main=url_main,
-                url_home=url_main
+                url_home=url_main,
+                template="create_sesion/conf-panel-basic-ideal.html"
             ).controllGetIdeal(request=req)
 
         else:

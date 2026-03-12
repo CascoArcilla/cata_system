@@ -1,12 +1,20 @@
 {% extends "create_sesion/conf-panel-basic-scales.html" %}
 
 {% block basic_fields %}
-    {% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
-    {% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True %}
-    {% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True%}
+{% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
 {% endblock %}
 
 {% block more_fields %}
-    {% include "components/fields_config/style_words.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/style_words.html" with form_sesion=form_sesion %}
+<section class="space-y-2 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl mb-2 font-bold">Características de la técnica</h2>
+    <p>
+        El Método del Perfil Ideal es una tecnica sensorial que combina la elaboración de perfiles clásicos (como QDA) y
+        la escala Just-About-Right (JAR). Los evaluadores califican para cada producto la intensidad percibida, la
+        intensidad ideal para una lista de atributos y por último asignan su valor de preferencia para cada producto
+    </p>
+</section>
 {% endblock %}
 .

@@ -45,7 +45,7 @@
                 Nombre:
             </p>
             <p class="antialiased">
-                {{ session.session_name }}
+                {{ session.session_name|default_if_none:"Sin nombre" }}
             <p>
         </section>
 

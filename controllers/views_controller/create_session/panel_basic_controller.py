@@ -259,6 +259,7 @@ class PanelBasicController():
     def controllPostNapping(self, request: HttpRequest, name_tecnica: str):
         form = SesionBasicNappingForm(request.POST)
         placed_mode = "posicionamiento"
+        categorization_mode = "sorting"
 
         if form.is_valid():
             values = {}
@@ -267,6 +268,8 @@ class PanelBasicController():
 
             if values["modalidad"] == "posicionamiento de productos":
                 values["modalidad"] = placed_mode
+            elif values["modalidad"] == "categorización":
+                values["modalidad"] = categorization_mode
 
             values["name_tecnica"] = name_tecnica
             request.session['form_basic'] = values

@@ -25,7 +25,7 @@ class DetallesNappingController(DetallesController):
         self.context = {}
 
     def getContext(self):
-        self.context["use_technique"] = self.session.tecnica.tipo_tecnica.nombre_tecnica
+        self.context["use_technique"] = self.session.tecnica.tipo_tecnica.descripcion
         self.context["session"] = {
                 "session_code": self.session.codigo_sesion,
                 "session_name": self.session.nombre_sesion or "Sin nombre asignado",
@@ -48,6 +48,17 @@ class DetallesNappingController(DetallesController):
             tecnica=self.session.tecnica)
 
         self.context["session"]["mod_tech"] = mod.modalidad.nombre
+
+        description = ""
+
+        if mod.modalidad.nombre == "posicionamiento":
+            description = "Posicionamiento de productos"
+        elif mod.modalidad.nombre == "perfil ultra flash":
+            description = "Perfil ultra flash"
+        elif mod.modalidad.nombre == "sorting":
+            description = "Categorización"
+        
+        self.context["session"]["tech_description"] = description
         self.context["finished"] = False
 
         if repetition == 0:
@@ -248,6 +259,7 @@ class DetallesNappingController(DetallesController):
 
         session_b = validation_result["session_b"]
         technique_type = validation_result["technique_type"]
+        description = validation_result["description"]
 
         # Get combined data based on technique type
         if technique_type == "cata":
@@ -264,6 +276,7 @@ class DetallesNappingController(DetallesController):
         self.context["combined_data"] = combined_data
         self.context["session_b"] = session_b
         self.context["session_b_technique_type"] = technique_type
+        self.context["session_b_description"] = description
 
         return self.controllGetResponse(request=request)
 
@@ -335,6 +348,7 @@ class DetallesNappingController(DetallesController):
 
         result["session_b"] = session_b
         result["technique_type"] = technique_type
+        result["description"] = session_b.tecnica.tipo_tecnica.descripcion
         return result
 
     def getCombinedDataForCATA(self, session_b: SesionSensorial):

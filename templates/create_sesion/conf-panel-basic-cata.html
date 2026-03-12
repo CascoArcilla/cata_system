@@ -1,11 +1,21 @@
 {% extends "create_sesion/conf-panel-basic-scales.html" %}
 
 {% block basic_fields %}
-    {% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
-    {% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True %}
-    {% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True %}
+{% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
 {% endblock %}
 
 {% block more_fields %}
-    {% include "components/fields_config/style_words.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/style_words.html" with form_sesion=form_sesion %}
+<section class="space-y-2 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl mb-2 font-bold">Características de la técnica</h2>
+    <p>
+        La tecnica Check all that apply (CATA) permite comprobar todas las opciones aplicables de una lista de palabras
+        (atributos sensoriales, emociones, recuerdos, entre otros). Esta técnica es conocida por su versatilidad en
+        estudios de mercado y de consumo e incluso tiene una amplia aplicación para estudios por Internet. Los
+        evaluadores (catadores) reciben una lista de atributos sensoriales específicos y posterior a la evaluación del
+        producto marcan todas las palabras que se perciban en el producto evaluado
+    </p>
+</section>
 {% endblock %}

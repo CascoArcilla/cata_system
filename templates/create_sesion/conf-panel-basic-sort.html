@@ -1,11 +1,31 @@
 {% extends "create_sesion/conf-panel-basic-scales.html" %}
 
 {% block basic_fields %}
-    {% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
-    {% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True %}
-    {% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True%}
+{% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
 {% endblock %}
 
 {% block more_fields %}
+<section class="space-y-2 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl mb-2 font-bold">Características de la técnica</h2>
+    <p>
+        La tarea de Categorización es una técnica holística para la evaluación de un conjunto de productos
+        por consumidores. Esta técnica se realiza en una sola sesión en donde los productos se presentan simultáneamente
+        para cada consumidor.
+    </p>
+    <ul class="list-disc list-inside">
+        <li class="pl-2">
+            Primero, se les pide a los consumidores que observen, huelan y/o prueben (según los
+            objetivos del estudio) todos los productos.
+        </li>
+        <li class="pl-2">
+            Luego los clasifiquen en grupos mutuamente excluyentes según las similitudes percibidas.
+        </li>
+        <li class="pl-2">
+            Por último se les pide a los consumidores que describan cada grupo de productos.
+        </li>
+    </ul>
+</section>
 {% endblock %}
 .

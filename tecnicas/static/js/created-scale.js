@@ -94,7 +94,7 @@ function remplaceForm(oldForm, message) {
   const messageResponse = document.createElement("p");
 
   thankYouMessage.innerHTML =
-    "Palabra calificada,<br>gracias por la participación";
+    "Atributo calificada,<br>gracias por la participación";
   messageResponse.textContent = message;
 
   articleContainer.classList.add(

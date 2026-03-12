@@ -1,10 +1,40 @@
 {% extends "create_sesion/conf-panel-basic-scales.html" %}
 
 {% block basic_fields %}
-    {% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
-    {% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True use_max_reps=True %}
-    {% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/name_proyect.html" with form_sesion=form_sesion %}
+{% include "components/fields_config/parms_use.html" with form_sesion=form_sesion use_products=True use_max_testers=True use_max_reps=True %}
+{% include "components/fields_config/instructions.html" with form_sesion=form_sesion %}
 {% endblock %}
 
 {% block more_fields %}
+<section class="space-y-2 bg-surface-card p-4 rounded-md">
+    <h2 class="text-2xl mb-2 font-bold">Características de la técnica</h2>
+    <p>
+        La tecnica Perfil Flash (FP) permite generar rápidamente un vocabulario sensorial por cada evaluador que servirá
+        para clasificar todas las muestras según sus diferencias relativas en los atributos sensoriales.
+    </p>
+    <p class="text-lg font-bold">
+        El FP consiste en las siguientes sesiones:
+    </p>
+
+    <ul class="list-disc list-inside">
+        <li class="pl-2">
+            Durante la primera, se les pide a los evaluadores que generen
+            individualmente atributos sensoriales lo suficientemente discriminantes para permitir la clasificación de
+            las
+            muestras.
+        </li>
+
+        <li class="pl-2">
+            En la segunda sesión, se les pide los evaluadora que lean la lista de atributos sensoriales del panel
+            y actualizar su lista individual si así lo deseaban.
+        </li>
+
+        <li class="pl-2">
+            Por último se les pide a los evaluadores probar las
+            muestras y clasificarlas usando una escala ordinal. Esta última sesión se pueden efectuar réplicas qué sean
+            necesarias de acuerdo con los objetivos del estudio.
+        </li>
+    </ul>
+</section>
 {% endblock %}
