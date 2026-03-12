@@ -55,7 +55,7 @@ class InitSessionNappingController(InitSessionController):
 
             is_end = self.isEndedSession()
             if is_end:
-                self.context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del presentador"
+                self.context["message"] = "El catador ha terminado de realizar su evaluación, espere instrucciones del analista"
                 return render(request, self.current_direction, self.context)
 
             update_participation = ParticipacionController.enterSession(

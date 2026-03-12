@@ -2,14 +2,12 @@
 {% load static %}
 
 {% block more_details %}
-{% include "components/details_fields/basic_field.html" with field_name="Estilo de Palabras:" field_value=technique.words_style value_class="capitalize" %}
+{% include "components/details_fields/basic_field.html" with field_name="Estilo:" field_value=technique.words_style value_class="capitalize" %}
 {% include "components/details_fields/basic_field.html" with field_name="Cantidad de catadores:" field_value=technique.max_catadores %}
-{% include "components/details_fields/basic_field.html" with field_value="Esta Técnica solo puede realizarse una única vez (una repetición)" container_class="col-span-2" %}
 {% endblock %}
 
 {% block extra_sections %}
-{% include "components/fields_config/explain_scales_ideal.html" %}
-{% include "components/details_fields/list_words.html" with palabras=palabras %}
+{% include "components/details_fields/list_words.html" with palabras=palabras name_vocabulary=vocabulary.name %}
 {% endblock %}
 
 {% block available_actions %}

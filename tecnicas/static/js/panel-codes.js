@@ -131,7 +131,7 @@ function addIUPermutations() {
   sortData.forEach((permuta) => {
     const paragraph = document.createElement("p");
     paragraph.classList.add("px-3", "font-bold", "text-xl", "text-black");
-    paragraph.textContent = `orden ${index}`;
+    paragraph.textContent = `Secuencia ${index}`;
 
     const unlist = document.createElement("ul");
     unlist.classList.add(

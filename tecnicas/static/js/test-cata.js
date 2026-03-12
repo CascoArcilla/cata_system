@@ -98,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
       containFormData.innerHTML = `
             <section class="space-y-4">
                 <h3 class="text-xl font-bold">
-                    Exito al guardar
+                    Éxito al guardar
                 </h3>
                 <p class="text-sm italic">
                     ${result.message}

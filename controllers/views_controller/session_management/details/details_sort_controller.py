@@ -18,7 +18,7 @@ class DetallesSortController(DetallesController):
         technique = self.session.tecnica
 
         self.context = {
-            "use_technique": technique.tipo_tecnica.nombre_tecnica,
+            "use_technique": technique.tipo_tecnica.descripcion,
             "session": {
                 "session_code": self.session.codigo_sesion,
                 "session_name": self.session.nombre_sesion or "Sin nombre asignado",

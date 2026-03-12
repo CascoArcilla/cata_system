@@ -2,9 +2,9 @@ const descriptons = {
   estructurada: "Establece número de segmentos:",
   continua: "Establece la longitud de la escala:",
   atributos:
-    "Nota: Con el estilo atributos elijes las palabras para evaluar los productos",
+    "Tiene la finalidad de agregar atributos sensoriales que seran evaluadas para el producto de interes",
   vocabulario:
-    "Nota: Los vocabularios son un conjunto de palabras específicas para evaluar aspectos de un producto",
+    "Los vocabularios se refieren a Emociones y Recuerdos. También puedes elejir los que hayas creado",
 };
 
 let inputsScale;

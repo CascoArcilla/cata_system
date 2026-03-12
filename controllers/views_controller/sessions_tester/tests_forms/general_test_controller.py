@@ -1,5 +1,5 @@
 from django.http import HttpRequest
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse
 from tecnicas.models import SesionSensorial, Catador, Participacion
 from controllers import ParticipacionController

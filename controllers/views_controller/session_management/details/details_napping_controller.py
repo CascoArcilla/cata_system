@@ -25,7 +25,7 @@ class DetallesNappingController(DetallesController):
         self.context = {}
 
     def getContext(self):
-        self.context["use_technique"] = self.session.tecnica.tipo_tecnica.nombre_tecnica
+        self.context["use_technique"] = self.session.tecnica.tipo_tecnica.descripcion
         self.context["session"] = {
                 "session_code": self.session.codigo_sesion,
                 "session_name": self.session.nombre_sesion or "Sin nombre asignado",
@@ -48,6 +48,17 @@ class DetallesNappingController(DetallesController):
             tecnica=self.session.tecnica)
 
         self.context["session"]["mod_tech"] = mod.modalidad.nombre
+
+        description = ""
+
+        if mod.modalidad.nombre == "posicionamiento":
+            description = "Posicionamiento de productos"
+        elif mod.modalidad.nombre == "perfil ultra flash":
+            description = "Perfil ultra flash"
+        elif mod.modalidad.nombre == "sorting":
+            description = "Categorización"
+        
+        self.context["session"]["tech_description"] = description
         self.context["finished"] = False
 
         if repetition == 0:
@@ -78,7 +89,7 @@ class DetallesNappingController(DetallesController):
 
     def startNapping(self, request: HttpRequest):
         if request.user.user_presentador.user.username != self.session.creadoPor.user.username:
-            return self.controllGetResponse(error="Solo el presentador que crea la sesión puede iniciar la repetición", request=request)
+            return self.controllGetResponse(error="Solo el analista que crea la sesión puede iniciar la repetición", request=request)
         elif self.session.activo:
             return self.controllGetResponse(error="La sesión ya está activada", request=request)
 
@@ -166,6 +177,7 @@ class DetallesNappingController(DetallesController):
         all_words_sorted = sorted(all_words_set)
 
         self.context["word_frequencies"] = word_frequencies_dict
+        print(word_frequencies_dict)
         self.context["all_words"] = all_words_sorted
 
     def setSortingData(self):
@@ -248,6 +260,7 @@ class DetallesNappingController(DetallesController):
 
         session_b = validation_result["session_b"]
         technique_type = validation_result["technique_type"]
+        description = validation_result["description"]
 
         # Get combined data based on technique type
         if technique_type == "cata":
@@ -264,6 +277,7 @@ class DetallesNappingController(DetallesController):
         self.context["combined_data"] = combined_data
         self.context["session_b"] = session_b
         self.context["session_b_technique_type"] = technique_type
+        self.context["session_b_description"] = description
 
         return self.controllGetResponse(request=request)
 
@@ -335,6 +349,7 @@ class DetallesNappingController(DetallesController):
 
         result["session_b"] = session_b
         result["technique_type"] = technique_type
+        result["description"] = session_b.tecnica.tipo_tecnica.descripcion
         return result
 
     def getCombinedDataForCATA(self, session_b: SesionSensorial):

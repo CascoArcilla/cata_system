@@ -52,7 +52,7 @@
                     <p class="text-lg">{{ vocabulary.creado|date:"d/m/Y H:i" }}</p>
                 </div>
                 <div>
-                    <p class="font-bold text-lg mb-2">Total de Palabras:</p>
+                    <p class="font-bold text-lg mb-2">Total de Atributos:</p>
                     <p class="text-lg">{{ words|length }}</p>
                 </div>
             </div>
@@ -60,7 +60,7 @@
 
         <!-- Lista de Palabras -->
         <div class="mt-6">
-            <h2 class="font-bold text-2xl mb-4 text-center">Palabras del Vocabulario</h2>
+            <h2 class="font-bold text-2xl mb-4 text-center">Atributos del Vocabulario</h2>
             <hr class="mb-4">
 
             {% if words %}
@@ -73,7 +73,7 @@
             </div>
             {% else %}
             <div class="text-center py-8">
-                <p class="text-xl text-gray-500">Este vocabulario no tiene palabras asociadas</p>
+                <p class="text-xl text-gray-500">Este vocabulario no tiene atributos asociadas</p>
             </div>
             {% endif %}
         </div>

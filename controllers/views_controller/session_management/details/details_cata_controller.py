@@ -25,7 +25,7 @@ class DetallesCATAController(DetallesController):
         technique = self.session.tecnica
 
         self.context = {
-            "use_technique": technique.tipo_tecnica.nombre_tecnica,
+            "use_technique": technique.tipo_tecnica.descripcion,
             "session": {
                 "session_code": self.session.codigo_sesion,
                 "session_name": self.session.nombre_sesion or "Sin nombre asignado",
@@ -34,7 +34,7 @@ class DetallesCATAController(DetallesController):
                 "session_instructions": technique.instrucciones,
             },
             "technique": {
-                "words_style": technique.id_estilo,
+                "words_style": technique.id_estilo.nombre_estilo,
                 "max_catadores": technique.limite_catadores,
                 "max_repetitions": technique.repeticiones_max,
                 "current_repetition": technique.repeticion,

@@ -1,5 +1,4 @@
 from django.http import HttpRequest, JsonResponse
-from utils import general_error
 from controllers import RatingPFListController
 import json
 

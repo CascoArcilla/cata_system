@@ -30,7 +30,7 @@
             <section class="grid grid-cols-2 max-sm:grid-cols-1 [&>label]:px-6 max-sm:[&>label]:px-2">
                 <label for="{{ form_cata.nombre_usuario.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">Nombre de usuario:</p>
+                    <p class="first-letter:uppercase font-bold">Nombre de usuario:</p>
                     {{ form_cata.nombre_usuario }}
                     {% if form_cata.nombre_usuario.errors %}
                     <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -40,7 +40,7 @@
                 </label>
                 <label for="{{ form_cata.nombre.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">nombre del catador:</p>
+                    <p class="first-letter:uppercase font-bold">nombre del catador:</p>
                     {{ form_cata.nombre }}
                     {% if form_cata.nombre.errors %}
                     <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -50,7 +50,7 @@
                 </label>
                 <label for="{{ form_cata.apellido.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">apellido del catador:</p>
+                    <p class="first-letter:uppercase font-bold">apellido del catador:</p>
                     {{ form_cata.apellido }}
                     {% if form_cata.apellido.errors %}
                     <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -60,7 +60,7 @@
                 </label>
                 <label for="{{ form_cata.telefono.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">telefono:</p>
+                    <p class="first-letter:uppercase font-bold">Teléfono:</p>
                     {{ form_cata.telefono }}
                     {% if form_cata.telefono.errors %}
                     <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -70,7 +70,7 @@
                 </label>
                 <label for="{{ form_cata.correo.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">correo:</p>
+                    <p class="first-letter:uppercase font-bold">correo:</p>
                     {{ form_cata.correo }}
                     {% if form_cata.correo.errors %}
                     <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -80,7 +80,7 @@
                 </label>
                 <label for="{{ form_cata.fecha_nacimiento.id_for_label }}"
                     class="text-lg flex flex-col px-2 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">fecha de nacimiento:</p>
+                    <p class="first-letter:uppercase font-bold">fecha de nacimiento:</p>
                     {{ form_cata.fecha_nacimiento }}
                     {% if form_cata.fecha_nacimiento.errors %}
                     <small class="ct-notificacion capitalize bg-surface-general text-white px-5 tracking-wider rounded">
@@ -89,7 +89,7 @@
                     {% endif %}
                 </label>
                 <div class="text-lg flex flex-col px-6 w-full font-medium tracking-wide mb-4">
-                    <p class="capitalize font-bold">Género:</p>
+                    <p class="first-letter:uppercase font-bold">Género:</p>
                     <div class="flex items-center space-x-4">
                         {% for choice in form_cata.genero %}
                         <label class="flex items-center space-x-2 cursor-pointer">
@@ -108,14 +108,12 @@
 
             <hr>
             <section class="cs-escalas-radio flex justify-center items-center gap-4">
-                <button type="submit"
-                    class="text-black text-lg bg-cts-primary font-bold rounded-xl px-8 py-4 text-center border-b-green-800 btn-push">
-                    Crear cadator
+                <button type="submit" class="cts-btn-general cts-btn-primary btn-push">
+                    Crear catador
                 </button>
                 <a href="{% url 'cata_system:panel_catadores' %}">
-                    <button type="button"
-                        class="text-white text-lg bg-cts-fourthy font-bold rounded-xl px-8 py-4 text-center border-b-red-800 btn-push">
-                        Regresar
+                    <button type="button" class="cts-btn-general cts-btn-fourthy btn-push">
+                        Ir al menú de catadores
                     </button>
                 </a>
             </section>

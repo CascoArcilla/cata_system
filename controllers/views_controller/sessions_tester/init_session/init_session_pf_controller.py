@@ -78,17 +78,15 @@ class InitSessionPFController(InitSessionController):
                 participation = Participacion.objects.get(
                     tecnica=self.session.tecnica, catador=request.user.user_catador)
             except Participacion.DoesNotExist:
-                # If participation doesn't exist, we can't finish it.
-                # Redirect with an error message in GET parameters.
                 params = {"code_sesion": self.session.codigo_sesion}
                 return redirect(reverse('cata_system:catador_init_session', kwargs=params) + '?error=No se ha encontrado la participación')
 
             response = ParticipacionController.finishSession(participation)
             if isinstance(response, dict) and response.get("error"):
                 context["error"] = response["error"]
-                return self.controllGet(request) # This will render with the error in context
+                return self.controllGet(request)
 
-            return self.controllGet(request) # This will render the page, potentially showing session as ended
+            return self.controllGet(request)
 
         else:
             context["error"] = "Acción sin especificar"

@@ -6,12 +6,12 @@ async function submitSelectWords(classNanmeForm) {
 
   const name_vocabulary = form.querySelector(".cts-name-voca").value;
   if (!name_vocabulary || name_vocabulary == "") {
-    spanNotificationRed("Se requiere el nombre del vocabulario");
+    spanNotifaction("Se requiere el nombre del vocabulario", true);
     return;
   }
 
   if (listWordsSelect.length === 0) {
-    spanNotificationRed("Debe seleccionar al menos una palabra");
+    spanNotifaction("Debe seleccionar al menos un atributo", true);
     return;
   }
 

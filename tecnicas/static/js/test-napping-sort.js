@@ -414,7 +414,7 @@ function initSortMode() {
 
     groupWordForm.addEventListener('submit', (e) => {
         e.preventDefault();
-        const word = groupWordInput.value.trim();
+        const word = groupWordInput.value.trim().toLowerCase().replaceAll(" ", "_");
         if (word) {
             addGroupWord(word);
             groupWordInput.value = '';

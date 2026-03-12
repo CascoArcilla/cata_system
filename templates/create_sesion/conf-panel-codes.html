@@ -4,8 +4,8 @@
 {% block url_home %}{{ home_url }}{% endblock %}
 {% block url_home_icon %}{{ home_url }}{% endblock %}
 
-{% block title %}Panel de codificación de productos{% endblock %}
-{% block title_form %}Panel de codificación de productos{% endblock %}
+{% block title %}Codificación de productos{% endblock %}
+{% block title_form %}Codificación de productos{% endblock %}
 
 {% block content_main_form %}
 <article class="space-y-4 bg-surface-card p-4 rounded">
@@ -25,9 +25,9 @@
 
 {% if use_technique == 'escalas' %}
 <article class="w-full space-y-4 p-4 rounded bg-surface-card">
-    <h2 class="text-2xl mb-2 font-bold">Órdenes</h2>
+    <h2 class="text-2xl mb-2 font-bold">Aleatoriedad de productos</h2>
     <p class="text-center font-bold tracking-wide text-xl">
-        Estas ordenes serán asignadas a los Catadores de forma aleatoria al entrar a la sesión
+        Estos productos se asignarán a los Catadores de forma aleatoria al entrar a la sesión
     </p>
 
     <section class="flex justify-center">
@@ -38,7 +38,7 @@
 
     <div class="flex justify-center">
         <button type="button" class="cts-btn-general cts-btn-fifthy btn-push" onclick="setPermutations()">
-            Volver a ordenar
+            Volver a reasignar
         </button>
     </div>
 </article>

@@ -17,7 +17,7 @@ def required_analist(technique: str = "escalas"):
 
             if not hasattr(request.user, "user_presentador"):
                 raise PermissionDenied(
-                    "Solo los presentadores pueden acceder a esta vista")
+                    "Solo los Analistas pueden acceder a esta vista")
             return view_func(request, *args, **kwargs)
         return wrapper
     return decorator

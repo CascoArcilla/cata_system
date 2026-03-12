@@ -4,6 +4,7 @@ from controllers import InitSessionEscalasController, InitSessionRATAController,
 from tecnicas.models import SesionSensorial
 from utils import noValidTechnique
 
+
 def initTesterForm(req: HttpRequest, code_sesion: str):
     try:
         session = SesionSensorial.objects.get(codigo_sesion=code_sesion)
@@ -83,7 +84,7 @@ def initTesterForm(req: HttpRequest, code_sesion: str):
         else:
             context = {
                 "session": session,
-                "error": "Esta opción aun no esta disponible para la técnica usada por la sesión"
+                "error": "Esta opción aún no está disponible para la técnica usada por la sesión"
             }
             response = render(
                 req, template_url, context)

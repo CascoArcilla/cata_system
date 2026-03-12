@@ -22,15 +22,15 @@ def create_tags(apps, schema_editor):
     Etiqueta = apps.get_model('tecnicas', 'Etiqueta')
 
     create_tags_intensity = [
-        {'valor_etiqueta': 'percepcion nula'},
-        {'valor_etiqueta': 'ligera percepcion'},
-        {'valor_etiqueta': 'poca percepcion'},
-        {'valor_etiqueta': 'percepcion moderada'},
+        {'valor_etiqueta': 'percepción nula'},
+        {'valor_etiqueta': 'ligera percepción'},
+        {'valor_etiqueta': 'poca percepción'},
+        {'valor_etiqueta': 'percepción moderada'},
         {'valor_etiqueta': 'se puede percibir'},
-        {'valor_etiqueta': 'buena percepcion'},
-        {'valor_etiqueta': 'percepcion intensa'},
-        {'valor_etiqueta': 'percepcion muy intensa'},
-        {'valor_etiqueta': 'percepcion total'},
+        {'valor_etiqueta': 'buena percepción'},
+        {'valor_etiqueta': 'percepción intensa'},
+        {'valor_etiqueta': 'percepción muy intensa'},
+        {'valor_etiqueta': 'percepción total'},
     ]
 
     for tag in create_tags_intensity:
