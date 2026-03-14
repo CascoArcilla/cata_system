@@ -79,7 +79,7 @@
 
 {% if combined_data %}
     <p class="text-black font-bold text-2xl border-b-2 mt-8">
-        Datos Combinados (Napping + {{ session_b_description }})
+        Datos Combinados Mantel (Napping) + {{ session_b_description }}
     </p>
     {% include "components/tables/table-napping-combined.html" with session=session session_b=session_b technique_type=session_b_description combined_data=combined_data testers=testers coordinates_no_mode=coordinates_no_mode %}
 {% endif %}

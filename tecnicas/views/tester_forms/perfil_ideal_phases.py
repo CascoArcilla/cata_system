@@ -1,6 +1,6 @@
 from django.http import HttpRequest, JsonResponse
 from tecnicas.models import SesionSensorial, Producto, Tecnica, Escala, Calificacion, DatoHedonico
-from controllers import CalificacionController, DatoController
+from controllers import DatoController
 from controllers import TestPerfilIdealPhase1Controller, TestPerfilIdealPhase2Controller
 from controllers import RatingPerfilIdealPhase1Controller, RatingPerfilIdealPhase2Controller
 from utils import general_error

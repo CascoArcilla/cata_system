@@ -51,6 +51,7 @@ class DetallesEscalasController(DetallesController):
                 "max_catadores": technique.limite_catadores,
                 "max_repetitions": technique.repeticiones_max,
                 "current_repetition": technique.repeticion,
+                "is_scales": technique.tipo_tecnica.nombre_tecnica == "escalas"
             },
         }
 

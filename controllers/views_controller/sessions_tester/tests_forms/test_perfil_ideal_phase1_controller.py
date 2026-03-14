@@ -1,9 +1,9 @@
-from django.http import HttpRequest, JsonResponse
+from django.http import HttpRequest
 from django.db.models import Q, Prefetch
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from tecnicas.models import Participacion, Producto, Calificacion, Palabra, Escala, Dato
-from controllers import InitSessionPerfilIdealController, ParticipacionController, PalabrasController, EscalaController
+from tecnicas.models import Participacion, Producto, Calificacion, Escala, Dato
+from controllers import InitSessionPerfilIdealController, PalabrasController
 from .general_test_controller import GenetalTestController
 import random
 

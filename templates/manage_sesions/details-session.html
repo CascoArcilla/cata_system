@@ -31,7 +31,7 @@
         </p>
     </section>
     {% if existen_calificaciones %}
-        {% include "components/tables/table-scales.html" with calificaciones=calificaciones palabras=palabras session=session %}
+        {% include "components/tables/table-scales.html" with calificaciones=calificaciones palabras=palabras session=session is_scales=technique.is_scales %}
     {% else %}
         {% include "components/error_message.html" with message='Sin calificaciones que mostrar aún' %}
     {% endif %}

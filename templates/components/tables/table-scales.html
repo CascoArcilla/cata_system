@@ -4,7 +4,7 @@
         <table id="generic-donwload-table" class="min-w-max w-full text-sm text-center border-collapse">
             <thead class="bg-surface-sweet text-black font-semibold">
                 <tr>
-                    {% if sesion.tecnica.tipo_tecnica.nombre_tecnica != "rata" %}
+                    {% if is_scales %}
                     <th class="py-2 px-3 border border-surface-general">Repetición</th>
                     {% endif %}
                     <th class="py-2 px-3 border border-surface-general">Usuario</th>
@@ -19,7 +19,7 @@
                     {% for usuario, productos in catadores.items %}
                         {% for codigo, valores in productos.items %}
                         <tr>
-                            {% if sesion.tecnica.tipo_tecnica.nombre_tecnica != "rata" %}
+                            {% if is_scales %}
                                 <td class="py-2 px-3 border border-surface-general">{{ repeticion }}</td>
                             {% endif %}
                             <td class="py-2 px-3 border border-surface-general">{{ usuario }}</td>

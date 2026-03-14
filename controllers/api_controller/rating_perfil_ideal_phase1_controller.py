@@ -56,7 +56,7 @@ class RatingPerfilIdealPhase1Controller():
                     new_rating=save_rating_intensity)
                 data_intensity = self.data_controller_intensity.saveData()
                 if isinstance(data_intensity, dict):
-                    return controller_error(data_intensity["error"])
+                    raise Exception(data_intensity["error"])
 
                 value_intensity = ValorDecimal.objects.create(
                     valor=self.data_controller_intensity.value_rating,
@@ -68,7 +68,7 @@ class RatingPerfilIdealPhase1Controller():
                     new_rating=save_rating_ideal)
                 data_ideal = self.data_controller_ideal.saveData()
                 if isinstance(data_ideal, dict):
-                    return controller_error(data_ideal["error"])
+                    raise Exception(data_ideal["error"])
 
                 value_ideal = ValorDecimal.objects.create(
                     valor=self.data_controller_ideal.value_rating,
