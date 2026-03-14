@@ -210,10 +210,9 @@ function manageFormWord(form, containerWords, codeGrup) {
         }
 
         const input = form.querySelector('input[type="text"]');
-
         if (!input) return;
 
-        const name = input.value.trim().toLowerCase().replace(/\s+/g, '');
+        const name = input.value.trim().toLowerCase().replaceAll(" ", "_");
         if (!name) return;
 
         if (DATA_GRUPS[codeGrup].words.includes(name)) {
