@@ -15,6 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let wordsData = [];
 
+  const productImage = document.getElementById("product-image");
+  const imageLoader = document.getElementById("image-loader");
+
+  if (productImage && imageLoader) {
+    if (productImage.complete) {
+      imageLoader.classList.add("hidden");
+      productImage.classList.remove("hidden");
+    } else {
+      productImage.addEventListener("load", () => {
+        imageLoader.classList.add("hidden");
+        productImage.classList.remove("hidden");
+      });
+      productImage.addEventListener("error", () => {
+        imageLoader.innerHTML = '<p class="text-red-500 font-bold">Error al cargar la imagen</p>';
+      });
+    }
+  }
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 

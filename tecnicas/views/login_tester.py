@@ -10,7 +10,7 @@ def loginTester(req: HttpRequest):
         return render(req, "cata-login.html")
     elif req.method == "POST":
         view_context = {}
-        username = req.POST.get("user_tester")
+        username = req.POST.get("user_tester").strip()
 
         user = User.objects.filter(username=username).first()
         if not user:

@@ -19,7 +19,7 @@
     {% include "components/error_message.html" with message=message %}
     {% endif %}
 
-    <form method="post" action="" class="space-y-4 cts-main-form">
+    <form method="post" action="" class="space-y-4 cts-main-form" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="form_sesion.name_tecnica.id_for_label" class="hidden">
             {{ form_sesion.name_tecnica }}

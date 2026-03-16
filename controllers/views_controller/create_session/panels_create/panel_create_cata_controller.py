@@ -2,7 +2,7 @@ from .panel_create_controller import PanelCreateController
 from django.http import HttpRequest, JsonResponse
 from django.db import transaction
 from tecnicas.models import EsVocabulario, Tecnica, TipoTecnica, EstiloPalabra, EsAtributo, Vocabulario, Palabra, SesionSensorial, Producto
-from utils import deleteDataSession, general_error
+from utils import deleteDataSession, general_error, delete_images
 
 
 class PanelCreateCataController(PanelCreateController):
@@ -12,6 +12,10 @@ class PanelCreateCataController(PanelCreateController):
     def controllPost(self, request: HttpRequest):
         if request.POST.get('action') == 'create_session':
             if not request.session.get("form_codes") or not request.session.get("form_words"):
+                images_cata = request.session.get("form_images_cata", {})
+                if images_cata:
+                    delete_images(list(images_cata.values()))
+
                 deleteDataSession(request)
                 return general_error("No se ha especificado información necesaria para la creación de la sesión, por favor, vuelve a intentarlo")
             try:
@@ -44,6 +48,8 @@ class PanelCreateCataController(PanelCreateController):
                     #
                     # ////////////////////////////////////////////// #
                     codes = request.session["form_codes"]
+                    images_cata = request.session.get("form_images_cata", {})
+                    print("Imagenes posteada", images_cata)
 
                     if not codes:
                         raise ValueError("No hay códigos de productos")
@@ -52,7 +58,8 @@ class PanelCreateCataController(PanelCreateController):
                     for code in codes:
                         product = Producto(
                             codigoProducto=code,
-                            id_tecnica=technique
+                            id_tecnica=technique,
+                            imagen=images_cata.get(code)
                         )
                         products_without_save.append(product)
 
@@ -131,6 +138,12 @@ class PanelCreateCataController(PanelCreateController):
                     return JsonResponse(context)
 
             except ValueError as e:
-                return general_error(f"Error: {e}")
+                images_cata = request.session.get("form_images_cata", {})
+                if images_cata:
+                    delete_images(list(images_cata.values()))
+
+                print(f"Error: {e}")
+
+                return general_error("Error al crear la sesión, por favor, vuelve a intentarlo")
         else:
             return general_error("No se ha establecido acción")
