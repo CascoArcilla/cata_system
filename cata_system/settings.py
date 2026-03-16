@@ -151,6 +151,7 @@ TIME_ZONE = 'America/Mexico_City'
 
 STATIC_URL = '/static/'
 STATIC_ROOT= os.getenv("STATIC_ROOT")
+STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
