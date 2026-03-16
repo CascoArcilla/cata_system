@@ -2,13 +2,16 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from controllers import PanelTagsController
-from utils import deleteDataSession
+from utils import deleteDataSession, delete_images
 
 
 def configurationPanelTags(req: HttpRequest):
     url_main = req.session["sensorial_url_main"]
 
     if not req.session.get("form_basic"):
+        images_cata = req.session.get("form_images_cata", {})
+        if images_cata:
+            delete_images(list(images_cata.values()))
         deleteDataSession(req)
         return redirect(reverse(url_main) + "?error=datos requeridos no encontrados")
 

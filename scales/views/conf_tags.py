@@ -5,11 +5,15 @@ from utils.delete_data_session import deleteDataSession
 from analist.decorators.required_analist import required_analist
 from django.shortcuts import redirect
 from django.urls import reverse
+from utils import delete_images
 
 
 @required_analist(technique="escalas")
 def conf_tags(request: HttpRequest):
     if not request.session.get("form_basic"):
+        images_cata = request.session.get("form_images_cata", {})
+        if images_cata:
+            delete_images(list(images_cata.values()))
         deleteDataSession(request)
         return redirect(reverse('analist:scales:conf_basic_scales') + "?error=datos requeridos no encontrados")
 

@@ -2,13 +2,16 @@ from django.http import HttpRequest, JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse
 from controllers import PanelCodesController
-from utils import deleteDataSession
+from utils import deleteDataSession, delete_images
 
 
 def configurationPanelCodes(req: HttpRequest):
     url_main = req.session["sensorial_url_main"]
 
     if not req.session["form_basic"]:
+        images_cata = req.session.get("form_images_cata", {})
+        if images_cata:
+            delete_images(list(images_cata.values()))
         deleteDataSession(req)
         return redirect(
             reverse(url_main) +
@@ -28,7 +31,18 @@ def configurationPanelCodes(req: HttpRequest):
                 data=data_basic
             )
 
-        elif name_technique in ["rata", "cata", "perfil flash", "sort", "napping", "perfil_ideal"]:
+        elif name_technique == "cata":
+            response = PanelCodesController(
+                url_main=url_main,
+                url_home=url_main,
+                template="create_sesion/conf-panel-codes-cata.html"
+            ).controllGetCata(
+                request=req,
+                data=data_basic,
+                name_technique=name_technique
+            )
+
+        elif name_technique in ["rata", "perfil flash", "sort", "napping", "perfil_ideal"]:
             response = PanelCodesController(
                 url_main=url_main,
                 url_home=url_main
@@ -56,7 +70,17 @@ def configurationPanelCodes(req: HttpRequest):
                 data=data_basic
             )
 
-        elif name_technique in ["rata", "cata", "perfil_ideal"]:
+        elif name_technique == "cata":
+            response = PanelCodesController(
+                url_main=url_main,
+                url_home=url_main,
+                template="create_sesion/conf-panel-codes-cata.html"
+            ).controllPostCata(
+                request=req,
+                data=data_basic
+            )
+
+        elif name_technique in ["rata", "perfil_ideal"]:
             response = PanelCodesController(
                 url_main=url_main,
                 url_home=url_main

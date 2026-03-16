@@ -5,10 +5,12 @@ certifi==2025.4.26
 chardet==5.2.0
 charset-normalizer==3.4.2
 click==8.2.1
+cloudinary==1.44.1
 colorama==0.4.6
 cookiecutter==2.6.0
 Django==5.2.1
 django-browser-reload==1.18.0
+django-cloudinary-storage==0.3.0
 django-tailwind==4.2.0
 honcho==2.0.0
 idna==3.10
@@ -17,6 +19,7 @@ markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 mdurl==0.1.2
 mysqlclient==2.2.7
+pillow==12.1.1
 Pygments==2.19.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.1.1

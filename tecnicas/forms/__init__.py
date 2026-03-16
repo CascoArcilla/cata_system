@@ -9,6 +9,7 @@ from .create_session.sesion_basic_scales_form import SesionBasicForm
 
 from .etiqueta_form import EtiquetaForm
 from .codes_form import CodesForm
+from .images_product_form import ImagesProductForm
 from .catador_form import CatadorForm
 from .word_form import WordForm
 from .vocabulary_select import VocabularioSelectForm
