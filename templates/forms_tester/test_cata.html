@@ -1,7 +1,7 @@
 {% extends 'layouts/base_tester.html' %}
 {% load static %}
 
-{% block title %}Sesión de Cata{% endblock %}
+{% block title %}Cata{% endblock %}
 
 {% block content_tester %}
 <header class="text-center flex-row max-sm:flex-col w-full items-stretch flex justify-around flex-wrap gap-2">
@@ -64,6 +64,21 @@
 <p id="response-message" class="text-white font-bold text-lg text-center bg-red-400 px-2 py-4 rounded-lg hidden">
     Soy el mensaje para responder
 </p>
+
+{% if product.imagen %}
+<article class="bg-surface-card p-6 bg-base-200 rounded-xl shadow-lg text-center flex flex-col items-center justify-center relative min-h-[250px]">
+    <div id="image-loader" class="absolute inset-0 flex items-center justify-center">
+        <span class="loading loading-spinner text-primary loading-lg"></span>
+    </div>
+    <img id="product-image" src="{{ product.imagen.url }}" alt="Imagen del producto {{ product }}" class="object-cover hidden rounded-lg max-h-[400px]">
+</article>
+{% else %}
+<article class="bg-surface-card p-6 bg-base-200 rounded-xl shadow-lg text-center">
+    <p class="text-lg font-bold text-center">
+        Este producto {{ product }} no usa imagen
+    </p>
+</article>
+{% endif %}
 
 <article class="words-check-container bg-surface-card p-6 bg-base-200 rounded-xl shadow-lg text-center">
     <form id="wordsForm" method="POST" class="flex flex-col gap-4">

@@ -12,7 +12,7 @@ def autentication(req: HttpRequest, name_tecnica:str = None):
     if req.method == "GET":
         return render(req, "auth.html")
     elif req.method == "POST":
-        username = req.POST.get("username")
+        username = req.POST.get("username").strip()
         password = req.POST.get("password")
 
         if name_tecnica:

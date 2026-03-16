@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.db.models import F
 from .details_controller import DetallesController
 from tecnicas.models import (
-    SesionSensorial, Presentador, Modalidad, TecnicaModalidad, Catador,
+    SesionSensorial, TecnicaModalidad,
     Participacion, DatoPunto, Calificacion, GrupoProducto, ValorBooleano,
     ValorDecimal, Producto, Escala, EsVocabulario, Vocabulario
 )
@@ -27,12 +27,12 @@ class DetallesNappingController(DetallesController):
     def getContext(self):
         self.context["use_technique"] = self.session.tecnica.tipo_tecnica.descripcion
         self.context["session"] = {
-                "session_code": self.session.codigo_sesion,
-                "session_name": self.session.nombre_sesion or "Sin nombre asignado",
-                "session_date": self.session.fechaCreacion,
-                "activated": self.session.activo,
-                "session_instructions": self.session.tecnica.instrucciones,
-            }
+            "session_code": self.session.codigo_sesion,
+            "session_name": self.session.nombre_sesion or "Sin nombre asignado",
+            "session_date": self.session.fechaCreacion,
+            "activated": self.session.activo,
+            "session_instructions": self.session.tecnica.instrucciones,
+        }
         self.context["technique"] = {
             "max_catadores": self.session.tecnica.limite_catadores
         }
@@ -57,7 +57,7 @@ class DetallesNappingController(DetallesController):
             description = "Perfil ultra flash"
         elif mod.modalidad.nombre == "sorting":
             description = "Categorización"
-        
+
         self.context["session"]["tech_description"] = description
         self.context["finished"] = False
 

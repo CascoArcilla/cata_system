@@ -1,6 +1,5 @@
 from django.db import transaction
 from tecnicas.models import Calificacion, Escala, CalificacionEscala, DatoHedonico
-from controllers import CalificacionController, DatoController
 from utils import controller_error
 
 
