@@ -74,11 +74,9 @@ def post_main(
         base_url = reverse("cata_system:autenticacion")
 
         logout(req)
-        if technique_use != "general":
-            query_string = urlencode({"technique": technique_use})
-            return redirect(f"{base_url}?{query_string}")
 
-        return redirect(base_url)
+        query_string = urlencode({"technique": technique_use})
+        return redirect(f"{base_url}?{query_string}")
 
     else:
         context = get_context_main(
