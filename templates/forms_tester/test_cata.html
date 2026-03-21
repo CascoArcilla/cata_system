@@ -87,9 +87,9 @@
         <div class="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-2 gap-4">
             {% for word in words %}
             <label
-                class="flex items-center justify-between bg-surface-sweet p-4 gap-2 rounded-lg shadow-sm hover:shadow-md transition-all hover:cursor-pointer">
-                <span class="text-lg font-bold capitalize">{{ word }}</span>
-                <input type="checkbox" name="word_{{ word.id }}" class="checkbox checkbox-primary"
+                class="w-full flex flex-wrap items-start justify-between bg-surface-sweet p-4 gap-2 rounded-lg shadow-sm hover:shadow-md transition-all hover:cursor-pointer">
+                <span class="text-lg font-bold capitalize w-full flex-1 text-left break-words">{{ word }}</span>
+                <input type="checkbox" name="word_{{ word.id }}" class="checkbox checkbox-primary flex-shrink-0"
                     data-word-id="{{ word.id }}" data-word-name="{{ word }}" />
             </label>
             {% empty %}
