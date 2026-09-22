@@ -1,9 +1,8 @@
-FROM ubuntu:24.04
+FROM python:3.12-slim
 
 RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
-    python3 python3-dev python3-pip python3-venv \
     gcc pkg-config \
     default-libmysqlclient-dev \
     nodejs npm \
@@ -24,10 +23,14 @@ RUN pip install --upgrade pip && \
 
 COPY . .
 
-RUN python3 manage.py tailwind install
-RUN python3 manage.py tailwind build
-RUN python3 manage.py collectstatic --noinput
+RUN sed -i "s|NPM_BIN_PATH = os.getenv('NPM_BIN_PATH', 'pnpm')|NPM_BIN_PATH = 'pnpm'|" cata_system/settings.py
 
-EXPOSE 7860
+RUN cd theme/static_src && pnpm approve-builds @tailwindcss/oxide && pnpm install && cd /cata_system && python3 manage.py tailwind install
 
-CMD ["python3", "manage.py", "runserver", "0.0.0.0:7860"]
+EXPOSE 8000
+
+COPY entrypoint.sh .
+
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]
