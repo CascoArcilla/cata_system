@@ -30,7 +30,9 @@ RUN cd theme/static_src && pnpm approve-builds @tailwindcss/oxide && pnpm instal
 EXPOSE 8000
 
 COPY entrypoint.sh .
+COPY scripts/create_superuser.sh .
 
 RUN chmod +x entrypoint.sh
+RUN chmod +x scripts/create_superuser.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
